@@ -8,7 +8,7 @@ const _geist = Geist({ subsets: ["latin"] });
 const _geistMono = Geist_Mono({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: 'ManagerOS - AI-Powered Manager Dashboard',
+  title: 'HeartMetrics - AI-Powered Manager Dashboard',
   description: 'An AI copilot that helps managers run fairer, healthier teams by making work distribution, contribution, and growth visible.',
   generator: 'v0.app',
   icons: {

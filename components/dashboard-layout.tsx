@@ -50,25 +50,12 @@ export function DashboardLayout({
         <div className="flex items-center gap-6">
           {/* Logo */}
           <div className="flex items-center gap-2">
-            <div className="flex h-8 w-8 items-center justify-center">
-              <svg viewBox="0 0 32 32" className="h-8 w-8" fill="none">
-                <path
-                  d="M4 16L12 8L20 16L28 8"
-                  stroke="#2563eb"
-                  strokeWidth="3"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-                <path
-                  d="M4 24L12 16L20 24L28 16"
-                  stroke="#2563eb"
-                  strokeWidth="3"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-            </div>
-            <span className="text-xl font-semibold text-[#2563eb]">ManagerOS</span>
+            <img 
+              src="/heartmetrics-logo.jpg" 
+              alt="HeartMetrics Logo" 
+              className="h-8 w-8 rounded object-contain"
+            />
+            <span className="text-xl font-semibold text-[#2563eb]">HeartMetrics</span>
           </div>
 
           {/* Team Selector */}
