@@ -1,6 +1,7 @@
 "use client"
 
-import { TrendingUp, TrendingDown, Minus } from "lucide-react"
+import { useState } from "react"
+import { TrendingUp, TrendingDown, Minus, ArrowUpDown } from "lucide-react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
@@ -10,10 +11,49 @@ interface TeamHealthPageProps {
   onEmployeeClick: (employee: Employee) => void
 }
 
+type FilterType = "all" | "high-risk" | "watchlist" | "healthy"
+type SortType = "score" | "trend" | "workload"
+
 export function TeamHealthPage({ onEmployeeClick }: TeamHealthPageProps) {
+  const [filter, setFilter] = useState<FilterType>("all")
+  const [sortBy, setSortBy] = useState<SortType>("score")
+
   const highRisk = employees.filter((e) => e.whi < 50)
   const watchlist = employees.filter((e) => e.whi >= 50 && e.whi < 60)
   const healthy = employees.filter((e) => e.whi >= 60)
+
+  const getFilteredEmployees = () => {
+    let filtered: Employee[]
+    switch (filter) {
+      case "high-risk":
+        filtered = highRisk
+        break
+      case "watchlist":
+        filtered = watchlist
+        break
+      case "healthy":
+        filtered = healthy
+        break
+      default:
+        filtered = [...employees]
+    }
+
+    return filtered.sort((a, b) => {
+      switch (sortBy) {
+        case "score":
+          return a.whi - b.whi
+        case "trend":
+          const trendOrder = { down: 0, neutral: 1, up: 2 }
+          return trendOrder[a.whiTrend] - trendOrder[b.whiTrend]
+        case "workload":
+          return b.wip - a.wip
+        default:
+          return a.whi - b.whi
+      }
+    })
+  }
+
+  const filteredEmployees = getFilteredEmployees()
 
   const getTrendIcon = (trend: string) => {
     switch (trend) {
@@ -32,46 +72,56 @@ export function TeamHealthPage({ onEmployeeClick }: TeamHealthPageProps) {
     return "text-emerald-600"
   }
 
-  const renderEmployeeCard = (employee: Employee) => (
-    <div
-      key={employee.id}
-      className="flex cursor-pointer flex-col items-start justify-between gap-3 rounded-lg border border-border bg-card p-4 transition-shadow hover:shadow-md sm:flex-row sm:items-center"
-      onClick={() => onEmployeeClick(employee)}
-      onKeyDown={(e) => e.key === "Enter" && onEmployeeClick(employee)}
-      tabIndex={0}
-      role="button"
-    >
-      <div className="flex items-center gap-4">
-        <div className="flex h-10 w-10 items-center justify-center rounded-full bg-muted text-sm font-medium text-muted-foreground">
-          {employee.name.split(" ")[0][0]}
-          {employee.name.split(" ")[1]?.[0] || ""}
+  const getRiskLabel = (whi: number) => {
+    if (whi < 50) return { label: "High Risk", className: "bg-red-100 text-red-700" }
+    if (whi < 60) return { label: "Watchlist", className: "bg-amber-100 text-amber-700" }
+    return { label: "Healthy", className: "bg-emerald-100 text-emerald-700" }
+  }
+
+  const renderEmployeeCard = (employee: Employee) => {
+    const risk = getRiskLabel(employee.whi)
+    return (
+      <div
+        key={employee.id}
+        className="flex cursor-pointer flex-col items-start justify-between gap-3 rounded-lg border border-border bg-card p-4 transition-shadow hover:shadow-md sm:flex-row sm:items-center"
+        onClick={() => onEmployeeClick(employee)}
+        onKeyDown={(e) => e.key === "Enter" && onEmployeeClick(employee)}
+        tabIndex={0}
+        role="button"
+      >
+        <div className="flex items-center gap-4">
+          <div className="flex h-10 w-10 items-center justify-center rounded-full bg-muted text-sm font-medium text-muted-foreground">
+            {employee.name.split(" ")[0][0]}
+            {employee.name.split(" ")[1]?.[0] || ""}
+          </div>
+          <div>
+            <p className="font-medium text-foreground">{employee.name}</p>
+            <p className="text-sm text-muted-foreground">{employee.role}</p>
+          </div>
         </div>
-        <div>
-          <p className="font-medium text-foreground">{employee.name}</p>
-          <p className="text-sm text-muted-foreground">{employee.role}</p>
+        <div className="flex items-center gap-3">
+          <Badge className={risk.className}>{risk.label}</Badge>
+          <div className="flex items-center gap-2">
+            <span className={`text-xl font-bold ${getWhiColor(employee.whi)}`}>{employee.whi}</span>
+            {getTrendIcon(employee.whiTrend)}
+          </div>
+          <Badge variant="outline" className="text-xs">
+            {employee.confidence}
+          </Badge>
+          <Button
+            size="sm"
+            variant="outline"
+            onClick={(e) => {
+              e.stopPropagation()
+              onEmployeeClick(employee)
+            }}
+          >
+            View
+          </Button>
         </div>
       </div>
-      <div className="flex items-center gap-4">
-        <div className="flex items-center gap-2">
-          <span className={`text-xl font-bold ${getWhiColor(employee.whi)}`}>{employee.whi}</span>
-          {getTrendIcon(employee.whiTrend)}
-        </div>
-        <Badge variant="outline" className="text-xs">
-          {employee.confidence}
-        </Badge>
-        <Button
-          size="sm"
-          variant="outline"
-          onClick={(e) => {
-            e.stopPropagation()
-            onEmployeeClick(employee)
-          }}
-        >
-          View
-        </Button>
-      </div>
-    </div>
-  )
+    )
+  }
 
   return (
     <div className="flex flex-col gap-6">
@@ -123,43 +173,60 @@ export function TeamHealthPage({ onEmployeeClick }: TeamHealthPageProps) {
         </CardContent>
       </Card>
 
-      {/* Risk Tiers */}
-      <div className="flex flex-col gap-4">
-        <Card className="border-red-200 bg-red-50">
-          <CardHeader className="pb-2">
-            <div className="flex items-center gap-2">
-              <CardTitle className="text-lg text-red-800">{"High Risk (WHI < 50)"}</CardTitle>
-              <Badge className="bg-red-600 text-white">{highRisk.length}</Badge>
-            </div>
-          </CardHeader>
-          <CardContent className="flex flex-col gap-2">
-            {highRisk.map(renderEmployeeCard)}
-          </CardContent>
-        </Card>
+      {/* Filters and Sort Controls */}
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+        <div className="flex flex-wrap items-center gap-2">
+          <span className="text-sm font-medium text-muted-foreground">Filter:</span>
+          {([
+            { value: "all", label: "All", count: employees.length },
+            { value: "high-risk", label: "High Risk", count: highRisk.length },
+            { value: "watchlist", label: "Watchlist", count: watchlist.length },
+            { value: "healthy", label: "Healthy", count: healthy.length },
+          ] as const).map((f) => (
+            <Button
+              key={f.value}
+              size="sm"
+              variant={filter === f.value ? "default" : "outline"}
+              onClick={() => setFilter(f.value)}
+              className={filter !== f.value ? "bg-transparent" : ""}
+            >
+              {f.label} ({f.count})
+            </Button>
+          ))}
+        </div>
+        <div className="flex items-center gap-2">
+          <ArrowUpDown className="h-4 w-4 text-muted-foreground" />
+          <span className="text-sm font-medium text-muted-foreground">Sort:</span>
+          {([
+            { value: "score", label: "Score" },
+            { value: "trend", label: "Trend" },
+            { value: "workload", label: "Workload" },
+          ] as const).map((s) => (
+            <Button
+              key={s.value}
+              size="sm"
+              variant={sortBy === s.value ? "default" : "outline"}
+              onClick={() => setSortBy(s.value)}
+              className={sortBy !== s.value ? "bg-transparent" : ""}
+            >
+              {s.label}
+            </Button>
+          ))}
+        </div>
+      </div>
 
-        <Card className="border-amber-200 bg-amber-50">
-          <CardHeader className="pb-2">
-            <div className="flex items-center gap-2">
-              <CardTitle className="text-lg text-amber-800">Watchlist (50-59)</CardTitle>
-              <Badge className="bg-amber-600 text-white">{watchlist.length}</Badge>
-            </div>
-          </CardHeader>
-          <CardContent className="flex flex-col gap-2">
-            {watchlist.map(renderEmployeeCard)}
-          </CardContent>
-        </Card>
-
-        <Card className="border-emerald-200 bg-emerald-50">
-          <CardHeader className="pb-2">
-            <div className="flex items-center gap-2">
-              <CardTitle className="text-lg text-emerald-800">{"Healthy (60+)"}</CardTitle>
-              <Badge className="bg-emerald-600 text-white">{healthy.length}</Badge>
-            </div>
-          </CardHeader>
-          <CardContent className="flex flex-col gap-2">
-            {healthy.map(renderEmployeeCard)}
-          </CardContent>
-        </Card>
+      {/* Employee List */}
+      <div className="flex flex-col gap-2">
+        {filteredEmployees.length > 0 ? (
+          filteredEmployees.map(renderEmployeeCard)
+        ) : (
+          <Card className="border-dashed border-border">
+            <CardContent className="flex flex-col items-center p-8 text-center">
+              <p className="text-sm font-medium text-foreground">No employees match this filter</p>
+              <p className="mt-1 text-xs text-muted-foreground">Try selecting a different filter to see results.</p>
+            </CardContent>
+          </Card>
+        )}
       </div>
     </div>
   )

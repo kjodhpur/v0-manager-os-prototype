@@ -1,6 +1,7 @@
 "use client"
 
-import { X, TrendingUp, TrendingDown, Minus, Clock, AlertTriangle, Award, Briefcase } from "lucide-react"
+import { useState } from "react"
+import { X, TrendingUp, TrendingDown, Minus, Clock, AlertTriangle, Award, Briefcase, HelpCircle, ShieldCheck, ChevronDown, ChevronUp } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import type { Employee } from "@/lib/data"
@@ -12,7 +13,53 @@ interface EmployeeDrawerProps {
   onAction: (actionType: string, employee: Employee) => void
 }
 
+function getWhyScore(employee: Employee) {
+  const reasons: { label: string; value: string; severity: "high" | "medium" | "low" }[] = []
+
+  if (employee.wip >= 9) {
+    reasons.push({ label: "Workload", value: `${employee.wip} WIP items (team avg: 6.8)`, severity: "high" })
+  } else if (employee.wip >= 7) {
+    reasons.push({ label: "Workload", value: `${employee.wip} WIP items (team avg: 6.8)`, severity: "medium" })
+  } else {
+    reasons.push({ label: "Workload", value: `${employee.wip} WIP items (team avg: 6.8)`, severity: "low" })
+  }
+
+  if (employee.blocked > 0) {
+    reasons.push({
+      label: "Blocked Items",
+      value: `${employee.blocked} item(s) blocked${employee.avgBlockedDays ? ` for ${employee.avgBlockedDays} days avg` : ""}`,
+      severity: employee.blocked >= 2 ? "high" : "medium",
+    })
+  }
+
+  if (employee.meetingHours >= 10) {
+    reasons.push({ label: "Meeting Load", value: `${employee.meetingHours}h/week (team avg: 8.1h)`, severity: "high" })
+  } else if (employee.meetingHours >= 8) {
+    reasons.push({ label: "Meeting Load", value: `${employee.meetingHours}h/week (team avg: 8.1h)`, severity: "medium" })
+  }
+
+  if (employee.publicRecognition === 0) {
+    reasons.push({
+      label: "Recognition",
+      value: `${employee.publicRecognition} public, ${employee.privateRecognition} private`,
+      severity: "medium",
+    })
+  }
+
+  if (employee.stretch < 15) {
+    reasons.push({
+      label: "Growth",
+      value: `${employee.stretch}% strategic work (team needs 20%+)`,
+      severity: employee.stretch < 10 ? "high" : "medium",
+    })
+  }
+
+  return reasons
+}
+
 export function EmployeeDrawer({ employee, isOpen, onClose, onAction }: EmployeeDrawerProps) {
+  const [showWhyScore, setShowWhyScore] = useState(false)
+
   if (!employee || !isOpen) return null
 
   const getTrendIcon = () => {
@@ -31,6 +78,19 @@ export function EmployeeDrawer({ employee, isOpen, onClose, onAction }: Employee
     if (whi < 60) return "text-amber-600"
     return "text-emerald-600"
   }
+
+  const getSeverityColor = (severity: "high" | "medium" | "low") => {
+    switch (severity) {
+      case "high":
+        return "text-red-600"
+      case "medium":
+        return "text-amber-600"
+      case "low":
+        return "text-muted-foreground"
+    }
+  }
+
+  const whyReasons = getWhyScore(employee)
 
   return (
     <>
@@ -56,7 +116,7 @@ export function EmployeeDrawer({ employee, isOpen, onClose, onAction }: Employee
 
         <div className="p-4">
           {/* WHI Score */}
-          <div className="mb-6 rounded-lg bg-muted/50 p-4">
+          <div className="mb-4 rounded-lg bg-muted/50 p-4">
             <div className="mb-2 flex items-center justify-between">
               <span className="text-sm font-medium text-muted-foreground">Work Happiness Index</span>
               <Badge variant="outline" className="text-xs">
@@ -67,6 +127,37 @@ export function EmployeeDrawer({ employee, isOpen, onClose, onAction }: Employee
               <span className={`text-4xl font-bold ${getWhiColor(employee.whi)}`}>{employee.whi}</span>
               {getTrendIcon()}
             </div>
+          </div>
+
+          {/* Why This Score - Explainability */}
+          <div className="mb-6">
+            <button
+              className="flex w-full items-center justify-between rounded-lg border border-border bg-muted/30 px-4 py-3 text-left transition-colors hover:bg-muted/50"
+              onClick={() => setShowWhyScore(!showWhyScore)}
+            >
+              <div className="flex items-center gap-2">
+                <HelpCircle className="h-4 w-4 text-primary" />
+                <span className="text-sm font-medium text-foreground">Why this score?</span>
+              </div>
+              {showWhyScore ? (
+                <ChevronUp className="h-4 w-4 text-muted-foreground" />
+              ) : (
+                <ChevronDown className="h-4 w-4 text-muted-foreground" />
+              )}
+            </button>
+            {showWhyScore && (
+              <div className="mt-2 flex flex-col gap-2 rounded-lg border border-border p-3">
+                {whyReasons.map((reason) => (
+                  <div key={reason.label} className="flex items-center justify-between rounded bg-muted/30 px-3 py-2">
+                    <span className="text-sm font-medium text-foreground">{reason.label}</span>
+                    <span className={`text-xs ${getSeverityColor(reason.severity)}`}>{reason.value}</span>
+                  </div>
+                ))}
+                <p className="mt-1 text-xs text-muted-foreground">
+                  Scores are calculated from work-system signals. Higher workload, more blockers, and less recognition lower the WHI.
+                </p>
+              </div>
+            )}
           </div>
 
           {/* Top Drivers */}
@@ -211,6 +302,14 @@ export function EmployeeDrawer({ employee, isOpen, onClose, onAction }: Employee
                 Schedule 1:1
               </Button>
             </div>
+          </div>
+
+          {/* Privacy Boundary */}
+          <div className="mt-6 flex items-start gap-2 rounded-lg border border-border bg-muted/30 p-3">
+            <ShieldCheck className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
+            <p className="text-xs leading-relaxed text-muted-foreground">
+              This view uses work-system signals only (tasks, meetings, assignments). Private messages and personal communications are never accessed.
+            </p>
           </div>
         </div>
       </div>

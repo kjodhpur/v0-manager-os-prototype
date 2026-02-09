@@ -107,6 +107,16 @@ export function LandingPage() {
 
   return (
     <div>
+      {/* Sticky mobile CTA */}
+      <div className="fixed inset-x-0 bottom-0 z-40 border-t border-border bg-card p-3 md:hidden">
+        <Button size="lg" className="w-full" asChild>
+          <Link href="/contact">
+            Request Demo
+            <ArrowRight className="ml-2 h-4 w-4" />
+          </Link>
+        </Button>
+      </div>
+
       {/* Hero */}
       <section className="relative overflow-hidden bg-card">
         <div className="mx-auto max-w-6xl px-4 py-20 lg:px-8 lg:py-32">

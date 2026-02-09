@@ -240,6 +240,13 @@ export function DashboardLayout({
         })}
       </nav>
 
+      {/* Demo mode banner */}
+      <div className="border-t border-amber-200 bg-amber-50 px-4 py-2">
+        <p className="text-center text-xs font-medium text-amber-700">
+          Demo Mode - You are viewing simulated sample data. Connect real tools in Integrations to see your team.
+        </p>
+      </div>
+
       {/* Trust microcopy */}
       <div className="hidden border-t border-border bg-card p-3 md:block">
         <p className="text-center text-xs text-muted-foreground">
