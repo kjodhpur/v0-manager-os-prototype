@@ -35,20 +35,20 @@ export function TeamHealthPage({ onEmployeeClick }: TeamHealthPageProps) {
   const renderEmployeeCard = (employee: Employee) => (
     <div
       key={employee.id}
-      className="flex cursor-pointer items-center justify-between rounded-lg border border-gray-200 bg-white p-4 transition-shadow hover:shadow-md"
+      className="flex cursor-pointer flex-col items-start justify-between gap-3 rounded-lg border border-border bg-card p-4 transition-shadow hover:shadow-md sm:flex-row sm:items-center"
       onClick={() => onEmployeeClick(employee)}
       onKeyDown={(e) => e.key === "Enter" && onEmployeeClick(employee)}
       tabIndex={0}
       role="button"
     >
       <div className="flex items-center gap-4">
-        <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gray-100 text-sm font-medium text-gray-600">
+        <div className="flex h-10 w-10 items-center justify-center rounded-full bg-muted text-sm font-medium text-muted-foreground">
           {employee.name.split(" ")[0][0]}
           {employee.name.split(" ")[1]?.[0] || ""}
         </div>
         <div>
-          <p className="font-medium text-gray-900">{employee.name}</p>
-          <p className="text-sm text-gray-500">{employee.role}</p>
+          <p className="font-medium text-foreground">{employee.name}</p>
+          <p className="text-sm text-muted-foreground">{employee.role}</p>
         </div>
       </div>
       <div className="flex items-center gap-4">
@@ -62,7 +62,6 @@ export function TeamHealthPage({ onEmployeeClick }: TeamHealthPageProps) {
         <Button
           size="sm"
           variant="outline"
-          className="bg-white"
           onClick={(e) => {
             e.stopPropagation()
             onEmployeeClick(employee)
@@ -75,14 +74,14 @@ export function TeamHealthPage({ onEmployeeClick }: TeamHealthPageProps) {
   )
 
   return (
-    <div className="space-y-6">
+    <div className="flex flex-col gap-6">
       <div>
-        <h1 className="text-2xl font-bold text-gray-900">Team Health</h1>
-        <p className="text-sm text-gray-500">Work Happiness Index distribution across team</p>
+        <h1 className="text-2xl font-bold text-foreground">Team Health</h1>
+        <p className="text-sm text-muted-foreground">Work Happiness Index distribution across team</p>
       </div>
 
       {/* WHI Distribution */}
-      <Card className="border-gray-200 bg-white">
+      <Card className="border-border">
         <CardHeader>
           <CardTitle className="text-lg">WHI Distribution</CardTitle>
         </CardHeader>
@@ -107,26 +106,25 @@ export function TeamHealthPage({ onEmployeeClick }: TeamHealthPageProps) {
               {healthy.length}
             </div>
           </div>
-          <div className="mt-3 flex items-center gap-6 text-sm">
+          <div className="mt-3 flex flex-wrap items-center gap-4 text-sm lg:gap-6">
             <div className="flex items-center gap-2">
               <div className="h-3 w-3 rounded-sm bg-red-400" />
-              <span className="text-gray-600">{"High Risk (WHI < 50)"}</span>
+              <span className="text-muted-foreground">{"High Risk (WHI < 50)"}</span>
             </div>
             <div className="flex items-center gap-2">
               <div className="h-3 w-3 rounded-sm bg-amber-400" />
-              <span className="text-gray-600">Watchlist (50-59)</span>
+              <span className="text-muted-foreground">Watchlist (50-59)</span>
             </div>
             <div className="flex items-center gap-2">
               <div className="h-3 w-3 rounded-sm bg-emerald-400" />
-              <span className="text-gray-600">{"Healthy (60+)"}</span>
+              <span className="text-muted-foreground">{"Healthy (60+)"}</span>
             </div>
           </div>
         </CardContent>
       </Card>
 
       {/* Risk Tiers */}
-      <div className="space-y-4">
-        {/* High Risk */}
+      <div className="flex flex-col gap-4">
         <Card className="border-red-200 bg-red-50">
           <CardHeader className="pb-2">
             <div className="flex items-center gap-2">
@@ -134,12 +132,11 @@ export function TeamHealthPage({ onEmployeeClick }: TeamHealthPageProps) {
               <Badge className="bg-red-600 text-white">{highRisk.length}</Badge>
             </div>
           </CardHeader>
-          <CardContent className="space-y-2">
+          <CardContent className="flex flex-col gap-2">
             {highRisk.map(renderEmployeeCard)}
           </CardContent>
         </Card>
 
-        {/* Watchlist */}
         <Card className="border-amber-200 bg-amber-50">
           <CardHeader className="pb-2">
             <div className="flex items-center gap-2">
@@ -147,12 +144,11 @@ export function TeamHealthPage({ onEmployeeClick }: TeamHealthPageProps) {
               <Badge className="bg-amber-600 text-white">{watchlist.length}</Badge>
             </div>
           </CardHeader>
-          <CardContent className="space-y-2">
+          <CardContent className="flex flex-col gap-2">
             {watchlist.map(renderEmployeeCard)}
           </CardContent>
         </Card>
 
-        {/* Healthy */}
         <Card className="border-emerald-200 bg-emerald-50">
           <CardHeader className="pb-2">
             <div className="flex items-center gap-2">
@@ -160,7 +156,7 @@ export function TeamHealthPage({ onEmployeeClick }: TeamHealthPageProps) {
               <Badge className="bg-emerald-600 text-white">{healthy.length}</Badge>
             </div>
           </CardHeader>
-          <CardContent className="space-y-2">
+          <CardContent className="flex flex-col gap-2">
             {healthy.map(renderEmployeeCard)}
           </CardContent>
         </Card>

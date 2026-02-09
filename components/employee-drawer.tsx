@@ -43,11 +43,11 @@ export function EmployeeDrawer({ employee, isOpen, onClose, onAction }: Employee
       />
 
       {/* Drawer */}
-      <div className="fixed inset-y-0 right-0 z-50 w-96 overflow-y-auto bg-white shadow-xl">
-        <div className="sticky top-0 flex items-center justify-between border-b border-gray-200 bg-white p-4">
+      <div className="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-card shadow-xl sm:w-96">
+        <div className="sticky top-0 flex items-center justify-between border-b border-border bg-card p-4">
           <div>
-            <h2 className="text-lg font-semibold text-gray-900">{employee.name}</h2>
-            <p className="text-sm text-gray-500">{employee.role}</p>
+            <h2 className="text-lg font-semibold text-foreground">{employee.name}</h2>
+            <p className="text-sm text-muted-foreground">{employee.role}</p>
           </div>
           <Button variant="ghost" size="icon" onClick={onClose}>
             <X className="h-5 w-5" />
@@ -56,9 +56,9 @@ export function EmployeeDrawer({ employee, isOpen, onClose, onAction }: Employee
 
         <div className="p-4">
           {/* WHI Score */}
-          <div className="mb-6 rounded-lg bg-gray-50 p-4">
+          <div className="mb-6 rounded-lg bg-muted/50 p-4">
             <div className="mb-2 flex items-center justify-between">
-              <span className="text-sm font-medium text-gray-600">Work Happiness Index</span>
+              <span className="text-sm font-medium text-muted-foreground">Work Happiness Index</span>
               <Badge variant="outline" className="text-xs">
                 Confidence: {employee.confidence}
               </Badge>
@@ -71,10 +71,10 @@ export function EmployeeDrawer({ employee, isOpen, onClose, onAction }: Employee
 
           {/* Top Drivers */}
           <div className="mb-6">
-            <h3 className="mb-2 text-sm font-medium text-gray-600">Top Drivers</h3>
+            <h3 className="mb-2 text-sm font-medium text-muted-foreground">Top Drivers</h3>
             <div className="flex flex-wrap gap-2">
               {employee.drivers.map((driver) => (
-                <Badge key={driver} variant="secondary" className="bg-blue-50 text-blue-700">
+                <Badge key={driver} variant="secondary" className="bg-primary/10 text-primary">
                   {driver}
                 </Badge>
               ))}
@@ -83,33 +83,33 @@ export function EmployeeDrawer({ employee, isOpen, onClose, onAction }: Employee
 
           {/* Quick Stats */}
           <div className="mb-6 grid grid-cols-2 gap-3">
-            <div className="rounded-lg border border-gray-200 p-3">
-              <div className="flex items-center gap-2 text-gray-500">
+            <div className="rounded-lg border border-border p-3">
+              <div className="flex items-center gap-2 text-muted-foreground">
                 <Briefcase className="h-4 w-4" />
                 <span className="text-xs">WIP</span>
               </div>
-              <p className="mt-1 text-xl font-semibold text-gray-900">{employee.wip}</p>
+              <p className="mt-1 text-xl font-semibold text-foreground">{employee.wip}</p>
             </div>
-            <div className="rounded-lg border border-gray-200 p-3">
-              <div className="flex items-center gap-2 text-gray-500">
+            <div className="rounded-lg border border-border p-3">
+              <div className="flex items-center gap-2 text-muted-foreground">
                 <Clock className="h-4 w-4" />
                 <span className="text-xs">Meetings</span>
               </div>
-              <p className="mt-1 text-xl font-semibold text-gray-900">{employee.meetingHours}h</p>
+              <p className="mt-1 text-xl font-semibold text-foreground">{employee.meetingHours}h</p>
             </div>
-            <div className="rounded-lg border border-gray-200 p-3">
-              <div className="flex items-center gap-2 text-gray-500">
+            <div className="rounded-lg border border-border p-3">
+              <div className="flex items-center gap-2 text-muted-foreground">
                 <AlertTriangle className="h-4 w-4" />
                 <span className="text-xs">Blocked</span>
               </div>
-              <p className="mt-1 text-xl font-semibold text-gray-900">{employee.blocked}</p>
+              <p className="mt-1 text-xl font-semibold text-foreground">{employee.blocked}</p>
             </div>
-            <div className="rounded-lg border border-gray-200 p-3">
-              <div className="flex items-center gap-2 text-gray-500">
+            <div className="rounded-lg border border-border p-3">
+              <div className="flex items-center gap-2 text-muted-foreground">
                 <Award className="h-4 w-4" />
                 <span className="text-xs">Recognition</span>
               </div>
-              <p className="mt-1 text-xl font-semibold text-gray-900">
+              <p className="mt-1 text-xl font-semibold text-foreground">
                 {employee.publicRecognition + employee.privateRecognition}
               </p>
             </div>
@@ -117,7 +117,7 @@ export function EmployeeDrawer({ employee, isOpen, onClose, onAction }: Employee
 
           {/* Work Type Breakdown */}
           <div className="mb-6">
-            <h3 className="mb-2 text-sm font-medium text-gray-600">Work Type Breakdown</h3>
+            <h3 className="mb-2 text-sm font-medium text-muted-foreground">Work Type Breakdown</h3>
             <div className="mb-2 h-4 w-full overflow-hidden rounded-full">
               <div className="flex h-full">
                 <div
@@ -142,7 +142,7 @@ export function EmployeeDrawer({ employee, isOpen, onClose, onAction }: Employee
                 />
               </div>
             </div>
-            <div className="grid grid-cols-2 gap-2 text-xs text-gray-600">
+            <div className="grid grid-cols-2 gap-2 text-xs text-muted-foreground">
               <div className="flex items-center gap-1">
                 <div className="h-2.5 w-2.5 rounded-sm bg-blue-500" />
                 Strategic: {employee.stretch}%
@@ -165,21 +165,21 @@ export function EmployeeDrawer({ employee, isOpen, onClose, onAction }: Employee
           {/* Issue */}
           {employee.issue !== "None" && (
             <div className="mb-6">
-              <h3 className="mb-2 text-sm font-medium text-gray-600">Current Issue</h3>
-              <Badge variant="destructive" className="bg-red-100 text-red-700">
+              <h3 className="mb-2 text-sm font-medium text-muted-foreground">Current Issue</h3>
+              <Badge className="bg-red-100 text-red-700">
                 {employee.issue}
               </Badge>
             </div>
           )}
 
           {/* Recommended Actions */}
-          <div className="border-t border-gray-200 pt-4">
-            <h3 className="mb-3 text-sm font-medium text-gray-600">Recommended Actions</h3>
+          <div className="border-t border-border pt-4">
+            <h3 className="mb-3 text-sm font-medium text-muted-foreground">Recommended Actions</h3>
             <div className="flex flex-col gap-2">
               {employee.blocked > 0 && (
                 <Button
                   variant="outline"
-                  className="w-full justify-start bg-white"
+                  className="w-full justify-start bg-transparent"
                   onClick={() => onAction("unblock", employee)}
                 >
                   Schedule unblock meeting
@@ -188,7 +188,7 @@ export function EmployeeDrawer({ employee, isOpen, onClose, onAction }: Employee
               {employee.publicRecognition === 0 && (
                 <Button
                   variant="outline"
-                  className="w-full justify-start bg-white"
+                  className="w-full justify-start bg-transparent"
                   onClick={() => onAction("recognize", employee)}
                 >
                   Draft recognition shoutout
@@ -197,7 +197,7 @@ export function EmployeeDrawer({ employee, isOpen, onClose, onAction }: Employee
               {employee.workloadStatus === "Overloaded" && (
                 <Button
                   variant="outline"
-                  className="w-full justify-start bg-white"
+                  className="w-full justify-start bg-transparent"
                   onClick={() => onAction("reassign", employee)}
                 >
                   Reassign tasks
@@ -205,7 +205,7 @@ export function EmployeeDrawer({ employee, isOpen, onClose, onAction }: Employee
               )}
               <Button
                 variant="outline"
-                className="w-full justify-start bg-white"
+                className="w-full justify-start bg-transparent"
                 onClick={() => onAction("1on1", employee)}
               >
                 Schedule 1:1
