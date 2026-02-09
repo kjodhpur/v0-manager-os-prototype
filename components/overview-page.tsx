@@ -4,6 +4,7 @@ import { TrendingUp, TrendingDown, AlertTriangle, Calendar, Star, RefreshCw, Unl
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 import { teamStats, topAttentionEmployees, actions, fairnessFlags, type Employee } from "@/lib/data"
 
 interface OverviewPageProps {
@@ -56,13 +57,13 @@ export function OverviewPage({ onEmployeeClick, onActionClick }: OverviewPagePro
       case "star":
         return <Star className="h-5 w-5 text-amber-500" />
       case "rotate":
-        return <RefreshCw className="h-5 w-5 text-blue-500" />
+        return <RefreshCw className="h-5 w-5 text-primary" />
       case "unblock":
-        return <Unlock className="h-5 w-5 text-blue-500" />
+        return <Unlock className="h-5 w-5 text-primary" />
       case "calendar":
-        return <Calendar className="h-5 w-5 text-blue-500" />
+        return <Calendar className="h-5 w-5 text-primary" />
       default:
-        return <AlertTriangle className="h-5 w-5 text-gray-500" />
+        return <AlertTriangle className="h-5 w-5 text-muted-foreground" />
     }
   }
 
@@ -82,195 +83,223 @@ export function OverviewPage({ onEmployeeClick, onActionClick }: OverviewPagePro
   const getImpactColor = (impact: string) => {
     switch (impact) {
       case "Low":
-        return "text-gray-600"
+        return "text-muted-foreground"
       case "Medium":
         return "text-amber-600"
       case "High":
         return "text-red-600"
       default:
-        return "text-gray-600"
+        return "text-muted-foreground"
     }
   }
 
   return (
-    <div className="space-y-6">
-      {/* KPI Cards */}
-      <div className="grid grid-cols-4 gap-4">
-        <Card className="border-gray-200 bg-white">
-          <CardContent className="p-4">
-            <p className="text-sm font-medium text-gray-600">Team WHI Average</p>
-            <div className="mt-1 flex items-baseline gap-2">
-              <span className="text-4xl font-bold text-gray-900">{teamStats.whiAverage}</span>
-              {getWhiTrendIcon(teamStats.whiTrend, teamStats.whiChange)}
-            </div>
-            <p className="mt-1 text-xs text-gray-500">Work Happiness Index</p>
-          </CardContent>
-        </Card>
-
-        <Card className="border-gray-200 bg-white">
-          <CardContent className="p-4">
-            <p className="text-sm font-medium text-gray-600">High Risk Employees</p>
-            <div className="mt-1 flex items-baseline gap-2">
-              <span className="text-4xl font-bold text-gray-900">{teamStats.highRiskCount}</span>
-            </div>
-            <p className="mt-1 flex items-center gap-1 text-xs text-amber-600">
-              Need immediate attention
-              <AlertTriangle className="h-3 w-3" />
-            </p>
-          </CardContent>
-        </Card>
-
-        <Card className="border-gray-200 bg-white">
-          <CardContent className="p-4">
-            <p className="text-sm font-medium text-gray-600">Blocked Work Items</p>
-            <div className="mt-1 flex items-baseline gap-2">
-              <span className="text-4xl font-bold text-gray-900">{teamStats.blockedWorkItems}</span>
-            </div>
-            <p className="mt-1 text-xs text-gray-500">Active blockers</p>
-          </CardContent>
-        </Card>
-
-        <Card className="border-gray-200 bg-white">
-          <CardContent className="p-4">
-            <p className="text-sm font-medium text-gray-600">Manager Fairness Score</p>
-            <div className="mt-1 flex items-baseline gap-2">
-              <span className="text-4xl font-bold text-gray-900">{teamStats.managerFairnessScore}</span>
-              <span className="flex items-center gap-1 text-sm text-red-500">
-                <TrendingDown className="h-4 w-4" />
-                -{teamStats.mfsChange}
-              </span>
-            </div>
-            <p className="mt-1 text-xs text-gray-500">Confidence: {teamStats.mfsConfidence}</p>
-          </CardContent>
-        </Card>
-      </div>
-
-      {/* Attention Needed Table */}
-      <Card className="border-gray-200 bg-white">
-        <CardHeader className="pb-2">
-          <CardTitle className="text-lg font-semibold text-gray-900">
-            Attention Needed - Top 5 Employees
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="overflow-x-auto">
-            <table className="w-full">
-              <thead>
-                <tr className="border-b border-gray-200 text-left text-sm text-gray-500">
-                  <th className="pb-3 pr-4 font-medium">Name</th>
-                  <th className="pb-3 pr-4 font-medium">WHI</th>
-                  <th className="pb-3 pr-4 font-medium">Issue</th>
-                  <th className="pb-3 font-medium">Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                {topAttentionEmployees.map((employee) => (
-                  <tr key={employee.id} className="border-b border-gray-100 last:border-0">
-                    <td className="py-3 pr-4">
-                      <span className="font-medium text-gray-900">{employee.name}</span>
-                      <span className="ml-1 text-sm text-gray-500">({employee.role})</span>
-                    </td>
-                    <td className="py-3 pr-4">
-                      <div className="flex items-center gap-1.5">
-                        <span className="font-semibold text-gray-900">{employee.whi}</span>
-                        {employee.whiTrend === "down" && <TrendingDown className="h-4 w-4 text-red-500" />}
-                        {employee.whiTrend === "neutral" && (
-                          <span className="inline-block h-0.5 w-3 rounded bg-amber-500" />
-                        )}
-                      </div>
-                    </td>
-                    <td className="py-3 pr-4">
-                      <Badge className={getIssueColor(employee.issue)}>{employee.issue}</Badge>
-                    </td>
-                    <td className="py-3">
-                      <Button
-                        size="sm"
-                        className="bg-[#2563eb] text-white hover:bg-blue-700"
-                        onClick={() => onEmployeeClick(employee)}
-                      >
-                        View
-                      </Button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </CardContent>
-      </Card>
-
-      {/* Actions and Fairness Grid */}
-      <div className="grid grid-cols-3 gap-4">
-        {/* Recommended Actions */}
-        <Card className="col-span-2 border-gray-200 bg-white">
-          <CardHeader className="pb-2">
-            <div className="flex items-center gap-2">
-              <CardTitle className="text-lg font-semibold text-gray-900">
-                {"This Week's Recommended Actions"}
-              </CardTitle>
-              <Badge className="bg-[#2563eb] text-white">{actions.length} actions</Badge>
-            </div>
-          </CardHeader>
-          <CardContent>
-            <div className="grid grid-cols-3 gap-3">
-              {actions.map((action) => (
-                <div
-                  key={action.id}
-                  className="cursor-pointer rounded-lg border border-gray-200 p-3 transition-shadow hover:shadow-md"
-                  onClick={() => onActionClick({ title: action.title, description: action.description })}
-                  onKeyDown={(e) =>
-                    e.key === "Enter" && onActionClick({ title: action.title, description: action.description })
-                  }
-                  tabIndex={0}
-                  role="button"
-                >
-                  <div className="mb-2 flex items-start gap-2">
-                    {getActionIcon(action.icon)}
-                    <div>
-                      <p className="text-sm font-medium text-gray-900">{action.title}</p>
-                      <p className="text-xs text-gray-500">{action.description}</p>
-                    </div>
+    <TooltipProvider>
+      <div className="flex flex-col gap-6">
+        {/* KPI Cards */}
+        <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Card className="border-border cursor-help">
+                <CardContent className="p-4">
+                  <p className="text-sm font-medium text-muted-foreground">Team WHI Average</p>
+                  <div className="mt-1 flex items-baseline gap-2">
+                    <span className="text-4xl font-bold text-foreground">{teamStats.whiAverage}</span>
+                    {getWhiTrendIcon(teamStats.whiTrend, teamStats.whiChange)}
                   </div>
-                  <div className="flex items-center gap-2 text-xs">
-                    <span className="text-gray-500">Effort:</span>
-                    <Badge className={getEffortColor(action.effort)}>{action.effort}</Badge>
-                    <span className="ml-2 text-gray-500">Impact:</span>
-                    <span className={`font-medium ${getImpactColor(action.impact)}`}>{action.impact}</span>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
+                  <p className="mt-1 text-xs text-muted-foreground">Work Happiness Index</p>
+                </CardContent>
+              </Card>
+            </TooltipTrigger>
+            <TooltipContent side="bottom" className="max-w-xs">
+              <p>WHI combines workload, blockers, recognition, and growth signals into a 0-100 score. Higher is better.</p>
+            </TooltipContent>
+          </Tooltip>
 
-        {/* Fairness Insights */}
-        <Card className="border-gray-200 bg-white">
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Card className="border-border cursor-help">
+                <CardContent className="p-4">
+                  <p className="text-sm font-medium text-muted-foreground">High Risk Employees</p>
+                  <div className="mt-1 flex items-baseline gap-2">
+                    <span className="text-4xl font-bold text-foreground">{teamStats.highRiskCount}</span>
+                  </div>
+                  <p className="mt-1 flex items-center gap-1 text-xs text-amber-600">
+                    Need immediate attention
+                    <AlertTriangle className="h-3 w-3" />
+                  </p>
+                </CardContent>
+              </Card>
+            </TooltipTrigger>
+            <TooltipContent side="bottom" className="max-w-xs">
+              <p>{"Employees with WHI below 50 are flagged as high risk. They may be overloaded, blocked, or under-recognized."}</p>
+            </TooltipContent>
+          </Tooltip>
+
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Card className="border-border cursor-help">
+                <CardContent className="p-4">
+                  <p className="text-sm font-medium text-muted-foreground">Blocked Work Items</p>
+                  <div className="mt-1 flex items-baseline gap-2">
+                    <span className="text-4xl font-bold text-foreground">{teamStats.blockedWorkItems}</span>
+                  </div>
+                  <p className="mt-1 text-xs text-muted-foreground">Active blockers</p>
+                </CardContent>
+              </Card>
+            </TooltipTrigger>
+            <TooltipContent side="bottom" className="max-w-xs">
+              <p>Total tasks currently blocked across the team. Resolving blockers quickly improves team health.</p>
+            </TooltipContent>
+          </Tooltip>
+
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Card className="border-border cursor-help">
+                <CardContent className="p-4">
+                  <p className="text-sm font-medium text-muted-foreground">Manager Fairness Score</p>
+                  <div className="mt-1 flex items-baseline gap-2">
+                    <span className="text-4xl font-bold text-foreground">{teamStats.managerFairnessScore}</span>
+                    <span className="flex items-center gap-1 text-sm text-red-500">
+                      <TrendingDown className="h-4 w-4" />
+                      -{teamStats.mfsChange}
+                    </span>
+                  </div>
+                  <p className="mt-1 text-xs text-muted-foreground">Confidence: {teamStats.mfsConfidence}</p>
+                </CardContent>
+              </Card>
+            </TooltipTrigger>
+            <TooltipContent side="bottom" className="max-w-xs">
+              <p>Measures equity in workload, recognition, stretch opportunities, and 1:1 support distribution across your team.</p>
+            </TooltipContent>
+          </Tooltip>
+        </div>
+
+        {/* Attention Needed Table */}
+        <Card className="border-border">
           <CardHeader className="pb-2">
-            <CardTitle className="text-lg font-semibold text-gray-900">
-              Fairness Insights - {fairnessFlags.length} Risk Flags
+            <CardTitle className="text-lg font-semibold text-foreground">
+              Attention Needed - Top 5 Employees
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="space-y-3">
-              {fairnessFlags.map((flag) => (
-                <div key={flag.id} className="flex items-start gap-2">
-                  <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0 text-amber-500" />
-                  <div>
-                    <p className="text-sm font-medium text-gray-900">{flag.title}</p>
-                    <p className="text-xs text-gray-500">{flag.description}</p>
-                  </div>
-                </div>
-              ))}
+            <div className="overflow-x-auto">
+              <table className="w-full">
+                <thead>
+                  <tr className="border-b border-border text-left text-sm text-muted-foreground">
+                    <th className="pb-3 pr-4 font-medium">Name</th>
+                    <th className="pb-3 pr-4 font-medium">WHI</th>
+                    <th className="pb-3 pr-4 font-medium">Issue</th>
+                    <th className="pb-3 font-medium">Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {topAttentionEmployees.map((employee) => (
+                    <tr key={employee.id} className="border-b border-border last:border-0">
+                      <td className="py-3 pr-4">
+                        <span className="font-medium text-foreground">{employee.name}</span>
+                        <span className="ml-1 text-sm text-muted-foreground">({employee.role})</span>
+                      </td>
+                      <td className="py-3 pr-4">
+                        <div className="flex items-center gap-1.5">
+                          <span className="font-semibold text-foreground">{employee.whi}</span>
+                          {employee.whiTrend === "down" && <TrendingDown className="h-4 w-4 text-red-500" />}
+                          {employee.whiTrend === "neutral" && (
+                            <span className="inline-block h-0.5 w-3 rounded bg-amber-500" />
+                          )}
+                        </div>
+                      </td>
+                      <td className="py-3 pr-4">
+                        <Badge className={getIssueColor(employee.issue)}>{employee.issue}</Badge>
+                      </td>
+                      <td className="py-3">
+                        <Button
+                          size="sm"
+                          onClick={() => onEmployeeClick(employee)}
+                        >
+                          View
+                        </Button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
             </div>
           </CardContent>
         </Card>
-      </div>
 
-      {/* Trust Microcopy */}
-      <p className="text-center text-xs text-gray-400">
-        This product uses work-system signals (tasks, meetings, assignments). It does not read private messages by
-        default.
-      </p>
-    </div>
+        {/* Actions and Fairness Grid */}
+        <div className="grid gap-4 lg:grid-cols-3">
+          {/* Recommended Actions */}
+          <Card className="border-border lg:col-span-2">
+            <CardHeader className="pb-2">
+              <div className="flex items-center gap-2">
+                <CardTitle className="text-lg font-semibold text-foreground">
+                  {"This Week's Recommended Actions"}
+                </CardTitle>
+                <Badge>{actions.length} actions</Badge>
+              </div>
+            </CardHeader>
+            <CardContent>
+              <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+                {actions.map((action) => (
+                  <div
+                    key={action.id}
+                    className="cursor-pointer rounded-lg border border-border p-3 transition-shadow hover:shadow-md"
+                    onClick={() => onActionClick({ title: action.title, description: action.description })}
+                    onKeyDown={(e) =>
+                      e.key === "Enter" && onActionClick({ title: action.title, description: action.description })
+                    }
+                    tabIndex={0}
+                    role="button"
+                  >
+                    <div className="mb-2 flex items-start gap-2">
+                      {getActionIcon(action.icon)}
+                      <div>
+                        <p className="text-sm font-medium text-foreground">{action.title}</p>
+                        <p className="text-xs text-muted-foreground">{action.description}</p>
+                      </div>
+                    </div>
+                    <div className="flex flex-wrap items-center gap-2 text-xs">
+                      <span className="text-muted-foreground">Effort:</span>
+                      <Badge className={getEffortColor(action.effort)}>{action.effort}</Badge>
+                      <span className="ml-1 text-muted-foreground">Impact:</span>
+                      <span className={`font-medium ${getImpactColor(action.impact)}`}>{action.impact}</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Fairness Insights */}
+          <Card className="border-border">
+            <CardHeader className="pb-2">
+              <CardTitle className="text-lg font-semibold text-foreground">
+                Fairness Insights - {fairnessFlags.length} Risk Flags
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="flex flex-col gap-3">
+                {fairnessFlags.map((flag) => (
+                  <div key={flag.id} className="flex items-start gap-2">
+                    <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0 text-amber-500" />
+                    <div>
+                      <p className="text-sm font-medium text-foreground">{flag.title}</p>
+                      <p className="text-xs text-muted-foreground">{flag.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* Trust Microcopy */}
+        <p className="text-center text-xs text-muted-foreground">
+          This product uses work-system signals (tasks, meetings, assignments). It does not read private messages by default.
+        </p>
+      </div>
+    </TooltipProvider>
   )
 }

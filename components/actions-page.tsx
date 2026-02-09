@@ -32,13 +32,13 @@ export function ActionsPage({ onActionClick }: ActionsPageProps) {
       case "star":
         return <Star className="h-5 w-5 text-amber-500" />
       case "rotate":
-        return <RefreshCw className="h-5 w-5 text-blue-500" />
+        return <RefreshCw className="h-5 w-5 text-primary" />
       case "unblock":
-        return <Unlock className="h-5 w-5 text-blue-500" />
+        return <Unlock className="h-5 w-5 text-primary" />
       case "calendar":
-        return <Calendar className="h-5 w-5 text-blue-500" />
+        return <Calendar className="h-5 w-5 text-primary" />
       default:
-        return <AlertTriangle className="h-5 w-5 text-gray-500" />
+        return <AlertTriangle className="h-5 w-5 text-muted-foreground" />
     }
   }
 
@@ -58,13 +58,13 @@ export function ActionsPage({ onActionClick }: ActionsPageProps) {
   const getImpactColor = (impact: string) => {
     switch (impact) {
       case "Low":
-        return "text-gray-600"
+        return "text-muted-foreground"
       case "Medium":
         return "text-amber-600"
       case "High":
         return "text-red-600"
       default:
-        return "text-gray-600"
+        return "text-muted-foreground"
     }
   }
 
@@ -94,22 +94,17 @@ export function ActionsPage({ onActionClick }: ActionsPageProps) {
       case "growth":
         return "bg-blue-50 border-blue-200"
       case "blockers":
-        return "bg-purple-50 border-purple-200"
+        return "border-border bg-secondary/50"
       case "support":
         return "bg-emerald-50 border-emerald-200"
       default:
-        return "bg-gray-50 border-gray-200"
+        return "border-border bg-muted/50"
     }
   }
 
   const handleDoIt = (actionId: string, action: { title: string; description: string }) => {
     setActionStatuses((prev) => ({ ...prev, [actionId]: "in-progress" }))
     onActionClick(action)
-  }
-
-  const handleSnooze = (actionId: string) => {
-    // In a real app, this would reschedule the action
-    console.log("Snoozed action:", actionId)
   }
 
   const handleDismiss = (actionId: string) => {
@@ -144,7 +139,6 @@ export function ActionsPage({ onActionClick }: ActionsPageProps) {
     }
   }
 
-  // Group actions by category
   const groupedActions = actions.reduce(
     (acc, action) => {
       const category = action.category
@@ -158,40 +152,40 @@ export function ActionsPage({ onActionClick }: ActionsPageProps) {
   )
 
   return (
-    <div className="space-y-6">
+    <div className="flex flex-col gap-6">
       <div>
-        <h1 className="text-2xl font-bold text-gray-900">Actions</h1>
-        <p className="text-sm text-gray-500">Recommended manager actions to improve team health</p>
+        <h1 className="text-2xl font-bold text-foreground">Actions</h1>
+        <p className="text-sm text-muted-foreground">Recommended manager actions to improve team health</p>
       </div>
 
       {/* Summary Stats */}
-      <div className="grid grid-cols-4 gap-4">
-        <Card className="border-gray-200 bg-white">
+      <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
+        <Card className="border-border">
           <CardContent className="p-4">
-            <p className="text-sm text-gray-500">Total Actions</p>
-            <p className="text-2xl font-bold text-gray-900">{actions.length}</p>
+            <p className="text-sm text-muted-foreground">Total Actions</p>
+            <p className="text-2xl font-bold text-foreground">{actions.length}</p>
           </CardContent>
         </Card>
-        <Card className="border-gray-200 bg-white">
+        <Card className="border-border">
           <CardContent className="p-4">
-            <p className="text-sm text-gray-500">High Impact</p>
+            <p className="text-sm text-muted-foreground">High Impact</p>
             <p className="text-2xl font-bold text-red-600">
               {actions.filter((a) => a.impact === "High").length}
             </p>
           </CardContent>
         </Card>
-        <Card className="border-gray-200 bg-white">
+        <Card className="border-border">
           <CardContent className="p-4">
-            <p className="text-sm text-gray-500">Low Effort</p>
+            <p className="text-sm text-muted-foreground">Low Effort</p>
             <p className="text-2xl font-bold text-emerald-600">
               {actions.filter((a) => a.effort === "Low").length}
             </p>
           </CardContent>
         </Card>
-        <Card className="border-gray-200 bg-white">
+        <Card className="border-border">
           <CardContent className="p-4">
-            <p className="text-sm text-gray-500">In Progress</p>
-            <p className="text-2xl font-bold text-blue-600">
+            <p className="text-sm text-muted-foreground">In Progress</p>
+            <p className="text-2xl font-bold text-primary">
               {Object.values(actionStatuses).filter((s) => s === "in-progress").length}
             </p>
           </CardContent>
@@ -199,13 +193,13 @@ export function ActionsPage({ onActionClick }: ActionsPageProps) {
       </div>
 
       {/* Grouped Actions */}
-      <div className="space-y-4">
+      <div className="flex flex-col gap-4">
         {Object.entries(groupedActions).map(([category, categoryActions]) => (
           <Card key={category} className={`border ${getCategoryColor(category)}`}>
             <CardHeader className="pb-2">
               <CardTitle className="text-lg">{getCategoryLabel(category)}</CardTitle>
             </CardHeader>
-            <CardContent className="space-y-3">
+            <CardContent className="flex flex-col gap-3">
               {categoryActions.map((action) => {
                 const status = actionStatuses[action.id]
                 const isDisabled = status === "dismissed"
@@ -213,26 +207,26 @@ export function ActionsPage({ onActionClick }: ActionsPageProps) {
                 return (
                   <div
                     key={action.id}
-                    className={`rounded-lg border border-gray-200 bg-white p-4 ${
+                    className={`rounded-lg border border-border bg-card p-4 ${
                       isDisabled ? "opacity-50" : ""
                     }`}
                   >
-                    <div className="flex items-start justify-between">
+                    <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
                       <div className="flex items-start gap-3">
                         {getActionIcon(action.icon)}
                         <div>
-                          <div className="flex items-center gap-2">
-                            <p className="font-medium text-gray-900">{action.title}</p>
+                          <div className="flex flex-wrap items-center gap-2">
+                            <p className="font-medium text-foreground">{action.title}</p>
                             {getStatusBadge(status)}
                           </div>
-                          <p className="text-sm text-gray-500">{action.description}</p>
-                          <div className="mt-2 flex items-center gap-4 text-xs">
+                          <p className="text-sm text-muted-foreground">{action.description}</p>
+                          <div className="mt-2 flex flex-wrap items-center gap-4 text-xs">
                             <div className="flex items-center gap-1">
-                              <span className="text-gray-500">Effort:</span>
+                              <span className="text-muted-foreground">Effort:</span>
                               <Badge className={getEffortColor(action.effort)}>{action.effort}</Badge>
                             </div>
                             <div className="flex items-center gap-1">
-                              <span className="text-gray-500">Impact:</span>
+                              <span className="text-muted-foreground">Impact:</span>
                               <span className={`font-medium ${getImpactColor(action.impact)}`}>
                                 {action.impact}
                               </span>
@@ -244,18 +238,17 @@ export function ActionsPage({ onActionClick }: ActionsPageProps) {
                         <div className="flex items-center gap-2">
                           <Button
                             size="sm"
-                            className="bg-[#2563eb] text-white hover:bg-blue-700"
                             onClick={() => handleDoIt(action.id, { title: action.title, description: action.description })}
                           >
                             Do it
                           </Button>
-                          <Button size="sm" variant="outline" className="bg-white" onClick={() => handleSnooze(action.id)}>
+                          <Button size="sm" variant="outline">
                             Snooze
                           </Button>
                           <Button
                             size="sm"
                             variant="ghost"
-                            className="text-gray-400 hover:text-gray-600"
+                            className="text-muted-foreground hover:text-foreground"
                             onClick={() => handleDismiss(action.id)}
                           >
                             <X className="h-4 w-4" />
