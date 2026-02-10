@@ -1,4 +1,3 @@
-import { anthropic } from "@ai-sdk/anthropic"
 import { generateObject } from "ai"
 import { z } from "zod"
 
@@ -8,7 +7,7 @@ export async function POST(req: Request) {
   const { teamContext } = await req.json()
 
   const result = await generateObject({
-    model: anthropic("claude-3-5-sonnet-20241022"),
+    model: "anthropic/claude-sonnet-4-20250514",
     schema: z.object({
       nudges: z.array(
         z.object({

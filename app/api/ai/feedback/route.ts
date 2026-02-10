@@ -1,4 +1,3 @@
-import { anthropic } from "@ai-sdk/anthropic"
 import { streamText } from "ai"
 
 export const maxDuration = 30
@@ -7,7 +6,7 @@ export async function POST(req: Request) {
   const { employeeContext, feedbackType, tone } = await req.json()
 
   const result = streamText({
-    model: anthropic("claude-3-5-sonnet-20241022"),
+    model: "anthropic/claude-sonnet-4-20250514",
     system: `You are HeartMetrics AI. Draft feedback messages for managers to send to their team members. Write in a natural, human voice — not corporate-speak.`,
     prompt: `Draft a ${feedbackType} feedback message for this team member in a ${tone} tone:
 ${JSON.stringify(employeeContext, null, 2)}

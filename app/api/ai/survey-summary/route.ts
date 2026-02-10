@@ -1,4 +1,3 @@
-import { anthropic } from "@ai-sdk/anthropic"
 import { streamText } from "ai"
 
 export const maxDuration = 30
@@ -7,7 +6,7 @@ export async function POST(req: Request) {
   const { surveyData, teamContext } = await req.json()
 
   const result = streamText({
-    model: anthropic("claude-3-5-sonnet-20241022"),
+    model: "anthropic/claude-sonnet-4-20250514",
     system: `You are HeartMetrics AI. Summarize pulse survey results for a manager. Never reveal individual responses — only aggregated themes. Be concise and actionable.`,
     prompt: `Summarize these pulse survey results in the context of the team's current health:
 

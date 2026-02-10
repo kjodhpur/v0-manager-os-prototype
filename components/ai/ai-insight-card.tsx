@@ -63,9 +63,9 @@ export function AiInsightCard() {
         {error ? (
           <div className="rounded-lg bg-red-50 p-3 dark:bg-red-950/20">
             <p className="text-sm text-red-600 dark:text-red-400">
-              Failed to generate insight. Make sure your <code className="rounded bg-red-100 px-1 py-0.5 text-xs dark:bg-red-900/30">ANTHROPIC_API_KEY</code> is set in Vercel environment variables.
+              Failed to generate insight. Please try again in a moment.
             </p>
-            <Button variant="outline" size="sm" className="mt-2" onClick={handleRefresh}>
+            <Button variant="outline" size="sm" className="mt-2 bg-transparent" onClick={handleRefresh}>
               Retry
             </Button>
           </div>

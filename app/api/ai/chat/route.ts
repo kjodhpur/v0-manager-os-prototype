@@ -1,4 +1,3 @@
-import { anthropic } from "@ai-sdk/anthropic"
 import { streamText } from "ai"
 
 export const maxDuration = 30
@@ -7,7 +6,7 @@ export async function POST(req: Request) {
   const { messages, teamContext } = await req.json()
 
   const result = streamText({
-    model: anthropic("claude-3-5-sonnet-20241022"),
+    model: "anthropic/claude-sonnet-4-20250514",
     system: `You are HeartMetrics AI, an expert people-management assistant embedded in a Manager OS dashboard called HeartMetrics.
 
 You have access to the manager's real-time team data:
