@@ -1,15 +1,24 @@
 "use client"
 
 import { useState } from "react"
-import { Target, ChevronDown, ChevronUp, Users, User, Plus } from "lucide-react"
+import { Target, ChevronDown, ChevronUp, Users, User, Plus, X } from "lucide-react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { objectives, type Objective, type KeyResult } from "@/lib/data"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import { Textarea } from "@/components/ui/textarea"
+import { objectives, employees, type Objective, type KeyResult } from "@/lib/data"
 
 export function GoalsPage() {
   const [expanded, setExpanded] = useState<string | null>(null)
   const [filter, setFilter] = useState<"all" | "team" | "individual">("all")
+  const [showAddGoal, setShowAddGoal] = useState(false)
+  const [newGoalTitle, setNewGoalTitle] = useState("")
+  const [newGoalDescription, setNewGoalDescription] = useState("")
+  const [newGoalOwner, setNewGoalOwner] = useState("")
+  const [newGoalLevel, setNewGoalLevel] = useState<"team" | "individual">("team")
+  const [newKeyResults, setNewKeyResults] = useState<{ title: string; target: string }[]>([{ title: "", target: "" }])
 
   const filtered = filter === "all" ? objectives : objectives.filter((o) => o.level === filter)
 
@@ -45,7 +54,7 @@ export function GoalsPage() {
             <p className="text-sm text-muted-foreground">Track team and individual objectives</p>
           </div>
         </div>
-        <Button size="sm">
+        <Button size="sm" onClick={() => setShowAddGoal(true)}>
           <Plus className="mr-1 h-4 w-4" /> New Goal
         </Button>
       </div>
@@ -150,6 +159,159 @@ export function GoalsPage() {
           )
         })}
       </div>
+
+      {/* Add Goal Modal */}
+      {showAddGoal && (
+        <>
+          <div
+            className="fixed inset-0 z-50 bg-black/50"
+            onClick={() => setShowAddGoal(false)}
+            aria-hidden="true"
+          />
+          <div className="fixed left-1/2 top-1/2 z-50 w-full max-w-lg -translate-x-1/2 -translate-y-1/2 overflow-y-auto rounded-lg border border-border bg-card p-6 shadow-xl" style={{ maxHeight: "90vh" }}>
+            <div className="mb-6 flex items-center justify-between">
+              <h2 className="text-lg font-semibold text-foreground">New Goal</h2>
+              <Button variant="ghost" size="icon" onClick={() => setShowAddGoal(false)}>
+                <X className="h-5 w-5" />
+              </Button>
+            </div>
+
+            <div className="flex flex-col gap-4">
+              <div className="flex flex-col gap-2">
+                <Label htmlFor="goal-title">Goal Title</Label>
+                <Input
+                  id="goal-title"
+                  placeholder="e.g., Improve team delivery velocity by 20%"
+                  value={newGoalTitle}
+                  onChange={(e) => setNewGoalTitle(e.target.value)}
+                />
+              </div>
+
+              <div className="flex flex-col gap-2">
+                <Label htmlFor="goal-description">Description</Label>
+                <Textarea
+                  id="goal-description"
+                  placeholder="Describe the objective..."
+                  value={newGoalDescription}
+                  onChange={(e) => setNewGoalDescription(e.target.value)}
+                  rows={2}
+                />
+              </div>
+
+              <div className="grid gap-4 sm:grid-cols-2">
+                <div className="flex flex-col gap-2">
+                  <Label>Level</Label>
+                  <div className="flex gap-2">
+                    {(["team", "individual"] as const).map((l) => (
+                      <Button
+                        key={l}
+                        size="sm"
+                        variant={newGoalLevel === l ? "default" : "outline"}
+                        onClick={() => setNewGoalLevel(l)}
+                        className={newGoalLevel !== l ? "bg-transparent" : ""}
+                      >
+                        {l === "team" ? "Team" : "Individual"}
+                      </Button>
+                    ))}
+                  </div>
+                </div>
+                <div className="flex flex-col gap-2">
+                  <Label htmlFor="goal-owner">Owner</Label>
+                  <select
+                    id="goal-owner"
+                    value={newGoalOwner}
+                    onChange={(e) => setNewGoalOwner(e.target.value)}
+                    className="rounded-md border border-input bg-background px-3 py-2 text-sm text-foreground"
+                  >
+                    <option value="">Select owner...</option>
+                    <option value="Alex M.">Alex M. (Manager)</option>
+                    {employees.map((e) => (
+                      <option key={e.id} value={e.name}>{e.name}</option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+
+              <div className="flex flex-col gap-2">
+                <Label>Key Results</Label>
+                {newKeyResults.map((kr, i) => (
+                  <div key={`new-kr-${i}`} className="flex gap-2">
+                    <Input
+                      placeholder="Key result description"
+                      value={kr.title}
+                      onChange={(e) => {
+                        const updated = [...newKeyResults]
+                        updated[i] = { ...updated[i], title: e.target.value }
+                        setNewKeyResults(updated)
+                      }}
+                      className="flex-1"
+                    />
+                    <Input
+                      placeholder="Target"
+                      value={kr.target}
+                      onChange={(e) => {
+                        const updated = [...newKeyResults]
+                        updated[i] = { ...updated[i], target: e.target.value }
+                        setNewKeyResults(updated)
+                      }}
+                      className="w-32"
+                    />
+                    {newKeyResults.length > 1 && (
+                      <Button
+                        size="icon"
+                        variant="ghost"
+                        className="shrink-0 text-muted-foreground hover:text-destructive"
+                        onClick={() => setNewKeyResults(newKeyResults.filter((_, idx) => idx !== i))}
+                      >
+                        <X className="h-4 w-4" />
+                      </Button>
+                    )}
+                  </div>
+                ))}
+                <Button
+                  size="sm"
+                  variant="outline"
+                  className="w-fit bg-transparent"
+                  onClick={() => setNewKeyResults([...newKeyResults, { title: "", target: "" }])}
+                >
+                  <Plus className="mr-1 h-3.5 w-3.5" /> Add Key Result
+                </Button>
+              </div>
+
+              <div className="flex flex-col gap-2">
+                <Label htmlFor="goal-due">Due Date</Label>
+                <Input id="goal-due" type="date" defaultValue="2026-03-31" />
+              </div>
+
+              <div className="flex flex-col gap-2">
+                <Label>Align to Team OKR</Label>
+                <select className="rounded-md border border-input bg-background px-3 py-2 text-sm text-foreground">
+                  <option value="">None (standalone goal)</option>
+                  {objectives.filter((o) => o.level === "team").map((o) => (
+                    <option key={o.id} value={o.id}>{o.title}</option>
+                  ))}
+                </select>
+              </div>
+            </div>
+
+            <div className="mt-6 flex justify-end gap-3 border-t border-border pt-4">
+              <Button variant="outline" className="bg-transparent" onClick={() => setShowAddGoal(false)}>Cancel</Button>
+              <Button
+                disabled={!newGoalTitle.trim()}
+                onClick={() => {
+                  setShowAddGoal(false)
+                  setNewGoalTitle("")
+                  setNewGoalDescription("")
+                  setNewGoalOwner("")
+                  setNewKeyResults([{ title: "", target: "" }])
+                }}
+              >
+                Create Goal
+              </Button>
+            </div>
+          </div>
+        </>
+      )}
     </div>
   )
 }

@@ -1,15 +1,39 @@
 "use client"
 
 import { useState } from "react"
-import { ClipboardList, Users, BarChart3, Plus, Eye, Clock, CheckCircle, PenLine } from "lucide-react"
+import { ClipboardList, Users, BarChart3, Plus, Eye, Clock, CheckCircle, PenLine, X, Trash2 } from "lucide-react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import { Switch } from "@/components/ui/switch"
 import { surveys, type Survey } from "@/lib/data"
+
+const questionTemplates = [
+  { text: "How supported do you feel this week?", type: "scale" as const },
+  { text: "Rate your workload 1-5", type: "scale" as const },
+  { text: "Is anything blocking your progress?", type: "text" as const },
+  { text: "How would you describe your energy level?", type: "emoji" as const },
+  { text: "Do you feel recognized for your work?", type: "scale" as const },
+  { text: "What could we improve as a team?", type: "text" as const },
+]
+
+interface DraftQuestion {
+  text: string
+  type: "scale" | "text" | "multiple-choice" | "emoji"
+}
 
 export function SurveysPage() {
   const [selectedSurvey, setSelectedSurvey] = useState<Survey | null>(null)
   const [view, setView] = useState<"list" | "results">("list")
+  const [showCreateModal, setShowCreateModal] = useState(false)
+  const [draftTitle, setDraftTitle] = useState("")
+  const [draftQuestions, setDraftQuestions] = useState<DraftQuestion[]>([])
+  const [draftFrequency, setDraftFrequency] = useState<"one-time" | "weekly" | "bi-weekly">("weekly")
+  const [draftAnonymous, setDraftAnonymous] = useState(true)
+  const [customQuestionText, setCustomQuestionText] = useState("")
+  const [customQuestionType, setCustomQuestionType] = useState<DraftQuestion["type"]>("scale")
 
   const activeSurveys = surveys.filter((s) => s.status === "active")
   const completedSurveys = surveys.filter((s) => s.status === "completed")
@@ -55,7 +79,7 @@ export function SurveysPage() {
             <p className="text-sm text-muted-foreground">Lightweight recurring check-ins for your team</p>
           </div>
         </div>
-        <Button size="sm">
+        <Button size="sm" onClick={() => setShowCreateModal(true)}>
           <Plus className="mr-1 h-4 w-4" />
           Create Survey
         </Button>
@@ -198,6 +222,164 @@ export function SurveysPage() {
             </div>
           )}
         </div>
+      )}
+
+      {/* Create Survey Modal */}
+      {showCreateModal && (
+        <>
+          <div
+            className="fixed inset-0 z-50 bg-black/50"
+            onClick={() => setShowCreateModal(false)}
+            aria-hidden="true"
+          />
+          <div className="fixed inset-y-4 right-4 z-50 w-full max-w-lg overflow-y-auto rounded-lg border border-border bg-card p-6 shadow-xl sm:inset-y-8 sm:right-8">
+            <div className="mb-6 flex items-center justify-between">
+              <h2 className="text-lg font-semibold text-foreground">Create New Survey</h2>
+              <Button variant="ghost" size="icon" onClick={() => setShowCreateModal(false)}>
+                <X className="h-5 w-5" />
+              </Button>
+            </div>
+
+            {/* Title */}
+            <div className="mb-4 flex flex-col gap-2">
+              <Label htmlFor="survey-title">Survey Title</Label>
+              <Input
+                id="survey-title"
+                placeholder="e.g., Weekly Team Check-in"
+                value={draftTitle}
+                onChange={(e) => setDraftTitle(e.target.value)}
+              />
+            </div>
+
+            {/* Frequency */}
+            <div className="mb-4 flex flex-col gap-2">
+              <Label>Frequency</Label>
+              <div className="flex gap-2">
+                {(["one-time", "weekly", "bi-weekly"] as const).map((f) => (
+                  <Button
+                    key={f}
+                    size="sm"
+                    variant={draftFrequency === f ? "default" : "outline"}
+                    onClick={() => setDraftFrequency(f)}
+                    className={draftFrequency !== f ? "bg-transparent" : ""}
+                  >
+                    {f === "one-time" ? "One-time" : f === "weekly" ? "Weekly" : "Bi-weekly"}
+                  </Button>
+                ))}
+              </div>
+            </div>
+
+            {/* Anonymous Toggle */}
+            <div className="mb-6 flex items-center justify-between rounded-lg border border-border p-3">
+              <div>
+                <p className="text-sm font-medium text-foreground">Anonymous responses</p>
+                <p className="text-xs text-muted-foreground">Responses are aggregated. Individual answers are never shown.</p>
+              </div>
+              <Switch checked={draftAnonymous} onCheckedChange={setDraftAnonymous} />
+            </div>
+
+            {/* Question Templates */}
+            <div className="mb-4">
+              <Label className="mb-2 block">Add from templates</Label>
+              <div className="flex flex-col gap-2">
+                {questionTemplates
+                  .filter((t) => !draftQuestions.some((q) => q.text === t.text))
+                  .map((template) => (
+                    <button
+                      key={template.text}
+                      onClick={() => setDraftQuestions([...draftQuestions, { text: template.text, type: template.type }])}
+                      className="flex items-center justify-between rounded-lg border border-border p-3 text-left transition-colors hover:bg-muted/50"
+                    >
+                      <div>
+                        <p className="text-sm text-foreground">{template.text}</p>
+                        <Badge variant="outline" className="mt-1 text-xs">{template.type}</Badge>
+                      </div>
+                      <Plus className="h-4 w-4 shrink-0 text-muted-foreground" />
+                    </button>
+                  ))}
+              </div>
+            </div>
+
+            {/* Custom Question */}
+            <div className="mb-4 rounded-lg border border-dashed border-border p-3">
+              <Label className="mb-2 block text-sm font-medium">Add custom question</Label>
+              <div className="flex flex-col gap-2">
+                <Input
+                  placeholder="Enter your question..."
+                  value={customQuestionText}
+                  onChange={(e) => setCustomQuestionText(e.target.value)}
+                />
+                <div className="flex gap-2">
+                  <select
+                    value={customQuestionType}
+                    onChange={(e) => setCustomQuestionType(e.target.value as DraftQuestion["type"])}
+                    className="flex-1 rounded-md border border-input bg-background px-3 py-2 text-sm text-foreground"
+                  >
+                    <option value="scale">Scale (1-5)</option>
+                    <option value="text">Open Text</option>
+                    <option value="multiple-choice">Multiple Choice</option>
+                    <option value="emoji">Emoji Reaction</option>
+                  </select>
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    disabled={!customQuestionText.trim()}
+                    onClick={() => {
+                      if (customQuestionText.trim()) {
+                        setDraftQuestions([...draftQuestions, { text: customQuestionText.trim(), type: customQuestionType }])
+                        setCustomQuestionText("")
+                      }
+                    }}
+                  >
+                    <Plus className="mr-1 h-3.5 w-3.5" /> Add
+                  </Button>
+                </div>
+              </div>
+            </div>
+
+            {/* Selected Questions */}
+            {draftQuestions.length > 0 && (
+              <div className="mb-6">
+                <Label className="mb-2 block">Selected Questions ({draftQuestions.length})</Label>
+                <div className="flex flex-col gap-2">
+                  {draftQuestions.map((q, i) => (
+                    <div key={`draft-${q.text}-${i}`} className="flex items-center justify-between rounded-lg bg-muted/50 px-3 py-2">
+                      <div>
+                        <p className="text-sm text-foreground">{q.text}</p>
+                        <Badge variant="outline" className="mt-1 text-xs">{q.type}</Badge>
+                      </div>
+                      <button
+                        onClick={() => setDraftQuestions(draftQuestions.filter((_, idx) => idx !== i))}
+                        className="text-muted-foreground hover:text-destructive"
+                      >
+                        <Trash2 className="h-4 w-4" />
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Actions */}
+            <div className="flex gap-3 border-t border-border pt-4">
+              <Button variant="outline" className="flex-1 bg-transparent" onClick={() => setShowCreateModal(false)}>
+                Cancel
+              </Button>
+              <Button
+                className="flex-1"
+                disabled={!draftTitle.trim() || draftQuestions.length === 0}
+                onClick={() => {
+                  setShowCreateModal(false)
+                  setDraftTitle("")
+                  setDraftQuestions([])
+                  setCustomQuestionText("")
+                }}
+              >
+                Create Survey
+              </Button>
+            </div>
+          </div>
+        </>
       )}
     </div>
   )

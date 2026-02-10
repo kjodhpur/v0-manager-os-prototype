@@ -14,6 +14,7 @@ export function FeedbackWallPage() {
   const [showCompose, setShowCompose] = useState(false)
   const [newMessage, setNewMessage] = useState("")
   const [selectedRecipient, setSelectedRecipient] = useState("")
+  const [feedbackType, setFeedbackType] = useState<"Praise" | "Constructive" | "Request">("Praise")
 
   const filtered = filter === "all" ? feedbackEntries : feedbackEntries.filter((f) => f.visibility === filter)
 
@@ -60,6 +61,19 @@ export function FeedbackWallPage() {
                 <option key={e.id} value={e.id}>{e.name}</option>
               ))}
             </select>
+            <div className="flex gap-2">
+              {(["Praise", "Constructive", "Request"] as const).map((t) => (
+                <Button
+                  key={t}
+                  size="sm"
+                  variant={feedbackType === t ? "default" : "outline"}
+                  onClick={() => setFeedbackType(t)}
+                  className={feedbackType !== t ? "bg-transparent" : ""}
+                >
+                  {t}
+                </Button>
+              ))}
+            </div>
             <Textarea
               value={newMessage}
               onChange={(e) => setNewMessage(e.target.value)}
