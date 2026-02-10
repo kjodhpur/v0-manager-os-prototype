@@ -10,6 +10,7 @@ import { Badge } from "@/components/ui/badge"
 import { Textarea } from "@/components/ui/textarea"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import { oneOnOnes, type OneOnOne } from "@/lib/data"
+import { AiMeetingPrep } from "@/components/ai/ai-meeting-prep"
 
 export function MeetingsPage() {
   const [selectedMeeting, setSelectedMeeting] = useState<OneOnOne | null>(null)
@@ -144,6 +145,13 @@ export function MeetingsPage() {
                     ))}
                   </div>
                 </div>
+
+                {/* AI-Powered Meeting Prep */}
+                <AiMeetingPrep
+                  employeeId={selectedMeeting.employeeId}
+                  previousNotes={selectedMeeting.previousNotes?.[0]?.summary}
+                  actionItems={selectedMeeting.previousNotes?.[0]?.actionItems}
+                />
 
                 {/* Editable Agenda */}
                 <div>
