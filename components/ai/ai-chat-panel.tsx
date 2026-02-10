@@ -139,7 +139,7 @@ export function AiChatPanel() {
                     <div
                       className="prose prose-sm max-w-none dark:prose-invert [&>p]:mb-2 [&>p:last-child]:mb-0 [&>ul]:mb-2 [&>ol]:mb-2"
                       dangerouslySetInnerHTML={{
-                        __html: formatMarkdown(m.content),
+                        __html: formatMarkdown(m.content ?? ""),
                       }}
                     />
                   </div>
@@ -165,13 +165,13 @@ export function AiChatPanel() {
             <form id="ai-chat-form" onSubmit={handleSubmit} className="flex gap-2">
               <input
                 ref={inputRef}
-                value={input}
+                value={input ?? ""}
                 onChange={handleInputChange}
                 placeholder="Ask about your team..."
                 className="flex-1 rounded-lg border border-input bg-background px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring"
                 disabled={isLoading}
               />
-              <Button type="submit" size="icon" disabled={isLoading || !input.trim()} className="h-9 w-9 shrink-0">
+              <Button type="submit" size="icon" disabled={isLoading || !(input ?? "").trim()} className="h-9 w-9 shrink-0">
                 <Send className="h-4 w-4" />
               </Button>
             </form>
