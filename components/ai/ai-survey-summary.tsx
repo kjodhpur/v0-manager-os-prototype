@@ -47,7 +47,7 @@ export function AiSurveySummary({ surveyData }: AiSurveySummaryProps) {
       </CardHeader>
       <CardContent className="pl-5">
         {error ? (
-          <p className="text-sm text-red-500">Failed to generate summary. Check your API key.</p>
+          <p className="text-sm text-red-500">Failed to generate summary. Please try again.</p>
         ) : isLoading && !completion ? (
           <div className="flex flex-col gap-2">
             <div className="h-4 w-full animate-pulse rounded bg-muted" />
