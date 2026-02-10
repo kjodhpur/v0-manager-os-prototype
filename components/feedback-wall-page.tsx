@@ -8,6 +8,7 @@ import { Badge } from "@/components/ui/badge"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import { Textarea } from "@/components/ui/textarea"
 import { feedbackEntries, employees, type FeedbackEntry } from "@/lib/data"
+import { AiFeedbackAssistant } from "@/components/ai/ai-feedback-assistant"
 
 export function FeedbackWallPage() {
   const [filter, setFilter] = useState<"all" | "Public" | "Private">("all")
@@ -66,6 +67,13 @@ export function FeedbackWallPage() {
               placeholder="Write your recognition or feedback..."
               rows={3}
             />
+            {selectedRecipient && (
+              <AiFeedbackAssistant
+                employeeId={selectedRecipient}
+                employeeName={employees.find(e => e.id === selectedRecipient)?.name || ""}
+                onDraftGenerated={(draft) => setNewMessage(draft)}
+              />
+            )}
             <div className="flex items-center gap-2">
               <Button size="sm">
                 <Send className="mr-1 h-3.5 w-3.5" /> Send Public

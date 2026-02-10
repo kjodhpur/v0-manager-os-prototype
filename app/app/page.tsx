@@ -23,6 +23,7 @@ import { EmployeeDrawer } from "@/components/employee-drawer"
 import { ActionModal } from "@/components/action-modal"
 import { OnboardingWizard } from "@/components/onboarding-wizard"
 import { DashboardSkeleton } from "@/components/dashboard-skeleton"
+import { AiChatPanel } from "@/components/ai/ai-chat-panel"
 import type { Employee } from "@/lib/data"
 
 export default function AppDashboard() {
@@ -151,6 +152,8 @@ export default function AppDashboard() {
         title={currentAction?.title || "Confirm Action"}
         description={currentAction?.description || ""}
       />
+
+      <AiChatPanel />
     </>
   )
 }

@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 import { teamStats, topAttentionEmployees, actions, fairnessFlags, type Employee } from "@/lib/data"
+import { AiInsightCard } from "@/components/ai/ai-insight-card"
 
 interface OverviewPageProps {
   onEmployeeClick: (employee: Employee) => void
@@ -96,6 +97,9 @@ export function OverviewPage({ onEmployeeClick, onActionClick }: OverviewPagePro
   return (
     <TooltipProvider>
       <div className="flex flex-col gap-6">
+        {/* AI Insight Summary */}
+        <AiInsightCard />
+
         {/* KPI Cards */}
         <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
           <Tooltip>
