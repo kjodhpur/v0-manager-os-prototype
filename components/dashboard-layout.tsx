@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, type ReactNode } from "react"
+import { useState, useEffect, type ReactNode } from "react"
 import { cn } from "@/lib/utils"
 import {
   LayoutDashboard,
@@ -16,6 +16,17 @@ import {
   Menu,
   X,
   LogOut,
+  Brain,
+  Users,
+  ClipboardList,
+  Target,
+  Clock,
+  Flame,
+  FileText,
+  MessageSquare,
+  Sun,
+  Moon,
+  Scale,
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import {
@@ -26,13 +37,26 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import { HeartMetricsLogo } from "@/components/heart-metrics-logo"
+import { NotificationsPanel } from "@/components/notifications-panel"
+import { NudgeBar } from "@/components/nudge-bar"
+import { teams } from "@/lib/data"
 import Link from "next/link"
 
 const navItems = [
   { id: "overview", label: "Overview", icon: LayoutDashboard },
+  { id: "ai-coach", label: "AI Coach", icon: Brain },
   { id: "team-health", label: "Team Health", icon: HeartPulse },
+  { id: "burnout-risk", label: "Burnout Risk", icon: Flame },
   { id: "work-distribution", label: "Work Distribution", icon: BarChart3 },
-  { id: "recognition-growth", label: "Recognition & Growth", icon: Award },
+  { id: "meetings", label: "1:1 Meetings", icon: Calendar },
+  { id: "surveys", label: "Pulse Surveys", icon: ClipboardList },
+  { id: "goals", label: "Goals & OKRs", icon: Target },
+  { id: "recognition-growth", label: "Recognition", icon: Award },
+  { id: "feedback", label: "Feedback Wall", icon: MessageSquare },
+  { id: "timeline", label: "Timeline", icon: Clock },
+  { id: "benchmarking", label: "Benchmarking", icon: Scale },
+  { id: "reports", label: "Reports", icon: FileText },
+  { id: "calendar", label: "Calendar", icon: Calendar },
   { id: "actions", label: "Actions", icon: ListChecks },
   { id: "integrations", label: "Integrations", icon: Link2 },
   { id: "settings", label: "Settings", icon: Settings },
@@ -51,12 +75,20 @@ export function DashboardLayout({
   activeTab,
   onTabChange,
 }: DashboardLayoutProps) {
-  const [team] = useState("AR Ops Team (10)")
-  const [timeRange] = useState("Last 4 weeks")
+  const [selectedTeam, setSelectedTeam] = useState(teams[0])
+  const [timeRange, setTimeRange] = useState("Last 4 weeks")
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const [darkMode, setDarkMode] = useState(false)
+
+  useEffect(() => {
+    document.documentElement.classList.toggle("dark", darkMode)
+  }, [darkMode])
 
   return (
     <div className="min-h-screen bg-background">
+      {/* Nudge Bar */}
+      <NudgeBar onNavigate={onTabChange} />
+
       {/* Top Bar */}
       <header className="sticky top-0 z-50 flex h-14 items-center justify-between border-b border-border bg-card px-3 md:h-16 md:px-6">
         <div className="flex items-center gap-3 md:gap-6">
@@ -81,18 +113,24 @@ export function DashboardLayout({
             />
           </Link>
 
-          {/* Team Selector - hidden on mobile */}
+          {/* Multi-Team Selector */}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="outline" size="sm" className="hidden gap-2 md:flex bg-transparent">
-                {team}
+                <Users className="h-3.5 w-3.5 text-muted-foreground" />
+                {selectedTeam.name} ({selectedTeam.size})
                 <ChevronDown className="h-3.5 w-3.5 text-muted-foreground" />
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent>
-              <DropdownMenuItem>AR Ops Team (10)</DropdownMenuItem>
-              <DropdownMenuItem>Marketing Team (8)</DropdownMenuItem>
-              <DropdownMenuItem>Engineering Team (12)</DropdownMenuItem>
+              {teams.map((team) => (
+                <DropdownMenuItem key={team.id} onClick={() => setSelectedTeam(team)}>
+                  <div className="flex items-center gap-2">
+                    <span>{team.name} ({team.size})</span>
+                    {team.id === selectedTeam.id && <CheckCircle className="h-3.5 w-3.5 text-primary" />}
+                  </div>
+                </DropdownMenuItem>
+              ))}
             </DropdownMenuContent>
           </DropdownMenu>
 
@@ -106,9 +144,9 @@ export function DashboardLayout({
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent>
-              <DropdownMenuItem>Last 7 days</DropdownMenuItem>
-              <DropdownMenuItem>Last 4 weeks</DropdownMenuItem>
-              <DropdownMenuItem>Last quarter</DropdownMenuItem>
+              <DropdownMenuItem onClick={() => setTimeRange("Last 7 days")}>Last 7 days</DropdownMenuItem>
+              <DropdownMenuItem onClick={() => setTimeRange("Last 4 weeks")}>Last 4 weeks</DropdownMenuItem>
+              <DropdownMenuItem onClick={() => setTimeRange("Last quarter")}>Last quarter</DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
 
@@ -119,8 +157,20 @@ export function DashboardLayout({
           </div>
         </div>
 
-        {/* User */}
+        {/* Right side: dark mode, notifications, user */}
         <div className="flex items-center gap-2">
+          {/* Dark Mode Toggle */}
+          <button
+            onClick={() => setDarkMode(!darkMode)}
+            className="rounded-lg p-2 text-muted-foreground hover:bg-muted hover:text-foreground"
+            aria-label="Toggle dark mode"
+          >
+            {darkMode ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
+          </button>
+
+          {/* Notifications */}
+          <NotificationsPanel onNavigate={onTabChange} />
+
           <div className="hidden text-right md:block">
             <p className="text-sm font-medium text-foreground">Alex M.</p>
             <p className="text-xs text-muted-foreground">(Manager)</p>
@@ -160,7 +210,7 @@ export function DashboardLayout({
             onClick={() => setMobileMenuOpen(false)}
             aria-hidden="true"
           />
-          <div className="fixed inset-y-0 left-0 z-40 w-64 bg-card shadow-xl md:hidden" style={{ top: "3.5rem" }}>
+          <div className="fixed inset-y-0 left-0 z-40 w-64 overflow-y-auto bg-card shadow-xl md:hidden" style={{ top: "3.5rem" }}>
             <nav className="flex flex-col gap-1 p-4">
               {navItems.map((item) => {
                 const Icon = item.icon
@@ -191,7 +241,7 @@ export function DashboardLayout({
 
       <div className="flex">
         {/* Desktop Sidebar */}
-        <aside className="sticky top-14 hidden h-[calc(100vh-3.5rem)] w-56 shrink-0 border-r border-border bg-card p-4 md:top-16 md:block md:h-[calc(100vh-4rem)]">
+        <aside className="sticky top-14 hidden h-[calc(100vh-3.5rem)] w-56 shrink-0 overflow-y-auto border-r border-border bg-card p-4 md:top-16 md:block md:h-[calc(100vh-4rem)]">
           <nav className="flex flex-col gap-1">
             {navItems.map((item) => {
               const Icon = item.icon
@@ -201,13 +251,13 @@ export function DashboardLayout({
                   key={item.id}
                   onClick={() => onTabChange(item.id)}
                   className={cn(
-                    "flex items-center gap-3 rounded-lg px-3 py-2.5 text-left text-sm font-medium transition-colors",
+                    "flex items-center gap-3 rounded-lg px-3 py-2 text-left text-sm font-medium transition-colors",
                     isActive
                       ? "bg-primary/10 text-primary"
                       : "text-muted-foreground hover:bg-muted hover:text-foreground"
                   )}
                 >
-                  <Icon className={cn("h-5 w-5", isActive ? "text-primary" : "text-muted-foreground")} />
+                  <Icon className={cn("h-4 w-4", isActive ? "text-primary" : "text-muted-foreground")} />
                   {item.label}
                 </button>
               )
@@ -241,8 +291,8 @@ export function DashboardLayout({
       </nav>
 
       {/* Demo mode banner */}
-      <div className="border-t border-amber-200 bg-amber-50 px-4 py-2">
-        <p className="text-center text-xs font-medium text-amber-700">
+      <div className="border-t border-amber-200 bg-amber-50 px-4 py-2 dark:bg-amber-950/30 dark:border-amber-800">
+        <p className="text-center text-xs font-medium text-amber-700 dark:text-amber-400">
           Demo Mode - You are viewing simulated sample data. Connect real tools in Integrations to see your team.
         </p>
       </div>
