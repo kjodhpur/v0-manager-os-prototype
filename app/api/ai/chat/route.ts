@@ -1,9 +1,9 @@
-import { streamText } from "ai"
+import { streamText, convertToModelMessages, type UIMessage } from "ai"
 
 export const maxDuration = 30
 
 export async function POST(req: Request) {
-  const { messages, teamContext } = await req.json()
+  const { messages, teamContext }: { messages: UIMessage[]; teamContext: unknown } = await req.json()
 
   try {
     const result = streamText({
@@ -30,13 +30,18 @@ Rules:
 - Reference team members by full name on first mention
 - When suggesting a 1:1 talking point, format the suggested question in *italics*
 - If the data shows someone at risk, be direct but compassionate about it`,
-      messages,
+      messages: await convertToModelMessages(messages),
+      abortSignal: req.signal,
     })
 
-    return result.toDataStreamResponse()
+    return result.toUIMessageStreamResponse()
   } catch {
-    const lastMessage = messages?.[messages.length - 1]?.content || ""
-    const fallback = generateChatFallback(lastMessage)
+    const lastMessage = messages?.[messages.length - 1]
+    const lastText = lastMessage?.parts
+      ?.filter((p): p is { type: "text"; text: string } => p.type === "text")
+      .map((p) => p.text)
+      .join("") || ""
+    const fallback = generateChatFallback(lastText)
     return new Response(fallback, {
       headers: { "Content-Type": "text/plain; charset=utf-8" },
     })
@@ -59,7 +64,7 @@ function generateChatFallback(query: string): string {
   }
 
   if (q.includes("kudos") || q.includes("recognition") || q.includes("praise")) {
-    return `Here's a draft kudos message:\n\n---\n\n**Great work this week!** I wanted to call out the excellent progress on the recent sprint. Your attention to detail and collaboration with the team made a real difference. The quality of the deliverables speaks to your dedication. Keep it up! 🌟\n\n---\n\n*Feel free to personalize this before sending. You can share it in #team-shoutouts or send it privately.*`
+    return `Here's a draft kudos message:\n\n---\n\n**Great work this week!** I wanted to call out the excellent progress on the recent sprint. Your attention to detail and collaboration with the team made a real difference. The quality of the deliverables speaks to your dedication. Keep it up!\n\n---\n\n*Feel free to personalize this before sending. You can share it in #team-shoutouts or send it privately.*`
   }
 
   return `I can help you with:\n\n- **Team health insights** — "Who needs my attention this week?"\n- **1:1 preparation** — "Prep my 1:1 with Marcus"\n- **Workload analysis** — "How is team workload distributed?"\n- **Recognition** — "Draft kudos for Priya"\n- **Meeting prep** — "What should I bring up in our team meeting?"\n- **Trends** — "Compare sentiment trends this month"\n\nWhat would you like to explore?`

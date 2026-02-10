@@ -1,7 +1,10 @@
 "use client"
 
+import React from "react"
+
 import { useState, useRef, useEffect } from "react"
 import { useChat } from "@ai-sdk/react"
+import { DefaultChatTransport } from "ai"
 import { Sparkles, X, Send, RotateCcw } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet"
@@ -17,18 +20,30 @@ const SUGGESTIONS = [
   "Compare sentiment trends this month",
 ]
 
+function getMessageText(message: { parts?: Array<{ type: string; text?: string }> }): string {
+  if (!message.parts || !Array.isArray(message.parts)) return ""
+  return message.parts
+    .filter((p): p is { type: "text"; text: string } => p.type === "text")
+    .map((p) => p.text)
+    .join("")
+}
+
 export function AiChatPanel() {
   const [open, setOpen] = useState(false)
+  const [input, setInput] = useState("")
   const scrollRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
 
   const teamContext = buildTeamContext()
 
-  const { messages, input, handleInputChange, handleSubmit, isLoading, setInput, setMessages } =
-    useChat({
+  const { messages, sendMessage, setMessages, status } = useChat({
+    transport: new DefaultChatTransport({
       api: "/api/ai/chat",
       body: { teamContext },
-    })
+    }),
+  })
+
+  const isLoading = status === "streaming" || status === "submitted"
 
   // Auto-scroll on new messages
   useEffect(() => {
@@ -44,13 +59,15 @@ export function AiChatPanel() {
     }
   }, [open])
 
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+    if (!input.trim() || isLoading) return
+    sendMessage({ text: input })
+    setInput("")
+  }
+
   const handleSuggestionClick = (suggestion: string) => {
-    setInput(suggestion)
-    // Submit on next tick after input is set
-    setTimeout(() => {
-      const form = document.getElementById("ai-chat-form") as HTMLFormElement
-      form?.requestSubmit()
-    }, 50)
+    sendMessage({ text: suggestion })
   }
 
   const handleClear = () => {
@@ -121,29 +138,32 @@ export function AiChatPanel() {
               </div>
             ) : (
               <div className="flex flex-col gap-3">
-                {messages.map((m) => (
-                  <div
-                    key={m.id}
-                    className={cn(
-                      "max-w-[85%] rounded-2xl px-3.5 py-2.5 text-sm",
-                      m.role === "user"
-                        ? "ml-auto bg-primary text-primary-foreground"
-                        : "bg-muted text-foreground"
-                    )}
-                  >
-                    {m.role === "assistant" && (
-                      <div className="mb-1 flex items-center gap-1 text-xs text-muted-foreground">
-                        <Sparkles className="h-3 w-3" /> HeartMetrics AI
-                      </div>
-                    )}
+                {messages.map((m) => {
+                  const text = getMessageText(m)
+                  return (
                     <div
-                      className="prose prose-sm max-w-none dark:prose-invert [&>p]:mb-2 [&>p:last-child]:mb-0 [&>ul]:mb-2 [&>ol]:mb-2"
-                      dangerouslySetInnerHTML={{
-                        __html: formatMarkdown(m.content ?? ""),
-                      }}
-                    />
-                  </div>
-                ))}
+                      key={m.id}
+                      className={cn(
+                        "max-w-[85%] rounded-2xl px-3.5 py-2.5 text-sm",
+                        m.role === "user"
+                          ? "ml-auto bg-primary text-primary-foreground"
+                          : "bg-muted text-foreground"
+                      )}
+                    >
+                      {m.role === "assistant" && (
+                        <div className="mb-1 flex items-center gap-1 text-xs text-muted-foreground">
+                          <Sparkles className="h-3 w-3" /> HeartMetrics AI
+                        </div>
+                      )}
+                      <div
+                        className="prose prose-sm max-w-none dark:prose-invert [&>p]:mb-2 [&>p:last-child]:mb-0 [&>ul]:mb-2 [&>ol]:mb-2"
+                        dangerouslySetInnerHTML={{
+                          __html: formatMarkdown(text),
+                        }}
+                      />
+                    </div>
+                  )
+                })}
                 {isLoading && messages[messages.length - 1]?.role === "user" && (
                   <div className="max-w-[85%] rounded-2xl bg-muted px-3.5 py-2.5">
                     <div className="mb-1 flex items-center gap-1 text-xs text-muted-foreground">
@@ -162,16 +182,16 @@ export function AiChatPanel() {
 
           {/* Input */}
           <div className="border-t border-border px-4 py-3">
-            <form id="ai-chat-form" onSubmit={handleSubmit} className="flex gap-2">
+            <form onSubmit={handleSubmit} className="flex gap-2">
               <input
                 ref={inputRef}
-                value={input ?? ""}
-                onChange={handleInputChange}
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
                 placeholder="Ask about your team..."
                 className="flex-1 rounded-lg border border-input bg-background px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring"
                 disabled={isLoading}
               />
-              <Button type="submit" size="icon" disabled={isLoading || !(input ?? "").trim()} className="h-9 w-9 shrink-0">
+              <Button type="submit" size="icon" disabled={isLoading || !input.trim()} className="h-9 w-9 shrink-0">
                 <Send className="h-4 w-4" />
               </Button>
             </form>
@@ -185,7 +205,7 @@ export function AiChatPanel() {
   )
 }
 
-/** Simple markdown → HTML (bold, italic, bullet points, line breaks) */
+/** Simple markdown -> HTML (bold, italic, bullet points, line breaks) */
 function formatMarkdown(text: string): string {
   return text
     .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
