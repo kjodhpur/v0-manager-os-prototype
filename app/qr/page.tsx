@@ -14,8 +14,7 @@ export default function QRPage() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
 
   useEffect(() => {
-    const baseUrl = window.location.origin
-    const url = `${baseUrl}/demo`
+    const url = `${window.location.origin}/demo`
     setDemoUrl(url)
     generateQR(url)
   }, [])
