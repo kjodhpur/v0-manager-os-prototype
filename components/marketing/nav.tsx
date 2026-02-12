@@ -41,7 +41,7 @@ export function MarketingNav() {
           <Button variant="ghost" asChild>
             <Link href="/signin">Sign In</Link>
           </Button>
-          <Button asChild className="bg-blue-600 hover:bg-blue-700 text-white">
+          <Button asChild>
             <Link href="/demo">Try Demo Mode</Link>
           </Button>
         </div>
@@ -74,7 +74,7 @@ export function MarketingNav() {
               <Button variant="outline" asChild className="w-full bg-transparent">
                 <Link href="/signin">Sign In</Link>
               </Button>
-              <Button asChild className="w-full bg-blue-600 hover:bg-blue-700 text-white">
+              <Button asChild className="w-full">
                 <Link href="/demo">Try Demo Mode</Link>
               </Button>
             </div>

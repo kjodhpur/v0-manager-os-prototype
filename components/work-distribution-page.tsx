@@ -12,15 +12,15 @@ export function WorkDistributionPage({ onEmployeeClick }: WorkDistributionPagePr
   const getWorkloadStatusColor = (status: string) => {
     switch (status) {
       case "Overloaded":
-        return "bg-red-100 text-red-700 border-red-200 dark:bg-red-950/40 dark:text-red-400 dark:border-red-800"
+        return "bg-red-50 text-red-700 border-red-200 dark:bg-red-950/30 dark:text-red-300 dark:border-red-900"
       case "High":
-        return "bg-amber-100 text-amber-700 border-amber-200 dark:bg-amber-950/40 dark:text-amber-400 dark:border-amber-800"
+        return "bg-amber-50 text-amber-700 border-amber-200 dark:bg-amber-950/30 dark:text-amber-300 dark:border-amber-900"
       case "Balanced":
-        return "bg-green-100 text-green-700 border-green-200 dark:bg-green-950/40 dark:text-green-400 dark:border-green-800"
+        return "bg-emerald-50 text-emerald-700 border-emerald-200 dark:bg-emerald-950/30 dark:text-emerald-300 dark:border-emerald-900"
       case "Light":
-        return "bg-blue-100 text-blue-700 border-blue-200 dark:bg-blue-950/40 dark:text-blue-400 dark:border-blue-800"
+        return "bg-accent text-accent-foreground border-border"
       default:
-        return "bg-gray-100 text-gray-700 border-gray-200 dark:bg-gray-800/40 dark:text-gray-400 dark:border-gray-700"
+        return "bg-muted text-muted-foreground border-border"
     }
   }
 
@@ -79,26 +79,26 @@ export function WorkDistributionPage({ onEmployeeClick }: WorkDistributionPagePr
                     <td className="px-4 py-3">
                       <div className="flex h-5 w-full min-w-[200px] items-center overflow-hidden rounded">
                         <div
-                          className="flex h-full items-center justify-center bg-blue-500 text-xs font-medium text-white"
-                          style={{ width: `${employee.stretch}%`, minWidth: employee.stretch > 0 ? "28px" : "0" }}
+                          className="flex h-full items-center justify-center text-xs font-medium text-[#EDEDCE]"
+                          style={{ width: `${employee.stretch}%`, minWidth: employee.stretch > 0 ? "28px" : "0", backgroundColor: "#0C2C55" }}
                         >
                           {employee.stretch >= 8 && `${employee.stretch}%`}
                         </div>
                         <div
-                          className="flex h-full items-center justify-center bg-gray-400 text-xs font-medium text-white"
-                          style={{ width: `${employee.operational}%`, minWidth: employee.operational > 0 ? "28px" : "0" }}
+                          className="flex h-full items-center justify-center text-xs font-medium text-white"
+                          style={{ width: `${employee.operational}%`, minWidth: employee.operational > 0 ? "28px" : "0", backgroundColor: "#296374" }}
                         >
                           {employee.operational >= 20 && `${employee.operational}%`}
                         </div>
                         <div
-                          className="flex h-full items-center justify-center bg-red-400 text-xs font-medium text-white"
-                          style={{ width: `${employee.firefighting}%`, minWidth: employee.firefighting > 0 ? "28px" : "0" }}
+                          className="flex h-full items-center justify-center text-xs font-medium text-white"
+                          style={{ width: `${employee.firefighting}%`, minWidth: employee.firefighting > 0 ? "28px" : "0", backgroundColor: "#629FAD" }}
                         >
                           {employee.firefighting >= 10 && `${employee.firefighting}%`}
                         </div>
                         <div
-                          className="flex h-full items-center justify-center bg-gray-300 text-xs font-medium text-gray-700 dark:bg-gray-600 dark:text-gray-200"
-                          style={{ width: `${employee.admin}%`, minWidth: employee.admin > 0 ? "20px" : "0" }}
+                          className="flex h-full items-center justify-center text-xs font-medium text-[#296374]"
+                          style={{ width: `${employee.admin}%`, minWidth: employee.admin > 0 ? "20px" : "0", backgroundColor: "#EDEDCE" }}
                         >
                           {employee.admin >= 5 && `${employee.admin}%`}
                         </div>
@@ -113,19 +113,19 @@ export function WorkDistributionPage({ onEmployeeClick }: WorkDistributionPagePr
           {/* Legend */}
           <div className="flex flex-wrap items-center gap-4 border-t border-border px-4 py-3 lg:gap-6">
             <div className="flex items-center gap-2">
-              <div className="h-3 w-3 rounded-sm bg-blue-500" />
+              <div className="h-3 w-3 rounded-sm" style={{ backgroundColor: "#0C2C55" }} />
               <span className="text-sm text-muted-foreground">Strategic/Visible</span>
             </div>
             <div className="flex items-center gap-2">
-              <div className="h-3 w-3 rounded-sm bg-gray-400" />
+              <div className="h-3 w-3 rounded-sm" style={{ backgroundColor: "#296374" }} />
               <span className="text-sm text-muted-foreground">Operational/Routine</span>
             </div>
             <div className="flex items-center gap-2">
-              <div className="h-3 w-3 rounded-sm bg-red-400" />
+              <div className="h-3 w-3 rounded-sm" style={{ backgroundColor: "#629FAD" }} />
               <span className="text-sm text-muted-foreground">Firefighting</span>
             </div>
             <div className="flex items-center gap-2">
-              <div className="h-3 w-3 rounded-sm bg-gray-300 dark:bg-gray-600" />
+              <div className="h-3 w-3 rounded-sm" style={{ backgroundColor: "#EDEDCE" }} />
               <span className="text-sm text-muted-foreground">Admin</span>
             </div>
           </div>
