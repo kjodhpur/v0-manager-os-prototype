@@ -107,16 +107,6 @@ export function LandingPage() {
 
   return (
     <div>
-      {/* Sticky mobile CTA */}
-      <div className="fixed inset-x-0 bottom-0 z-40 border-t border-border bg-card p-3 md:hidden">
-        <Button size="lg" className="w-full" asChild>
-          <Link href="/contact">
-            Request Demo
-            <ArrowRight className="ml-2 h-4 w-4" />
-          </Link>
-        </Button>
-      </div>
-
       {/* Hero */}
       <section className="relative overflow-hidden bg-card">
         <div className="mx-auto max-w-6xl px-4 py-20 lg:px-8 lg:py-32">
@@ -132,24 +122,11 @@ export function LandingPage() {
               HeartMetrics is an AI copilot that helps managers run fairer, healthier teams by making
               work distribution, contribution, and growth visible — without surveillance.
             </p>
-            <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
-              <Button size="lg" asChild>
-                <Link href="/contact">
-                  Request Demo
-                  <ArrowRight className="ml-2 h-4 w-4" />
-                </Link>
-              </Button>
-              <Button size="lg" variant="outline" asChild>
+            <div className="mt-8 flex justify-center">
+              <Button size="lg" asChild className="bg-blue-600 hover:bg-blue-700 text-white">
                 <Link href="/demo">Try Demo Mode</Link>
               </Button>
             </div>
-            <p className="mt-4 text-sm text-muted-foreground">
-              At an event?{" "}
-              <Link href="/qr" className="underline underline-offset-4 hover:text-foreground">
-                Get the QR code
-              </Link>{" "}
-              to share with your audience.
-            </p>
           </div>
         </div>
         {/* Product screenshot */}
@@ -345,14 +322,8 @@ export function LandingPage() {
           <p className="mt-4 text-lg text-primary-foreground/80">
             Join the managers who are building fairer, healthier teams with HeartMetrics.
           </p>
-          <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
-            <Button size="lg" variant="secondary" asChild>
-              <Link href="/contact">
-                Request Demo
-                <ArrowRight className="ml-2 h-4 w-4" />
-              </Link>
-            </Button>
-            <Button size="lg" variant="outline" className="border-primary-foreground/30 text-primary-foreground hover:bg-primary-foreground/10 bg-transparent" asChild>
+          <div className="mt-8 flex justify-center">
+            <Button size="lg" asChild className="bg-blue-600 hover:bg-blue-700 text-white">
               <Link href="/demo">Try Demo Mode</Link>
             </Button>
           </div>
