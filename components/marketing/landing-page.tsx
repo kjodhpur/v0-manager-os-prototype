@@ -140,9 +140,16 @@ export function LandingPage() {
                 </Link>
               </Button>
               <Button size="lg" variant="outline" asChild>
-                <Link href="/app">Try Demo Mode</Link>
+                <Link href="/demo">Try Demo Mode</Link>
               </Button>
             </div>
+            <p className="mt-4 text-sm text-muted-foreground">
+              At an event?{" "}
+              <Link href="/qr" className="underline underline-offset-4 hover:text-foreground">
+                Get the QR code
+              </Link>{" "}
+              to share with your audience.
+            </p>
           </div>
         </div>
         {/* Product screenshot */}
@@ -346,7 +353,7 @@ export function LandingPage() {
               </Link>
             </Button>
             <Button size="lg" variant="outline" className="border-primary-foreground/30 text-primary-foreground hover:bg-primary-foreground/10 bg-transparent" asChild>
-              <Link href="/app">Try Demo Mode</Link>
+              <Link href="/demo">Try Demo Mode</Link>
             </Button>
           </div>
         </div>
