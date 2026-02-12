@@ -2,7 +2,7 @@
 
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
-import { Card, CardContent } from "@/components/ui/card"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import {
   ShieldCheck,
@@ -17,8 +17,24 @@ import {
   Lock,
   ChevronDown,
   ChevronUp,
+  TrendingUp,
+  TrendingDown,
+  AlertTriangle,
+  LayoutDashboard,
+  Brain,
+  Flame,
+  Calendar,
+  ListChecks,
+  Settings,
+  ClipboardList,
+  Target,
+  Clock,
+  FileText,
+  MessageSquare,
+  Link2,
 } from "lucide-react"
 import { useState } from "react"
+import { teamStats, topAttentionEmployees, employees } from "@/lib/data"
 
 const problems = [
   {
@@ -129,14 +145,163 @@ export function LandingPage() {
             </div>
           </div>
         </div>
-        {/* Product screenshot */}
+        {/* Live Dashboard Preview */}
         <div className="mx-auto max-w-5xl px-4 pb-16 lg:px-8">
-          <div className="overflow-hidden rounded-xl border border-border shadow-2xl">
-            <img
-              src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image0%20%281%29.png-Wr3I9jUdexwMtVKaZnkCitPntQL5kV.jpeg"
-              alt="HeartMetrics Overview Dashboard showing team wellbeing index, employee health scores, recommended actions, and fairness insights"
-              className="w-full"
-            />
+          <div className="overflow-hidden rounded-xl border border-border bg-background shadow-2xl">
+            {/* Mini top bar */}
+            <div className="flex items-center justify-between border-b border-border bg-card px-4 py-2.5">
+              <div className="flex items-center gap-3">
+                <div className="flex items-center gap-1.5">
+                  <HeartPulse className="h-4 w-4 text-primary" />
+                  <span className="text-sm font-semibold text-foreground">HeartMetrics</span>
+                </div>
+                <Badge variant="outline" className="text-[10px]">Engineering Team (8)</Badge>
+              </div>
+              <div className="flex items-center gap-2">
+                <div className="flex items-center gap-1.5 rounded-full bg-primary px-2.5 py-0.5 text-[10px] font-medium text-primary-foreground">
+                  Connected
+                </div>
+                <div className="h-6 w-6 rounded-full bg-primary/10 flex items-center justify-center text-[10px] font-medium text-primary">AM</div>
+              </div>
+            </div>
+            <div className="flex">
+              {/* Mini sidebar */}
+              <div className="hidden w-40 shrink-0 border-r border-border bg-card p-3 md:block">
+                <nav className="flex flex-col gap-0.5">
+                  {[
+                    { icon: LayoutDashboard, label: "Overview", active: true },
+                    { icon: Brain, label: "AI Coach" },
+                    { icon: HeartPulse, label: "Team Health" },
+                    { icon: Flame, label: "Burnout Risk" },
+                    { icon: BarChart3, label: "Work Distribution" },
+                    { icon: Calendar, label: "1:1 Meetings" },
+                    { icon: ClipboardList, label: "Pulse Surveys" },
+                    { icon: Target, label: "Goals & OKRs" },
+                    { icon: Award, label: "Recognition" },
+                    { icon: MessageSquare, label: "Feedback Wall" },
+                    { icon: Clock, label: "Timeline" },
+                    { icon: Scale, label: "Benchmarking" },
+                    { icon: FileText, label: "Reports" },
+                    { icon: ListChecks, label: "Actions" },
+                    { icon: Link2, label: "Integrations" },
+                    { icon: Settings, label: "Settings" },
+                  ].map((item) => {
+                    const Icon = item.icon
+                    return (
+                      <div
+                        key={item.label}
+                        className={`flex items-center gap-2 rounded-md px-2 py-1.5 text-[11px] font-medium ${
+                          item.active
+                            ? "bg-primary/10 text-primary"
+                            : "text-muted-foreground"
+                        }`}
+                      >
+                        <Icon className="h-3.5 w-3.5" />
+                        {item.label}
+                      </div>
+                    )
+                  })}
+                </nav>
+              </div>
+              {/* Main content preview */}
+              <div className="flex-1 p-4">
+                {/* AI Insight */}
+                <div className="mb-4 rounded-lg border border-primary/20 bg-primary/5 p-3">
+                  <div className="flex items-center gap-2 mb-1.5">
+                    <Brain className="h-3.5 w-3.5 text-primary" />
+                    <span className="text-xs font-semibold text-foreground">Weekly Team Insight</span>
+                  </div>
+                  <p className="text-[11px] leading-relaxed text-muted-foreground">
+                    {"Your team's overall wellbeing is trending upward this week. Riya and Sam need immediate attention due to workload imbalance. Consider redistributing 2-3 tasks from Riya to Olivia who has capacity."}
+                  </p>
+                </div>
+                {/* KPI Cards */}
+                <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
+                  <Card className="border-border">
+                    <CardContent className="p-3">
+                      <p className="text-[10px] font-medium text-muted-foreground">Team WHI Average</p>
+                      <div className="mt-0.5 flex items-baseline gap-1.5">
+                        <span className="text-2xl font-bold text-foreground">{teamStats.whiAverage}</span>
+                        <span className="flex items-center gap-0.5 text-[10px] text-emerald-600">
+                          <TrendingUp className="h-3 w-3" />+{teamStats.whiChange}
+                        </span>
+                      </div>
+                    </CardContent>
+                  </Card>
+                  <Card className="border-border">
+                    <CardContent className="p-3">
+                      <p className="text-[10px] font-medium text-muted-foreground">High Risk Employees</p>
+                      <div className="mt-0.5 flex items-baseline gap-1.5">
+                        <span className="text-2xl font-bold text-foreground">{teamStats.highRiskCount}</span>
+                      </div>
+                      <p className="text-[10px] text-amber-600 flex items-center gap-0.5">
+                        Need attention <AlertTriangle className="h-2.5 w-2.5" />
+                      </p>
+                    </CardContent>
+                  </Card>
+                  <Card className="border-border">
+                    <CardContent className="p-3">
+                      <p className="text-[10px] font-medium text-muted-foreground">Blocked Work Items</p>
+                      <div className="mt-0.5">
+                        <span className="text-2xl font-bold text-foreground">{teamStats.blockedWorkItems}</span>
+                      </div>
+                    </CardContent>
+                  </Card>
+                  <Card className="border-border">
+                    <CardContent className="p-3">
+                      <p className="text-[10px] font-medium text-muted-foreground">Manager Fairness</p>
+                      <div className="mt-0.5 flex items-baseline gap-1.5">
+                        <span className="text-2xl font-bold text-foreground">{teamStats.managerFairnessScore}</span>
+                        <span className="flex items-center gap-0.5 text-[10px] text-red-500">
+                          <TrendingDown className="h-3 w-3" />-{teamStats.mfsChange}
+                        </span>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </div>
+                {/* Attention Table */}
+                <Card className="mt-4 border-border">
+                  <CardHeader className="p-3 pb-2">
+                    <CardTitle className="text-xs font-semibold text-foreground">Attention Needed - Top 5 Employees</CardTitle>
+                  </CardHeader>
+                  <CardContent className="p-3 pt-0">
+                    <table className="w-full">
+                      <thead>
+                        <tr className="border-b border-border text-left text-[10px] text-muted-foreground">
+                          <th className="pb-2 pr-3 font-medium">Name</th>
+                          <th className="pb-2 pr-3 font-medium">WHI</th>
+                          <th className="pb-2 pr-3 font-medium">Issue</th>
+                          <th className="pb-2 font-medium">Action</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {topAttentionEmployees.slice(0, 5).map((emp) => (
+                          <tr key={emp.id} className="border-b border-border last:border-0">
+                            <td className="py-1.5 pr-3 text-[11px] font-medium text-foreground">{emp.name}</td>
+                            <td className="py-1.5 pr-3 text-[11px] font-semibold text-foreground flex items-center gap-1">
+                              {emp.whi}
+                              {emp.whiTrend === "down" && <TrendingDown className="h-3 w-3 text-red-500" />}
+                            </td>
+                            <td className="py-1.5 pr-3">
+                              <Badge className={`text-[9px] px-1.5 py-0 ${
+                                emp.issue.includes("Blocked") ? "bg-red-100 text-red-700" :
+                                emp.issue.includes("Medium") ? "bg-amber-100 text-amber-700" :
+                                emp.issue.includes("firefighting") ? "bg-orange-100 text-orange-700" :
+                                emp.issue.includes("Declining") ? "bg-gray-100 text-gray-700" :
+                                "bg-yellow-100 text-yellow-700"
+                              }`}>{emp.issue}</Badge>
+                            </td>
+                            <td className="py-1.5">
+                              <div className="rounded bg-primary px-2 py-0.5 text-center text-[9px] font-medium text-primary-foreground">View</div>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </CardContent>
+                </Card>
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -202,13 +367,86 @@ export function LandingPage() {
               </div>
             ))}
           </div>
-          {/* Second screenshot */}
-          <div className="mt-16 overflow-hidden rounded-xl border border-border shadow-xl">
-            <img
-              src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image2.png-qYSlBxbD5h8QwRDEJCgzypIiFJJbTK.jpeg"
-              alt="HeartMetrics Work Distribution view showing workload balance, blocked items, and work type breakdown across team members"
-              className="w-full"
-            />
+          {/* Live Work Distribution Preview */}
+          <div className="mt-16 overflow-hidden rounded-xl border border-border bg-background shadow-xl">
+            <div className="border-b border-border bg-card px-4 py-2.5">
+              <div className="flex items-center gap-2">
+                <BarChart3 className="h-4 w-4 text-primary" />
+                <span className="text-sm font-semibold text-foreground">Work Distribution</span>
+                <span className="text-xs text-muted-foreground">Workload balance across team</span>
+              </div>
+            </div>
+            <div className="p-4">
+              <div className="overflow-x-auto">
+                <table className="w-full">
+                  <thead>
+                    <tr className="border-b border-border text-left text-[10px] text-muted-foreground">
+                      <th className="pb-2 pr-3 font-medium">Employee</th>
+                      <th className="pb-2 pr-3 font-medium">Role</th>
+                      <th className="pb-2 pr-3 text-center font-medium">WIP</th>
+                      <th className="pb-2 pr-3 text-center font-medium">Meeting Hrs</th>
+                      <th className="pb-2 pr-3 text-center font-medium">Blocked</th>
+                      <th className="pb-2 pr-3 text-center font-medium">Status</th>
+                      <th className="pb-2 font-medium">Work Type Breakdown</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {employees.slice(0, 6).map((emp) => (
+                      <tr key={emp.id} className="border-b border-border last:border-0">
+                        <td className="py-2 pr-3 text-[11px] font-medium text-foreground">{emp.name}</td>
+                        <td className="py-2 pr-3 text-[11px] text-muted-foreground">{emp.role}</td>
+                        <td className="py-2 pr-3 text-center text-[11px] font-medium text-foreground">{emp.wip}</td>
+                        <td className="py-2 pr-3 text-center text-[11px] text-muted-foreground">{emp.meetingHours}h</td>
+                        <td className="py-2 pr-3 text-center">
+                          {emp.blocked > 0 ? (
+                            <span className="inline-flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-[9px] font-medium text-white">
+                              {emp.blocked}
+                            </span>
+                          ) : (
+                            <span className="text-[11px] text-muted-foreground">0</span>
+                          )}
+                        </td>
+                        <td className="py-2 pr-3 text-center">
+                          <Badge className={`text-[9px] px-1.5 py-0 border ${
+                            emp.workloadStatus === "Overloaded" ? "bg-red-100 text-red-700 border-red-200" :
+                            emp.workloadStatus === "High" ? "bg-amber-100 text-amber-700 border-amber-200" :
+                            emp.workloadStatus === "Balanced" ? "bg-green-100 text-green-700 border-green-200" :
+                            "bg-blue-100 text-blue-700 border-blue-200"
+                          }`}>{emp.workloadStatus}</Badge>
+                        </td>
+                        <td className="py-2">
+                          <div className="flex h-4 w-full min-w-[140px] items-center overflow-hidden rounded">
+                            <div className="h-full bg-blue-500" style={{ width: `${emp.stretch}%` }} />
+                            <div className="h-full bg-gray-400" style={{ width: `${emp.operational}%` }} />
+                            <div className="h-full bg-red-400" style={{ width: `${emp.firefighting}%` }} />
+                            <div className="h-full bg-gray-300" style={{ width: `${emp.admin}%` }} />
+                          </div>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+              {/* Legend */}
+              <div className="flex flex-wrap items-center gap-4 border-t border-border pt-3 mt-3">
+                <div className="flex items-center gap-1.5">
+                  <div className="h-2.5 w-2.5 rounded-sm bg-blue-500" />
+                  <span className="text-[10px] text-muted-foreground">Strategic/Visible</span>
+                </div>
+                <div className="flex items-center gap-1.5">
+                  <div className="h-2.5 w-2.5 rounded-sm bg-gray-400" />
+                  <span className="text-[10px] text-muted-foreground">Operational</span>
+                </div>
+                <div className="flex items-center gap-1.5">
+                  <div className="h-2.5 w-2.5 rounded-sm bg-red-400" />
+                  <span className="text-[10px] text-muted-foreground">Firefighting</span>
+                </div>
+                <div className="flex items-center gap-1.5">
+                  <div className="h-2.5 w-2.5 rounded-sm bg-gray-300" />
+                  <span className="text-[10px] text-muted-foreground">Admin</span>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
