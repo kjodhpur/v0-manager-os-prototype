@@ -284,11 +284,11 @@ export function LandingPage() {
                             </td>
                             <td className="py-1.5 pr-3">
                               <Badge className={`text-[9px] px-1.5 py-0 ${
-                                emp.issue.includes("Blocked") ? "bg-red-100 text-red-700" :
-                                emp.issue.includes("Medium") ? "bg-amber-100 text-amber-700" :
-                                emp.issue.includes("firefighting") ? "bg-orange-100 text-orange-700" :
-                                emp.issue.includes("Declining") ? "bg-gray-100 text-gray-700" :
-                                "bg-yellow-100 text-yellow-700"
+                                emp.issue.includes("Blocked") ? "bg-red-100 text-red-700 dark:bg-red-950/40 dark:text-red-400" :
+                                emp.issue.includes("Medium") ? "bg-amber-100 text-amber-700 dark:bg-amber-950/40 dark:text-amber-400" :
+                                emp.issue.includes("firefighting") ? "bg-orange-100 text-orange-700 dark:bg-orange-950/40 dark:text-orange-400" :
+                                emp.issue.includes("Declining") ? "bg-gray-100 text-gray-700 dark:bg-gray-800/40 dark:text-gray-400" :
+                                "bg-yellow-100 text-yellow-700 dark:bg-yellow-950/40 dark:text-yellow-400"
                               }`}>{emp.issue}</Badge>
                             </td>
                             <td className="py-1.5">
@@ -408,10 +408,10 @@ export function LandingPage() {
                         </td>
                         <td className="py-2 pr-3 text-center">
                           <Badge className={`text-[9px] px-1.5 py-0 border ${
-                            emp.workloadStatus === "Overloaded" ? "bg-red-100 text-red-700 border-red-200" :
-                            emp.workloadStatus === "High" ? "bg-amber-100 text-amber-700 border-amber-200" :
-                            emp.workloadStatus === "Balanced" ? "bg-green-100 text-green-700 border-green-200" :
-                            "bg-blue-100 text-blue-700 border-blue-200"
+                            emp.workloadStatus === "Overloaded" ? "bg-red-100 text-red-700 border-red-200 dark:bg-red-950/40 dark:text-red-400 dark:border-red-800" :
+                            emp.workloadStatus === "High" ? "bg-amber-100 text-amber-700 border-amber-200 dark:bg-amber-950/40 dark:text-amber-400 dark:border-amber-800" :
+                            emp.workloadStatus === "Balanced" ? "bg-green-100 text-green-700 border-green-200 dark:bg-green-950/40 dark:text-green-400 dark:border-green-800" :
+                            "bg-blue-100 text-blue-700 border-blue-200 dark:bg-blue-950/40 dark:text-blue-400 dark:border-blue-800"
                           }`}>{emp.workloadStatus}</Badge>
                         </td>
                         <td className="py-2">
@@ -419,7 +419,7 @@ export function LandingPage() {
                             <div className="h-full bg-blue-500" style={{ width: `${emp.stretch}%` }} />
                             <div className="h-full bg-gray-400" style={{ width: `${emp.operational}%` }} />
                             <div className="h-full bg-red-400" style={{ width: `${emp.firefighting}%` }} />
-                            <div className="h-full bg-gray-300" style={{ width: `${emp.admin}%` }} />
+                            <div className="h-full bg-gray-300 dark:bg-gray-600" style={{ width: `${emp.admin}%` }} />
                           </div>
                         </td>
                       </tr>
@@ -442,7 +442,7 @@ export function LandingPage() {
                   <span className="text-[10px] text-muted-foreground">Firefighting</span>
                 </div>
                 <div className="flex items-center gap-1.5">
-                  <div className="h-2.5 w-2.5 rounded-sm bg-gray-300" />
+                  <div className="h-2.5 w-2.5 rounded-sm bg-gray-300 dark:bg-gray-600" />
                   <span className="text-[10px] text-muted-foreground">Admin</span>
                 </div>
               </div>
@@ -552,12 +552,12 @@ export function LandingPage() {
       </section>
 
       {/* Final CTA */}
-      <section className="bg-primary py-20 lg:py-28">
+      <section className="bg-blue-600 dark:bg-blue-950/60 py-20 lg:py-28">
         <div className="mx-auto max-w-3xl px-4 text-center lg:px-8">
-          <h2 className="text-balance text-3xl font-bold tracking-tight text-primary-foreground sm:text-4xl">
+          <h2 className="text-balance text-3xl font-bold tracking-tight text-white dark:text-blue-50 sm:text-4xl">
             Ready to make work more human?
           </h2>
-          <p className="mt-4 text-lg text-primary-foreground/80">
+          <p className="mt-4 text-lg text-blue-100 dark:text-blue-200/70">
             Join the managers who are building fairer, healthier teams with HeartMetrics.
           </p>
           <div className="mt-8 flex justify-center">
