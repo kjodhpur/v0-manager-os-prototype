@@ -291,8 +291,8 @@ export function DashboardLayout({
       </nav>
 
       {/* Demo mode banner */}
-      <div className="border-t border-amber-200 bg-amber-50 px-4 py-2 dark:bg-amber-950/30 dark:border-amber-800">
-        <p className="text-center text-xs font-medium text-amber-700 dark:text-amber-400">
+      <div className="border-t border-border bg-accent px-4 py-2">
+        <p className="text-center text-xs font-medium text-accent-foreground">
           Demo Mode - You are viewing simulated sample data. Connect real tools in Integrations to see your team.
         </p>
       </div>

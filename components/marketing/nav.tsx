@@ -42,7 +42,7 @@ export function MarketingNav() {
             <Link href="/signin">Sign In</Link>
           </Button>
           <Button asChild>
-            <Link href="/contact">Request Demo</Link>
+            <Link href="/demo">Try Demo Mode</Link>
           </Button>
         </div>
 
@@ -75,7 +75,7 @@ export function MarketingNav() {
                 <Link href="/signin">Sign In</Link>
               </Button>
               <Button asChild className="w-full">
-                <Link href="/contact">Request Demo</Link>
+                <Link href="/demo">Try Demo Mode</Link>
               </Button>
             </div>
           </div>

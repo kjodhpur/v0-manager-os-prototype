@@ -17,24 +17,24 @@ export function OverviewPage({ onEmployeeClick, onActionClick }: OverviewPagePro
   const getIssueColor = (issue: string) => {
     switch (issue) {
       case "Blocked + Overloaded":
-        return "bg-red-100 text-red-700"
+        return "bg-red-50 text-red-700 dark:bg-red-950/30 dark:text-red-300"
       case "Medium risk":
-        return "bg-amber-100 text-amber-700"
+        return "bg-amber-50 text-amber-700 dark:bg-amber-950/30 dark:text-amber-300"
       case "High firefighting":
-        return "bg-orange-100 text-orange-700"
+        return "bg-orange-50 text-orange-700 dark:bg-orange-950/30 dark:text-orange-300"
       case "Declining":
-        return "bg-gray-100 text-gray-700"
+        return "bg-muted text-muted-foreground"
       case "Recognition gap":
-        return "bg-yellow-100 text-yellow-700"
+        return "bg-amber-50 text-amber-700 dark:bg-amber-950/30 dark:text-amber-300"
       default:
-        return "bg-gray-100 text-gray-700"
+        return "bg-muted text-muted-foreground"
     }
   }
 
   const getWhiTrendIcon = (trend: string, change?: number) => {
     if (trend === "up") {
       return (
-        <span className="flex items-center gap-1 text-sm text-emerald-600">
+        <span className="flex items-center gap-1 text-sm text-emerald-600 dark:text-emerald-400">
           <TrendingUp className="h-4 w-4" />
           {change && `+${change}`}
         </span>
@@ -42,7 +42,7 @@ export function OverviewPage({ onEmployeeClick, onActionClick }: OverviewPagePro
     }
     if (trend === "down") {
       return (
-        <span className="flex items-center gap-1 text-sm text-red-500">
+        <span className="flex items-center gap-1 text-sm text-red-500 dark:text-red-400">
           <TrendingDown className="h-4 w-4" />
           {change && `-${change}`}
         </span>
@@ -54,9 +54,9 @@ export function OverviewPage({ onEmployeeClick, onActionClick }: OverviewPagePro
   const getActionIcon = (icon: string) => {
     switch (icon) {
       case "alert":
-        return <AlertTriangle className="h-5 w-5 text-red-500" />
+        return <AlertTriangle className="h-5 w-5 text-red-500 dark:text-red-400" />
       case "star":
-        return <Star className="h-5 w-5 text-amber-500" />
+        return <Star className="h-5 w-5 text-amber-500 dark:text-amber-400" />
       case "rotate":
         return <RefreshCw className="h-5 w-5 text-primary" />
       case "unblock":
@@ -71,13 +71,13 @@ export function OverviewPage({ onEmployeeClick, onActionClick }: OverviewPagePro
   const getEffortColor = (effort: string) => {
     switch (effort) {
       case "Low":
-        return "bg-green-100 text-green-700"
+        return "bg-emerald-50 text-emerald-700 dark:bg-emerald-950/30 dark:text-emerald-300"
       case "Medium":
-        return "bg-amber-100 text-amber-700"
+        return "bg-amber-50 text-amber-700 dark:bg-amber-950/30 dark:text-amber-300"
       case "High":
-        return "bg-red-100 text-red-700"
+        return "bg-red-50 text-red-700 dark:bg-red-950/30 dark:text-red-300"
       default:
-        return "bg-gray-100 text-gray-700"
+        return "bg-muted text-muted-foreground"
     }
   }
 
@@ -86,9 +86,9 @@ export function OverviewPage({ onEmployeeClick, onActionClick }: OverviewPagePro
       case "Low":
         return "text-muted-foreground"
       case "Medium":
-        return "text-amber-600"
+        return "text-amber-600 dark:text-amber-400"
       case "High":
-        return "text-red-600"
+        return "text-red-600 dark:text-red-400"
       default:
         return "text-muted-foreground"
     }
@@ -128,7 +128,7 @@ export function OverviewPage({ onEmployeeClick, onActionClick }: OverviewPagePro
                   <div className="mt-1 flex items-baseline gap-2">
                     <span className="text-4xl font-bold text-foreground">{teamStats.highRiskCount}</span>
                   </div>
-                  <p className="mt-1 flex items-center gap-1 text-xs text-amber-600">
+                  <p className="mt-1 flex items-center gap-1 text-xs text-amber-600 dark:text-amber-400">
                     Need immediate attention
                     <AlertTriangle className="h-3 w-3" />
                   </p>
@@ -164,7 +164,7 @@ export function OverviewPage({ onEmployeeClick, onActionClick }: OverviewPagePro
                   <p className="text-sm font-medium text-muted-foreground">Manager Fairness Score</p>
                   <div className="mt-1 flex items-baseline gap-2">
                     <span className="text-4xl font-bold text-foreground">{teamStats.managerFairnessScore}</span>
-                    <span className="flex items-center gap-1 text-sm text-red-500">
+                    <span className="flex items-center gap-1 text-sm text-red-500 dark:text-red-400">
                       <TrendingDown className="h-4 w-4" />
                       -{teamStats.mfsChange}
                     </span>
@@ -207,7 +207,7 @@ export function OverviewPage({ onEmployeeClick, onActionClick }: OverviewPagePro
                       <td className="py-3 pr-4">
                         <div className="flex items-center gap-1.5">
                           <span className="font-semibold text-foreground">{employee.whi}</span>
-                          {employee.whiTrend === "down" && <TrendingDown className="h-4 w-4 text-red-500" />}
+                          {employee.whiTrend === "down" && <TrendingDown className="h-4 w-4 text-red-500 dark:text-red-400" />}
                           {employee.whiTrend === "neutral" && (
                             <span className="inline-block h-0.5 w-3 rounded bg-amber-500" />
                           )}
@@ -287,7 +287,7 @@ export function OverviewPage({ onEmployeeClick, onActionClick }: OverviewPagePro
               <div className="flex flex-col gap-3">
                 {fairnessFlags.map((flag) => (
                   <div key={flag.id} className="flex items-start gap-2">
-                    <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0 text-amber-500" />
+                    <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0 text-amber-500 dark:text-amber-400" />
                     <div>
                       <p className="text-sm font-medium text-foreground">{flag.title}</p>
                       <p className="text-xs text-muted-foreground">{flag.description}</p>

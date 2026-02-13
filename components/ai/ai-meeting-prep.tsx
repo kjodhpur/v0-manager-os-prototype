@@ -44,7 +44,7 @@ export function AiMeetingPrep({ employeeId, previousNotes, actionItems }: AiMeet
 
       <div className="mt-2">
         {error ? (
-          <p className="text-xs text-red-500">Failed to generate. Check your API key.</p>
+          <p className="text-xs text-red-500">Failed to generate. Please try again.</p>
         ) : isLoading && !completion ? (
           <div className="flex flex-col gap-1.5">
             <div className="h-3 w-full animate-pulse rounded bg-muted" />
