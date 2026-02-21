@@ -7,6 +7,7 @@ import { Badge } from "@/components/ui/badge"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 import { teamStats, topAttentionEmployees, actions, fairnessFlags, type Employee } from "@/lib/data"
 import { AiInsightCard } from "@/components/ai/ai-insight-card"
+import { useEffect, useState } from "react"
 
 interface OverviewPageProps {
   onEmployeeClick: (employee: Employee) => void
@@ -93,10 +94,79 @@ export function OverviewPage({ onEmployeeClick, onActionClick }: OverviewPagePro
         return "text-muted-foreground"
     }
   }
+  interface User {
+    id: string;
+    name: string;
+    email: string;
+    mbti?: string | null;
+  }
+
+  const [items, setItems] = useState<User[]|null>(null);
+  const [error, setError] = useState<string|null>(null);
+
+  useEffect(() => {
+  fetch('/api/index')
+    .then(res => res.json())
+    .then(data => {
+      // Ensure data is an array
+      setItems(Array.isArray(data) ? data : []);
+    })
+    .catch(err => setItems([]));
+}, []);
+
+  var myData = {
+    "name": "John Doe",
+    "email": "mathpun2768@gmail.com",
+    "password": "Password123*"
+  }
 
   return (
+    // TODO: This is just temporary UI for testing the API route. It can be removed once the API integration is complete.
     <TooltipProvider>
+      <button onClick={() => {
+        setItems(null);
+        setError(null);
+        fetch('http://localhost:5001/api/signup', {
+          method: "POST", // Specify the method
+          headers: {
+              "Content-Type": "application/json" // Inform the server of the data format
+          },
+          body: JSON.stringify(myData) // Convert the JS object to a JSON string
+        })
+          .then(r => {
+            console.log('Response status:', r.status);
+            return r.json();
+          })
+          .then(data => {
+            console.log('Parsed data:', data);
+            // If data is an object with a users array, extract it. Otherwise use data as-is.
+            setItems(Array.isArray(data) ? data : data.users || []);
+          })
+          .catch(err => {
+            console.error('Fetch error:', err);
+            setError(err.message);
+          });
+      }}>
+        add account
+
+      </button>
       <div className="flex flex-col gap-6">
+        {!items && !error && (
+          <p>Loading…</p>
+        )}
+        {error && (
+          <p className="text-red-600">Error: {error}</p>
+        )}
+        {
+          items && (
+            <ul>
+              {items.map(i => (
+                <li key={i.id}>{i.name} ({i.email})</li>
+              ))}
+            </ul>
+          )
+        }
+
         {/* AI Insight Summary */}
         <AiInsightCard />
 
