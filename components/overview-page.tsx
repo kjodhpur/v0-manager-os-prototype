@@ -94,6 +94,8 @@ export function OverviewPage({ onEmployeeClick, onActionClick }: OverviewPagePro
         return "text-muted-foreground"
     }
   }
+
+  // TODO: This is temporary loading state logic to simulate API calls. It can be replaced with real API integration in the future.
   interface User {
     id: string;
     name: string;
@@ -105,7 +107,7 @@ export function OverviewPage({ onEmployeeClick, onActionClick }: OverviewPagePro
   const [error, setError] = useState<string|null>(null);
 
   useEffect(() => {
-  fetch('/api/index')
+  fetch('http://localhost:5001/api/index')
     .then(res => res.json())
     .then(data => {
       // Ensure data is an array
@@ -166,6 +168,7 @@ export function OverviewPage({ onEmployeeClick, onActionClick }: OverviewPagePro
             </ul>
           )
         }
+
 
         {/* AI Insight Summary */}
         <AiInsightCard />
