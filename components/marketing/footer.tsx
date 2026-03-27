@@ -35,7 +35,7 @@ export function MarketingFooter() {
       <div className="mx-auto max-w-6xl px-4 py-12 lg:px-8">
         <div className="grid gap-8 md:grid-cols-4">
           <div>
-            <HeartMetricsLogo />
+            <HeartMetricsLogo size="lg" />
             <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
               Make work more human with ethical AI. Privacy-first workplace wellbeing analytics.
             </p>
