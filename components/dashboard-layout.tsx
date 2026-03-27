@@ -106,7 +106,11 @@ export function DashboardLayout({
             <HeartMetricsLogo />
           </Link>
           <Link href="/" className="md:hidden">
-            <HeartMetricsLogo showText={false} />
+            <img
+              src="/heartmetrics-logo.jpg"
+              alt="HeartMetrics"
+              className="h-7 w-7 rounded object-contain"
+            />
           </Link>
 
           {/* Multi-Team Selector */}
