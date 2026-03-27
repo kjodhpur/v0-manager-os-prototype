@@ -1,12 +1,50 @@
-export function HeartMetricsLogo({ className = "" }: { className?: string }) {
-  return (
-    <div className={`flex items-center gap-2 ${className}`}>
+export function HeartMetricsLogo({ 
+  className = "",
+  variant = "horizontal", // "horizontal" | "icon" | "dark"
+  size = "default" // "default" | "sm" | "lg"
+}: { 
+  className?: string; 
+  variant?: "horizontal" | "icon" | "dark";
+  size?: "default" | "sm" | "lg";
+}) {
+  const sizeMap = {
+    sm: "h-6",
+    default: "h-8",
+    lg: "h-10"
+  };
+
+  const logoSrc = {
+    horizontal: "/hm-logo-horizontal.png",
+    icon: "/hm-logo-icon.png",
+    dark: "/hm-logo-dark.png"
+  }[variant];
+
+  if (variant === "icon") {
+    return (
       <img
-        src="/heartmetrics-logo.jpg"
-        alt="HeartMetrics Logo"
-        className="h-8 w-8 rounded object-contain"
+        src={logoSrc}
+        alt="HeartMetrics"
+        className={`${sizeMap[size]} w-auto ${className}`}
       />
-      <span className="text-xl font-semibold text-primary">HeartMetrics</span>
-    </div>
-  )
+    );
+  }
+
+  if (variant === "dark") {
+    return (
+      <img
+        src={logoSrc}
+        alt="HeartMetrics"
+        className={`${sizeMap[size]} w-auto ${className}`}
+      />
+    );
+  }
+
+  // horizontal variant (default)
+  return (
+    <img
+      src={logoSrc}
+      alt="HeartMetrics"
+      className={`${sizeMap[size]} w-auto ${className}`}
+    />
+  );
 }
