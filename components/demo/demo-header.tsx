@@ -3,7 +3,7 @@
 import { cn } from "@/lib/utils";
 import { Search, Bell, Sparkles } from "lucide-react";
 import { navTabs } from "@/app/demo/data";
-import { HeartMetricsLogo } from "@/components/heart-metrics-logo";
+import { DemoLogo } from "@/components/demo/demo-logo";
 
 interface DemoHeaderProps {
   activeTab: string;
@@ -15,7 +15,7 @@ export function DemoHeader({ activeTab, onTabChange, notificationCount = 2 }: De
   return (
     <header className="flex items-center justify-between border-b border-gray-100 bg-white/80 px-6 py-3 backdrop-blur-sm">
       {/* Left: Logo */}
-      <HeartMetricsLogo className="w-auto" showText={true} />
+      <DemoLogo />
 
       {/* Center: Navigation tabs */}
       <nav className="flex items-center gap-1">
