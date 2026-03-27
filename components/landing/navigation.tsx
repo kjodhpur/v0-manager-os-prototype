@@ -49,9 +49,9 @@ export function Navigation() {
           {/* Logo */}
           <Link href="/" className="flex items-center self-center gap-2 group shrink-0">
             {/* Desktop: wide explicit-width render so artwork fills space */}
-            <HeartMetricsLogo size="xl" className="hidden sm:block" />
+            <HeartMetricsLogo size="xl" className="hidden sm:block translate-y-0.5" />
             {/* Mobile: height-only so it stays compact */}
-            <HeartMetricsLogo size="lg" className="sm:hidden" />
+            <HeartMetricsLogo size="lg" className="sm:hidden translate-y-0.5" />
           </Link>
 
           {/* Desktop Navigation */}
