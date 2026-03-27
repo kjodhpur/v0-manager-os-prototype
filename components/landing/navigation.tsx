@@ -48,7 +48,7 @@ export function Navigation() {
         >
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2 group">
-            <HeartMetricsLogo />
+            <HeartMetricsLogo size="lg" />
           </Link>
 
           {/* Desktop Navigation */}

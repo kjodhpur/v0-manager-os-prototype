@@ -1,16 +1,17 @@
 export function HeartMetricsLogo({ 
   className = "",
   variant = "horizontal", // "horizontal" | "icon" | "dark"
-  size = "default" // "default" | "sm" | "lg"
+  size = "default" // "sm" | "default" | "lg" | "xl"
 }: { 
   className?: string; 
   variant?: "horizontal" | "icon" | "dark";
-  size?: "default" | "sm" | "lg";
+  size?: "sm" | "default" | "lg" | "xl";
 }) {
   const sizeMap = {
     sm: "h-6",
-    default: "h-8",
-    lg: "h-10"
+    default: "h-10",
+    lg: "h-12",
+    xl: "h-16"
   };
 
   const logoSrc = {
