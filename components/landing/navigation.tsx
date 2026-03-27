@@ -47,7 +47,7 @@ export function Navigation() {
           }`}
         >
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-2 group">
+          <Link href="/" className="flex items-center gap-2 group hover:opacity-80 transition-opacity">
             <HeartMetricsLogo />
           </Link>
 

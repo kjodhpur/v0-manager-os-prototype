@@ -15,7 +15,7 @@ export function DemoHeader({ activeTab, onTabChange, notificationCount = 2 }: De
   return (
     <header className="flex items-center justify-between border-b border-gray-100 bg-white/80 px-6 py-3 backdrop-blur-sm">
       {/* Left: Logo */}
-      <HeartMetricsLogo className="w-auto" showText={false} />
+      <HeartMetricsLogo className="w-auto" showText={true} />
 
       {/* Center: Navigation tabs */}
       <nav className="flex items-center gap-1">
