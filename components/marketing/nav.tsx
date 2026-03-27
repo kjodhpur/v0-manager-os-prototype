@@ -20,7 +20,7 @@ export function MarketingNav() {
   return (
     <header className="sticky top-0 z-50 border-b border-border bg-card/95 backdrop-blur supports-[backdrop-filter]:bg-card/80">
       <nav className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 lg:px-8">
-        <Link href="/" className="flex items-center gap-2">
+        <Link href="/" className="flex items-center self-center gap-2">
           <HeartMetricsLogo size="lg" />
         </Link>
 
