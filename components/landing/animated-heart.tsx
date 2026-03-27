@@ -1,14 +1,14 @@
 "use client";
 
-import { useEffect, useRef, useMemo } from "react";
+import { useEffect, useRef, useMemo, useState } from "react";
 
-// Pre-generate stable particles to avoid flickering
+// Pre-generate stable particles with more spacing (fewer particles)
 function generateHeartParticles() {
   const particles: { t: number; layer: number; fill: number }[] = [];
   
-  // Generate particles in layers for 3D depth
-  const layers = 8;
-  const particlesPerLayer = 120;
+  // Fewer layers and particles for more spread out, airy look
+  const layers = 5;
+  const particlesPerLayer = 40;
   
   for (let layer = 0; layer < layers; layer++) {
     for (let i = 0; i < particlesPerLayer; i++) {
@@ -22,15 +22,15 @@ function generateHeartParticles() {
   return particles;
 }
 
-// Pre-generate outline particles
+// Pre-generate outline particles with more spacing
 function generateOutlineParticles() {
   const outline: { t: number; offset: number }[] = [];
-  const count = 80;
+  const count = 36; // Reduced from 80 for more spacing
   
   for (let i = 0; i < count; i++) {
     outline.push({
       t: (i / count) * Math.PI * 2,
-      offset: i * 0.1,
+      offset: i * 0.15,
     });
   }
   
@@ -40,6 +40,8 @@ function generateOutlineParticles() {
 export function AnimatedHeart() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const frameRef = useRef(0);
+  const mouseRef = useRef({ x: 0.5, y: 0.5 }); // Normalized 0-1 position
+  const targetMouseRef = useRef({ x: 0.5, y: 0.5 });
   
   // Pre-compute particles once
   const heartParticles = useMemo(() => generateHeartParticles(), []);
@@ -65,6 +67,30 @@ export function AnimatedHeart() {
     resize();
     window.addEventListener("resize", resize);
 
+    // Mouse move handler for interactivity
+    const handleMouseMove = (e: MouseEvent) => {
+      const rect = canvas.getBoundingClientRect();
+      targetMouseRef.current = {
+        x: (e.clientX - rect.left) / rect.width,
+        y: (e.clientY - rect.top) / rect.height,
+      };
+    };
+
+    // Also track mouse on document level for smoother response
+    const handleDocumentMouseMove = (e: MouseEvent) => {
+      const rect = canvas.getBoundingClientRect();
+      const x = (e.clientX - rect.left) / rect.width;
+      const y = (e.clientY - rect.top) / rect.height;
+      // Clamp to reasonable range even when outside
+      targetMouseRef.current = {
+        x: Math.max(-0.5, Math.min(1.5, x)),
+        y: Math.max(-0.5, Math.min(1.5, y)),
+      };
+    };
+
+    canvas.addEventListener("mousemove", handleMouseMove);
+    document.addEventListener("mousemove", handleDocumentMouseMove);
+
     // Heart parametric function (classic heart curve)
     const heartX = (t: number) => 16 * Math.pow(Math.sin(t), 3);
     const heartY = (t: number) => 
@@ -74,37 +100,49 @@ export function AnimatedHeart() {
       const rect = canvas.getBoundingClientRect();
       ctx.clearRect(0, 0, rect.width, rect.height);
 
+      // Smooth mouse interpolation for fluid interaction
+      const lerp = 0.08;
+      mouseRef.current.x += (targetMouseRef.current.x - mouseRef.current.x) * lerp;
+      mouseRef.current.y += (targetMouseRef.current.y - mouseRef.current.y) * lerp;
+
       const centerX = rect.width / 2;
       const centerY = rect.height / 2;
-      const baseScale = Math.min(rect.width, rect.height) * 0.02;
+      const baseScale = Math.min(rect.width, rect.height) * 0.022;
       
-      // Gentle pulsing heartbeat effect
-      const pulse = 1 + Math.sin(time * 2.5) * 0.04;
+      // Very subtle pulse - reduced from 0.04 to 0.015
+      const pulse = 1 + Math.sin(time * 1.8) * 0.015;
       const scale = baseScale * pulse;
 
-      // Slow, smooth 3D rotation
-      const rotY = Math.sin(time * 0.4) * 0.3;
-      const rotX = Math.sin(time * 0.3) * 0.1;
+      // Mouse-controlled rotation with smooth damping
+      const mouseOffsetX = (mouseRef.current.x - 0.5) * 2; // -1 to 1
+      const mouseOffsetY = (mouseRef.current.y - 0.5) * 2; // -1 to 1
+      
+      // Combine subtle time-based rotation with mouse control
+      const baseRotY = Math.sin(time * 0.25) * 0.15;
+      const baseRotX = Math.sin(time * 0.2) * 0.08;
+      
+      const rotY = baseRotY + mouseOffsetX * 0.4;
+      const rotX = baseRotX + mouseOffsetY * 0.25;
 
       // Collect all points for depth sorting
       const points: { x: number; y: number; z: number; size: number; alpha: number }[] = [];
 
-      // Render pre-generated heart particles
+      // Render pre-generated heart particles with more spacing
       heartParticles.forEach((particle) => {
-        const zOffset = (particle.layer / 8 - 0.5) * 5;
-        const layerScale = 1 - Math.abs(zOffset) * 0.06;
+        const zOffset = (particle.layer / 5 - 0.5) * 6; // Adjusted for 5 layers
+        const layerScale = 1 - Math.abs(zOffset) * 0.04;
 
         // Get base heart point
         let hx = heartX(particle.t) * layerScale;
         let hy = heartY(particle.t) * layerScale;
         let hz = zOffset;
 
-        // Apply fill scaling for interior points
-        if (particle.fill < 0.75) {
-          const innerScale = 0.15 + particle.fill * 0.85;
+        // Apply fill scaling for interior points (more spread out)
+        if (particle.fill < 0.65) {
+          const innerScale = 0.2 + particle.fill * 0.8;
           hx *= innerScale;
           hy *= innerScale;
-          hz += (particle.fill - 0.5) * 2;
+          hz += (particle.fill - 0.5) * 2.5;
         }
 
         // Apply 3D rotations
@@ -127,25 +165,25 @@ export function AnimatedHeart() {
 
         // Calculate appearance based on depth
         const normalizedZ = (z2 + 4) / 8;
-        const alpha = 0.2 + normalizedZ * 0.5;
-        const size = 1.5 + normalizedZ * 2.5;
+        const alpha = 0.25 + normalizedZ * 0.45;
+        const size = 2 + normalizedZ * 3; // Slightly larger particles for visibility
 
         points.push({
           x: screenX,
           y: screenY,
           z: z2,
           size,
-          alpha: Math.min(alpha, 0.75),
+          alpha: Math.min(alpha, 0.7),
         });
       });
 
-      // Render flowing outline particles
+      // Render flowing outline particles (more spaced out)
       outlineParticles.forEach((particle) => {
-        const flowT = (particle.t + time * 0.8) % (Math.PI * 2);
-        const waveZ = Math.sin(time * 2 + particle.offset) * 2.5;
+        const flowT = (particle.t + time * 0.5) % (Math.PI * 2); // Slower flow
+        const waveZ = Math.sin(time * 1.5 + particle.offset) * 2;
 
-        let hx = heartX(flowT) * 1.08;
-        let hy = heartY(flowT) * 1.08;
+        let hx = heartX(flowT) * 1.12; // Slightly larger outline
+        let hy = heartY(flowT) * 1.12;
         let hz = waveZ;
 
         // Apply rotations
@@ -163,13 +201,13 @@ export function AnimatedHeart() {
         const screenX = centerX + x2 * scale * projScale;
         const screenY = centerY + y2 * scale * projScale;
 
-        const alpha = 0.25 + Math.sin(time * 2 + particle.offset * 0.5) * 0.1;
+        const alpha = 0.3 + Math.sin(time * 1.5 + particle.offset * 0.3) * 0.08;
 
         points.push({
           x: screenX,
           y: screenY,
           z: z2,
-          size: 2,
+          size: 2.5,
           alpha,
         });
       });
@@ -185,19 +223,19 @@ export function AnimatedHeart() {
         ctx.fill();
       });
 
-      // Add center glow
+      // Add subtle center glow
       const glowGradient = ctx.createRadialGradient(
         centerX, centerY, 0,
-        centerX, centerY, scale * 14
+        centerX, centerY, scale * 16
       );
-      glowGradient.addColorStop(0, "rgba(12, 44, 85, 0.06)");
-      glowGradient.addColorStop(0.6, "rgba(12, 44, 85, 0.02)");
+      glowGradient.addColorStop(0, "rgba(12, 44, 85, 0.04)");
+      glowGradient.addColorStop(0.5, "rgba(12, 44, 85, 0.015)");
       glowGradient.addColorStop(1, "rgba(12, 44, 85, 0)");
       
       ctx.fillStyle = glowGradient;
       ctx.fillRect(0, 0, rect.width, rect.height);
 
-      time += 0.012;
+      time += 0.01;
       frameRef.current = requestAnimationFrame(render);
     };
 
@@ -205,6 +243,8 @@ export function AnimatedHeart() {
 
     return () => {
       window.removeEventListener("resize", resize);
+      canvas.removeEventListener("mousemove", handleMouseMove);
+      document.removeEventListener("mousemove", handleDocumentMouseMove);
       cancelAnimationFrame(frameRef.current);
     };
   }, [heartParticles, outlineParticles]);
@@ -213,7 +253,7 @@ export function AnimatedHeart() {
     <canvas
       ref={canvasRef}
       className="w-full h-full"
-      style={{ display: "block" }}
+      style={{ display: "block", cursor: "default" }}
       aria-hidden="true"
     />
   );
