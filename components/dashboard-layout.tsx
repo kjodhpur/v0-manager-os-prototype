@@ -101,12 +101,13 @@ export function DashboardLayout({
             {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
           </button>
 
-          {/* Logo */}
-          <Link href="/" className="hidden md:block">
+          {/* Logo — desktop uses xl (md:w-56) for clear visibility */}
+          <Link href="/" className="hidden md:block shrink-0">
             <HeartMetricsLogo size="xl" />
           </Link>
-          <Link href="/" className="md:hidden">
-            <HeartMetricsLogo variant="icon" size="xl" />
+          {/* Mobile icon-only at compact height */}
+          <Link href="/" className="md:hidden shrink-0">
+            <HeartMetricsLogo variant="icon" size="lg" />
           </Link>
 
           {/* Multi-Team Selector */}

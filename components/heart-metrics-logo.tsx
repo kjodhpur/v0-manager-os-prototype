@@ -7,11 +7,13 @@ export function HeartMetricsLogo({
   variant?: "horizontal" | "icon" | "dark";
   size?: "sm" | "default" | "lg" | "xl";
 }) {
+  // The horizontal PNG has significant whitespace so we use explicit widths
+  // on desktop to ensure the artwork itself is visually prominent.
   const sizeMap = {
-    sm: "h-7",
-    default: "h-10",
-    lg: "h-14",
-    xl: "h-20"
+    sm:      "h-7 md:h-8",
+    default: "h-9 md:h-11",
+    lg:      "h-10 md:h-14",
+    xl:      "h-12 md:w-56 md:h-auto",
   };
 
   const logoSrc = {
