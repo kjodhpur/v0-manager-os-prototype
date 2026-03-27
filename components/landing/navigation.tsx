@@ -7,10 +7,11 @@ import { Menu, X } from "lucide-react";
 import { HeartMetricsLogo } from "@/components/heart-metrics-logo";
 
 const navLinks = [
-  { name: "Features", href: "#features" },
-  { name: "How it works", href: "#how-it-works" },
-  { name: "Security", href: "#security" },
-  { name: "FAQ", href: "#faq" },
+  { name: "Features", href: "/#features" },
+  { name: "How it works", href: "/#how-it-works" },
+  { name: "How We Calculate", href: "/how-we-calculate" },
+  { name: "Security", href: "/#security" },
+  { name: "FAQ", href: "/#faq" },
 ];
 
 export function Navigation() {

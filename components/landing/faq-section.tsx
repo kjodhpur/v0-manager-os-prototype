@@ -1,7 +1,8 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, ArrowRight } from "lucide-react";
+import Link from "next/link";
 
 const faqs = [
   {
@@ -18,7 +19,8 @@ const faqs = [
   },
   {
     q: "How are scores calculated?",
-    a: "Every score is explainable. The Work Happiness Index combines signals like workload, blocked items, meeting load, recognition frequency, and growth opportunities. You can always click 'why this score' to see the breakdown.",
+    a: "Every score is explainable. The Work Wellbeing Index is built on the U.S. Surgeon General's five essentials for workplace well-being: Protection from Harm, Work-Life Harmony, Connection & Community, Mattering at Work, and Opportunity for Growth. Learn more on our methodology page.",
+    link: "/how-we-calculate",
   },
   {
     q: "What about privacy?",
@@ -68,6 +70,15 @@ function FAQItem({ faq, index, isOpen, onToggle }: {
       >
         <div ref={contentRef} className="pb-6 pl-10">
           <p className="text-muted-foreground leading-relaxed max-w-3xl">{faq.a}</p>
+          {faq.link && (
+            <Link 
+              href={faq.link} 
+              className="inline-flex items-center gap-2 mt-3 text-sm text-primary hover:underline font-medium"
+            >
+              Learn more about our methodology
+              <ArrowRight className="w-4 h-4" />
+            </Link>
+          )}
         </div>
       </div>
     </div>
