@@ -5,7 +5,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ArrowRight, ShieldCheck } from "lucide-react";
-import { AnimatedSphere } from "./animated-sphere";
+import { AnimatedHeart } from "./animated-heart";
 
 const words = ["fairer", "healthier", "happier", "balanced"];
 
@@ -26,9 +26,9 @@ export function HeroSection() {
 
   return (
     <section className="relative min-h-screen flex flex-col justify-center overflow-hidden">
-      {/* Animated sphere background */}
-      <div className="absolute right-0 top-1/2 -translate-y-1/2 w-[600px] h-[600px] lg:w-[800px] lg:h-[800px] opacity-30 pointer-events-none">
-        <AnimatedSphere />
+      {/* Animated heart background */}
+      <div className="absolute right-0 top-1/2 -translate-y-1/2 w-[600px] h-[600px] lg:w-[800px] lg:h-[800px] opacity-40 pointer-events-none">
+        <AnimatedHeart />
       </div>
       
       {/* Subtle grid lines */}
