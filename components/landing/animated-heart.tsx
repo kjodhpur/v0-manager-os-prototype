@@ -1,10 +1,49 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useMemo } from "react";
+
+// Pre-generate stable particles to avoid flickering
+function generateHeartParticles() {
+  const particles: { t: number; layer: number; fill: number }[] = [];
+  
+  // Generate particles in layers for 3D depth
+  const layers = 8;
+  const particlesPerLayer = 120;
+  
+  for (let layer = 0; layer < layers; layer++) {
+    for (let i = 0; i < particlesPerLayer; i++) {
+      const t = (i / particlesPerLayer) * Math.PI * 2;
+      // Deterministic fill value based on index
+      const fill = ((layer * particlesPerLayer + i) * 0.618) % 1;
+      particles.push({ t, layer, fill });
+    }
+  }
+  
+  return particles;
+}
+
+// Pre-generate outline particles
+function generateOutlineParticles() {
+  const outline: { t: number; offset: number }[] = [];
+  const count = 80;
+  
+  for (let i = 0; i < count; i++) {
+    outline.push({
+      t: (i / count) * Math.PI * 2,
+      offset: i * 0.1,
+    });
+  }
+  
+  return outline;
+}
 
 export function AnimatedHeart() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const frameRef = useRef(0);
+  
+  // Pre-compute particles once
+  const heartParticles = useMemo(() => generateHeartParticles(), []);
+  const outlineParticles = useMemo(() => generateOutlineParticles(), []);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -37,148 +76,128 @@ export function AnimatedHeart() {
 
       const centerX = rect.width / 2;
       const centerY = rect.height / 2;
-      const baseScale = Math.min(rect.width, rect.height) * 0.018;
+      const baseScale = Math.min(rect.width, rect.height) * 0.02;
       
-      // Gentle pulsing heartbeat
-      const pulse = 1 + Math.sin(time * 2) * 0.03;
+      // Gentle pulsing heartbeat effect
+      const pulse = 1 + Math.sin(time * 2.5) * 0.04;
       const scale = baseScale * pulse;
 
-      // Collect all points for rendering
+      // Slow, smooth 3D rotation
+      const rotY = Math.sin(time * 0.4) * 0.3;
+      const rotX = Math.sin(time * 0.3) * 0.1;
+
+      // Collect all points for depth sorting
       const points: { x: number; y: number; z: number; size: number; alpha: number }[] = [];
 
-      // 3D rotation angles (gentle sway)
-      const rotY = Math.sin(time * 0.3) * 0.4;
-      const rotX = Math.sin(time * 0.2) * 0.15;
-      const rotZ = Math.sin(time * 0.25) * 0.1;
+      // Render pre-generated heart particles
+      heartParticles.forEach((particle) => {
+        const zOffset = (particle.layer / 8 - 0.5) * 5;
+        const layerScale = 1 - Math.abs(zOffset) * 0.06;
 
-      // Create filled heart with particles
-      const layers = 12;
-      for (let layer = 0; layer < layers; layer++) {
-        const zOffset = (layer / layers - 0.5) * 4; // z from -2 to 2
-        const layerScale = 1 - Math.abs(zOffset) * 0.08; // Slightly smaller at edges
+        // Get base heart point
+        let hx = heartX(particle.t) * layerScale;
+        let hy = heartY(particle.t) * layerScale;
+        let hz = zOffset;
 
-        const particlesPerLayer = Math.floor(80 - Math.abs(zOffset) * 10);
-        
-        for (let i = 0; i < particlesPerLayer; i++) {
-          const t = (i / particlesPerLayer) * Math.PI * 2;
-          
-          // Get heart outline point
-          let hx = heartX(t) * layerScale;
-          let hy = heartY(t) * layerScale;
-          let hz = zOffset;
-
-          // Add some interior fill
-          const fillRadius = Math.random();
-          if (fillRadius < 0.7) {
-            const innerScale = 0.1 + fillRadius * 0.9;
-            hx *= innerScale;
-            hy *= innerScale;
-            hz += (Math.random() - 0.5) * 1.5;
-          }
-
-          // Apply 3D rotations
-          // Rotate around Z
-          let x1 = hx * Math.cos(rotZ) - hy * Math.sin(rotZ);
-          let y1 = hx * Math.sin(rotZ) + hy * Math.cos(rotZ);
-          let z1 = hz;
-
-          // Rotate around Y
-          let x2 = x1 * Math.cos(rotY) - z1 * Math.sin(rotY);
-          let z2 = x1 * Math.sin(rotY) + z1 * Math.cos(rotY);
-          let y2 = y1;
-
-          // Rotate around X
-          let y3 = y2 * Math.cos(rotX) - z2 * Math.sin(rotX);
-          let z3 = y2 * Math.sin(rotX) + z2 * Math.cos(rotX);
-          let x3 = x2;
-
-          // Perspective projection
-          const perspective = 1000;
-          const projScale = perspective / (perspective + z3 * 20);
-
-          const screenX = centerX + x3 * scale * projScale;
-          const screenY = centerY + y3 * scale * projScale;
-
-          // Calculate alpha based on depth and position
-          const normalizedZ = (z3 + 3) / 6;
-          const alpha = 0.15 + normalizedZ * 0.6;
-          const size = 2 + normalizedZ * 3;
-
-          points.push({
-            x: screenX,
-            y: screenY,
-            z: z3,
-            size,
-            alpha: Math.min(alpha, 0.85),
-          });
+        // Apply fill scaling for interior points
+        if (particle.fill < 0.75) {
+          const innerScale = 0.15 + particle.fill * 0.85;
+          hx *= innerScale;
+          hy *= innerScale;
+          hz += (particle.fill - 0.5) * 2;
         }
-      }
 
-      // Add flowing particle streams around the heart
-      const numStreams = 60;
-      for (let i = 0; i < numStreams; i++) {
-        const streamTime = time * 1.5 + (i / numStreams) * Math.PI * 2;
-        const t = streamTime % (Math.PI * 2);
-        
-        let hx = heartX(t) * 1.15;
-        let hy = heartY(t) * 1.15;
-        let hz = Math.sin(streamTime * 2) * 3;
+        // Apply 3D rotations
+        // Rotate around Y axis
+        const x1 = hx * Math.cos(rotY) - hz * Math.sin(rotY);
+        const z1 = hx * Math.sin(rotY) + hz * Math.cos(rotY);
+        const y1 = hy;
 
-        // Apply rotations
-        let x1 = hx * Math.cos(rotZ) - hy * Math.sin(rotZ);
-        let y1 = hx * Math.sin(rotZ) + hy * Math.cos(rotZ);
-        let z1 = hz;
+        // Rotate around X axis
+        const y2 = y1 * Math.cos(rotX) - z1 * Math.sin(rotX);
+        const z2 = y1 * Math.sin(rotX) + z1 * Math.cos(rotX);
+        const x2 = x1;
 
-        let x2 = x1 * Math.cos(rotY) - z1 * Math.sin(rotY);
-        let z2 = x1 * Math.sin(rotY) + z1 * Math.cos(rotY);
-        let y2 = y1;
+        // Perspective projection
+        const perspective = 800;
+        const projScale = perspective / (perspective + z2 * 15);
 
-        let y3 = y2 * Math.cos(rotX) - z2 * Math.sin(rotX);
-        let z3 = y2 * Math.sin(rotX) + z2 * Math.cos(rotX);
-        let x3 = x2;
+        const screenX = centerX + x2 * scale * projScale;
+        const screenY = centerY + y2 * scale * projScale;
 
-        const perspective = 1000;
-        const projScale = perspective / (perspective + z3 * 20);
-
-        const screenX = centerX + x3 * scale * projScale;
-        const screenY = centerY + y3 * scale * projScale;
-
-        const alpha = 0.2 + Math.sin(streamTime * 3) * 0.15;
+        // Calculate appearance based on depth
+        const normalizedZ = (z2 + 4) / 8;
+        const alpha = 0.2 + normalizedZ * 0.5;
+        const size = 1.5 + normalizedZ * 2.5;
 
         points.push({
           x: screenX,
           y: screenY,
-          z: z3,
-          size: 1.5 + Math.sin(streamTime * 4) * 0.5,
+          z: z2,
+          size,
+          alpha: Math.min(alpha, 0.75),
+        });
+      });
+
+      // Render flowing outline particles
+      outlineParticles.forEach((particle) => {
+        const flowT = (particle.t + time * 0.8) % (Math.PI * 2);
+        const waveZ = Math.sin(time * 2 + particle.offset) * 2.5;
+
+        let hx = heartX(flowT) * 1.08;
+        let hy = heartY(flowT) * 1.08;
+        let hz = waveZ;
+
+        // Apply rotations
+        const x1 = hx * Math.cos(rotY) - hz * Math.sin(rotY);
+        const z1 = hx * Math.sin(rotY) + hz * Math.cos(rotY);
+        const y1 = hy;
+
+        const y2 = y1 * Math.cos(rotX) - z1 * Math.sin(rotX);
+        const z2 = y1 * Math.sin(rotX) + z1 * Math.cos(rotX);
+        const x2 = x1;
+
+        const perspective = 800;
+        const projScale = perspective / (perspective + z2 * 15);
+
+        const screenX = centerX + x2 * scale * projScale;
+        const screenY = centerY + y2 * scale * projScale;
+
+        const alpha = 0.25 + Math.sin(time * 2 + particle.offset * 0.5) * 0.1;
+
+        points.push({
+          x: screenX,
+          y: screenY,
+          z: z2,
+          size: 2,
           alpha,
         });
-      }
+      });
 
       // Sort by z for proper depth ordering (back to front)
       points.sort((a, b) => a.z - b.z);
 
-      // Draw all points
+      // Draw all points with HeartMetrics brand color
       points.forEach((point) => {
-        // HeartMetrics brand color: deep navy #0C2C55
         ctx.beginPath();
         ctx.arc(point.x, point.y, point.size, 0, Math.PI * 2);
         ctx.fillStyle = `rgba(12, 44, 85, ${point.alpha})`;
         ctx.fill();
       });
 
-      // Add subtle glow effect in center
+      // Add center glow
       const glowGradient = ctx.createRadialGradient(
         centerX, centerY, 0,
-        centerX, centerY, scale * 15
+        centerX, centerY, scale * 14
       );
-      glowGradient.addColorStop(0, "rgba(12, 44, 85, 0.08)");
-      glowGradient.addColorStop(0.5, "rgba(12, 44, 85, 0.03)");
+      glowGradient.addColorStop(0, "rgba(12, 44, 85, 0.06)");
+      glowGradient.addColorStop(0.6, "rgba(12, 44, 85, 0.02)");
       glowGradient.addColorStop(1, "rgba(12, 44, 85, 0)");
       
       ctx.fillStyle = glowGradient;
       ctx.fillRect(0, 0, rect.width, rect.height);
 
-      time += 0.015;
+      time += 0.012;
       frameRef.current = requestAnimationFrame(render);
     };
 
@@ -188,7 +207,7 @@ export function AnimatedHeart() {
       window.removeEventListener("resize", resize);
       cancelAnimationFrame(frameRef.current);
     };
-  }, []);
+  }, [heartParticles, outlineParticles]);
 
   return (
     <canvas
