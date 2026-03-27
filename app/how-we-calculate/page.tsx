@@ -718,7 +718,7 @@ function DualSignalSection() {
   const passiveSignals = [
     { type: "Task load & velocity", source: "Jira, Asana, Linear", reads: "Active tickets, story points, WIP count, time-in-status" },
     { type: "Meeting burden", source: "Google Calendar, Outlook", reads: "Meeting count/day, duration, after-hours meetings" },
-    { type: "Blocked work", source: "Jira, Asana", reads: 'Items in "blocked" status, blocker duration, dependency chains' },
+    { type: "Blocked work", source: "Jira, Asana", reads: "Items in blocked status, blocker duration, dependency chains" },
     { type: "Recognition events", source: "Slack, Teams", reads: "Public kudos/shoutouts in designated channels (metadata only)" },
     { type: "Collaboration patterns", source: "Slack, Teams, Calendar", reads: "Communication frequency, cross-team interaction (metadata only)" },
     { type: "Assignment types", source: "Jira, Asana", reads: "Stretch vs. routine work classification, task variety score" },
