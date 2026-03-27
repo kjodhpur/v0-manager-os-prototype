@@ -47,7 +47,7 @@ export function HeartMetricsLogo({
     <img
       src={logoSrc}
       alt="HeartMetrics"
-      className={`${sizeMap[size]} w-auto ${className}`}
+      className={`${sizeMap[size]} w-auto object-contain leading-none ${className}`}
     />
   );
 }

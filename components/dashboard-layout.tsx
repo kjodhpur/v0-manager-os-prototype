@@ -102,11 +102,11 @@ export function DashboardLayout({
           </button>
 
           {/* Logo — desktop uses xl (md:w-56) for clear visibility */}
-          <Link href="/" className="hidden md:block shrink-0">
+          <Link href="/" className="hidden md:block shrink-0 self-center">
             <HeartMetricsLogo size="xl" />
           </Link>
           {/* Mobile icon-only at compact height */}
-          <Link href="/" className="md:hidden shrink-0">
+          <Link href="/" className="md:hidden shrink-0 self-center">
             <HeartMetricsLogo variant="icon" size="lg" />
           </Link>
 
