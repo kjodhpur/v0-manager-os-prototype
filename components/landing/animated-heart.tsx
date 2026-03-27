@@ -81,10 +81,10 @@ export function AnimatedHeart() {
       const rect = canvas.getBoundingClientRect();
       const x = (e.clientX - rect.left) / rect.width;
       const y = (e.clientY - rect.top) / rect.height;
-      // Clamp to reasonable range even when outside
+      // Clamp to 0-1 range to keep rotation moderate and heart visible
       targetMouseRef.current = {
-        x: Math.max(-0.5, Math.min(1.5, x)),
-        y: Math.max(-0.5, Math.min(1.5, y)),
+        x: Math.max(0, Math.min(1, x)),
+        y: Math.max(0, Math.min(1, y)),
       };
     };
 
@@ -113,16 +113,16 @@ export function AnimatedHeart() {
       const pulse = 1 + Math.sin(time * 1.8) * 0.015;
       const scale = baseScale * pulse;
 
-      // Mouse-controlled rotation with smooth damping
+      // Mouse-controlled rotation with smooth damping - reduced sensitivity for stability
       const mouseOffsetX = (mouseRef.current.x - 0.5) * 2; // -1 to 1
       const mouseOffsetY = (mouseRef.current.y - 0.5) * 2; // -1 to 1
       
-      // Combine subtle time-based rotation with mouse control
+      // Combine subtle time-based rotation with mouse control (reduced from 0.4 and 0.25)
       const baseRotY = Math.sin(time * 0.25) * 0.15;
       const baseRotX = Math.sin(time * 0.2) * 0.08;
       
-      const rotY = baseRotY + mouseOffsetX * 0.4;
-      const rotX = baseRotX + mouseOffsetY * 0.25;
+      const rotY = baseRotY + mouseOffsetX * 0.25;
+      const rotX = baseRotX + mouseOffsetY * 0.15;
 
       // Collect all points for depth sorting
       const points: { x: number; y: number; z: number; size: number; alpha: number }[] = [];
