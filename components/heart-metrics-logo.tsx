@@ -8,10 +8,10 @@ export function HeartMetricsLogo({
   size?: "sm" | "default" | "lg" | "xl";
 }) {
   const sizeMap = {
-    sm: "h-6",
+    sm: "h-7",
     default: "h-10",
-    lg: "h-12",
-    xl: "h-16"
+    lg: "h-14",
+    xl: "h-20"
   };
 
   const logoSrc = {

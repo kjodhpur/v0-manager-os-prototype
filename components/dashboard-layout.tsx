@@ -103,10 +103,10 @@ export function DashboardLayout({
 
           {/* Logo */}
           <Link href="/" className="hidden md:block">
-            <HeartMetricsLogo size="lg" />
+            <HeartMetricsLogo size="xl" />
           </Link>
           <Link href="/" className="md:hidden">
-            <HeartMetricsLogo variant="icon" size="lg" />
+            <HeartMetricsLogo variant="icon" size="xl" />
           </Link>
 
           {/* Multi-Team Selector */}
