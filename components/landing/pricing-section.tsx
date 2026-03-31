@@ -7,51 +7,49 @@ import { Button } from "@/components/ui/button";
 const pricingTiers = [
   {
     name: "Starter",
-    description: "Perfect for small teams exploring employee wellbeing",
+    description: "Land with one team",
     price: "$299",
-    period: "/month",
+    period: "/manager/month",
+    managers: "Up to 15 managers",
+    arr: "~$27K ARR/customer",
     features: [
-      "Up to 25 team members",
-      "Core wellbeing metrics",
-      "Basic dashboard",
-      "Email support",
-      "Weekly digest reports",
+      "WWI dashboard",
+      "Workload visibility",
+      "Basic AI coaching nudges",
+      "Up to 3 integrations",
     ],
+    addon: "+One-time onboarding ($2,500-$5,000) · Premium integrations add-on ($499/mo)",
     highlighted: false,
-    cta: "Start Free Trial",
+    cta: "Get Started",
   },
   {
-    name: "Professional",
-    description: "For growing teams needing advanced insights",
-    price: "$799",
-    period: "/month",
+    name: "Scale",
+    description: "Expand company-wide",
+    price: "$199",
+    period: "/manager/month",
+    managers: "15-50 managers",
+    arr: "~$60-120K ARR/customer",
     features: [
-      "Up to 250 team members",
-      "Advanced AI insights & patterns",
-      "Custom dashboards",
-      "Priority email & chat support",
-      "Real-time alerts for at-risk members",
-      "Team segmentation & analytics",
-      "Manager coaching recommendations",
-      "SSO & SAML integration",
+      "Everything in Starter",
+      "Manager Fairness Score",
+      "Recognition gap detection",
+      "Unlimited integrations",
     ],
     highlighted: true,
     cta: "Get Started",
   },
   {
     name: "Enterprise",
-    description: "For large organizations with custom needs",
+    description: "Retain through embedded work data",
     price: "Custom",
     period: "pricing",
+    managers: "50+ managers",
+    arr: "Negotiated multi-year",
     features: [
-      "Unlimited team members",
-      "White-label solutions",
-      "Advanced compliance & audit logs",
-      "Dedicated account manager",
-      "Custom API integrations",
-      "Advanced reporting & exports",
-      "On-premises deployment option",
-      "SLA guarantees",
+      "Everything in Scale",
+      "Empathy & safety signals",
+      "Executive dashboards",
+      "Dedicated CSM + SLA",
     ],
     highlighted: false,
     cta: "Contact Sales",
@@ -99,13 +97,16 @@ export function PricingSection() {
           transition={{ duration: 0.6 }}
           viewport={{ once: true }}
         >
+          <p className="text-sm font-semibold text-primary/70 uppercase tracking-widest mb-4">
+            Revenue Model
+          </p>
           <h2 className="text-4xl lg:text-5xl font-display font-bold mb-4">
-            Simple, Transparent
+            SaaS Subscription
             <br />
-            <span className="text-gradient">Pricing Plans</span>
+            <span className="text-gradient">Per Manager Seat</span>
           </h2>
           <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-            Start free, scale as you grow. All plans include core analytics and AI-powered insights.
+            Land with one team · Expand company-wide · Retain through embedded work data
           </p>
         </motion.div>
 
@@ -166,7 +167,7 @@ export function PricingSection() {
 
                 {/* Price */}
                 <div className="mb-8">
-                  <div className="flex items-baseline gap-1">
+                  <div className="flex items-baseline gap-1 mb-3">
                     <span className="text-4xl font-display font-bold">
                       {tier.price}
                     </span>
@@ -174,6 +175,19 @@ export function PricingSection() {
                       {tier.period}
                     </span>
                   </div>
+                  <div className="space-y-2 mb-4">
+                    <p className="text-sm text-muted-foreground">
+                      {tier.managers}
+                    </p>
+                    <p className="text-xs text-muted-foreground/70">
+                      {tier.arr}
+                    </p>
+                  </div>
+                  {tier.addon && (
+                    <p className="text-xs text-muted-foreground/60 pb-4 border-b border-border/30">
+                      {tier.addon}
+                    </p>
+                  )}
                 </div>
 
                 {/* CTA Button */}
