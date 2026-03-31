@@ -5,17 +5,36 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ArrowRight, ShieldCheck } from "lucide-react";
+import { motion } from "framer-motion";
 import { AnimatedHeart } from "./animated-heart";
 
 const words = ["fairer", "healthier", "happier", "balanced"];
 
-export function HeroSection() {
-  const [isVisible, setIsVisible] = useState(false);
-  const [wordIndex, setWordIndex] = useState(0);
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.12,
+      delayChildren: 0.2,
+    },
+  },
+};
 
-  useEffect(() => {
-    setIsVisible(true);
-  }, []);
+const itemVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.8,
+      ease: [0.34, 1.56, 0.64, 1],
+    },
+  },
+};
+
+export function HeroSection() {
+  const [wordIndex, setWordIndex] = useState(0);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -25,7 +44,7 @@ export function HeroSection() {
   }, []);
 
   return (
-    <section className="relative min-h-screen flex flex-col justify-center overflow-hidden">
+    <section className="relative min-h-screen flex flex-col justify-center overflow-hidden pt-14">
       {/* Animated heart background */}
       <div className="absolute right-0 top-1/2 -translate-y-1/2 w-[600px] h-[600px] lg:w-[800px] lg:h-[800px] opacity-40 pointer-events-none">
         <AnimatedHeart />
@@ -57,26 +76,23 @@ export function HeroSection() {
         ))}
       </div>
       
-      <div className="relative z-10 max-w-[1400px] mx-auto px-6 lg:px-12 py-32 lg:py-40">
+      <motion.div
+        className="relative z-10 max-w-[1400px] mx-auto px-6 lg:px-12 py-32 lg:py-40"
+        variants={containerVariants}
+        initial="hidden"
+        animate="visible"
+      >
         {/* Eyebrow */}
-        <div 
-          className={`mb-8 transition-all duration-700 ${
-            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
-          }`}
-        >
+        <motion.div variants={itemVariants}>
           <Badge variant="secondary" className="gap-2 px-4 py-2">
             <ShieldCheck className="h-4 w-4" />
             <span className="text-sm font-mono">Privacy-First Workplace Analytics</span>
           </Badge>
-        </div>
+        </motion.div>
         
         {/* Main headline */}
-        <div className="mb-12">
-          <h1 
-            className={`text-[clamp(2.5rem,10vw,7rem)] font-display leading-[0.95] tracking-tight transition-all duration-1000 ${
-              isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-            }`}
-          >
+        <motion.div className="mb-12 mt-8" variants={itemVariants}>
+          <h1 className="text-[clamp(2.5rem,10vw,7rem)] font-display leading-[0.95] tracking-tight">
             <span className="block">Make work</span>
             <span className="block">
               more{" "}
@@ -101,24 +117,22 @@ export function HeroSection() {
               </span>
             </span>
           </h1>
-        </div>
+        </motion.div>
         
         {/* Description */}
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-24 items-end">
-          <p 
-            className={`text-xl lg:text-2xl text-muted-foreground leading-relaxed max-w-xl transition-all duration-700 delay-200 ${
-              isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
-            }`}
+          <motion.p 
+            className="text-xl lg:text-2xl text-muted-foreground leading-relaxed max-w-xl"
+            variants={itemVariants}
           >
             HeartMetrics is an AI copilot that helps managers run fairer, healthier teams by making
             work distribution, contribution, and growth visible — without surveillance.
-          </p>
+          </motion.p>
           
           {/* CTAs */}
-          <div 
-            className={`flex flex-col sm:flex-row items-start gap-4 transition-all duration-700 delay-300 ${
-              isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
-            }`}
+          <motion.div 
+            className="flex flex-col sm:flex-row items-start gap-4"
+            variants={itemVariants}
           >
             <Button 
               size="lg" 
@@ -138,15 +152,16 @@ export function HeroSection() {
             >
               <Link href="/product">Learn more</Link>
             </Button>
-          </div>
+          </motion.div>
         </div>
-      </div>
+      </motion.div>
       
       {/* Social proof marquee */}
-      <div 
-        className={`absolute bottom-24 left-0 right-0 transition-all duration-700 delay-500 ${
-          isVisible ? "opacity-100" : "opacity-0"
-        }`}
+      <motion.div 
+        className="absolute bottom-24 left-0 right-0"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.8, duration: 0.6 }}
       >
         <div className="flex gap-16 marquee whitespace-nowrap">
           {[...Array(2)].map((_, i) => (
@@ -168,7 +183,7 @@ export function HeroSection() {
             </div>
           ))}
         </div>
-      </div>
+      </motion.div>
     </section>
   );
 }
