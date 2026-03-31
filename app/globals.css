@@ -406,6 +406,36 @@
     50% { box-shadow: 0 0 30px rgba(139, 168, 240, 0.6), 0 0 45px rgba(168, 122, 200, 0.3); }
   }
   
+  /* Character animation for word transitions */
+  @keyframes animate-char-in {
+    0% {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  .animate-char-in {
+    animation: animate-char-in 0.4s ease-out forwards;
+  }
+  
+  /* Fade out animation */
+  @keyframes fade-out {
+    0% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+    }
+  }
+  
+  .animate-fade-out {
+    animation: fade-out 0.5s ease-out forwards;
+  }
+  
   /* Floating animation */
   .float {
     animation: float 6s ease-in-out infinite;
