@@ -2,23 +2,26 @@
 
 import { motion } from "framer-motion";
 import { Linkedin, Award } from "lucide-react";
+import Image from "next/image";
 
 const founders = [
   {
     name: "Vipul Navale",
     role: "CEO & Co-Founder",
-    bio: "35+ years in enterprise tech with leadership roles at Walmart, Amazon, and Microsoft. Vipul brings deep expertise in scaling operations and building high-performing teams at Fortune 500 companies. Currently pursuing MS AI in Business at ASU W.P. Carey.",
+    bio: "Led 35+ cross-functional teams at Walmart, Amazon, and Microsoft. Vipul brings deep expertise in scaling operations and building high-performing teams at Fortune 500 companies. Currently pursuing MS AI in Business at ASU W.P. Carey.",
     highlights: ["Walmart", "Amazon", "Microsoft", "35+ years enterprise"],
     linkedin: "#",
-    image: "VN"
+    initials: "VN",
+    imageUrl: "/images/vipul-navale.jpg"
   },
   {
     name: "Kanha Jodhpurkar",
-    role: "CTO & Co-Founder",
-    bio: "AI product innovator with 8+ years at Deloitte building LLM-powered solutions on Google Gemini. Kanha led AI product development for enterprise clients. Pursuing MS AI in Business at ASU W.P. Carey and bringing cutting-edge AI research to HeartMetrics.",
+    role: "Chief AI Officer & Co-Founder",
+    bio: "AI Product Owner at Deloitte, led Google's AI Rapid Innovation Team. Built domain-specific LLM on Google Gemini for enterprise clients. Pursuing MS AI in Business at ASU W.P. Carey and bringing cutting-edge AI research to HeartMetrics.",
     highlights: ["Deloitte", "Google Gemini", "LLM Expert", "Product AI"],
     linkedin: "#",
-    image: "KJ"
+    initials: "KJ",
+    imageUrl: "/images/kanha-jodhpurkar.jpg"
   }
 ];
 
@@ -87,14 +90,24 @@ export function TeamSection() {
                   boxShadow: "0 0 24px rgba(139, 168, 240, 0.05)",
                 }}
               >
-                {/* Avatar placeholder */}
+                {/* Avatar */}
                 <motion.div
-                  className="w-20 h-20 rounded-full bg-gradient-to-br from-primary to-accent flex items-center justify-center mb-6 group-hover:scale-110 transition-transform"
+                  className="w-20 h-20 rounded-full bg-gradient-to-br from-primary to-accent flex items-center justify-center mb-6 group-hover:scale-110 transition-transform overflow-hidden relative"
                   whileHover={{ scale: 1.1 }}
                 >
-                  <span className="text-xl font-display font-bold text-primary-foreground">
-                    {founder.image}
-                  </span>
+                  {founder.imageUrl ? (
+                    <Image
+                      src={founder.imageUrl}
+                      alt={founder.name}
+                      width={80}
+                      height={80}
+                      className="w-full h-full object-cover"
+                    />
+                  ) : (
+                    <span className="text-xl font-display font-bold text-primary-foreground">
+                      {founder.initials}
+                    </span>
+                  )}
                 </motion.div>
 
                 {/* Name and role */}
