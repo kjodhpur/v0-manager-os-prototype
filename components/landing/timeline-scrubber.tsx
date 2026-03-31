@@ -114,8 +114,13 @@ export function TimelineScrubber() {
       {/* Content Grid */}
       <div className="grid lg:grid-cols-2 gap-8 mb-8">
         {/* Left: Employee Card */}
-        <motion.div 
-          className="border border-border rounded-xl p-6 bg-card/50"
+        <motion.div
+          className="border rounded-xl p-6 backdrop-blur-sm transition-all duration-500"
+          style={{
+            borderColor: `${currentWeek.color}40`,
+            backgroundColor: `${currentWeek.color}08`,
+            boxShadow: `0 0 24px ${currentWeek.color}20, inset 0 0 20px ${currentWeek.color}08`,
+          }}
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.5, delay: 0.1 }}

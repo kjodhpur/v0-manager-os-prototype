@@ -17,13 +17,13 @@ import {
 
 const menuItems = [
   { icon: LayoutDashboard, label: 'Overview', href: '#' },
-  { icon: Users, label: 'Team Health', href: '#' },
-  { icon: TrendingUp, label: 'Work Distribution', href: '#' },
-  { icon: BarChart3, label: 'Recognition', href: '#' },
-  { icon: AlertCircle, label: 'Risk Matrix', href: '#' },
-  { icon: BarChart3, label: 'Reports', href: '#' },
-  { icon: Settings, label: 'Settings', href: '#' },
-  { icon: HelpCircle, label: 'Help & Support', href: '#' },
+  { icon: TrendingUp, label: 'Team Flow', href: '#' },
+  { icon: AlertCircle, label: 'Action Queue', href: '#' },
+  { icon: Users, label: 'Recognition', href: '#' },
+  { icon: BarChart3, label: 'Wellbeing', href: '#' },
+  { icon: BarChart3, label: 'Fairness', href: '#' },
+  { icon: Settings, label: 'Integrations', href: '#' },
+  { icon: HelpCircle, label: 'Settings', href: '#' },
 ];
 
 export function Sidebar() {

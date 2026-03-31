@@ -4,25 +4,6 @@ import type { Metadata } from 'next'
 import { Analytics } from '@vercel/analytics/next'
 import './globals.css'
 
-import { Inter, Geist_Mono, Source_Serif_4 } from 'next/font/google'
-
-// Initialize fonts with CSS variables
-const inter = Inter({ 
-  subsets: ['latin'], 
-  weight: ["100","200","300","400","500","600","700","800","900"],
-  variable: '--font-inter'
-})
-const geistMono = Geist_Mono({ 
-  subsets: ['latin'], 
-  weight: ["100","200","300","400","500","600","700","800","900"],
-  variable: '--font-geist-mono'
-})
-const sourceSerif4 = Source_Serif_4({ 
-  subsets: ['latin'], 
-  weight: ["200","300","400","500","600","700","800","900"],
-  variable: '--font-source-serif'
-})
-
 export const metadata: Metadata = {
   title: 'HeartMetrics - AI-Powered Manager Dashboard',
   description: 'An AI copilot that helps managers run fairer, healthier teams by making work distribution, contribution, and growth visible.',
@@ -53,7 +34,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${inter.variable} ${geistMono.variable} ${sourceSerif4.variable} font-sans antialiased`}>
+      <body className="font-sans antialiased">
         {children}
         <Analytics />
       </body>
