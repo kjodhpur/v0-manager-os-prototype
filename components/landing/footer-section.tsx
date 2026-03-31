@@ -31,7 +31,7 @@ const socialLinks = [
 
 export function FooterSection() {
   return (
-    <footer className="relative border-t border-foreground/10">
+    <footer className="relative border-t border-border">
       {/* Animated wave background */}
       <div className="absolute inset-0 h-64 opacity-15 pointer-events-none overflow-hidden">
         <AnimatedWave />
@@ -50,7 +50,7 @@ export function FooterSection() {
               </p>
 
               {/* Privacy Badge */}
-              <div className="flex items-center gap-2 rounded-lg bg-primary/5 border border-primary/10 px-4 py-2 w-fit mb-8">
+              <div className="flex items-center gap-2 rounded-lg bg-primary/10 border border-primary/30 px-4 py-2 w-fit mb-8">
                 <ShieldCheck className="h-4 w-4 text-primary" />
                 <span className="text-xs font-medium text-foreground">Privacy-First</span>
               </div>
@@ -97,7 +97,7 @@ export function FooterSection() {
         </div>
 
         {/* Bottom Bar */}
-        <div className="py-8 border-t border-foreground/10 flex flex-col md:flex-row items-center justify-between gap-4">
+        <div className="py-8 border-t border-border flex flex-col md:flex-row items-center justify-between gap-4">
           <p className="text-sm text-muted-foreground">
             {new Date().getFullYear()} HeartMetrics. All rights reserved.
           </p>

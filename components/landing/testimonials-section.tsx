@@ -83,8 +83,8 @@ export function TestimonialsSection() {
                 isAnimating ? "opacity-0" : "opacity-100"
               }`}
             >
-              <div className="w-16 h-16 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center">
-                <span className="font-display text-2xl text-primary">
+              <div className="w-16 h-16 rounded-full bg-gradient-to-br from-primary/20 via-ring/20 to-accent/20 border border-primary/30 flex items-center justify-center">
+                <span className="font-display text-2xl text-gradient">
                   {activeTestimonial.author.charAt(0)}
                 </span>
               </div>
@@ -97,17 +97,18 @@ export function TestimonialsSection() {
             </div>
           </div>
 
-          {/* Metric Highlight */}
+          {/* Right column */}
           <div className="lg:col-span-4 flex flex-col justify-center">
+            {/* Metric Highlight */}
             <div
-              className={`p-8 border border-primary/20 bg-primary/5 transition-all duration-300 ${
+              className={`p-8 border border-primary/30 bg-primary/5 rounded-xl transition-all duration-300 ${
                 isAnimating ? "opacity-0 scale-95" : "opacity-100 scale-100"
               }`}
             >
               <span className="font-mono text-xs tracking-widest text-muted-foreground uppercase block mb-4">
                 Key Result
               </span>
-              <p className="font-display text-2xl md:text-3xl text-primary">
+              <p className="font-display text-2xl md:text-3xl text-gradient">
                 {activeTestimonial.metric}
               </p>
             </div>
@@ -124,9 +125,9 @@ export function TestimonialsSection() {
                       setIsAnimating(false);
                     }, 300);
                   }}
-                  className={`h-2 transition-all duration-300 ${
+                  className={`h-2 rounded-full transition-all duration-300 ${
                     idx === activeIndex
-                      ? "w-8 bg-primary"
+                      ? "w-8 bg-gradient-to-r from-primary via-ring to-accent"
                       : "w-2 bg-foreground/20 hover:bg-foreground/40"
                   }`}
                 />

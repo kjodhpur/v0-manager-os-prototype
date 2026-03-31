@@ -69,7 +69,7 @@ export function HowItWorksSection() {
     <section
       id="how-it-works"
       ref={sectionRef}
-      className="relative py-24 lg:py-32 bg-primary text-primary-foreground overflow-hidden"
+      className="relative py-24 lg:py-32 bg-gradient-to-br from-primary/20 via-card to-accent/10 text-foreground overflow-hidden"
     >
       {/* Diagonal lines pattern */}
       <div className="absolute inset-0 opacity-[0.05] pointer-events-none">
@@ -87,8 +87,8 @@ export function HowItWorksSection() {
       <div className="relative z-10 max-w-[1400px] mx-auto px-6 lg:px-12">
         {/* Header */}
         <div className="mb-16 lg:mb-24">
-          <span className="inline-flex items-center gap-3 text-sm font-mono text-primary-foreground/60 mb-6">
-            <span className="w-8 h-px bg-primary-foreground/30" />
+          <span className="inline-flex items-center gap-3 text-sm font-mono text-muted-foreground mb-6">
+            <span className="w-8 h-px bg-border" />
             Process
           </span>
           <h2
@@ -98,7 +98,7 @@ export function HowItWorksSection() {
           >
             Three steps.
             <br />
-            <span className="text-primary-foreground/60">Healthier teams.</span>
+            <span className="text-gradient">Healthier teams.</span>
           </h2>
         </div>
 
@@ -111,25 +111,25 @@ export function HowItWorksSection() {
                 key={step.number}
                 type="button"
                 onClick={() => setActiveStep(index)}
-                className={`w-full text-left py-8 border-b border-primary-foreground/10 transition-all duration-500 group ${
+                className={`w-full text-left py-8 border-b border-border transition-all duration-500 group ${
                   activeStep === index ? "opacity-100" : "opacity-40 hover:opacity-70"
                 }`}
               >
                 <div className="flex items-start gap-6">
-                  <span className="font-display text-3xl text-primary-foreground/40">{step.number}</span>
+                  <span className="font-display text-3xl text-primary/60">{step.number}</span>
                   <div className="flex-1">
                     <h3 className="text-2xl lg:text-3xl font-display mb-3 group-hover:translate-x-2 transition-transform duration-300">
                       {step.title}
                     </h3>
-                    <p className="text-primary-foreground/70 leading-relaxed">
+                    <p className="text-muted-foreground leading-relaxed">
                       {step.description}
                     </p>
                     
                     {/* Progress indicator */}
                     {activeStep === index && (
-                      <div className="mt-4 h-px bg-primary-foreground/20 overflow-hidden">
+                      <div className="mt-4 h-px bg-border overflow-hidden">
                         <div 
-                          className="h-full bg-primary-foreground w-0"
+                          className="h-full bg-gradient-to-r from-primary via-ring to-accent w-0"
                           style={{
                             animation: 'progress 5s linear forwards'
                           }}
@@ -144,20 +144,20 @@ export function HowItWorksSection() {
 
           {/* Code display */}
           <div className="lg:sticky lg:top-32 self-start">
-            <div className="border border-primary-foreground/10 overflow-hidden bg-primary-foreground/5">
+            <div className="border border-border rounded-xl overflow-hidden bg-card/80 backdrop-blur-sm">
               {/* Window header */}
-              <div className="px-6 py-4 border-b border-primary-foreground/10 flex items-center justify-between">
+              <div className="px-6 py-4 border-b border-border flex items-center justify-between">
                 <div className="flex gap-2">
-                  <div className="w-3 h-3 rounded-full bg-primary-foreground/20" />
-                  <div className="w-3 h-3 rounded-full bg-primary-foreground/20" />
-                  <div className="w-3 h-3 rounded-full bg-primary-foreground/20" />
+                  <div className="w-3 h-3 rounded-full bg-accent/60" />
+                  <div className="w-3 h-3 rounded-full bg-ring/60" />
+                  <div className="w-3 h-3 rounded-full bg-primary/60" />
                 </div>
-                <span className="text-xs font-mono text-primary-foreground/40">setup.ts</span>
+                <span className="text-xs font-mono text-muted-foreground">setup.ts</span>
               </div>
 
               {/* Code content */}
               <div className="p-8 font-mono text-sm min-h-[280px]">
-                <pre className="text-primary-foreground/80">
+                <pre className="text-foreground/80">
                   {steps[activeStep].code.split('\n').map((line, lineIndex) => (
                     <div 
                       key={`${activeStep}-${lineIndex}`} 
@@ -166,7 +166,7 @@ export function HowItWorksSection() {
                         animationDelay: `${lineIndex * 80}ms`,
                       }}
                     >
-                      <span className="text-primary-foreground/30 select-none w-8 inline-block">{lineIndex + 1}</span>
+                      <span className="text-muted-foreground select-none w-8 inline-block">{lineIndex + 1}</span>
                       <span className="inline-flex">
                         {line.split('').map((char, charIndex) => (
                           <span
@@ -186,9 +186,9 @@ export function HowItWorksSection() {
               </div>
 
               {/* Status */}
-              <div className="px-6 py-4 border-t border-primary-foreground/10 flex items-center gap-3">
-                <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
-                <span className="text-xs font-mono text-primary-foreground/50">Connected</span>
+              <div className="px-6 py-4 border-t border-border flex items-center gap-3">
+                <span className="w-2 h-2 rounded-full bg-primary animate-pulse shadow-[0_0_8px_rgba(125,211,252,0.6)]" />
+                <span className="text-xs font-mono text-muted-foreground">Connected</span>
               </div>
             </div>
           </div>
