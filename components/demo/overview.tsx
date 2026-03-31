@@ -67,10 +67,16 @@ export function DemoOverview() {
 
   return (
     <div className="p-4 lg:p-8 w-full overflow-x-hidden max-lg:pb-24">
-      {/* Header */}
+      {/* Header with badge */}
       <div className="mb-8 lg:mb-12">
-        <h1 className="text-2xl lg:text-3xl font-display font-bold mb-2">Team Overview</h1>
-        <p className="text-sm lg:text-base text-muted-foreground">Real-time insights into team health and performance</p>
+        <div className="flex items-center gap-3 mb-4">
+          <span className="inline-block px-3 py-1 rounded-full text-xs font-medium bg-green-500/10 text-green-400 border border-green-500/20">
+            ✓ Live Data
+          </span>
+          <span className="text-xs text-muted-foreground">Last updated: Just now</span>
+        </div>
+        <h1 className="text-3xl lg:text-4xl font-display font-bold mb-2">Team Intelligence Dashboard</h1>
+        <p className="text-base lg:text-lg text-muted-foreground">AI-powered insights into team wellbeing, workload distribution, and engagement signals</p>
       </div>
 
       {/* KPI Cards Grid */}
@@ -78,8 +84,14 @@ export function DemoOverview() {
         {kpiCards.map((card, idx) => (
           <div
             key={idx}
-            className="border border-border rounded-xl p-4 lg:p-6 bg-card/50 backdrop-blur-sm hover:border-primary/30 transition-all duration-300"
+            className="group relative border border-border rounded-2xl p-6 lg:p-8 bg-gradient-to-br from-card/60 to-card/30 backdrop-blur-sm hover:border-primary/30 transition-all duration-300 hover:shadow-lg overflow-hidden"
+            style={{
+              boxShadow: "0 0 20px rgba(139, 168, 240, 0.05)",
+            }}
           >
+            {/* Gradient accent on hover */}
+            <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-accent/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+            <div className="relative z-10">
             {/* Label */}
             <p className="text-xs font-mono text-muted-foreground mb-3 lg:mb-4 uppercase tracking-wider">
               {card.label}
@@ -101,8 +113,8 @@ export function DemoOverview() {
               </div>
             </div>
 
-            {/* Mini sparkline */}
-            <div className="h-8 flex items-end gap-1 justify-between">
+            {/* Mini sparkline with animation */}
+            <div className="h-10 flex items-end gap-1 justify-between">
               {card.trend.map((val, i) => {
                 const max = Math.max(...card.trend);
                 const min = Math.min(...card.trend);
@@ -111,21 +123,31 @@ export function DemoOverview() {
                 return (
                   <div
                     key={i}
-                    className="flex-1 bg-primary/30 rounded-t opacity-60 hover:opacity-100 transition-opacity"
-                    style={{ height: `${height || 20}%`, minHeight: '4px' }}
+                    className="flex-1 bg-gradient-to-t from-primary to-accent rounded-t opacity-70 hover:opacity-100 transition-all duration-200 hover:shadow-lg"
+                    style={{
+                      height: `${height || 20}%`,
+                      minHeight: '4px',
+                      boxShadow: '0 0 8px rgba(139, 168, 240, 0.3)',
+                    }}
                   />
                 );
               })}
+            </div>
             </div>
           </div>
         ))}
       </div>
 
       {/* Attention Needed Section */}
-      <div className="border border-border rounded-xl overflow-hidden bg-card/50">
-        <div className="border-b border-border px-4 lg:px-6 py-3 lg:py-4 bg-card flex items-center gap-2">
-          <AlertTriangle className="w-5 h-5 text-accent flex-shrink-0" />
-          <h2 className="text-base lg:text-lg font-semibold">Attention Needed</h2>
+      <div className="border border-accent/30 rounded-2xl overflow-hidden bg-gradient-to-br from-accent/5 to-card/30 backdrop-blur-sm">
+        <div className="border-b border-accent/20 px-6 lg:px-8 py-4 lg:py-6 bg-gradient-to-r from-accent/10 to-transparent flex items-center gap-3">
+          <div className="w-10 h-10 rounded-lg bg-accent/20 flex items-center justify-center">
+            <AlertTriangle className="w-5 h-5 text-accent flex-shrink-0" />
+          </div>
+          <div>
+            <h2 className="text-lg lg:text-xl font-display font-bold">At-Risk Team Members</h2>
+            <p className="text-xs text-muted-foreground">Employees showing signs of disengagement</p>
+          </div>
         </div>
 
         {/* Table */}

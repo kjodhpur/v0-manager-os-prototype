@@ -10,6 +10,8 @@ import { MetricsSection } from "@/components/landing/metrics-section";
 import { SecuritySection } from "@/components/landing/security-section";
 import { TestimonialsSection } from "@/components/landing/testimonials-section";
 import { FAQSection } from "@/components/landing/faq-section";
+import { TeamSection } from "@/components/landing/team-section";
+import { AccoladesSection } from "@/components/landing/accolades-section";
 import { CtaSection } from "@/components/landing/cta-section";
 import { FooterSection } from "@/components/landing/footer-section";
 
@@ -29,6 +31,8 @@ export default function Home() {
       <FeaturesSection />
       <HowItWorksSection />
       <MetricsSection />
+      <AccoladesSection />
+      <TeamSection />
       <SecuritySection />
       <TestimonialsSection />
       <FAQSection />
