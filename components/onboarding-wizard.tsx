@@ -14,10 +14,12 @@ import {
   Users,
   Link2,
   Play,
+  User,
 } from "lucide-react"
 
 const steps = [
   { id: "welcome", label: "Welcome" },
+  { id: "user", label: "Your Details" },
   { id: "org", label: "Organization" },
   { id: "connect", label: "Connect Tools" },
   { id: "team", label: "Map Team" },
@@ -33,6 +35,9 @@ export function OnboardingWizard({ onComplete }: OnboardingWizardProps) {
   const [orgName, setOrgName] = useState("")
   const [teamName, setTeamName] = useState("")
   const [connectedTools, setConnectedTools] = useState<string[]>([])
+  const [fullName, setFullName] = useState("")
+  const [email, setEmail] = useState("")
+  const [phone, setPhone] = useState("")
 
   const handleConnectTool = (tool: string) => {
     setConnectedTools((prev) =>
@@ -118,8 +123,64 @@ export function OnboardingWizard({ onComplete }: OnboardingWizardProps) {
               </div>
             )}
 
-            {/* Step 1: Organization */}
+            {/* Step 1: Your Details */}
             {currentStep === 1 && (
+              <div>
+                <div className="flex items-center gap-3">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10">
+                    <User className="h-5 w-5 text-primary" />
+                  </div>
+                  <div>
+                    <h2 className="text-xl font-bold text-foreground">Tell us about yourself</h2>
+                    <p className="text-sm text-muted-foreground">We need your contact info</p>
+                  </div>
+                </div>
+                <div className="mt-6 flex flex-col gap-4">
+                  <div className="flex flex-col gap-2">
+                    <Label htmlFor="full-name">Full Name</Label>
+                    <Input
+                      id="full-name"
+                      placeholder="e.g. John Doe"
+                      value={fullName}
+                      onChange={(e) => setFullName(e.target.value)}
+                    />
+                  </div>
+                  <div className="flex flex-col gap-2">
+                    <Label htmlFor="email">Email</Label>
+                    <Input
+                      id="email"
+                      type="email"
+                      placeholder="e.g. john@company.com"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                    />
+                  </div>
+                  <div className="flex flex-col gap-2">
+                    <Label htmlFor="phone">Phone Number</Label>
+                    <Input
+                      id="phone"
+                      type="tel"
+                      placeholder="e.g. +1 (555) 123-4567"
+                      value={phone}
+                      onChange={(e) => setPhone(e.target.value)}
+                    />
+                  </div>
+                </div>
+                <div className="mt-6 flex gap-3">
+                  <Button variant="outline" onClick={prevStep}>
+                    <ArrowLeft className="mr-2 h-4 w-4" />
+                    Back
+                  </Button>
+                  <Button className="flex-1" onClick={nextStep}>
+                    Continue
+                    <ArrowRight className="ml-2 h-4 w-4" />
+                  </Button>
+                </div>
+              </div>
+            )}
+
+            {/* Step 2: Organization */}
+            {currentStep === 2 && (
               <div>
                 <div className="flex items-center gap-3">
                   <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10">
@@ -163,8 +224,8 @@ export function OnboardingWizard({ onComplete }: OnboardingWizardProps) {
               </div>
             )}
 
-            {/* Step 2: Connect Tools */}
-            {currentStep === 2 && (
+            {/* Step 3: Connect Tools */}
+            {currentStep === 3 && (
               <div>
                 <div className="flex items-center gap-3">
                   <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10">
@@ -224,8 +285,8 @@ export function OnboardingWizard({ onComplete }: OnboardingWizardProps) {
               </div>
             )}
 
-            {/* Step 3: Map Team */}
-            {currentStep === 3 && (
+            {/* Step 4: Map Team */}
+            {currentStep === 4 && (
               <div>
                 <div className="flex items-center gap-3">
                   <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10">
@@ -268,8 +329,8 @@ export function OnboardingWizard({ onComplete }: OnboardingWizardProps) {
               </div>
             )}
 
-            {/* Step 4: Done */}
-            {currentStep === 4 && (
+            {/* Step 5: Done */}
+            {currentStep === 5 && (
               <div className="flex flex-col items-center text-center">
                 <div className="flex h-16 w-16 items-center justify-center rounded-full bg-primary/10">
                   <Play className="h-8 w-8 text-primary" />
