@@ -35,16 +35,16 @@ export function CtaSection() {
     <section ref={sectionRef} className="relative py-24 lg:py-32 overflow-hidden">
       <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
         <div
-          className={`relative border border-primary bg-primary/5 transition-all duration-1000 ${
+          className={`relative border border-primary/30 bg-card/50 backdrop-blur-sm rounded-2xl transition-all duration-1000 ${
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
           }`}
           onMouseMove={handleMouseMove}
         >
-          {/* Spotlight effect */}
+          {/* Spotlight effect using brand colors */}
           <div 
-            className="absolute inset-0 opacity-20 pointer-events-none transition-opacity duration-300"
+            className="absolute inset-0 opacity-30 pointer-events-none transition-opacity duration-300 rounded-2xl"
             style={{
-              background: `radial-gradient(600px circle at ${mousePosition.x}% ${mousePosition.y}%, rgba(12, 44, 85, 0.15), transparent 40%)`
+              background: `radial-gradient(600px circle at ${mousePosition.x}% ${mousePosition.y}%, rgba(125, 211, 252, 0.15), transparent 40%)`
             }}
           />
           
@@ -66,7 +66,7 @@ export function CtaSection() {
                 <div className="flex flex-col sm:flex-row items-start gap-4">
                   <Button
                     size="lg"
-                    className="bg-primary hover:bg-primary/90 text-primary-foreground px-8 h-14 text-base rounded-full group"
+                    className="bg-primary hover:bg-primary/90 text-primary-foreground px-8 h-14 text-base rounded-full group btn-glow"
                     asChild
                   >
                     <Link href="/demo">
@@ -77,7 +77,7 @@ export function CtaSection() {
                   <Button
                     size="lg"
                     variant="outline"
-                    className="h-14 px-8 text-base rounded-full border-foreground/20 hover:bg-foreground/5"
+                    className="h-14 px-8 text-base rounded-full border-primary/30 hover:border-primary/60 hover:bg-primary/5 transition-all duration-300"
                     asChild
                   >
                     <Link href="/contact">Contact Us</Link>

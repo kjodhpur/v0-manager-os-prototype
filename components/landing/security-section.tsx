@@ -50,7 +50,7 @@ export function SecuritySection() {
   }, []);
 
   return (
-    <section id="security" ref={sectionRef} className="relative py-24 lg:py-32 bg-secondary/30 overflow-hidden">
+    <section id="security" ref={sectionRef} className="relative py-24 lg:py-32 bg-card/50 overflow-hidden">
       <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
         <div className="grid lg:grid-cols-2 gap-16 lg:gap-24">
           {/* Left: Content */}
@@ -60,13 +60,13 @@ export function SecuritySection() {
             }`}
           >
             <span className="inline-flex items-center gap-3 text-sm font-mono text-muted-foreground mb-6">
-              <span className="w-8 h-px bg-foreground/30" />
+              <span className="w-8 h-px bg-border" />
               Privacy & Ethics
             </span>
             <h2 className="text-4xl lg:text-6xl font-display tracking-tight mb-8">
               Built on trust,
               <br />
-              not surveillance.
+              <span className="text-gradient">not surveillance.</span>
             </h2>
             <p className="text-xl text-muted-foreground leading-relaxed mb-12">
               Every design decision prioritizes your team&apos;s privacy and psychological safety.
@@ -78,7 +78,7 @@ export function SecuritySection() {
               {principles.map((principle, index) => (
                 <span
                   key={principle}
-                  className={`px-4 py-2 border border-foreground/10 bg-background text-sm font-mono transition-all duration-500 ${
+                  className={`px-4 py-2 border border-primary/30 bg-primary/5 rounded-lg text-sm font-mono text-primary transition-all duration-500 hover:bg-primary/10 ${
                     isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
                   }`}
                   style={{ transitionDelay: `${index * 50 + 200}ms` }}
@@ -94,14 +94,14 @@ export function SecuritySection() {
             {securityFeatures.map((feature, index) => (
               <div
                 key={feature.title}
-                className={`p-6 border border-foreground/10 bg-background hover:border-primary/30 transition-all duration-500 group ${
+                className={`p-6 border border-border bg-card/80 backdrop-blur-sm rounded-xl hover:border-primary/30 transition-all duration-500 group hover:shadow-[0_0_30px_rgba(125,211,252,0.1)] ${
                   isVisible ? "opacity-100 translate-x-0" : "opacity-0 translate-x-8"
                 }`}
                 style={{ transitionDelay: `${index * 100}ms` }}
               >
                 <div className="flex items-start gap-4">
-                  <div className="shrink-0 w-10 h-10 flex items-center justify-center border border-foreground/10 group-hover:bg-primary group-hover:text-primary-foreground transition-colors duration-300">
-                    <feature.icon className="w-5 h-5" />
+                  <div className="shrink-0 w-10 h-10 flex items-center justify-center border border-primary/30 rounded-lg group-hover:bg-primary group-hover:text-primary-foreground transition-all duration-300 group-hover:shadow-[0_0_20px_rgba(125,211,252,0.4)]">
+                    <feature.icon className="w-5 h-5 text-primary group-hover:text-primary-foreground" />
                   </div>
                   <div>
                     <h3 className="text-lg font-medium mb-1 group-hover:translate-x-1 transition-transform duration-300">

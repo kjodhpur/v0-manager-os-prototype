@@ -248,12 +248,12 @@ function FeatureCard({ feature, index }: { feature: typeof features[0]; index: n
       }`}
       style={{ transitionDelay: `${index * 100}ms` }}
     >
-      <div className="flex flex-col lg:flex-row gap-8 lg:gap-16 py-12 lg:py-20 border-b border-foreground/10">
+      <div className="flex flex-col lg:flex-row gap-8 lg:gap-16 py-12 lg:py-20 border-b border-border">
         {/* Number & Icon */}
         <div className="shrink-0 flex items-center gap-4">
           <span className="font-mono text-sm text-muted-foreground">{feature.number}</span>
-          <div className="w-10 h-10 flex items-center justify-center border border-foreground/10 group-hover:bg-primary group-hover:text-primary-foreground transition-colors duration-300">
-            <Icon className="w-5 h-5" />
+          <div className="w-10 h-10 flex items-center justify-center border border-primary/30 rounded-lg group-hover:bg-primary group-hover:text-primary-foreground transition-all duration-300 group-hover:shadow-[0_0_20px_rgba(125,211,252,0.4)]">
+            <Icon className="w-5 h-5 text-primary group-hover:text-primary-foreground" />
           </div>
         </div>
         

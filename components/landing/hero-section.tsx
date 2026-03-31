@@ -80,7 +80,7 @@ export function HeroSection() {
             <span className="block">Make work</span>
             <span className="block">
               more{" "}
-              <span className="relative inline-block text-primary">
+              <span className="relative inline-block text-gradient">
                 <span 
                   key={wordIndex}
                   className="inline-flex"
@@ -97,7 +97,7 @@ export function HeroSection() {
                     </span>
                   ))}
                 </span>
-                <span className="absolute -bottom-2 left-0 right-0 h-2 bg-primary/20" />
+                <span className="absolute -bottom-2 left-0 right-0 h-2 bg-gradient-to-r from-primary/30 via-ring/30 to-accent/30" />
               </span>
             </span>
           </h1>
@@ -122,7 +122,7 @@ export function HeroSection() {
           >
             <Button 
               size="lg" 
-              className="bg-primary hover:bg-primary/90 text-primary-foreground px-8 h-14 text-base rounded-full group"
+              className="bg-primary hover:bg-primary/90 text-primary-foreground px-8 h-14 text-base rounded-full group btn-glow"
               asChild
             >
               <Link href="/demo">
@@ -133,7 +133,7 @@ export function HeroSection() {
             <Button 
               size="lg" 
               variant="outline" 
-              className="h-14 px-8 text-base rounded-full border-foreground/20 hover:bg-foreground/5"
+              className="h-14 px-8 text-base rounded-full border-primary/30 hover:border-primary/60 hover:bg-primary/5 transition-all duration-300"
               asChild
             >
               <Link href="/product">Learn more</Link>

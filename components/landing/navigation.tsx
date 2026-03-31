@@ -72,13 +72,13 @@ export function Navigation() {
           <div className="hidden md:flex items-center gap-4">
             <Link 
               href="/signin" 
-              className={`text-foreground/70 hover:text-foreground transition-all duration-500 ${isScrolled ? "text-xs" : "text-sm"}`}
+              className={`text-foreground/70 hover:text-primary transition-all duration-500 ${isScrolled ? "text-xs" : "text-sm"}`}
             >
               Sign in
             </Link>
             <Button
               size="sm"
-              className={`bg-primary hover:bg-primary/90 text-primary-foreground rounded-full transition-all duration-500 ${isScrolled ? "px-4 h-8 text-xs" : "px-6"}`}
+              className={`bg-primary hover:bg-primary/90 text-primary-foreground rounded-full transition-all duration-500 btn-glow ${isScrolled ? "px-4 h-8 text-xs" : "px-6"}`}
               asChild
             >
               <Link href="/demo">Try Demo</Link>
@@ -130,7 +130,7 @@ export function Navigation() {
           </div>
           
           {/* Bottom CTAs */}
-          <div className={`flex gap-4 pt-8 border-t border-foreground/10 transition-all duration-500 ${
+          <div className={`flex gap-4 pt-8 border-t border-border transition-all duration-500 ${
             isMobileMenuOpen 
               ? "opacity-100 translate-y-0" 
               : "opacity-0 translate-y-4"
@@ -139,14 +139,14 @@ export function Navigation() {
           >
             <Button 
               variant="outline" 
-              className="flex-1 rounded-full h-14 text-base"
+              className="flex-1 rounded-full h-14 text-base border-primary/30 hover:border-primary/60"
               onClick={() => setIsMobileMenuOpen(false)}
               asChild
             >
               <Link href="/signin">Sign in</Link>
             </Button>
             <Button 
-              className="flex-1 bg-primary text-primary-foreground rounded-full h-14 text-base"
+              className="flex-1 bg-primary text-primary-foreground rounded-full h-14 text-base btn-glow"
               onClick={() => setIsMobileMenuOpen(false)}
               asChild
             >

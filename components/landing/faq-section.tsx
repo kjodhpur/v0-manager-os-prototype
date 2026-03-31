@@ -44,7 +44,7 @@ function FAQItem({ faq, index, isOpen, onToggle }: {
   }, [isOpen]);
 
   return (
-    <div className="border-b border-foreground/10">
+    <div className="border-b border-border">
       <button
         className="flex w-full items-center justify-between py-6 text-left group"
         onClick={onToggle}
@@ -112,16 +112,16 @@ export function FAQSection() {
         {/* Header */}
         <div className="text-center mb-16">
           <span className="inline-flex items-center gap-3 text-sm font-mono text-muted-foreground mb-6">
-            <span className="w-8 h-px bg-foreground/30" />
+            <span className="w-8 h-px bg-border" />
             FAQ
-            <span className="w-8 h-px bg-foreground/30" />
+            <span className="w-8 h-px bg-border" />
           </span>
           <h2
             className={`text-4xl lg:text-5xl font-display tracking-tight transition-all duration-700 ${
               isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
             }`}
           >
-            Questions answered.
+            Questions <span className="text-gradient">answered.</span>
           </h2>
         </div>
 
