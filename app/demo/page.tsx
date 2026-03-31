@@ -12,6 +12,7 @@ export default function DemoPage() {
         <div className="flex">
           <Sidebar />
           <main className="flex-1 overflow-auto">
+            <h1 className="sr-only">HeartMetrics Demo</h1>
             <DemoOverview />
           </main>
         </div>
