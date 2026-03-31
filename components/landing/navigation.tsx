@@ -35,18 +35,15 @@ export function Navigation() {
 
         {/* Desktop Nav Links */}
         <div className="hidden lg:flex items-center gap-12">
-          <Link href="#product" className="text-sm text-foreground/70 hover:text-foreground transition-colors">
+          <a href="#product" className="text-sm text-foreground/70 hover:text-foreground transition-colors">
             Product
-          </Link>
-          <Link href="#pricing" className="text-sm text-foreground/70 hover:text-foreground transition-colors">
+          </a>
+          <a href="#pricing" className="text-sm text-foreground/70 hover:text-foreground transition-colors">
             Pricing
-          </Link>
-          <Link href="#security" className="text-sm text-foreground/70 hover:text-foreground transition-colors">
+          </a>
+          <a href="#security" className="text-sm text-foreground/70 hover:text-foreground transition-colors">
             Security
-          </Link>
-          <Link href="#changelog" className="text-sm text-foreground/70 hover:text-foreground transition-colors">
-            Changelog
-          </Link>
+          </a>
         </div>
 
         {/* Desktop CTA */}
@@ -85,34 +82,27 @@ export function Navigation() {
         {isMobileMenuOpen && (
           <div className="absolute top-14 left-0 right-0 bg-card/95 backdrop-blur-xl border-b border-border p-6 lg:hidden">
             <nav className="flex flex-col gap-6 mb-8">
-              <Link
+              <a
                 href="#product"
                 className="text-foreground/70 hover:text-foreground transition-colors"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
                 Product
-              </Link>
-              <Link
+              </a>
+              <a
                 href="#pricing"
                 className="text-foreground/70 hover:text-foreground transition-colors"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
                 Pricing
-              </Link>
-              <Link
+              </a>
+              <a
                 href="#security"
                 className="text-foreground/70 hover:text-foreground transition-colors"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
                 Security
-              </Link>
-              <Link
-                href="#changelog"
-                className="text-foreground/70 hover:text-foreground transition-colors"
-                onClick={() => setIsMobileMenuOpen(false)}
-              >
-                Changelog
-              </Link>
+              </a>
             </nav>
 
             {/* Bottom CTAs */}

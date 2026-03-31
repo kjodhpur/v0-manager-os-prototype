@@ -80,7 +80,7 @@ const itemVariants = {
 
 export function PricingSection() {
   return (
-    <section className="relative py-24 lg:py-32 px-6 lg:px-12 overflow-hidden bg-gradient-to-b from-transparent via-primary/5 to-transparent">
+    <section id="pricing" className="relative py-24 lg:py-32 px-6 lg:px-12 overflow-hidden bg-gradient-to-b from-transparent via-primary/5 to-transparent">
       {/* Background gradient accent */}
       <motion.div
         className="absolute -bottom-40 left-1/2 -translate-x-1/2 w-96 h-96 bg-accent/10 rounded-full blur-3xl"
