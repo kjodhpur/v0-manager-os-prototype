@@ -12,7 +12,7 @@ const founders = [
     highlights: ["Walmart", "Amazon", "Microsoft", "35+ years enterprise"],
     linkedin: "#",
     initials: "VN",
-    imageUrl: "/images/vipul-navale.jpg"
+    imageUrl: "/vipul.jpg"
   },
   {
     name: "Kanha Jodhpurkar",
@@ -21,7 +21,7 @@ const founders = [
     highlights: ["Deloitte", "Google Gemini", "LLM Expert", "Product AI"],
     linkedin: "#",
     initials: "KJ",
-    imageUrl: "/images/kanha-jodhpurkar.jpg"
+    imageUrl: "/kanha.jpg"
   }
 ];
 
