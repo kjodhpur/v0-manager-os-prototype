@@ -1,58 +1,24 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 200" fill="none">
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1600" height="900" viewBox="0 0 1600 900" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="heartmetrics logo">
   <defs>
-    <linearGradient id="horzGrad" x1="0%" y1="50%" x2="100%" y2="50%">
-      <stop offset="0%" stop-color="#00B8A0"/>
-      <stop offset="40%" stop-color="#5DD67A"/>
-      <stop offset="100%" stop-color="#FFB347"/>
+    <linearGradient id="hmGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#00D1C1"/>
+      <stop offset="28%" stop-color="#34D98B"/>
+      <stop offset="52%" stop-color="#8EDB52"/>
+      <stop offset="76%" stop-color="#E4D34A"/>
+      <stop offset="100%" stop-color="#E2BC57"/>
     </linearGradient>
-    <linearGradient id="textGrad" x1="0%" y1="50%" x2="100%" y2="50%">
-      <stop offset="0%" stop-color="#00B8A0"/>
-      <stop offset="35%" stop-color="#5DD67A"/>
-      <stop offset="70%" stop-color="#FFB347"/>
-      <stop offset="100%" stop-color="#FFB347"/>
-    </linearGradient>
-    <filter id="horzGlow" x="-40%" y="-40%" width="180%" height="180%">
-      <feGaussianBlur in="SourceGraphic" stdDeviation="8" result="blur1"/>
-      <feGaussianBlur in="SourceGraphic" stdDeviation="4" result="blur2"/>
-      <feGaussianBlur in="SourceGraphic" stdDeviation="1.5" result="blur3"/>
-      <feMerge>
-        <feMergeNode in="blur1"/>
-        <feMergeNode in="blur2"/>
-        <feMergeNode in="blur3"/>
-        <feMergeNode in="SourceGraphic"/>
-      </feMerge>
-    </filter>
-    <filter id="textGlow" x="-20%" y="-40%" width="140%" height="180%">
-      <feGaussianBlur in="SourceGraphic" stdDeviation="4" result="blur1"/>
-      <feGaussianBlur in="SourceGraphic" stdDeviation="1.5" result="blur2"/>
-      <feMerge>
-        <feMergeNode in="blur1"/>
-        <feMergeNode in="blur2"/>
-        <feMergeNode in="SourceGraphic"/>
-      </feMerge>
-    </filter>
   </defs>
 
-  <!-- Icon: h + heart -->
-  <g filter="url(#horzGlow)" transform="translate(20, 15) scale(0.85)">
-    <!-- h stem -->
-    <rect x="30" y="28" width="10" height="115" rx="5" fill="url(#horzGrad)" opacity="0.9"/>
-
-    <!-- h curve -->
-    <path d="M35 90 C35 80, 44 73, 55 73 C63 73, 69 78, 73 83"
-          stroke="url(#horzGrad)" stroke-width="10" stroke-linecap="round" fill="none" opacity="0.9"/>
-
-    <!-- Heart -->
-    <path d="M73 150 C73 150, 40 122, 40 100 C40 90, 48 83, 56 83 C62 83, 67 87, 73 95 C79 87, 84 83, 90 83 C98 83, 106 90, 106 100 C106 122, 73 150, 73 150Z"
-          fill="url(#horzGrad)" opacity="0.85"/>
-  </g>
-
-  <!-- Text: heartmetrics -->
-  <g filter="url(#textGlow)">
-    <text x="175" y="112" fill="url(#textGrad)"
-          font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', sans-serif"
-          font-weight="300" font-size="42" letter-spacing="1">
-      heartmetrics
-    </text>
-  </g>
+  <rect width="1600" height="900" fill="#000000"/>
+  <text
+    x="220"
+    y="520"
+    fill="url(#hmGradient)"
+    font-family="Georgia, 'Times New Roman', serif"
+    font-size="180"
+    font-weight="700"
+    letter-spacing="0">
+    heartmetrics
+  </text>
 </svg>
