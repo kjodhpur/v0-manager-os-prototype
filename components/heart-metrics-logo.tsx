@@ -17,9 +17,9 @@ export function HeartMetricsLogo({
   };
 
   const logoSrc = {
-    horizontal: "/hm-logo-horizontal.png",
-    icon: "/hm-logo-icon.png",
-    dark: "/hm-logo-dark.png"
+    horizontal: "/hm-logo-horizontal.svg",
+    icon: "/hm-logo-icon.svg",
+    dark: "/hm-logo-dark.svg"
   }[variant];
 
   if (variant === "icon") {
