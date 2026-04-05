@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1600" height="900" viewBox="0 0 1600 900" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="heartmetrics logo">
+  <defs>
+    <linearGradient id="hmGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#00D1C1"/>
+      <stop offset="28%" stop-color="#34D98B"/>
+      <stop offset="52%" stop-color="#8EDB52"/>
+      <stop offset="76%" stop-color="#E4D34A"/>
+      <stop offset="100%" stop-color="#E2BC57"/>
+    </linearGradient>
+  </defs>
+
+  <text
+    x="220"
+    y="520"
+    fill="url(#hmGradient)"
+    font-family="Georgia, 'Times New Roman', serif"
+    font-size="180"
+    font-weight="700"
+    letter-spacing="0">
+    heartmetrics
+  </text>
+</svg>
