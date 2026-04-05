@@ -12,11 +12,11 @@ export function WorkDistributionPage({ onEmployeeClick }: WorkDistributionPagePr
   const getWorkloadStatusColor = (status: string) => {
     switch (status) {
       case "Overloaded":
-        return "bg-red-50 text-red-700 border-red-200 dark:bg-red-950/30 dark:text-red-300 dark:border-red-900"
+        return "bg-red-500/20 text-red-500 border-red-200 dark:bg-red-950/30 dark:text-red-300 dark:border-red-900"
       case "High":
-        return "bg-amber-50 text-amber-700 border-amber-200 dark:bg-amber-950/30 dark:text-amber-300 dark:border-amber-900"
+        return "bg-amber-500/20 text-amber-500 border-amber-200 dark:bg-amber-950/30 dark:text-amber-300 dark:border-amber-900"
       case "Balanced":
-        return "bg-emerald-50 text-emerald-700 border-emerald-200 dark:bg-emerald-950/30 dark:text-emerald-300 dark:border-emerald-900"
+        return "bg-green-500/20 text-green-500 border-emerald-200 dark:bg-emerald-950/30 dark:text-emerald-300 dark:border-emerald-900"
       case "Light":
         return "bg-accent text-accent-foreground border-border"
       default:
@@ -64,7 +64,7 @@ export function WorkDistributionPage({ onEmployeeClick }: WorkDistributionPagePr
                     <td className="px-4 py-3 text-center text-muted-foreground">{employee.meetingHours}h</td>
                     <td className="px-4 py-3 text-center">
                       {employee.blocked > 0 ? (
-                        <span className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-red-500 text-sm font-medium text-white">
+                        <span className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-red-500/100 text-sm font-medium text-white">
                           {employee.blocked}
                         </span>
                       ) : (

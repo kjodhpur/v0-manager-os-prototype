@@ -30,7 +30,7 @@ export function RecognitionGrowthPage({ onEmployeeClick, onActionClick }: Recogn
             <div className="flex items-center gap-2">
               <Star className="h-5 w-5 text-amber-500" />
               <CardTitle className="text-lg text-foreground">Recognition Gap</CardTitle>
-              <Badge className="bg-amber-100 text-amber-700">{recognitionGap.length} employees</Badge>
+              <Badge className="bg-amber-500/15 text-amber-700">{recognitionGap.length} employees</Badge>
             </div>
             <p className="text-sm text-muted-foreground">Employees with zero public recognition</p>
           </CardHeader>
@@ -47,7 +47,7 @@ export function RecognitionGrowthPage({ onEmployeeClick, onActionClick }: Recogn
                   tabIndex={0}
                   role="button"
                 >
-                  <div className="flex h-8 w-8 items-center justify-center rounded-full bg-amber-100 text-xs font-medium text-amber-700">
+                  <div className="flex h-8 w-8 items-center justify-center rounded-full bg-amber-500/15 text-xs font-medium text-amber-700">
                     {employee.name.split(" ")[0][0]}
                     {employee.name.split(" ")[1]?.[0] || ""}
                   </div>
@@ -207,11 +207,11 @@ export function RecognitionGrowthPage({ onEmployeeClick, onActionClick }: Recogn
                       <td className="py-3 pr-4 text-center font-medium text-foreground">{total}</td>
                       <td className="py-3">
                         {total === 0 ? (
-                          <Badge className="bg-red-100 text-red-700">No recognition</Badge>
+                          <Badge className="bg-red-500/15 text-red-700">No recognition</Badge>
                         ) : total < 2 ? (
-                          <Badge className="bg-amber-100 text-amber-700">Low</Badge>
+                          <Badge className="bg-amber-500/15 text-amber-700">Low</Badge>
                         ) : (
-                          <Badge className="bg-emerald-100 text-emerald-700">Good</Badge>
+                          <Badge className="bg-green-500/15 text-emerald-700">Good</Badge>
                         )}
                       </td>
                     </tr>

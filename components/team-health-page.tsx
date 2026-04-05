@@ -73,9 +73,9 @@ export function TeamHealthPage({ onEmployeeClick }: TeamHealthPageProps) {
   }
 
   const getRiskLabel = (whi: number) => {
-    if (whi < 50) return { label: "High Risk", className: "bg-red-100 text-red-700" }
-    if (whi < 60) return { label: "Watchlist", className: "bg-amber-100 text-amber-700" }
-    return { label: "Healthy", className: "bg-emerald-100 text-emerald-700" }
+    if (whi < 50) return { label: "High Risk", className: "bg-red-500/20 text-red-500" }
+    if (whi < 60) return { label: "Watchlist", className: "bg-amber-500/20 text-amber-500" }
+    return { label: "Healthy", className: "bg-green-500/20 text-green-500" }
   }
 
   const renderEmployeeCard = (employee: Employee) => {

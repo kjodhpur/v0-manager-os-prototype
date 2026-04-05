@@ -16,9 +16,9 @@ export function SurveysPage() {
 
   const getStatusBadge = (status: Survey["status"]) => {
     switch (status) {
-      case "active": return <Badge className="bg-emerald-100 text-emerald-700">Active</Badge>
+      case "active": return <Badge className="bg-green-500/15 text-emerald-700">Active</Badge>
       case "completed": return <Badge className="bg-muted text-muted-foreground">Completed</Badge>
-      case "draft": return <Badge className="bg-amber-100 text-amber-700">Draft</Badge>
+      case "draft": return <Badge className="bg-amber-500/15 text-amber-700">Draft</Badge>
     }
   }
 
@@ -156,7 +156,7 @@ export function SurveysPage() {
                         </div>
                         {/* Progress */}
                         <div className="mt-3 h-1.5 w-full rounded-full bg-muted">
-                          <div className="h-1.5 rounded-full bg-emerald-500" style={{ width: `${(survey.responses / survey.total) * 100}%` }} />
+                          <div className="h-1.5 rounded-full bg-green-500/100" style={{ width: `${(survey.responses / survey.total) * 100}%` }} />
                         </div>
                       </div>
                       <Button size="sm" variant="outline" onClick={() => { setSelectedSurvey(survey); setView("results") }}>

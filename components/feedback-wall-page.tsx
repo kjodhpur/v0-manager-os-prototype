@@ -25,8 +25,8 @@ export function FeedbackWallPage() {
 
   const getTypeBadge = (type: FeedbackEntry["type"]) => {
     switch (type) {
-      case "Praise": return <Badge className="bg-emerald-100 text-emerald-700">Praise</Badge>
-      case "Constructive": return <Badge className="bg-amber-100 text-amber-700">Constructive</Badge>
+      case "Praise": return <Badge className="bg-green-500/20 text-green-500">Praise</Badge>
+      case "Constructive": return <Badge className="bg-amber-500/20 text-amber-500">Constructive</Badge>
       case "Request": return <Badge className="bg-primary/10 text-primary">Request</Badge>
     }
   }

@@ -254,11 +254,11 @@ export function MetricsSection() {
                           </td>
                           <td className="py-1.5 pr-3">
                             <Badge className={`text-[9px] px-1.5 py-0 ${
-                              emp.issue.includes("Blocked") ? "bg-red-50 text-red-700 dark:bg-red-950/30 dark:text-red-300" :
-                              emp.issue.includes("Medium") ? "bg-amber-50 text-amber-700 dark:bg-amber-950/30 dark:text-amber-300" :
-                              emp.issue.includes("firefighting") ? "bg-orange-50 text-orange-700 dark:bg-orange-950/30 dark:text-orange-300" :
+                              emp.issue.includes("Blocked") ? "bg-red-500/10 text-red-700 dark:bg-red-950/30 dark:text-red-300" :
+                              emp.issue.includes("Medium") ? "bg-amber-500/10 text-amber-700 dark:bg-amber-950/30 dark:text-amber-300" :
+                              emp.issue.includes("firefighting") ? "bg-amber-500/10 text-orange-700 dark:bg-orange-950/30 dark:text-orange-300" :
                               emp.issue.includes("Declining") ? "bg-muted text-muted-foreground" :
-                              "bg-amber-50 text-amber-700 dark:bg-amber-950/30 dark:text-amber-300"
+                              "bg-amber-500/10 text-amber-700 dark:bg-amber-950/30 dark:text-amber-300"
                             }`}>{emp.issue}</Badge>
                           </td>
                           <td className="py-1.5">

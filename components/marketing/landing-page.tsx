@@ -284,11 +284,11 @@ export function LandingPage() {
                             </td>
                             <td className="py-1.5 pr-3">
                               <Badge className={`text-[9px] px-1.5 py-0 ${
-                                emp.issue.includes("Blocked") ? "bg-red-50 text-red-700 dark:bg-red-950/30 dark:text-red-300" :
-                                emp.issue.includes("Medium") ? "bg-amber-50 text-amber-700 dark:bg-amber-950/30 dark:text-amber-300" :
-                                emp.issue.includes("firefighting") ? "bg-orange-50 text-orange-700 dark:bg-orange-950/30 dark:text-orange-300" :
+                                emp.issue.includes("Blocked") ? "bg-red-500/10 text-red-700 dark:bg-red-950/30 dark:text-red-300" :
+                                emp.issue.includes("Medium") ? "bg-amber-500/10 text-amber-700 dark:bg-amber-950/30 dark:text-amber-300" :
+                                emp.issue.includes("firefighting") ? "bg-amber-500/10 text-orange-700 dark:bg-orange-950/30 dark:text-orange-300" :
                                 emp.issue.includes("Declining") ? "bg-muted text-muted-foreground" :
-                                "bg-amber-50 text-amber-700 dark:bg-amber-950/30 dark:text-amber-300"
+                                "bg-amber-500/10 text-amber-700 dark:bg-amber-950/30 dark:text-amber-300"
                               }`}>{emp.issue}</Badge>
                             </td>
                             <td className="py-1.5">
@@ -399,7 +399,7 @@ export function LandingPage() {
                         <td className="py-2 pr-3 text-center text-[11px] text-muted-foreground">{emp.meetingHours}h</td>
                         <td className="py-2 pr-3 text-center">
                           {emp.blocked > 0 ? (
-                            <span className="inline-flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-[9px] font-medium text-white">
+                            <span className="inline-flex h-5 w-5 items-center justify-center rounded-full bg-red-500/100 text-[9px] font-medium text-white">
                               {emp.blocked}
                             </span>
                           ) : (
@@ -408,9 +408,9 @@ export function LandingPage() {
                         </td>
                         <td className="py-2 pr-3 text-center">
                           <Badge className={`text-[9px] px-1.5 py-0 border ${
-                            emp.workloadStatus === "Overloaded" ? "bg-red-50 text-red-700 border-red-200 dark:bg-red-950/30 dark:text-red-300 dark:border-red-900" :
-                            emp.workloadStatus === "High" ? "bg-amber-50 text-amber-700 border-amber-200 dark:bg-amber-950/30 dark:text-amber-300 dark:border-amber-900" :
-                            emp.workloadStatus === "Balanced" ? "bg-emerald-50 text-emerald-700 border-emerald-200 dark:bg-emerald-950/30 dark:text-emerald-300 dark:border-emerald-900" :
+                            emp.workloadStatus === "Overloaded" ? "bg-red-500/10 text-red-700 border-red-200 dark:bg-red-950/30 dark:text-red-300 dark:border-red-900" :
+                            emp.workloadStatus === "High" ? "bg-amber-500/10 text-amber-700 border-amber-200 dark:bg-amber-950/30 dark:text-amber-300 dark:border-amber-900" :
+                            emp.workloadStatus === "Balanced" ? "bg-green-500/10 text-emerald-700 border-emerald-200 dark:bg-emerald-950/30 dark:text-emerald-300 dark:border-emerald-900" :
                             "bg-accent text-accent-foreground border-border"
                           }`}>{emp.workloadStatus}</Badge>
                         </td>

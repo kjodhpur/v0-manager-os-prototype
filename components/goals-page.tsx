@@ -23,16 +23,16 @@ export function GoalsPage() {
 
   const getStatusColor = (status: KeyResult["status"]) => {
     switch (status) {
-      case "On Track": return "bg-emerald-100 text-emerald-700"
-      case "At Risk": return "bg-amber-100 text-amber-700"
-      case "Behind": return "bg-red-100 text-red-700"
+      case "On Track": return "bg-green-500/15 text-emerald-700"
+      case "At Risk": return "bg-amber-500/15 text-amber-700"
+      case "Behind": return "bg-red-500/15 text-red-700"
     }
   }
 
   const getProgressColor = (progress: number) => {
-    if (progress >= 70) return "bg-emerald-500"
-    if (progress >= 40) return "bg-amber-500"
-    return "bg-red-500"
+    if (progress >= 70) return "bg-green-500/100"
+    if (progress >= 40) return "bg-amber-500/100"
+    return "bg-red-500/100"
   }
 
   return (

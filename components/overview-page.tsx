@@ -17,15 +17,15 @@ export function OverviewPage({ onEmployeeClick, onActionClick }: OverviewPagePro
   const getIssueColor = (issue: string) => {
     switch (issue) {
       case "Blocked + Overloaded":
-        return "bg-red-50 text-red-700 dark:bg-red-950/30 dark:text-red-300"
+        return "bg-red-500/10 text-red-700 dark:bg-red-950/30 dark:text-red-300"
       case "Medium risk":
-        return "bg-amber-50 text-amber-700 dark:bg-amber-950/30 dark:text-amber-300"
+        return "bg-amber-500/10 text-amber-700 dark:bg-amber-950/30 dark:text-amber-300"
       case "High firefighting":
-        return "bg-orange-50 text-orange-700 dark:bg-orange-950/30 dark:text-orange-300"
+        return "bg-amber-500/10 text-orange-700 dark:bg-orange-950/30 dark:text-orange-300"
       case "Declining":
         return "bg-muted text-muted-foreground"
       case "Recognition gap":
-        return "bg-amber-50 text-amber-700 dark:bg-amber-950/30 dark:text-amber-300"
+        return "bg-amber-500/10 text-amber-700 dark:bg-amber-950/30 dark:text-amber-300"
       default:
         return "bg-muted text-muted-foreground"
     }
@@ -71,11 +71,11 @@ export function OverviewPage({ onEmployeeClick, onActionClick }: OverviewPagePro
   const getEffortColor = (effort: string) => {
     switch (effort) {
       case "Low":
-        return "bg-emerald-50 text-emerald-700 dark:bg-emerald-950/30 dark:text-emerald-300"
+        return "bg-green-500/10 text-emerald-700 dark:bg-emerald-950/30 dark:text-emerald-300"
       case "Medium":
-        return "bg-amber-50 text-amber-700 dark:bg-amber-950/30 dark:text-amber-300"
+        return "bg-amber-500/10 text-amber-700 dark:bg-amber-950/30 dark:text-amber-300"
       case "High":
-        return "bg-red-50 text-red-700 dark:bg-red-950/30 dark:text-red-300"
+        return "bg-red-500/10 text-red-700 dark:bg-red-950/30 dark:text-red-300"
       default:
         return "bg-muted text-muted-foreground"
     }

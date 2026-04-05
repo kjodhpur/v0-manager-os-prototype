@@ -61,7 +61,7 @@ export function AiInsightCard() {
 
       <CardContent className="pl-5">
         {error ? (
-          <div className="rounded-lg bg-red-50 p-3 dark:bg-red-950/20">
+          <div className="rounded-lg bg-red-500/10 p-3 dark:bg-red-950/20">
             <p className="text-sm text-red-600 dark:text-red-400">
               Failed to generate insight. Please try again in a moment.
             </p>
@@ -98,7 +98,7 @@ export function AiInsightCard() {
                 onClick={() => setFeedback("up")}
                 className={`rounded p-1 transition-colors ${
                   feedback === "up"
-                    ? "bg-emerald-100 text-emerald-600 dark:bg-emerald-900/30"
+                    ? "bg-green-500/15 text-emerald-600 dark:bg-emerald-900/30"
                     : "text-muted-foreground hover:text-foreground"
                 }`}
               >
@@ -108,7 +108,7 @@ export function AiInsightCard() {
                 onClick={() => setFeedback("down")}
                 className={`rounded p-1 transition-colors ${
                   feedback === "down"
-                    ? "bg-red-100 text-red-600 dark:bg-red-900/30"
+                    ? "bg-red-500/15 text-red-600 dark:bg-red-900/30"
                     : "text-muted-foreground hover:text-foreground"
                 }`}
               >

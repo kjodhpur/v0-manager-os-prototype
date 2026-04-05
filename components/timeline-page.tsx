@@ -26,10 +26,10 @@ export function TimelinePage() {
 
   const getTypeBadge = (type: TimelineEvent["type"]) => {
     switch (type) {
-      case "recognition": return <Badge className="bg-amber-100 text-amber-700">Recognition</Badge>
+      case "recognition": return <Badge className="bg-amber-500/20 text-amber-500">Recognition</Badge>
       case "one-on-one": return <Badge className="bg-primary/10 text-primary">1:1 Meeting</Badge>
-      case "action": return <Badge className="bg-emerald-100 text-emerald-700">Action</Badge>
-      case "alert": return <Badge className="bg-red-100 text-red-700">Alert</Badge>
+      case "action": return <Badge className="bg-green-500/20 text-green-500">Action</Badge>
+      case "alert": return <Badge className="bg-red-500/20 text-red-500">Alert</Badge>
       case "survey": return <Badge className="bg-primary/10 text-primary">Survey</Badge>
     }
   }

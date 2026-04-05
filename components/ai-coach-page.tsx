@@ -36,18 +36,18 @@ export function AICoachPage({ onActionClick }: AICoachPageProps) {
 
   const getPriorityColor = (priority: string) => {
     switch (priority) {
-      case "High": return "bg-red-100 text-red-700"
-      case "Medium": return "bg-amber-100 text-amber-700"
-      case "Low": return "bg-emerald-100 text-emerald-700"
+      case "High": return "bg-red-500/15 text-red-700"
+      case "Medium": return "bg-amber-500/15 text-amber-700"
+      case "Low": return "bg-green-500/15 text-emerald-700"
       default: return "bg-muted text-muted-foreground"
     }
   }
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case "acted": return "bg-emerald-100 text-emerald-700"
+      case "acted": return "bg-green-500/15 text-emerald-700"
       case "dismissed": return "bg-muted text-muted-foreground"
-      case "snoozed": return "bg-amber-100 text-amber-700"
+      case "snoozed": return "bg-amber-500/15 text-amber-700"
       default: return "bg-primary/10 text-primary"
     }
   }

@@ -45,13 +45,13 @@ export function ActionsPage({ onActionClick }: ActionsPageProps) {
   const getEffortColor = (effort: string) => {
     switch (effort) {
       case "Low":
-        return "bg-green-100 text-green-700"
+        return "bg-green-500/20 text-green-500"
       case "Medium":
-        return "bg-amber-100 text-amber-700"
+        return "bg-amber-500/20 text-amber-500"
       case "High":
-        return "bg-red-100 text-red-700"
+        return "bg-red-500/20 text-red-500"
       default:
-        return "bg-gray-100 text-gray-700"
+        return "bg-muted/30 text-muted-foreground"
     }
   }
 
@@ -88,17 +88,17 @@ export function ActionsPage({ onActionClick }: ActionsPageProps) {
   const getCategoryColor = (category: string) => {
     switch (category) {
       case "workload":
-        return "bg-red-50 border-red-200"
+        return "border-red-500/30"
       case "recognition":
-        return "bg-amber-50 border-amber-200"
+        return "border-amber-500/30"
       case "growth":
-        return "bg-blue-50 border-blue-200"
+        return "border-primary/30"
       case "blockers":
-        return "border-border bg-secondary/50"
+        return "border-border"
       case "support":
-        return "bg-emerald-50 border-emerald-200"
+        return "border-green-500/30"
       default:
-        return "border-border bg-muted/50"
+        return "border-border"
     }
   }
 
@@ -115,21 +115,21 @@ export function ActionsPage({ onActionClick }: ActionsPageProps) {
     switch (status) {
       case "in-progress":
         return (
-          <Badge className="bg-blue-100 text-blue-700">
+          <Badge className="bg-primary/20 text-primary">
             <Clock className="mr-1 h-3 w-3" />
             In Progress
           </Badge>
         )
       case "done":
         return (
-          <Badge className="bg-emerald-100 text-emerald-700">
+          <Badge className="bg-green-500/20 text-green-500">
             <Check className="mr-1 h-3 w-3" />
             Done
           </Badge>
         )
       case "dismissed":
         return (
-          <Badge className="bg-gray-100 text-gray-500">
+          <Badge className="bg-muted/30 text-muted-foreground">
             <X className="mr-1 h-3 w-3" />
             Dismissed
           </Badge>

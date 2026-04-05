@@ -75,7 +75,7 @@ export function BenchmarkingPage() {
                   <div className="flex items-center gap-3 text-sm">
                     <span className="text-foreground font-medium">{m.team}</span>
                     <span className="text-xs text-muted-foreground">Org: {m.org}</span>
-                    <Badge className={delta.better ? "bg-emerald-100 text-emerald-700" : delta.worse ? "bg-red-100 text-red-700" : "bg-muted text-muted-foreground"}>
+                    <Badge className={delta.better ? "bg-green-500/20 text-green-500" : delta.worse ? "bg-red-500/20 text-red-500" : "bg-muted text-muted-foreground"}>
                       {delta.diff > 0 ? "+" : ""}{delta.diff}
                     </Badge>
                   </div>

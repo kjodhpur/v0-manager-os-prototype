@@ -29,15 +29,15 @@ export function BurnoutRiskMatrix({ onEmployeeClick }: BurnoutRiskMatrixProps) {
   })).sort((a, b) => b.burnoutRisk - a.burnoutRisk)
 
   const getRiskColor = (risk: number) => {
-    if (risk >= 70) return "bg-red-500"
-    if (risk >= 50) return "bg-amber-500"
-    return "bg-emerald-500"
+    if (risk >= 70) return "bg-red-500/100"
+    if (risk >= 50) return "bg-amber-500/100"
+    return "bg-green-500/100"
   }
 
   const getRiskLabel = (risk: number) => {
-    if (risk >= 70) return { label: "High", className: "bg-red-100 text-red-700" }
-    if (risk >= 50) return { label: "Medium", className: "bg-amber-100 text-amber-700" }
-    return { label: "Low", className: "bg-emerald-100 text-emerald-700" }
+    if (risk >= 70) return { label: "High", className: "bg-red-500/15 text-red-700" }
+    if (risk >= 50) return { label: "Medium", className: "bg-amber-500/15 text-amber-700" }
+    return { label: "Low", className: "bg-green-500/15 text-emerald-700" }
   }
 
   const high = enriched.filter((e) => e.burnoutRisk >= 70)

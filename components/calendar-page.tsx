@@ -43,8 +43,8 @@ export function CalendarPage() {
   const getTypeColor = (type: string) => {
     switch (type) {
       case "meeting": return "bg-primary/10 text-primary"
-      case "survey": return "bg-emerald-100 text-emerald-700"
-      case "deadline": return "bg-amber-100 text-amber-700"
+      case "survey": return "bg-green-500/15 text-emerald-700"
+      case "deadline": return "bg-amber-500/15 text-amber-700"
       default: return "bg-muted text-muted-foreground"
     }
   }
@@ -52,9 +52,9 @@ export function CalendarPage() {
   const getStatusDot = (status?: string) => {
     if (!status) return null
     switch (status) {
-      case "overdue": return <span className="h-2 w-2 rounded-full bg-red-500" />
-      case "needs-prep": return <span className="h-2 w-2 rounded-full bg-amber-500" />
-      case "prepped": return <span className="h-2 w-2 rounded-full bg-emerald-500" />
+      case "overdue": return <span className="h-2 w-2 rounded-full bg-red-500/100" />
+      case "needs-prep": return <span className="h-2 w-2 rounded-full bg-amber-500/100" />
+      case "prepped": return <span className="h-2 w-2 rounded-full bg-green-500/100" />
       default: return null
     }
   }

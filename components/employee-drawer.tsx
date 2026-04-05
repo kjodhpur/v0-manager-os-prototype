@@ -212,7 +212,7 @@ export function EmployeeDrawer({ employee, isOpen, onClose, onAction }: Employee
             <div className="mb-2 h-4 w-full overflow-hidden rounded-full">
               <div className="flex h-full">
                 <div
-                  className="bg-blue-500"
+                  className="bg-primary/100"
                   style={{ width: `${employee.stretch}%` }}
                   title={`Strategic/Visible: ${employee.stretch}%`}
                 />
@@ -235,7 +235,7 @@ export function EmployeeDrawer({ employee, isOpen, onClose, onAction }: Employee
             </div>
             <div className="grid grid-cols-2 gap-2 text-xs text-muted-foreground">
               <div className="flex items-center gap-1">
-                <div className="h-2.5 w-2.5 rounded-sm bg-blue-500" />
+                <div className="h-2.5 w-2.5 rounded-sm bg-primary/100" />
                 Strategic: {employee.stretch}%
               </div>
               <div className="flex items-center gap-1">
@@ -257,7 +257,7 @@ export function EmployeeDrawer({ employee, isOpen, onClose, onAction }: Employee
           {employee.issue !== "None" && (
             <div className="mb-6">
               <h3 className="mb-2 text-sm font-medium text-muted-foreground">Current Issue</h3>
-              <Badge className="bg-red-100 text-red-700">
+              <Badge className="bg-red-500/15 text-red-700">
                 {employee.issue}
               </Badge>
             </div>

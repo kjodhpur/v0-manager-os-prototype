@@ -27,9 +27,9 @@ export function MeetingsPage() {
 
   const getStatusBadge = (status: OneOnOne["status"]) => {
     switch (status) {
-      case "prepped": return <Badge className="bg-emerald-100 text-emerald-700">Prepped</Badge>
-      case "needs-prep": return <Badge className="bg-amber-100 text-amber-700">Needs Prep</Badge>
-      case "overdue": return <Badge className="bg-red-100 text-red-700">Overdue</Badge>
+      case "prepped": return <Badge className="bg-green-500/15 text-emerald-700">Prepped</Badge>
+      case "needs-prep": return <Badge className="bg-amber-500/15 text-amber-700">Needs Prep</Badge>
+      case "overdue": return <Badge className="bg-red-500/15 text-red-700">Overdue</Badge>
     }
   }
 
