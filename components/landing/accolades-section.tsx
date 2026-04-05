@@ -102,7 +102,7 @@ export function AccoladesSection() {
                 <div
                   className="relative p-8 rounded-xl border border-border/50 bg-gradient-to-br from-card/50 to-card/30 backdrop-blur-sm hover:border-primary/50 transition-all duration-300 hover:shadow-lg"
                   style={{
-                    boxShadow: "0 0 24px rgba(139, 168, 240, 0.05)",
+                    boxShadow: "0 0 24px rgba(0, 184, 160, 0.05)",
                   }}
                 >
                   {/* Icon with gradient background */}

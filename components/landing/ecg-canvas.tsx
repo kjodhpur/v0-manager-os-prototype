@@ -50,9 +50,9 @@ export function ECGCanvas() {
     const amplitude = canvas.height / 2.5;
     const centerY = canvas.height / 2;
     const gradient = ctx.createLinearGradient(0, 0, canvas.width, 0);
-    gradient.addColorStop(0, '#8BA8F0');
-    gradient.addColorStop(0.5, '#A87AC8');
-    gradient.addColorStop(1, '#E0607A');
+    gradient.addColorStop(0, '#00B8A0');
+    gradient.addColorStop(0.5, '#5DD67A');
+    gradient.addColorStop(1, '#FFB347');
 
     const drawWave = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -108,7 +108,7 @@ export function ECGCanvas() {
       }
 
       // Draw glow shadow
-      ctx.shadowColor = offset % 280 < 140 ? 'rgba(139, 168, 240, 0.4)' : 'rgba(224, 96, 122, 0.4)';
+      ctx.shadowColor = offset % 280 < 140 ? 'rgba(0, 184, 160, 0.4)' : 'rgba(255, 179, 71, 0.4)';
       ctx.shadowBlur = 6;
       ctx.shadowOffsetX = 0;
       ctx.shadowOffsetY = 2;

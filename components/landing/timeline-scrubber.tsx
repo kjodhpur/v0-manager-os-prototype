@@ -5,13 +5,13 @@ import { TrendingDown } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const weeks = [
-  { week: 1, status: 'Healthy', wwiScore: 72, color: '#8BA8F0' },
-  { week: 2, status: 'Watch', wwiScore: 65, color: '#9B9BE4' },
-  { week: 3, status: 'Elevated', wwiScore: 58, color: '#A87AC8' },
-  { week: 4, status: 'At Risk', wwiScore: 51, color: '#C464A2' },
-  { week: 5, status: 'High Risk', wwiScore: 45, color: '#D8587A' },
-  { week: 6, status: 'Critical', wwiScore: 43, color: '#E0607A' },
-  { week: 7, status: 'Resigned', wwiScore: 41, color: '#E0607A' },
+  { week: 1, status: 'Healthy', wwiScore: 72, color: '#5DD67A' },
+  { week: 2, status: 'Watch', wwiScore: 65, color: '#00B8A0' },
+  { week: 3, status: 'Elevated', wwiScore: 58, color: '#FFC940' },
+  { week: 4, status: 'At Risk', wwiScore: 51, color: '#FFB347' },
+  { week: 5, status: 'High Risk', wwiScore: 45, color: '#FF9B47' },
+  { week: 6, status: 'Critical', wwiScore: 43, color: '#FF6B6B' },
+  { week: 7, status: 'Resigned', wwiScore: 41, color: '#FF6B6B' },
 ];
 
 export function TimelineScrubber() {

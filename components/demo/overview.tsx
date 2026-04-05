@@ -40,28 +40,28 @@ export function DemoOverview() {
       wwiScore: 43,
       status: 'Critical',
       signals: 4,
-      color: '#E0607A',
+      color: '#FF6B6B',
     },
     {
       name: 'Marcus T.',
       wwiScore: 51,
       status: 'At Risk',
       signals: 3,
-      color: '#C464A2',
+      color: '#FFB347',
     },
     {
       name: 'Elena K.',
       wwiScore: 58,
       status: 'Elevated',
       signals: 2,
-      color: '#A87AC8',
+      color: '#FFC940',
     },
     {
       name: 'James B.',
       wwiScore: 65,
       status: 'Watch',
       signals: 1,
-      color: '#9B9BE4',
+      color: '#00B8A0',
     },
   ];
 
@@ -86,7 +86,7 @@ export function DemoOverview() {
             key={idx}
             className="group relative border border-border rounded-2xl p-6 lg:p-8 bg-gradient-to-br from-card/60 to-card/30 backdrop-blur-sm hover:border-primary/30 transition-all duration-300 hover:shadow-lg overflow-hidden"
             style={{
-              boxShadow: "0 0 20px rgba(139, 168, 240, 0.05)",
+              boxShadow: "0 0 20px rgba(0, 184, 160, 0.05)",
             }}
           >
             {/* Gradient accent on hover */}
@@ -127,7 +127,7 @@ export function DemoOverview() {
                     style={{
                       height: `${height || 20}%`,
                       minHeight: '4px',
-                      boxShadow: '0 0 8px rgba(139, 168, 240, 0.3)',
+                      boxShadow: '0 0 8px rgba(0, 184, 160, 0.3)',
                     }}
                   />
                 );

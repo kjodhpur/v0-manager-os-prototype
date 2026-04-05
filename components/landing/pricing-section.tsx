@@ -144,8 +144,8 @@ export function PricingSection() {
                 }`}
                 style={{
                   boxShadow: tier.highlighted
-                    ? "0 0 40px rgba(139, 168, 240, 0.15)"
-                    : "0 0 24px rgba(139, 168, 240, 0.05)",
+                    ? "0 0 40px rgba(0, 184, 160, 0.15)"
+                    : "0 0 24px rgba(0, 184, 160, 0.05)",
                 }}
               >
                 {/* Top tier badge */}

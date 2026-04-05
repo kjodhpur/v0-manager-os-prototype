@@ -87,7 +87,7 @@ export function TeamSection() {
               <div
                 className="relative p-8 rounded-2xl border border-border/50 bg-card/30 backdrop-blur-sm hover:border-primary/50 transition-all duration-300"
                 style={{
-                  boxShadow: "0 0 24px rgba(139, 168, 240, 0.05)",
+                  boxShadow: "0 0 24px rgba(0, 184, 160, 0.05)",
                 }}
               >
                 {/* Avatar */}
