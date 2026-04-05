@@ -15,27 +15,16 @@ export function HeartMetricsLogo({
   };
 
   const logoSrc = {
-    horizontal: "/hm-logo-horizontal.png",
-    icon: "/hm-logo-icon.png",
-    dark: "/hm-logo-dark.png"
+    horizontal: "/hm-logo-horizontal.svg",
+    icon: "/hm-logo-icon.svg",
+    dark: "/hm-logo-dark.svg"
   }[variant];
 
   return (
-    <span className={`inline-block relative overflow-hidden ${className}`}>
-      {/* Original logo */}
-      <img
-        src={logoSrc}
-        alt="HeartMetrics"
-        className={`${sizeMap[size]} w-auto ${variant === "horizontal" ? "object-contain leading-none" : ""} relative`}
-      />
-      {/* Gradient color overlay */}
-      <span
-        className="absolute inset-0 pointer-events-none"
-        style={{
-          background: "linear-gradient(to right, #00B8A0 0%, #5DD67A 45%, #FFB347 100%)",
-          mixBlendMode: "color",
-        }}
-      />
-    </span>
+    <img
+      src={logoSrc}
+      alt="HeartMetrics"
+      className={`${sizeMap[size]} w-auto ${variant === "horizontal" ? "object-contain leading-none" : ""} ${className}`}
+    />
   );
 }

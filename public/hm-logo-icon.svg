@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" fill="none">
+  <defs>
+    <linearGradient id="iconGrad" x1="0%" y1="50%" x2="100%" y2="50%">
+      <stop offset="0%" stop-color="#00B8A0"/>
+      <stop offset="45%" stop-color="#5DD67A"/>
+      <stop offset="100%" stop-color="#FFB347"/>
+    </linearGradient>
+    <filter id="iconGlow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="12" result="blur1"/>
+      <feGaussianBlur in="SourceGraphic" stdDeviation="6" result="blur2"/>
+      <feGaussianBlur in="SourceGraphic" stdDeviation="2" result="blur3"/>
+      <feMerge>
+        <feMergeNode in="blur1"/>
+        <feMergeNode in="blur2"/>
+        <feMergeNode in="blur3"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <g filter="url(#iconGlow)">
+    <!-- h stem (tall vertical bar) -->
+    <rect x="52" y="32" width="12" height="128" rx="6" fill="url(#iconGrad)" opacity="0.9"/>
+
+    <!-- h curve connecting to heart -->
+    <path d="M58 100 C58 88, 68 80, 80 80 C90 80, 96 86, 100 92"
+          stroke="url(#iconGrad)" stroke-width="12" stroke-linecap="round" fill="none" opacity="0.9"/>
+
+    <!-- Heart shape -->
+    <path d="M100 170 C100 170, 60 138, 60 112 C60 100, 70 92, 80 92 C88 92, 94 97, 100 106 C106 97, 112 92, 120 92 C130 92, 140 100, 140 112 C140 138, 100 170, 100 170Z"
+          fill="url(#iconGrad)" opacity="0.85"/>
+  </g>
+
+  <!-- Sparkle -->
+  <g transform="translate(172, 172)" opacity="0.7">
+    <line x1="0" y1="-6" x2="0" y2="6" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+    <line x1="-6" y1="0" x2="6" y2="0" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+    <line x1="-4" y1="-4" x2="4" y2="4" stroke="white" stroke-width="1" stroke-linecap="round"/>
+    <line x1="4" y1="-4" x2="-4" y2="4" stroke="white" stroke-width="1" stroke-linecap="round"/>
+  </g>
+</svg>
