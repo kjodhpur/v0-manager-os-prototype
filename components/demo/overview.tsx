@@ -1,6 +1,6 @@
 'use client';
 
-import { TrendingUp, AlertTriangle } from 'lucide-react';
+import { TrendingUp, TrendingDown } from 'lucide-react';
 
 export function DemoOverview() {
   const kpiCards = [
@@ -59,62 +59,62 @@ export function DemoOverview() {
     {
       name: 'James B.',
       wwiScore: 65,
-      status: 'Watch',
+      status: 'Healthy',
       signals: 1,
       color: '#00B8A0',
     },
   ];
 
+  const actions = [
+    { title: 'Schedule 1:1', description: 'With Riya S.' },
+    { title: 'Redistribute Tasks', description: 'Balance workload' },
+    { title: 'Increase Recognition', description: 'Boost morale' },
+    { title: 'Team Sync', description: 'Wellbeing check-in' },
+  ];
+
   return (
-    <div className="p-4 lg:p-8 w-full overflow-x-hidden max-lg:pb-24">
-      {/* Header with badge */}
-      <div className="mb-8 lg:mb-12">
-        <div className="flex items-center gap-3 mb-4">
-          <span className="inline-block px-3 py-1 rounded-full text-xs font-medium bg-green-500/10 text-green-400 border border-green-500/20">
-            ✓ Live Data
-          </span>
-          <span className="text-xs text-muted-foreground">Last updated: Just now</span>
-        </div>
-        <h1 className="text-3xl lg:text-4xl font-display font-bold mb-2">Team Intelligence Dashboard</h1>
-        <p className="text-base lg:text-lg text-muted-foreground">AI-powered insights into team wellbeing, workload distribution, and engagement signals</p>
+    <div className="p-6 lg:p-12 w-full overflow-x-hidden max-lg:pb-24">
+      {/* Header */}
+      <div className="mb-12">
+        <h1 className="text-3xl lg:text-4xl font-display font-bold mb-2">Team Overview</h1>
+        <p className="text-base text-muted-foreground">AI-powered insights into your team's wellbeing and engagement</p>
       </div>
 
       {/* KPI Cards Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6 mb-8 lg:mb-12">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
         {kpiCards.map((card, idx) => (
           <div
             key={idx}
-            className="group relative border border-border rounded-2xl p-6 lg:p-8 bg-gradient-to-br from-card/60 to-card/30 backdrop-blur-sm hover:border-primary/30 transition-all duration-300 hover:shadow-lg overflow-hidden"
-            style={{
-              boxShadow: "0 0 20px rgba(0, 184, 160, 0.05)",
-            }}
+            className="border border-border rounded-lg p-6 hover:border-primary/50 transition-colors"
           >
-            {/* Gradient accent on hover */}
-            <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-accent/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-            <div className="relative z-10">
             {/* Label */}
-            <p className="text-xs font-mono text-muted-foreground mb-3 lg:mb-4 uppercase tracking-wider">
+            <p className="text-xs font-medium text-muted-foreground mb-4 uppercase tracking-wide">
               {card.label}
             </p>
 
             {/* Value */}
-            <div className="mb-3 lg:mb-4">
+            <div className="mb-4">
               <div className="flex items-baseline gap-2">
-                <span className="text-2xl lg:text-3xl font-display font-bold text-gradient">
+                <span className="text-3xl font-display font-bold text-foreground">
                   {card.value}
                 </span>
                 <span
-                  className={`text-xs lg:text-sm font-medium ${
-                    card.changeType === 'up' ? 'text-green-400' : 'text-red-400'
+                  className={`text-sm font-medium flex items-center gap-1 ${
+                    card.changeType === 'up' ? 'text-green-500' : 'text-red-500'
                   }`}
                 >
+                  {card.changeType === 'up' ? (
+                    <TrendingUp className="w-3 h-3" />
+                  ) : (
+                    <TrendingDown className="w-3 h-3" />
+                  )}
                   {card.change}
                 </span>
               </div>
             </div>
 
-            {/* Mini sparkline with animation */}
-            <div className="h-10 flex items-end gap-1 justify-between">
+            {/* Sparkline */}
+            <div className="h-8 flex items-end gap-1 justify-between">
               {card.trend.map((val, i) => {
                 const max = Math.max(...card.trend);
                 const min = Math.min(...card.trend);
@@ -123,87 +123,62 @@ export function DemoOverview() {
                 return (
                   <div
                     key={i}
-                    className="flex-1 bg-gradient-to-t from-primary to-accent rounded-t opacity-70 hover:opacity-100 transition-all duration-200 hover:shadow-lg"
+                    className="flex-1 bg-primary rounded-sm opacity-60 hover:opacity-100 transition-opacity"
                     style={{
                       height: `${height || 20}%`,
-                      minHeight: '4px',
-                      boxShadow: '0 0 8px rgba(0, 184, 160, 0.3)',
+                      minHeight: '2px',
                     }}
                   />
                 );
               })}
             </div>
-            </div>
           </div>
         ))}
       </div>
 
-      {/* Attention Needed Section */}
-      <div className="border border-accent/30 rounded-2xl overflow-hidden bg-gradient-to-br from-accent/5 to-card/30 backdrop-blur-sm">
-        <div className="border-b border-accent/20 px-6 lg:px-8 py-4 lg:py-6 bg-gradient-to-r from-accent/10 to-transparent flex items-center gap-3">
-          <div className="w-10 h-10 rounded-lg bg-accent/20 flex items-center justify-center">
-            <AlertTriangle className="w-5 h-5 text-accent flex-shrink-0" />
-          </div>
-          <div>
-            <h2 className="text-lg lg:text-xl font-display font-bold">At-Risk Team Members</h2>
-            <p className="text-xs text-muted-foreground">Employees showing signs of disengagement</p>
-          </div>
-        </div>
-
-        {/* Table */}
-        <div className="overflow-x-auto">
-          <table className="w-full text-sm lg:text-base">
+      {/* Team Members Section */}
+      <div className="mb-12">
+        <h2 className="text-xl font-display font-bold mb-6">Team Members</h2>
+        <div className="border border-border rounded-lg overflow-hidden">
+          <table className="w-full">
             <thead>
-              <tr className="border-b border-border">
-                <th className="px-4 lg:px-6 py-3 lg:py-4 text-left text-xs font-mono text-muted-foreground uppercase">
-                  Name
-                </th>
-                <th className="px-4 lg:px-6 py-3 lg:py-4 text-left text-xs font-mono text-muted-foreground uppercase">
-                  WWI
-                </th>
-                <th className="px-4 lg:px-6 py-3 lg:py-4 text-left text-xs font-mono text-muted-foreground uppercase">
-                  Status
-                </th>
-                <th className="px-4 lg:px-6 py-3 lg:py-4 text-left text-xs font-mono text-muted-foreground uppercase">
-                  Signals
-                </th>
+              <tr className="border-b border-border bg-muted/20">
+                <th className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase">Name</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase">Wellbeing</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase">Status</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase">Signals</th>
               </tr>
             </thead>
             <tbody>
               {attentionItems.map((item, idx) => (
-                <tr
-                  key={idx}
-                  className="border-b border-border hover:bg-card/80 transition-colors"
-                >
-                  <td className="px-4 lg:px-6 py-3 lg:py-4">
-                    <span className="font-medium text-sm lg:text-base">{item.name}</span>
-                  </td>
-                  <td className="px-4 lg:px-6 py-3 lg:py-4">
-                    <div className="flex items-center gap-2 lg:gap-3">
+                <tr key={idx} className="border-b border-border last:border-0 hover:bg-muted/10 transition-colors">
+                  <td className="px-6 py-4 text-sm font-medium">{item.name}</td>
+                  <td className="px-6 py-4">
+                    <div className="flex items-center gap-2">
                       <div
-                        className="w-2 h-2 rounded-full flex-shrink-0"
+                        className="w-2 h-2 rounded-full"
                         style={{ backgroundColor: item.color }}
                       />
-                      <span className="font-display font-bold text-sm lg:text-base">{item.wwiScore}</span>
+                      <span className="text-sm font-semibold">{item.wwiScore}</span>
                     </div>
                   </td>
-                  <td className="px-4 lg:px-6 py-3 lg:py-4">
+                  <td className="px-6 py-4">
                     <span
-                      className="px-2 lg:px-3 py-1 rounded-full text-xs font-medium whitespace-nowrap"
+                      className="px-3 py-1 rounded text-xs font-medium"
                       style={{
-                        backgroundColor: `${item.color}20`,
+                        backgroundColor: `${item.color}15`,
                         color: item.color,
                       }}
                     >
                       {item.status}
                     </span>
                   </td>
-                  <td className="px-4 lg:px-6 py-3 lg:py-4">
+                  <td className="px-6 py-4">
                     <div className="flex gap-1">
                       {[...Array(4)].map((_, i) => (
                         <div
                           key={i}
-                          className={`w-1.5 h-1.5 lg:w-2 lg:h-2 rounded-full ${
+                          className={`w-1.5 h-1.5 rounded-full ${
                             i < item.signals ? 'bg-primary' : 'bg-muted'
                           }`}
                         />
@@ -215,28 +190,21 @@ export function DemoOverview() {
             </tbody>
           </table>
         </div>
+      </div>
 
-        {/* Recommended Actions */}
-        <div className="border-t border-border px-4 lg:px-6 py-4 lg:py-6 bg-card/30">
-          <h3 className="font-semibold mb-4 text-sm lg:text-base">Recommended Actions</h3>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 lg:gap-4">
-            <div className="border border-primary/30 rounded-lg p-3 lg:p-4 bg-primary/5 hover:bg-primary/10 transition-colors cursor-pointer">
-              <p className="text-xs lg:text-sm font-medium">Schedule 1:1 with Riya</p>
-              <p className="text-xs text-muted-foreground mt-1">Immediate support needed</p>
+      {/* Recommended Actions */}
+      <div>
+        <h2 className="text-xl font-display font-bold mb-6">Recommended Actions</h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          {actions.map((action, idx) => (
+            <div
+              key={idx}
+              className="border border-border rounded-lg p-4 hover:border-primary/50 transition-colors cursor-pointer"
+            >
+              <p className="text-sm font-medium text-foreground">{action.title}</p>
+              <p className="text-xs text-muted-foreground mt-1">{action.description}</p>
             </div>
-            <div className="border border-border rounded-lg p-3 lg:p-4 hover:border-primary/30 transition-colors cursor-pointer">
-              <p className="text-xs lg:text-sm font-medium">Redistribute Tasks</p>
-              <p className="text-xs text-muted-foreground mt-1">Balance workload across team</p>
-            </div>
-            <div className="border border-border rounded-lg p-3 lg:p-4 hover:border-primary/30 transition-colors cursor-pointer">
-              <p className="text-xs lg:text-sm font-medium">Increase Recognition</p>
-              <p className="text-xs text-muted-foreground mt-1">Boost team morale</p>
-            </div>
-            <div className="border border-border rounded-lg p-3 lg:p-4 hover:border-primary/30 transition-colors cursor-pointer">
-              <p className="text-xs lg:text-sm font-medium">Team Meeting</p>
-              <p className="text-xs text-muted-foreground mt-1">Discuss wellbeing initiatives</p>
-            </div>
-          </div>
+          ))}
         </div>
       </div>
     </div>

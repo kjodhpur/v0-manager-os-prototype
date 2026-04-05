@@ -215,23 +215,24 @@ export function AnimatedHeart() {
       // Sort by z for proper depth ordering (back to front)
       points.sort((a, b) => a.z - b.z);
 
-      // Draw all points with HeartMetrics brand color
+      // Draw all points with HeartMetrics brand color (teal)
       points.forEach((point) => {
         ctx.beginPath();
-        ctx.arc(point.x, point.y, point.size, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(12, 44, 85, ${point.alpha})`;
+        ctx.arc(point.x, point.y, point.size * 1.3, 0, Math.PI * 2);
+        // Use brand teal color: #00B8A0
+        ctx.fillStyle = `rgba(0, 184, 160, ${point.alpha * 1.2})`;
         ctx.fill();
       });
 
-      // Add subtle center glow
+      // Add subtle center glow with brand color
       const glowGradient = ctx.createRadialGradient(
         centerX, centerY, 0,
         centerX, centerY, scale * 16
       );
-      glowGradient.addColorStop(0, "rgba(12, 44, 85, 0.04)");
-      glowGradient.addColorStop(0.5, "rgba(12, 44, 85, 0.015)");
-      glowGradient.addColorStop(1, "rgba(12, 44, 85, 0)");
-      
+      glowGradient.addColorStop(0, "rgba(0, 184, 160, 0.08)");
+      glowGradient.addColorStop(0.5, "rgba(0, 184, 160, 0.03)");
+      glowGradient.addColorStop(1, "rgba(0, 184, 160, 0)");
+
       ctx.fillStyle = glowGradient;
       ctx.fillRect(0, 0, rect.width, rect.height);
 

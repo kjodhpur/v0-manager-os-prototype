@@ -275,24 +275,22 @@ export function MetricsSection() {
         </div>
 
         {/* Metrics Summary */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-px bg-foreground/10 mt-16">
+        <div className="grid grid-cols-2 gap-px bg-foreground/10 mt-16">
           {[
-            { value: 40, suffix: "%", label: "Burnout risk reduction" },
-            { value: 85, suffix: "%", label: "Manager satisfaction" },
-            { value: 3, suffix: "x", label: "Faster issue detection" },
-            { value: 2, suffix: " hrs", label: "Saved per manager/week" },
+            { value: 900, suffix: "B", label: "Annual US turnover cost in 2024", prefix: "$" },
+            { value: 79, suffix: "%", label: "Cite lack of recognition as reason for quitting", prefix: "" },
           ].map((metric, index) => (
             <div
               key={metric.label}
-              className={`bg-background p-8 lg:p-10 transition-all duration-700 ${
+              className={`bg-background p-8 lg:p-12 transition-all duration-700 ${
                 isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
               }`}
               style={{ transitionDelay: `${index * 100 + 500}ms` }}
             >
-              <AnimatedCounter 
-                end={metric.value} 
-                suffix={metric.suffix} 
-                prefix=""
+              <AnimatedCounter
+                end={metric.value}
+                suffix={metric.suffix}
+                prefix={metric.prefix}
               />
               <div className="mt-3 text-sm text-muted-foreground">{metric.label}</div>
             </div>

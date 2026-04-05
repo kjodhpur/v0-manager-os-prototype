@@ -3,14 +3,21 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { Menu, X, ArrowRight } from 'lucide-react';
+import { Menu, X, ArrowRight, Sun, Moon } from 'lucide-react';
 import { HeartMetricsLogo } from '@/components/heart-metrics-logo';
 
 export function Navigation() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isDark, setIsDark] = useState(true);
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
+    setMounted(true);
+    const savedTheme = localStorage.getItem('theme');
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    setIsDark(savedTheme === 'dark' || (savedTheme === null && prefersDark));
+
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 60);
     };
@@ -18,6 +25,21 @@ export function Navigation() {
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  const toggleTheme = () => {
+    const newIsDark = !isDark;
+    setIsDark(newIsDark);
+
+    if (newIsDark) {
+      document.documentElement.classList.remove('light');
+      document.documentElement.classList.add('dark');
+      localStorage.setItem('theme', 'dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+      document.documentElement.classList.add('light');
+      localStorage.setItem('theme', 'light');
+    }
+  };
 
   return (
     <header
@@ -30,7 +52,9 @@ export function Navigation() {
       <nav className="mx-auto max-w-7xl h-full px-4 sm:px-6 lg:px-8 flex items-center justify-between">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2 shrink-0">
-          <HeartMetricsLogo size="xl" className="translate-y-1" />
+          <div className="scale-125 origin-left">
+            <HeartMetricsLogo variant="horizontal" className="translate-y-1" />
+          </div>
         </Link>
 
         {/* Desktop Nav Links */}
@@ -57,6 +81,17 @@ export function Navigation() {
 
         {/* Desktop CTA */}
         <div className="hidden lg:flex items-center gap-4">
+          <button
+            onClick={toggleTheme}
+            className="p-2 hover:bg-card rounded-lg transition-colors"
+            aria-label="Toggle theme"
+          >
+            {mounted && isDark ? (
+              <Sun className="w-5 h-5" />
+            ) : (
+              <Moon className="w-5 h-5" />
+            )}
+          </button>
           <Link
             href="/signin"
             className="text-sm text-foreground/70 hover:text-primary transition-colors"
@@ -137,6 +172,17 @@ export function Navigation() {
 
             {/* Bottom CTAs */}
             <div className="flex gap-4 pt-8 border-t border-border">
+              <button
+                onClick={toggleTheme}
+                className="p-3 hover:bg-card rounded-lg transition-colors border border-border"
+                aria-label="Toggle theme"
+              >
+                {mounted && isDark ? (
+                  <Sun className="w-5 h-5" />
+                ) : (
+                  <Moon className="w-5 h-5" />
+                )}
+              </button>
               <Button
                 variant="outline"
                 className="flex-1 rounded-full h-12 text-base border-primary/30 hover:border-primary/60"

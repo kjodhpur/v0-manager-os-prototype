@@ -1,8 +1,8 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import Link from "next/link"
-import { Menu, X } from "lucide-react"
+import { Menu, X, Sun, Moon } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { HeartMetricsLogo } from "@/components/heart-metrics-logo"
 
@@ -16,12 +16,38 @@ const navLinks = [
 
 export function MarketingNav() {
   const [mobileOpen, setMobileOpen] = useState(false)
+  const [isDark, setIsDark] = useState(true)
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => {
+    setMounted(true)
+    const savedTheme = localStorage.getItem('theme')
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches
+    setIsDark(savedTheme === 'dark' || (savedTheme === null && prefersDark))
+  }, [])
+
+  const toggleTheme = () => {
+    const newIsDark = !isDark
+    setIsDark(newIsDark)
+
+    if (newIsDark) {
+      document.documentElement.classList.remove('light')
+      document.documentElement.classList.add('dark')
+      localStorage.setItem('theme', 'dark')
+    } else {
+      document.documentElement.classList.remove('dark')
+      document.documentElement.classList.add('light')
+      localStorage.setItem('theme', 'light')
+    }
+  }
 
   return (
     <header className="sticky top-0 z-50 border-b border-border bg-card/95 backdrop-blur supports-[backdrop-filter]:bg-card/80">
       <nav className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 lg:px-8">
         <Link href="/" className="flex items-center self-center gap-2">
-          <HeartMetricsLogo size="lg" />
+          <div className="scale-110 origin-left">
+            <HeartMetricsLogo variant="horizontal" />
+          </div>
         </Link>
 
         {/* Desktop Nav */}
@@ -38,6 +64,17 @@ export function MarketingNav() {
         </div>
 
         <div className="hidden items-center gap-3 md:flex">
+          <button
+            onClick={toggleTheme}
+            className="p-2 hover:bg-card rounded-lg transition-colors"
+            aria-label="Toggle theme"
+          >
+            {mounted && isDark ? (
+              <Sun className="w-5 h-5" />
+            ) : (
+              <Moon className="w-5 h-5" />
+            )}
+          </button>
           <Button variant="ghost" asChild>
             <Link href="/signin">Sign In</Link>
           </Button>
@@ -71,6 +108,17 @@ export function MarketingNav() {
               </Link>
             ))}
             <div className="mt-4 flex flex-col gap-3">
+              <button
+                onClick={toggleTheme}
+                className="p-3 hover:bg-background rounded-lg transition-colors border border-border flex items-center justify-center"
+                aria-label="Toggle theme"
+              >
+                {mounted && isDark ? (
+                  <Sun className="w-5 h-5" />
+                ) : (
+                  <Moon className="w-5 h-5" />
+                )}
+              </button>
               <Button variant="outline" asChild className="w-full bg-transparent">
                 <Link href="/signin">Sign In</Link>
               </Button>
