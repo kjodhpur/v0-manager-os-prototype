@@ -22,8 +22,8 @@ export function Navigation() {
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 h-14 transition-all duration-500 ${
-        isScrolled 
-          ? 'bg-card/80 backdrop-blur-xl border-b border-border shadow-lg' 
+        isScrolled
+          ? 'bg-card/80 backdrop-blur-xl border-b border-border shadow-lg'
           : 'bg-transparent'
       }`}
     >
@@ -34,16 +34,25 @@ export function Navigation() {
         </Link>
 
         {/* Desktop Nav Links */}
-        <div className="hidden lg:flex items-center gap-12">
-          <a href="#product" className="text-sm text-foreground/70 hover:text-foreground transition-colors">
+        <div className="hidden lg:flex items-center gap-8">
+          <Link href="/product" className="text-sm text-foreground/70 hover:text-foreground transition-colors">
             Product
-          </a>
+          </Link>
+          <Link href="/how-we-calculate" className="text-sm text-foreground/70 hover:text-foreground transition-colors">
+            How it Works
+          </Link>
           <a href="#pricing" className="text-sm text-foreground/70 hover:text-foreground transition-colors">
             Pricing
           </a>
-          <a href="#security" className="text-sm text-foreground/70 hover:text-foreground transition-colors">
+          <Link href="/security" className="text-sm text-foreground/70 hover:text-foreground transition-colors">
             Security
-          </a>
+          </Link>
+          <Link href="/about" className="text-sm text-foreground/70 hover:text-foreground transition-colors">
+            About
+          </Link>
+          <Link href="/contact" className="text-sm text-foreground/70 hover:text-foreground transition-colors">
+            Contact
+          </Link>
         </div>
 
         {/* Desktop CTA */}
@@ -82,13 +91,20 @@ export function Navigation() {
         {isMobileMenuOpen && (
           <div className="absolute top-14 left-0 right-0 bg-card/95 backdrop-blur-xl border-b border-border p-6 lg:hidden">
             <nav className="flex flex-col gap-6 mb-8">
-              <a
-                href="#product"
+              <Link
+                href="/product"
                 className="text-foreground/70 hover:text-foreground transition-colors"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
                 Product
-              </a>
+              </Link>
+              <Link
+                href="/how-we-calculate"
+                className="text-foreground/70 hover:text-foreground transition-colors"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                How it Works
+              </Link>
               <a
                 href="#pricing"
                 className="text-foreground/70 hover:text-foreground transition-colors"
@@ -96,13 +112,27 @@ export function Navigation() {
               >
                 Pricing
               </a>
-              <a
-                href="#security"
+              <Link
+                href="/security"
                 className="text-foreground/70 hover:text-foreground transition-colors"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
                 Security
-              </a>
+              </Link>
+              <Link
+                href="/about"
+                className="text-foreground/70 hover:text-foreground transition-colors"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                About
+              </Link>
+              <Link
+                href="/contact"
+                className="text-foreground/70 hover:text-foreground transition-colors"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                Contact
+              </Link>
             </nav>
 
             {/* Bottom CTAs */}

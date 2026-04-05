@@ -16,14 +16,14 @@ import {
 } from 'lucide-react';
 
 const menuItems = [
-  { icon: LayoutDashboard, label: 'Overview', href: '#' },
-  { icon: TrendingUp, label: 'Team Flow', href: '#' },
-  { icon: AlertCircle, label: 'Action Queue', href: '#' },
-  { icon: Users, label: 'Recognition', href: '#' },
-  { icon: BarChart3, label: 'Wellbeing', href: '#' },
-  { icon: BarChart3, label: 'Fairness', href: '#' },
-  { icon: Settings, label: 'Integrations', href: '#' },
-  { icon: HelpCircle, label: 'Settings', href: '#' },
+  { icon: LayoutDashboard, label: 'Overview', href: '/demo' },
+  { icon: TrendingUp, label: 'Team Flow', href: '/demo?page=timeline' },
+  { icon: AlertCircle, label: 'Action Queue', href: '/demo?page=actions' },
+  { icon: Users, label: 'Recognition', href: '/demo?page=recognition' },
+  { icon: BarChart3, label: 'Wellbeing', href: '/demo?page=team-health' },
+  { icon: BarChart3, label: 'Work Distribution', href: '/demo?page=work-distribution' },
+  { icon: Settings, label: 'Integrations', href: '/demo?page=integrations' },
+  { icon: HelpCircle, label: 'Settings', href: '/demo?page=settings' },
 ];
 
 export function Sidebar() {

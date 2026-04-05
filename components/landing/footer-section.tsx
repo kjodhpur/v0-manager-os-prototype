@@ -7,15 +7,15 @@ import { HeartMetricsLogo } from "@/components/heart-metrics-logo";
 
 const footerLinks = {
   Product: [
-    { name: "Features", href: "#features" },
-    { name: "How it works", href: "#how-it-works" },
+    { name: "Features", href: "/product" },
+    { name: "How it works", href: "/how-we-calculate" },
     { name: "Security", href: "/security" },
     { name: "FAQ", href: "/faq" },
   ],
   Company: [
     { name: "About", href: "/about" },
     { name: "Contact", href: "/contact" },
-    { name: "Careers", href: "#", badge: "Hiring" },
+    { name: "Blog", href: "https://heartmetrics.io/blog" },
   ],
   Legal: [
     { name: "Privacy Policy", href: "/privacy" },
@@ -25,8 +25,8 @@ const footerLinks = {
 };
 
 const socialLinks = [
-  { name: "Twitter", href: "#" },
-  { name: "LinkedIn", href: "#" },
+  { name: "Twitter", href: "https://twitter.com/heartmetrics" },
+  { name: "LinkedIn", href: "https://linkedin.com/company/heartmetrics" },
 ];
 
 export function FooterSection() {
