@@ -1,109 +1,211 @@
-"use client"
+'use client';
 
-import { useState } from "react"
-import { Clock, Award, Calendar, Zap, AlertCircle, ClipboardList, Filter } from "lucide-react"
-import { Card, CardContent } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
-import { timelineEvents, type TimelineEvent } from "@/lib/data"
-
-type FilterType = "all" | "recognition" | "one-on-one" | "action" | "alert" | "survey"
+import { Users, TrendingUp } from 'lucide-react';
 
 export function TimelinePage() {
-  const [filter, setFilter] = useState<FilterType>("all")
+  // Hardcoded team members with full data
+  const teamMembers = [
+    {
+      name: 'Riya S.',
+      role: 'Analyst',
+      wwiScore: 41,
+      trend: -3,
+      components: [
+        { name: 'Protection from Harm', value: 38 },
+        { name: 'Work-Life Harmony', value: 35 },
+        { name: 'Connection & Community', value: 42 },
+        { name: 'Mattering at Work', value: 45 },
+        { name: 'Opportunity for Growth', value: 42 },
+      ],
+      metrics: [
+        { label: 'Weekly Workload', value: '58h', unit: 'hours', status: 'critical' },
+        { label: 'Meetings This Week', value: '12', unit: 'hours', status: 'high' },
+        { label: 'Recognition (30d)', value: '1', unit: 'events', status: 'critical' },
+        { label: 'Growth Opportunities', value: '0', unit: 'assigned', status: 'critical' },
+      ],
+    },
+    {
+      name: 'Sam J.',
+      role: 'Operations',
+      wwiScore: 49,
+      trend: 1,
+      components: [
+        { name: 'Protection from Harm', value: 48 },
+        { name: 'Work-Life Harmony', value: 45 },
+        { name: 'Connection & Community', value: 50 },
+        { name: 'Mattering at Work', value: 52 },
+        { name: 'Opportunity for Growth', value: 48 },
+      ],
+      metrics: [
+        { label: 'Weekly Workload', value: '52h', unit: 'hours', status: 'high' },
+        { label: 'Meetings This Week', value: '10', unit: 'hours', status: 'high' },
+        { label: 'Recognition (30d)', value: '2', unit: 'events', status: 'medium' },
+        { label: 'Growth Opportunities', value: '1', unit: 'assigned', status: 'medium' },
+      ],
+    },
+    {
+      name: 'Diego P.',
+      role: 'Specialist',
+      wwiScore: 52,
+      trend: 2,
+      components: [
+        { name: 'Protection from Harm', value: 54 },
+        { name: 'Work-Life Harmony', value: 50 },
+        { name: 'Connection & Community', value: 52 },
+        { name: 'Mattering at Work', value: 54 },
+        { name: 'Opportunity for Growth', value: 50 },
+      ],
+      metrics: [
+        { label: 'Weekly Workload', value: '48h', unit: 'hours', status: 'medium' },
+        { label: 'Meetings This Week', value: '8', unit: 'hours', status: 'medium' },
+        { label: 'Recognition (30d)', value: '3', unit: 'events', status: 'good' },
+        { label: 'Growth Opportunities', value: '2', unit: 'assigned', status: 'good' },
+      ],
+    },
+    {
+      name: 'Priya R.',
+      role: 'Analyst',
+      wwiScore: 55,
+      trend: 3,
+      components: [
+        { name: 'Protection from Harm', value: 56 },
+        { name: 'Work-Life Harmony', value: 52 },
+        { name: 'Connection & Community', value: 56 },
+        { name: 'Mattering at Work', value: 58 },
+        { name: 'Opportunity for Growth', value: 54 },
+      ],
+      metrics: [
+        { label: 'Weekly Workload', value: '46h', unit: 'hours', status: 'good' },
+        { label: 'Meetings This Week', value: '7', unit: 'hours', status: 'good' },
+        { label: 'Recognition (30d)', value: '4', unit: 'events', status: 'good' },
+        { label: 'Growth Opportunities', value: '3', unit: 'assigned', status: 'good' },
+      ],
+    },
+    {
+      name: 'Mason G.',
+      role: 'Analyst',
+      wwiScore: 58,
+      trend: 4,
+      components: [
+        { name: 'Protection from Harm', value: 60 },
+        { name: 'Work-Life Harmony', value: 56 },
+        { name: 'Connection & Community', value: 58 },
+        { name: 'Mattering at Work', value: 60 },
+        { name: 'Opportunity for Growth', value: 56 },
+      ],
+      metrics: [
+        { label: 'Weekly Workload', value: '42h', unit: 'hours', status: 'healthy' },
+        { label: 'Meetings This Week', value: '5', unit: 'hours', status: 'healthy' },
+        { label: 'Recognition (30d)', value: '5', unit: 'events', status: 'excellent' },
+        { label: 'Growth Opportunities', value: '4', unit: 'assigned', status: 'excellent' },
+      ],
+    },
+  ];
 
-  const filtered = filter === "all" ? timelineEvents : timelineEvents.filter((e) => e.type === filter)
-
-  const getTypeIcon = (type: TimelineEvent["type"]) => {
-    switch (type) {
-      case "recognition": return <Award className="h-4 w-4 text-amber-500" />
-      case "one-on-one": return <Calendar className="h-4 w-4 text-primary" />
-      case "action": return <Zap className="h-4 w-4 text-emerald-500" />
-      case "alert": return <AlertCircle className="h-4 w-4 text-red-500" />
-      case "survey": return <ClipboardList className="h-4 w-4 text-primary" />
+  const getStatusColor = (status: string) => {
+    switch (status) {
+      case 'critical':
+        return 'bg-red-500/20 text-red-400';
+      case 'high':
+        return 'bg-orange-500/20 text-orange-400';
+      case 'medium':
+        return 'bg-yellow-500/20 text-yellow-400';
+      case 'good':
+      case 'healthy':
+        return 'bg-green-500/20 text-green-400';
+      default:
+        return 'bg-blue-500/20 text-blue-400';
     }
-  }
+  };
 
-  const getTypeBadge = (type: TimelineEvent["type"]) => {
-    switch (type) {
-      case "recognition": return <Badge className="bg-amber-500/20 text-amber-500">Recognition</Badge>
-      case "one-on-one": return <Badge className="bg-primary/10 text-primary">1:1 Meeting</Badge>
-      case "action": return <Badge className="bg-green-500/20 text-green-500">Action</Badge>
-      case "alert": return <Badge className="bg-red-500/20 text-red-500">Alert</Badge>
-      case "survey": return <Badge className="bg-primary/10 text-primary">Survey</Badge>
-    }
-  }
-
-  const formatDate = (timestamp: string) => {
-    const date = new Date(timestamp)
-    return date.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })
-  }
-
-  const formatTime = (timestamp: string) => {
-    const date = new Date(timestamp)
-    return date.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" })
-  }
-
-  const filterOptions: { value: FilterType; label: string }[] = [
-    { value: "all", label: "All" },
-    { value: "recognition", label: "Recognition" },
-    { value: "one-on-one", label: "1:1s" },
-    { value: "action", label: "Actions" },
-    { value: "alert", label: "Alerts" },
-    { value: "survey", label: "Surveys" },
-  ]
+  const getWWIColor = (score: number) => {
+    if (score < 50) return 'text-red-400';
+    if (score < 55) return 'text-orange-400';
+    if (score < 60) return 'text-yellow-400';
+    return 'text-green-400';
+  };
 
   return (
-    <div className="flex flex-col gap-6">
-      <div className="flex items-center gap-3">
-        <Clock className="h-6 w-6 text-primary" />
-        <div>
-          <h1 className="text-2xl font-bold text-foreground">Activity Timeline</h1>
-          <p className="text-sm text-muted-foreground">Complete chronological audit log of your management actions</p>
-        </div>
+    <div className="w-full min-h-screen p-6 lg:p-12 overflow-x-hidden" style={{ backgroundColor: '#05050a' }}>
+      {/* Header */}
+      <div className="mb-12">
+        <h1 className="text-4xl lg:text-5xl font-bold mb-2 text-white flex items-center gap-3">
+          <Users className="w-10 h-10 text-blue-400" />
+          Team Flow
+        </h1>
+        <p className="text-base text-gray-400">Monitor individual team member wellbeing and metrics</p>
       </div>
 
-      {/* Filters */}
-      <div className="flex flex-wrap items-center gap-2">
-        <Filter className="h-4 w-4 text-muted-foreground" />
-        {filterOptions.map((f) => (
-          <Button key={f.value} variant={filter === f.value ? "default" : "outline"} size="sm" onClick={() => setFilter(f.value)} className={filter !== f.value ? "bg-transparent" : ""}>
-            {f.label}
-          </Button>
+      {/* Team Members List */}
+      <div className="space-y-8">
+        {teamMembers.map((member, idx) => (
+          <div
+            key={idx}
+            className="rounded-xl border border-gray-700 overflow-hidden"
+            style={{ backgroundColor: '#0d0d14' }}
+          >
+            {/* Member Header */}
+            <div className="p-6 border-b border-gray-700">
+              <div className="flex items-baseline justify-between mb-4">
+                <div>
+                  <p className="text-2xl font-bold text-white">{member.name}</p>
+                  <p className="text-sm text-gray-400">{member.role}</p>
+                </div>
+                <div className="text-right">
+                  <p className="text-gray-400 text-sm mb-1">Work Wellbeing Index</p>
+                  <div className="flex items-baseline gap-2">
+                    <p className={`text-4xl font-bold ${getWWIColor(member.wwiScore)}`}>{member.wwiScore}</p>
+                    <span className={`text-lg font-semibold ${member.trend >= 0 ? 'text-green-400' : 'text-red-400'}`}>
+                      {member.trend >= 0 ? '↑' : '↓'} {Math.abs(member.trend)}
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              {/* 5-Component Breakdown */}
+              <div className="grid grid-cols-2 md:grid-cols-5 gap-4 pt-4 border-t border-gray-700">
+                {member.components.map((comp, cidx) => (
+                  <div key={cidx} className="text-center">
+                    <p className="text-xs text-gray-500 mb-2">{comp.name}</p>
+                    <p className="text-xl font-bold text-blue-400">{comp.value}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Metrics Table */}
+            <div className="overflow-x-auto">
+              <table className="w-full">
+                <thead>
+                  <tr className="border-b border-gray-700 bg-gray-900/50">
+                    <th className="px-6 py-3 text-left text-xs font-semibold text-gray-400 uppercase">Metric</th>
+                    <th className="px-6 py-3 text-left text-xs font-semibold text-gray-400 uppercase">Value</th>
+                    <th className="px-6 py-3 text-left text-xs font-semibold text-gray-400 uppercase">Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {member.metrics.map((metric, midx) => (
+                    <tr key={midx} className="border-b border-gray-700 last:border-0 hover:bg-gray-900/30">
+                      <td className="px-6 py-4 text-sm font-medium text-white">{metric.label}</td>
+                      <td className="px-6 py-4 text-sm">
+                        <span className="font-semibold text-white">{metric.value}</span>
+                        <span className="text-gray-500 ml-1">{metric.unit}</span>
+                      </td>
+                      <td className="px-6 py-4">
+                        <span
+                          className={`px-3 py-1 rounded text-xs font-medium uppercase ${getStatusColor(metric.status)}`}
+                        >
+                          {metric.status}
+                        </span>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
         ))}
       </div>
-
-      {/* Timeline */}
-      <div className="relative">
-        <div className="absolute left-5 top-0 h-full w-px bg-border md:left-6" />
-        <div className="flex flex-col gap-0">
-          {filtered.map((event, index) => (
-            <div key={event.id} className="relative flex items-start gap-4 pb-6 pl-12 md:pl-14">
-              {/* Dot */}
-              <div className="absolute left-3.5 top-2 flex h-3 w-3 items-center justify-center rounded-full border-2 border-card bg-primary ring-4 ring-card md:left-4.5" />
-              <Card className="w-full border-border">
-                <CardContent className="p-4">
-                  <div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
-                    <div className="flex items-start gap-3">
-                      <div className="mt-0.5">{getTypeIcon(event.type)}</div>
-                      <div>
-                        <p className="text-sm font-medium text-foreground">{event.description}</p>
-                        {event.details && <p className="mt-1 text-xs text-muted-foreground">{event.details}</p>}
-                      </div>
-                    </div>
-                    <div className="flex shrink-0 items-center gap-2">
-                      {getTypeBadge(event.type)}
-                      <span className="whitespace-nowrap text-xs text-muted-foreground">
-                        {formatDate(event.timestamp)} {formatTime(event.timestamp)}
-                      </span>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
-          ))}
-        </div>
-      </div>
     </div>
-  )
+  );
 }

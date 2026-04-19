@@ -1,159 +1,219 @@
-"use client"
+'use client';
 
-import { Card, CardContent } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { employees, teamStats, type Employee } from "@/lib/data"
+import { Clock, AlertTriangle, BarChart3 } from 'lucide-react';
 
-interface WorkDistributionPageProps {
-  onEmployeeClick: (employee: Employee) => void
-}
+export function WorkDistributionPage() {
+  const teamMembers = [
+    {
+      name: 'Riya S.',
+      role: 'Analyst',
+      weeklyHours: 58,
+      meetingHours: 12,
+      blockedItems: 4,
+      fairnessScore: 42,
+      status: 'overloaded',
+    },
+    {
+      name: 'Sam J.',
+      role: 'Operations',
+      weeklyHours: 52,
+      meetingHours: 10,
+      blockedItems: 3,
+      fairnessScore: 58,
+      status: 'high',
+    },
+    {
+      name: 'Diego P.',
+      role: 'Specialist',
+      weeklyHours: 48,
+      meetingHours: 8,
+      blockedItems: 2,
+      fairnessScore: 72,
+      status: 'balanced',
+    },
+    {
+      name: 'Priya R.',
+      role: 'Analyst',
+      weeklyHours: 46,
+      meetingHours: 7,
+      blockedItems: 1,
+      fairnessScore: 75,
+      status: 'balanced',
+    },
+    {
+      name: 'Mason G.',
+      role: 'Analyst',
+      weeklyHours: 42,
+      meetingHours: 5,
+      blockedItems: 0,
+      fairnessScore: 82,
+      status: 'healthy',
+    },
+  ];
 
-export function WorkDistributionPage({ onEmployeeClick }: WorkDistributionPageProps) {
-  const getWorkloadStatusColor = (status: string) => {
+  const totalBlockedItems = 11; // LOCKED
+
+  const getStatusColor = (status: string) => {
     switch (status) {
-      case "Overloaded":
-        return "bg-red-500/20 text-red-500 border-red-200 dark:bg-red-950/30 dark:text-red-300 dark:border-red-900"
-      case "High":
-        return "bg-amber-500/20 text-amber-500 border-amber-200 dark:bg-amber-950/30 dark:text-amber-300 dark:border-amber-900"
-      case "Balanced":
-        return "bg-green-500/20 text-green-500 border-emerald-200 dark:bg-emerald-950/30 dark:text-emerald-300 dark:border-emerald-900"
-      case "Light":
-        return "bg-accent text-accent-foreground border-border"
+      case 'overloaded':
+        return 'bg-red-500/20 text-red-400 border-red-500/30';
+      case 'high':
+        return 'bg-orange-500/20 text-orange-400 border-orange-500/30';
+      case 'balanced':
+        return 'bg-yellow-500/20 text-yellow-400 border-yellow-500/30';
+      case 'healthy':
+        return 'bg-green-500/20 text-green-400 border-green-500/30';
       default:
-        return "bg-muted text-muted-foreground border-border"
+        return 'bg-blue-500/20 text-blue-400 border-blue-500/30';
     }
-  }
+  };
+
+  const getFairnessColor = (score: number) => {
+    if (score < 50) return 'text-red-400';
+    if (score < 70) return 'text-orange-400';
+    return 'text-green-400';
+  };
 
   return (
-    <div className="flex flex-col gap-6">
-      <div>
-        <h1 className="text-2xl font-bold text-foreground">Work Distribution</h1>
-        <p className="text-sm text-muted-foreground">Workload balance across team</p>
+    <div className="w-full min-h-screen p-6 lg:p-12 overflow-x-hidden" style={{ backgroundColor: '#05050a' }}>
+      {/* Header */}
+      <div className="mb-12">
+        <h1 className="text-4xl lg:text-5xl font-bold mb-2 text-white flex items-center gap-3">
+          <BarChart3 className="w-10 h-10 text-blue-400" />
+          Work Distribution
+        </h1>
+        <p className="text-base text-gray-400">Monitor workload balance and allocation fairness</p>
       </div>
 
-      <Card className="border-border">
-        <CardContent className="p-0">
-          <div className="overflow-x-auto">
-            <table className="w-full">
-              <thead>
-                <tr className="border-b border-border bg-muted/50 text-left text-sm text-muted-foreground">
-                  <th className="px-4 py-3 font-medium">Employee</th>
-                  <th className="px-4 py-3 font-medium">Role</th>
-                  <th className="px-4 py-3 text-center font-medium">WIP</th>
-                  <th className="px-4 py-3 text-center font-medium">Meeting Hours</th>
-                  <th className="px-4 py-3 text-center font-medium">Blocked Items</th>
-                  <th className="px-4 py-3 text-center font-medium">Workload Status</th>
-                  <th className="px-4 py-3 font-medium">Work Type Breakdown</th>
-                </tr>
-              </thead>
-              <tbody>
-                {employees.map((employee) => (
-                  <tr
-                    key={employee.id}
-                    className="cursor-pointer border-b border-border transition-colors last:border-0 hover:bg-muted/30"
-                    onClick={() => onEmployeeClick(employee)}
-                    onKeyDown={(e) => e.key === "Enter" && onEmployeeClick(employee)}
-                    tabIndex={0}
-                    role="button"
-                  >
-                    <td className="px-4 py-3">
-                      <span className="font-medium text-foreground">{employee.name}</span>
-                    </td>
-                    <td className="px-4 py-3 text-muted-foreground">{employee.role}</td>
-                    <td className="px-4 py-3 text-center font-medium text-foreground">{employee.wip}</td>
-                    <td className="px-4 py-3 text-center text-muted-foreground">{employee.meetingHours}h</td>
-                    <td className="px-4 py-3 text-center">
-                      {employee.blocked > 0 ? (
-                        <span className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-red-500/100 text-sm font-medium text-white">
-                          {employee.blocked}
-                        </span>
-                      ) : (
-                        <span className="text-muted-foreground">0</span>
-                      )}
-                    </td>
-                    <td className="px-4 py-3 text-center">
-                      <Badge className={`border ${getWorkloadStatusColor(employee.workloadStatus)}`}>
-                        {employee.workloadStatus}
-                      </Badge>
-                    </td>
-                    <td className="px-4 py-3">
-                      <div className="flex h-5 w-full min-w-[200px] items-center overflow-hidden rounded">
+      {/* Summary Stats */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+        <div
+          className="rounded-lg border border-gray-700 p-6"
+          style={{ backgroundColor: '#0d0d14' }}
+        >
+          <p className="text-gray-400 text-sm font-medium mb-2 uppercase">Total Blocked Items</p>
+          <p className="text-4xl font-bold text-red-400">{totalBlockedItems}</p>
+          <p className="text-xs text-gray-500 mt-2">Items preventing progress</p>
+        </div>
+
+        <div
+          className="rounded-lg border border-gray-700 p-6"
+          style={{ backgroundColor: '#0d0d14' }}
+        >
+          <p className="text-gray-400 text-sm font-medium mb-2 uppercase">Avg Weekly Hours</p>
+          <p className="text-4xl font-bold text-blue-400">49.2h</p>
+          <p className="text-xs text-gray-500 mt-2">Slightly above target</p>
+        </div>
+
+        <div
+          className="rounded-lg border border-gray-700 p-6"
+          style={{ backgroundColor: '#0d0d14' }}
+        >
+          <p className="text-gray-400 text-sm font-medium mb-2 uppercase">Fairness Score</p>
+          <p className="text-4xl font-bold text-yellow-400">65.8</p>
+          <p className="text-xs text-gray-500 mt-2">Average allocation equity</p>
+        </div>
+      </div>
+
+      {/* Team Workload Table */}
+      <div
+        className="rounded-lg border border-gray-700 overflow-hidden"
+        style={{ backgroundColor: '#0d0d14' }}
+      >
+        <div className="overflow-x-auto">
+          <table className="w-full">
+            <thead>
+              <tr className="border-b border-gray-700 bg-gray-900/50">
+                <th className="px-6 py-3 text-left text-xs font-semibold text-gray-400 uppercase">Team Member</th>
+                <th className="px-6 py-3 text-left text-xs font-semibold text-gray-400 uppercase">Weekly Hours</th>
+                <th className="px-6 py-3 text-left text-xs font-semibold text-gray-400 uppercase">Meeting Time</th>
+                <th className="px-6 py-3 text-left text-xs font-semibold text-gray-400 uppercase">Blocked Items</th>
+                <th className="px-6 py-3 text-left text-xs font-semibold text-gray-400 uppercase">Fairness</th>
+                <th className="px-6 py-3 text-left text-xs font-semibold text-gray-400 uppercase">Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              {teamMembers.map((member, idx) => (
+                <tr key={idx} className="border-b border-gray-700 last:border-0 hover:bg-gray-900/30">
+                  <td className="px-6 py-4">
+                    <div>
+                      <p className="font-medium text-white">{member.name}</p>
+                      <p className="text-xs text-gray-500">{member.role}</p>
+                    </div>
+                  </td>
+                  <td className="px-6 py-4">
+                    <div className="flex items-center gap-2">
+                      <div className="w-16 h-2 rounded-full bg-gray-700 overflow-hidden">
                         <div
-                          className="flex h-full items-center justify-center text-xs font-medium text-[#EDEDCE]"
-                          style={{ width: `${employee.stretch}%`, minWidth: employee.stretch > 0 ? "28px" : "0", backgroundColor: "#0C2C55" }}
-                        >
-                          {employee.stretch >= 8 && `${employee.stretch}%`}
-                        </div>
-                        <div
-                          className="flex h-full items-center justify-center text-xs font-medium text-white"
-                          style={{ width: `${employee.operational}%`, minWidth: employee.operational > 0 ? "28px" : "0", backgroundColor: "#296374" }}
-                        >
-                          {employee.operational >= 20 && `${employee.operational}%`}
-                        </div>
-                        <div
-                          className="flex h-full items-center justify-center text-xs font-medium text-white"
-                          style={{ width: `${employee.firefighting}%`, minWidth: employee.firefighting > 0 ? "28px" : "0", backgroundColor: "#629FAD" }}
-                        >
-                          {employee.firefighting >= 10 && `${employee.firefighting}%`}
-                        </div>
-                        <div
-                          className="flex h-full items-center justify-center text-xs font-medium text-[#296374]"
-                          style={{ width: `${employee.admin}%`, minWidth: employee.admin > 0 ? "20px" : "0", backgroundColor: "#EDEDCE" }}
-                        >
-                          {employee.admin >= 5 && `${employee.admin}%`}
-                        </div>
+                          className={`h-full ${
+                            member.weeklyHours > 55
+                              ? 'bg-red-500'
+                              : member.weeklyHours > 50
+                              ? 'bg-orange-500'
+                              : 'bg-green-500'
+                          }`}
+                          style={{ width: `${Math.min((member.weeklyHours / 60) * 100, 100)}%` }}
+                        />
                       </div>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+                      <span className="text-sm text-white font-medium">{member.weeklyHours}h</span>
+                    </div>
+                  </td>
+                  <td className="px-6 py-4">
+                    <span className="text-sm text-gray-300">{member.meetingHours}h</span>
+                  </td>
+                  <td className="px-6 py-4">
+                    {member.blockedItems > 0 ? (
+                      <div className="flex items-center gap-2">
+                        <AlertTriangle className="w-4 h-4 text-red-400" />
+                        <span className="text-sm text-red-400 font-medium">{member.blockedItems}</span>
+                      </div>
+                    ) : (
+                      <span className="text-sm text-green-400">Clear</span>
+                    )}
+                  </td>
+                  <td className="px-6 py-4">
+                    <span className={`text-sm font-bold ${getFairnessColor(member.fairnessScore)}`}>
+                      {member.fairnessScore}
+                    </span>
+                  </td>
+                  <td className="px-6 py-4">
+                    <span
+                      className={`px-3 py-1 rounded text-xs font-medium border ${getStatusColor(
+                        member.status
+                      )}`}
+                    >
+                      {member.status.charAt(0).toUpperCase() + member.status.slice(1)}
+                    </span>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
 
-          {/* Legend */}
-          <div className="flex flex-wrap items-center gap-4 border-t border-border px-4 py-3 lg:gap-6">
-            <div className="flex items-center gap-2">
-              <div className="h-3 w-3 rounded-sm" style={{ backgroundColor: "#0C2C55" }} />
-              <span className="text-sm text-muted-foreground">Strategic/Visible</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <div className="h-3 w-3 rounded-sm" style={{ backgroundColor: "#296374" }} />
-              <span className="text-sm text-muted-foreground">Operational/Routine</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <div className="h-3 w-3 rounded-sm" style={{ backgroundColor: "#629FAD" }} />
-              <span className="text-sm text-muted-foreground">Firefighting</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <div className="h-3 w-3 rounded-sm" style={{ backgroundColor: "#EDEDCE" }} />
-              <span className="text-sm text-muted-foreground">Admin</span>
-            </div>
+      {/* Legend */}
+      <div className="mt-8 text-xs text-gray-500">
+        <p className="font-semibold text-gray-400 mb-2">Status Reference:</p>
+        <div className="flex flex-wrap gap-4">
+          <div className="flex items-center gap-2">
+            <div className="w-3 h-3 rounded-full bg-red-500" />
+            <span>Overloaded (55+ hours)</span>
           </div>
-        </CardContent>
-      </Card>
-
-      {/* Team Averages */}
-      <div className="flex justify-end">
-        <Card className="border-border">
-          <CardContent className="p-4">
-            <h3 className="mb-2 text-sm font-semibold text-foreground">Team Averages</h3>
-            <div className="flex flex-wrap items-center gap-4 text-sm lg:gap-6">
-              <div>
-                <span className="text-muted-foreground">WIP: </span>
-                <span className="font-medium text-foreground">{teamStats.wipAverage}</span>
-              </div>
-              <div>
-                <span className="text-muted-foreground">Meeting Hours: </span>
-                <span className="font-medium text-foreground">{teamStats.meetingHoursAverage}h</span>
-              </div>
-              <div>
-                <span className="text-muted-foreground">Blocked: </span>
-                <span className="font-medium text-foreground">{teamStats.blockedAverage}</span>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
+          <div className="flex items-center gap-2">
+            <div className="w-3 h-3 rounded-full bg-orange-500" />
+            <span>High (50-55 hours)</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <div className="w-3 h-3 rounded-full bg-yellow-500" />
+            <span>Balanced (45-50 hours)</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <div className="w-3 h-3 rounded-full bg-green-500" />
+            <span>Healthy (&lt;45 hours)</span>
+          </div>
+        </div>
       </div>
     </div>
-  )
+  );
 }

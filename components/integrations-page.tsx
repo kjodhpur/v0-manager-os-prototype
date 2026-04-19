@@ -1,186 +1,192 @@
-"use client"
+'use client';
 
-import { useState } from "react"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
-import { Check, RefreshCw, Link2Off, AlertCircle, ShieldCheck, Clock } from "lucide-react"
-
-interface Integration {
-  id: string
-  name: string
-  description: string
-  dataScope: string[]
-  connected: boolean
-  lastSync?: string
-}
-
-const initialIntegrations: Integration[] = [
-  {
-    id: "jira",
-    name: "Jira",
-    description: "Project management with sprints, tasks, and blockers",
-    dataScope: ["Task status and assignees", "Sprint data", "Blockers and dependencies", "Cycle time"],
-    connected: true,
-    lastSync: "2 minutes ago",
-  },
-  {
-    id: "asana",
-    name: "Asana",
-    description: "Project and task management",
-    dataScope: ["Project assignments", "Task status", "Due dates", "Workload data"],
-    connected: false,
-  },
-  {
-    id: "salesforce",
-    name: "Salesforce",
-    description: "CRM with activities and pipeline data",
-    dataScope: ["Activity logs", "Meeting metadata", "Pipeline assignments", "Recognition events"],
-    connected: false,
-  },
-]
+import { Plug, CheckCircle2, AlertCircle, Lock } from 'lucide-react';
+import { useState } from 'react';
 
 export function IntegrationsPage() {
-  const [integrations, setIntegrations] = useState(initialIntegrations)
-  const [syncing, setSyncing] = useState<string | null>(null)
+  const [integrations, setIntegrations] = useState([
+    {
+      id: 'jira',
+      name: 'Jira',
+      icon: 'Plug',
+      connected: true,
+      lastSync: '2 minutes ago',
+      dataScope: ['Task status and assignees', 'Sprint data', 'Blockers', 'Cycle time'],
+    },
+    {
+      id: 'slack',
+      name: 'Slack',
+      icon: 'Plug',
+      connected: true,
+      lastSync: '5 minutes ago',
+      dataScope: ['Team channels', 'Notification preferences', 'Direct messages'],
+    },
+    {
+      id: 'hris',
+      name: 'HRIS System',
+      icon: 'Plug',
+      connected: false,
+      lastSync: null,
+      dataScope: ['Employee directory', 'Org structure', 'Time off'],
+    },
+  ]);
 
-  const handleConnect = (id: string) => {
+  const [activeTab, setActiveTab] = useState('integrations');
+  const [showPermissions, setShowPermissions] = useState(false);
+
+  const handleToggle = (id: string) => {
     setIntegrations((prev) =>
-      prev.map((i) =>
-        i.id === id ? { ...i, connected: true, lastSync: "Just now" } : i
+      prev.map((integ) =>
+        integ.id === id
+          ? { ...integ, connected: !integ.connected, lastSync: !integ.connected ? 'just now' : null }
+          : integ
       )
-    )
-  }
-
-  const handleDisconnect = (id: string) => {
-    setIntegrations((prev) =>
-      prev.map((i) =>
-        i.id === id ? { ...i, connected: false, lastSync: undefined } : i
-      )
-    )
-  }
-
-  const handleSync = (id: string) => {
-    setSyncing(id)
-    setTimeout(() => {
-      setIntegrations((prev) =>
-        prev.map((i) =>
-          i.id === id ? { ...i, lastSync: "Just now" } : i
-        )
-      )
-      setSyncing(null)
-    }, 1500)
-  }
+    );
+  };
 
   return (
-    <div className="space-y-6">
-      <div>
-        <h1 className="text-2xl font-bold text-foreground">Integrations</h1>
-        <p className="text-sm text-muted-foreground">Connect your work tools to power HeartMetrics insights</p>
+    <div className="w-full min-h-screen p-6 lg:p-12 overflow-x-hidden" style={{ backgroundColor: '#05050a' }}>
+      {/* Header */}
+      <div className="mb-12">
+        <h1 className="text-4xl lg:text-5xl font-bold mb-2 text-white flex items-center gap-3">
+          <Plug className="w-10 h-10 text-blue-400" />
+          Integrations
+        </h1>
+        <p className="text-base text-gray-400">Connect tools to HeartMetrics for better data insights</p>
       </div>
 
-      <div className="rounded-lg border border-primary/20 bg-primary/5 p-4">
-        <div className="flex items-start gap-3">
-          <ShieldCheck className="mt-0.5 h-5 w-5 shrink-0 text-primary" />
-          <div>
-            <p className="text-sm font-medium text-foreground">Data scope transparency</p>
-            <p className="text-xs text-muted-foreground">
-              Each integration clearly shows what data HeartMetrics accesses. We never read private messages, file contents, or personal communications.
-            </p>
+      {/* Tab Navigation */}
+      <div className="flex gap-4 mb-8 border-b border-gray-700">
+        <button
+          onClick={() => setActiveTab('integrations')}
+          className={`pb-4 px-4 font-medium transition-colors ${
+            activeTab === 'integrations'
+              ? 'text-blue-400 border-b-2 border-blue-400'
+              : 'text-gray-400 hover:text-white'
+          }`}
+        >
+          Integrations
+        </button>
+        <button
+          onClick={() => setActiveTab('permissions')}
+          className={`pb-4 px-4 font-medium transition-colors ${
+            activeTab === 'permissions'
+              ? 'text-blue-400 border-b-2 border-blue-400'
+              : 'text-gray-400 hover:text-white'
+          }`}
+        >
+          Permissions
+        </button>
+      </div>
+
+      {/* Integrations Tab */}
+      {activeTab === 'integrations' && (
+        <div className="space-y-4">
+          {integrations.map((integ) => (
+            <div
+              key={integ.id}
+              className="rounded-lg border border-gray-700 p-6"
+              style={{ backgroundColor: '#0d0d14' }}
+            >
+              <div className="flex items-start justify-between mb-4">
+                <div className="flex-1">
+                  <div className="flex items-center gap-3 mb-2">
+                    <div className="p-2 rounded-lg bg-blue-500/20">
+                      <Plug className="w-5 h-5 text-blue-400" />
+                    </div>
+                    <h3 className="text-lg font-semibold text-white">{integ.name}</h3>
+                  </div>
+
+                  {integ.connected && (
+                    <div className="flex items-center gap-2 text-sm text-green-400 mb-3">
+                      <CheckCircle2 className="w-4 h-4" />
+                      Connected • Last sync: {integ.lastSync}
+                    </div>
+                  )}
+
+                  <div className="text-xs text-gray-400 mt-2">
+                    <p className="font-medium mb-2">Data Scope:</p>
+                    <ul className="space-y-1">
+                      {integ.dataScope.map((scope, idx) => (
+                        <li key={idx}>• {scope}</li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+
+                {/* Toggle Switch */}
+                <button
+                  onClick={() => handleToggle(integ.id)}
+                  className={`ml-4 flex-shrink-0 relative inline-flex h-8 w-14 rounded-full transition-colors ${
+                    integ.connected ? 'bg-green-600' : 'bg-gray-700'
+                  }`}
+                >
+                  <span
+                    className={`inline-block h-6 w-6 transform rounded-full bg-white transition-transform mt-1 ${
+                      integ.connected ? 'translate-x-7' : 'translate-x-1'
+                    }`}
+                  />
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {/* Permissions Tab */}
+      {activeTab === 'permissions' && (
+        <div>
+          <div className="mb-8 p-6 rounded-lg border border-blue-500/30 bg-blue-500/10" style={{ backgroundColor: '#0d0d14' }}>
+            <div className="flex items-start gap-3 mb-4">
+              <Lock className="w-5 h-5 text-blue-400 mt-1 flex-shrink-0" />
+              <div>
+                <h3 className="text-lg font-semibold text-white mb-2">Data Privacy & Controls</h3>
+                <p className="text-sm text-gray-400">Manage what data HeartMetrics can access and how it's used</p>
+              </div>
+            </div>
+          </div>
+
+          <div className="space-y-4">
+            {/* Privacy Permissions */}
+            <div className="rounded-lg border border-gray-700 p-6" style={{ backgroundColor: '#0d0d14' }}>
+              <h4 className="text-lg font-semibold text-white mb-4">Privacy Permissions</h4>
+              <div className="space-y-3">
+                <label className="flex items-center p-3 rounded-lg border border-gray-700 cursor-pointer hover:bg-gray-900/50 transition-colors">
+                  <input type="checkbox" defaultChecked className="w-4 h-4 rounded" />
+                  <span className="ml-3 text-sm text-gray-300">Allow email analysis for recognition patterns</span>
+                </label>
+                <label className="flex items-center p-3 rounded-lg border border-gray-700 cursor-pointer hover:bg-gray-900/50 transition-colors">
+                  <input type="checkbox" defaultChecked className="w-4 h-4 rounded" />
+                  <span className="ml-3 text-sm text-gray-300">Allow meeting analysis for workload metrics</span>
+                </label>
+                <label className="flex items-center p-3 rounded-lg border border-gray-700 cursor-pointer hover:bg-gray-900/50 transition-colors">
+                  <input type="checkbox" className="w-4 h-4 rounded" />
+                  <span className="ml-3 text-sm text-gray-300">Allow Slack channel monitoring</span>
+                </label>
+              </div>
+            </div>
+
+            {/* Data Controls */}
+            <div className="rounded-lg border border-gray-700 p-6" style={{ backgroundColor: '#0d0d14' }}>
+              <h4 className="text-lg font-semibold text-white mb-4">Data Controls</h4>
+              <div className="space-y-3">
+                <label className="flex items-center p-3 rounded-lg border border-gray-700 cursor-pointer hover:bg-gray-900/50 transition-colors">
+                  <input type="checkbox" defaultChecked className="w-4 h-4 rounded" />
+                  <span className="ml-3 text-sm text-gray-300">Anonymize personal data in reports</span>
+                </label>
+                <label className="flex items-center p-3 rounded-lg border border-gray-700 cursor-pointer hover:bg-gray-900/50 transition-colors">
+                  <input type="checkbox" defaultChecked className="w-4 h-4 rounded" />
+                  <span className="ml-3 text-sm text-gray-300">Exclude contractors from analysis</span>
+                </label>
+                <label className="flex items-center p-3 rounded-lg border border-gray-700 cursor-pointer hover:bg-gray-900/50 transition-colors">
+                  <input type="checkbox" className="w-4 h-4 rounded" />
+                  <span className="ml-3 text-sm text-gray-300">Retain data for compliance audit trail</span>
+                </label>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
-
-      <div className="flex flex-col gap-4">
-        {integrations.map((integration) => (
-          <Card key={integration.id} className={`border ${integration.connected ? "border-primary/20" : "border-border"}`}>
-            <CardHeader className="pb-2">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                  <div className={`flex h-10 w-10 items-center justify-center rounded-lg ${integration.connected ? "bg-primary/10" : "bg-muted"}`}>
-                    <span className="text-sm font-bold text-foreground">{integration.name[0]}</span>
-                  </div>
-                  <div>
-                    <CardTitle className="text-base">{integration.name}</CardTitle>
-                    <p className="text-xs text-muted-foreground">{integration.description}</p>
-                  </div>
-                </div>
-                <Badge variant={integration.connected ? "default" : "secondary"}>
-                  {integration.connected ? (
-                    <>
-                      <Check className="mr-1 h-3 w-3" />
-                      Connected
-                    </>
-                  ) : (
-                    "Not connected"
-                  )}
-                </Badge>
-              </div>
-            </CardHeader>
-            <CardContent>
-              <div className="mb-4">
-                <p className="mb-2 text-xs font-medium text-muted-foreground">Data scope:</p>
-                <div className="flex flex-wrap gap-2">
-                  {integration.dataScope.map((scope) => (
-                    <Badge key={scope} variant="secondary" className="text-xs">
-                      {scope}
-                    </Badge>
-                  ))}
-                </div>
-              </div>
-
-              {integration.connected && (
-                <div className="mb-4 flex items-center gap-4 text-xs text-muted-foreground">
-                  <div className="flex items-center gap-1">
-                    <Clock className="h-3 w-3" />
-                    Last sync: {integration.lastSync}
-                  </div>
-                </div>
-              )}
-
-              <div className="flex items-center gap-2">
-                {integration.connected ? (
-                  <>
-                    <Button
-                      size="sm"
-                      variant="outline"
-                      onClick={() => handleSync(integration.id)}
-                      disabled={syncing === integration.id}
-                    >
-                      <RefreshCw className={`mr-1 h-3 w-3 ${syncing === integration.id ? "animate-spin" : ""}`} />
-                      {syncing === integration.id ? "Syncing..." : "Sync Now"}
-                    </Button>
-                    <Button
-                      size="sm"
-                      variant="ghost"
-                      className="text-destructive hover:text-destructive"
-                      onClick={() => handleDisconnect(integration.id)}
-                    >
-                      <Link2Off className="mr-1 h-3 w-3" />
-                      Disconnect
-                    </Button>
-                  </>
-                ) : (
-                  <Button size="sm" onClick={() => handleConnect(integration.id)}>
-                    Connect {integration.name}
-                  </Button>
-                )}
-              </div>
-            </CardContent>
-          </Card>
-        ))}
-      </div>
-
-      {/* Empty State for Future Integrations */}
-      <Card className="border-dashed border-border">
-        <CardContent className="flex flex-col items-center p-8 text-center">
-          <AlertCircle className="h-8 w-8 text-muted-foreground" />
-          <p className="mt-3 text-sm font-medium text-foreground">More integrations coming soon</p>
-          <p className="mt-1 text-xs text-muted-foreground">
-            Slack, Microsoft Teams, Google Workspace, and more are on our roadmap.
-          </p>
-        </CardContent>
-      </Card>
+      )}
     </div>
-  )
+  );
 }

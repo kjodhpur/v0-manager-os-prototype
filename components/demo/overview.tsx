@@ -1,208 +1,250 @@
 'use client';
 
-import { TrendingUp, TrendingDown } from 'lucide-react';
+import { TrendingUp, TrendingDown, BarChart3 } from 'lucide-react';
 
 export function DemoOverview() {
-  const kpiCards = [
-    {
-      label: 'Team Work Wellbeing Index',
-      value: '67',
-      change: '+4',
-      changeType: 'up',
-      trend: [65, 66, 67, 66, 67, 67, 67],
-    },
-    {
-      label: 'Avg Workload Hours',
-      value: '42.3',
-      change: '-2.1',
-      changeType: 'down',
-      trend: [45, 44, 43.5, 43, 42.8, 42.5, 42.3],
-    },
-    {
-      label: 'Recognition Rate',
-      value: '78%',
-      change: '+12%',
-      changeType: 'up',
-      trend: [66, 68, 70, 72, 75, 77, 78],
-    },
-    {
-      label: 'Team Engagement',
-      value: '8.2/10',
-      change: '+0.3',
-      changeType: 'up',
-      trend: [7.8, 7.9, 8.0, 8.1, 8.15, 8.2, 8.2],
-    },
+  // Hardcoded demo data - LOCKED
+  const teamWWI = 67;
+  const wwiTrend = 4;
+  const fairnessScore = 74;
+  const fairnessTrend = -3;
+  const wwiComponents = [
+    { name: 'Protection from Harm', value: 72 },
+    { name: 'Work-Life Harmony', value: 65 },
+    { name: 'Connection & Community', value: 68 },
+    { name: 'Mattering at Work', value: 71 },
+    { name: 'Opportunity for Growth', value: 63 },
   ];
 
-  const attentionItems = [
-    {
-      name: 'Riya S.',
-      wwiScore: 43,
-      status: 'Critical',
-      signals: 4,
-      color: '#FF6B6B',
-    },
-    {
-      name: 'Marcus T.',
-      wwiScore: 51,
-      status: 'At Risk',
-      signals: 3,
-      color: '#FFB347',
-    },
-    {
-      name: 'Elena K.',
-      wwiScore: 58,
-      status: 'Elevated',
-      signals: 2,
-      color: '#FFC940',
-    },
-    {
-      name: 'James B.',
-      wwiScore: 65,
-      status: 'Healthy',
-      signals: 1,
-      color: '#00B8A0',
-    },
+  const atRiskEmployees = [
+    { name: 'Riya S.', role: 'Analyst', wwiScore: 41, status: 'Critical', riskLevel: 5 },
+    { name: 'Sam J.', role: 'Operations', wwiScore: 49, status: 'High', riskLevel: 4 },
+    { name: 'Diego P.', role: 'Specialist', wwiScore: 52, status: 'High', riskLevel: 3 },
   ];
 
-  const actions = [
-    { title: 'Schedule 1:1', description: 'With Riya S.' },
-    { title: 'Redistribute Tasks', description: 'Balance workload' },
-    { title: 'Increase Recognition', description: 'Boost morale' },
-    { title: 'Team Sync', description: 'Wellbeing check-in' },
+  const keyActions = [
+    { title: 'Schedule 1:1 with Riya S.', priority: 'urgent', dueDate: 'Today' },
+    { title: 'Redistribute workload', priority: 'high', dueDate: 'This week' },
+    { title: 'Recognition review', priority: 'medium', dueDate: 'This week' },
+    { title: 'Team sync meeting', priority: 'medium', dueDate: 'Tomorrow' },
   ];
+
+  // WWI trend data (hardcoded 12-week trend)
+  const wwiTrendData = [
+    { week: 1, value: 62 },
+    { week: 2, value: 63 },
+    { week: 3, value: 64 },
+    { week: 4, value: 64 },
+    { week: 5, value: 65 },
+    { week: 6, value: 66 },
+    { week: 7, value: 67 },
+  ];
+
+  const durations = ['Sprint', 'Month', 'Quarter', 'Year'];
+  const [selectedDuration] = ['Month']; // Default to Month
+
+  // Calculate SVG line path for graph
+  const maxValue = Math.max(...wwiTrendData.map(d => d.value));
+  const minValue = Math.min(...wwiTrendData.map(d => d.value));
+  const range = maxValue - minValue;
+  const chartWidth = 400;
+  const chartHeight = 180;
+  const padding = 20;
+
+  const points = wwiTrendData.map((d, i) => ({
+    x: padding + (i / (wwiTrendData.length - 1)) * (chartWidth - 2 * padding),
+    y: padding + (1 - (d.value - minValue) / range) * (chartHeight - 2 * padding),
+    value: d.value,
+  }));
+
+  const pathD = points.map((p, i) => `${i === 0 ? 'M' : 'L'} ${p.x} ${p.y}`).join(' ');
+
+  const getPriorityColor = (priority: string) => {
+    switch (priority) {
+      case 'urgent':
+        return 'bg-red-500/20 text-red-400 border-red-500/30';
+      case 'high':
+        return 'bg-orange-500/20 text-orange-400 border-orange-500/30';
+      default:
+        return 'bg-blue-500/20 text-blue-400 border-blue-500/30';
+    }
+  };
+
+  const getRiskColor = (score: number) => {
+    if (score < 50) return 'text-red-400';
+    if (score < 55) return 'text-orange-400';
+    return 'text-yellow-400';
+  };
 
   return (
-    <div className="p-6 lg:p-12 w-full overflow-x-hidden max-lg:pb-24">
+    <div className="w-full min-h-screen p-6 lg:p-12 overflow-x-hidden" style={{ backgroundColor: '#05050a' }}>
       {/* Header */}
       <div className="mb-12">
-        <h1 className="text-3xl lg:text-4xl font-display font-bold mb-2">Team Overview</h1>
-        <p className="text-base text-muted-foreground">AI-powered insights into your team's wellbeing and engagement</p>
+        <h1 className="text-4xl lg:text-5xl font-bold mb-2 text-white" style={{ fontFamily: 'Inter' }}>
+          Team Overview
+        </h1>
+        <p className="text-base text-gray-400">Monitor team wellbeing, actions, and metrics in real-time</p>
       </div>
 
-      {/* KPI Cards Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
-        {kpiCards.map((card, idx) => (
-          <div
-            key={idx}
-            className="border border-border rounded-lg p-6 hover:border-primary/50 transition-colors"
-          >
-            {/* Label */}
-            <p className="text-xs font-medium text-muted-foreground mb-4 uppercase tracking-wide">
-              {card.label}
-            </p>
-
-            {/* Value */}
-            <div className="mb-4">
-              <div className="flex items-baseline gap-2">
-                <span className="text-3xl font-display font-bold text-foreground">
-                  {card.value}
-                </span>
-                <span
-                  className={`text-sm font-medium flex items-center gap-1 ${
-                    card.changeType === 'up' ? 'text-green-500' : 'text-red-500'
-                  }`}
-                >
-                  {card.changeType === 'up' ? (
-                    <TrendingUp className="w-3 h-3" />
-                  ) : (
-                    <TrendingDown className="w-3 h-3" />
-                  )}
-                  {card.change}
-                </span>
-              </div>
-            </div>
-
-            {/* Sparkline */}
-            <div className="h-8 flex items-end gap-1 justify-between">
-              {card.trend.map((val, i) => {
-                const max = Math.max(...card.trend);
-                const min = Math.min(...card.trend);
-                const range = max - min || 1;
-                const height = ((val - min) / range) * 100;
-                return (
-                  <div
-                    key={i}
-                    className="flex-1 bg-primary rounded-sm opacity-60 hover:opacity-100 transition-opacity"
-                    style={{
-                      height: `${height || 20}%`,
-                      minHeight: '2px',
-                    }}
-                  />
-                );
-              })}
-            </div>
+      {/* Main WWI Card */}
+      <div
+        className="rounded-xl p-8 mb-12 border-t border-transparent"
+        style={{
+          backgroundColor: '#0d0d14',
+          borderImage: 'linear-gradient(90deg, #8BA8F0 0%, #A87AC8 50%, #E0607A 100%)',
+          borderImageSlice: 1,
+          boxShadow: '0 0 40px rgba(139, 168, 240, 0.15)',
+        }}
+      >
+        <div className="text-center">
+          <p className="text-gray-400 text-sm font-medium mb-4 uppercase tracking-wider">Work Wellbeing Index</p>
+          <div className="mb-6">
+            <span className="text-6xl font-bold text-white">{teamWWI}</span>
+            <span className={`ml-4 text-2xl font-semibold ${wwiTrend >= 0 ? 'text-green-400' : 'text-red-400'}`}>
+              {wwiTrend >= 0 ? '↑' : '↓'} {Math.abs(wwiTrend)}
+            </span>
           </div>
-        ))}
-      </div>
 
-      {/* Team Members Section */}
-      <div className="mb-12">
-        <h2 className="text-xl font-display font-bold mb-6">Team Members</h2>
-        <div className="border border-border rounded-lg overflow-hidden">
-          <table className="w-full">
-            <thead>
-              <tr className="border-b border-border bg-muted/20">
-                <th className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase">Name</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase">Wellbeing</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase">Status</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase">Signals</th>
-              </tr>
-            </thead>
-            <tbody>
-              {attentionItems.map((item, idx) => (
-                <tr key={idx} className="border-b border-border last:border-0 hover:bg-muted/10 transition-colors">
-                  <td className="px-6 py-4 text-sm font-medium">{item.name}</td>
-                  <td className="px-6 py-4">
-                    <div className="flex items-center gap-2">
-                      <div
-                        className="w-2 h-2 rounded-full"
-                        style={{ backgroundColor: item.color }}
-                      />
-                      <span className="text-sm font-semibold">{item.wwiScore}</span>
-                    </div>
-                  </td>
-                  <td className="px-6 py-4">
-                    <span
-                      className="px-3 py-1 rounded text-xs font-medium"
-                      style={{
-                        backgroundColor: `${item.color}15`,
-                        color: item.color,
-                      }}
-                    >
-                      {item.status}
-                    </span>
-                  </td>
-                  <td className="px-6 py-4">
-                    <div className="flex gap-1">
-                      {[...Array(4)].map((_, i) => (
-                        <div
-                          key={i}
-                          className={`w-1.5 h-1.5 rounded-full ${
-                            i < item.signals ? 'bg-primary' : 'bg-muted'
-                          }`}
-                        />
-                      ))}
-                    </div>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+          {/* 5-Component Breakdown */}
+          <div className="grid grid-cols-1 md:grid-cols-5 gap-4 mt-8 pt-8 border-t border-gray-700">
+            {wwiComponents.map((comp, idx) => (
+              <div key={idx} className="text-center">
+                <p className="text-xs text-gray-500 mb-2 font-medium">{comp.name}</p>
+                <p className="text-3xl font-bold text-blue-400">{comp.value}</p>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
 
-      {/* Recommended Actions */}
-      <div>
-        <h2 className="text-xl font-display font-bold mb-6">Recommended Actions</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {actions.map((action, idx) => (
+      {/* Duration Selector & WWI Trend Graph */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-12">
+        {/* Graph */}
+        <div
+          className="lg:col-span-2 rounded-xl p-6 border border-gray-700"
+          style={{ backgroundColor: '#0d0d14' }}
+        >
+          <div className="flex items-center justify-between mb-6">
+            <h2 className="text-lg font-semibold text-white flex items-center gap-2">
+              <BarChart3 className="w-5 h-5 text-blue-400" />
+              WWI Trend
+            </h2>
+            <div className="flex gap-2">
+              {durations.map((d) => (
+                <button
+                  key={d}
+                  className={`px-3 py-1 text-sm rounded transition-colors ${
+                    d === selectedDuration
+                      ? 'bg-blue-500/30 text-blue-400 border border-blue-500/50'
+                      : 'text-gray-400 hover:text-gray-300'
+                  }`}
+                >
+                  {d}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Line Chart */}
+          <svg width="100%" height="200" viewBox={`0 0 ${chartWidth} ${chartHeight}`} className="w-full">
+            {/* Grid lines */}
+            {[0, 0.25, 0.5, 0.75, 1].map((frac) => (
+              <line
+                key={frac}
+                x1={padding}
+                y1={padding + frac * (chartHeight - 2 * padding)}
+                x2={chartWidth - padding}
+                y2={padding + frac * (chartHeight - 2 * padding)}
+                stroke="#333"
+                strokeWidth="1"
+                strokeDasharray="4"
+              />
+            ))}
+
+            {/* Line */}
+            <path d={pathD} stroke="url(#lineGradient)" strokeWidth="3" fill="none" strokeLinecap="round" />
+
+            {/* Gradient definition */}
+            <defs>
+              <linearGradient id="lineGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stopColor="#8BA8F0" />
+                <stop offset="100%" stopColor="#E0607A" />
+              </linearGradient>
+            </defs>
+
+            {/* Data points */}
+            {points.map((p, i) => (
+              <circle key={i} cx={p.x} cy={p.y} r="4" fill="#8BA8F0" stroke="#0d0d14" strokeWidth="2" />
+            ))}
+          </svg>
+
+          {/* X-axis labels */}
+          <div className="flex justify-between mt-4 text-xs text-gray-500">
+            <span>Week 1</span>
+            <span>Week 4</span>
+            <span>Week 7</span>
+          </div>
+        </div>
+
+        {/* Fairness Score Card */}
+        <div
+          className="rounded-xl p-6 border border-gray-700 flex flex-col justify-center items-center"
+          style={{ backgroundColor: '#0d0d14' }}
+        >
+          <p className="text-gray-400 text-sm font-medium mb-3 uppercase">Manager Fairness Score</p>
+          <p className="text-5xl font-bold text-white mb-2">{fairnessScore}</p>
+          <p className={`text-lg font-semibold ${fairnessTrend <= 0 ? 'text-red-400' : 'text-green-400'}`}>
+            {fairnessTrend <= 0 ? '↓' : '↑'} {Math.abs(fairnessTrend)}
+          </p>
+        </div>
+      </div>
+
+      {/* Key Actions This Week */}
+      <div className="mb-12">
+        <h2 className="text-xl font-bold text-white mb-6">Key Actions This Week</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {keyActions.map((action, idx) => (
             <div
               key={idx}
-              className="border border-border rounded-lg p-4 hover:border-primary/50 transition-colors cursor-pointer"
+              className={`rounded-lg p-4 border ${getPriorityColor(action.priority)}`}
+              style={{ backgroundColor: '#0d0d14' }}
             >
-              <p className="text-sm font-medium text-foreground">{action.title}</p>
-              <p className="text-xs text-muted-foreground mt-1">{action.description}</p>
+              <p className="font-medium text-white">{action.title}</p>
+              <p className="text-xs text-gray-400 mt-2">Due: {action.dueDate}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* At-Risk Employees */}
+      <div>
+        <h2 className="text-xl font-bold text-white mb-6">At-Risk Employees</h2>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {atRiskEmployees.map((emp, idx) => (
+            <div
+              key={idx}
+              className="rounded-xl p-6 border border-gray-700"
+              style={{ backgroundColor: '#0d0d14' }}
+            >
+              <div className="flex items-start justify-between mb-4">
+                <div>
+                  <p className="font-semibold text-white text-lg">{emp.name}</p>
+                  <p className="text-sm text-gray-400">{emp.role}</p>
+                </div>
+                <span className="text-xs px-2 py-1 rounded bg-red-500/20 text-red-400">{emp.status}</span>
+              </div>
+              <div className="mb-4">
+                <p className="text-gray-400 text-sm mb-1">Work Wellbeing Index</p>
+                <p className={`text-3xl font-bold ${getRiskColor(emp.wwiScore)}`}>{emp.wwiScore}</p>
+              </div>
+              <div className="flex gap-1">
+                {[...Array(5)].map((_, i) => (
+                  <div
+                    key={i}
+                    className={`h-1 flex-1 rounded ${i < emp.riskLevel ? 'bg-red-500' : 'bg-gray-700'}`}
+                  />
+                ))}
+              </div>
             </div>
           ))}
         </div>
