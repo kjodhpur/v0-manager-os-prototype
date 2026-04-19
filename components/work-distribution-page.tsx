@@ -87,28 +87,19 @@ export function WorkDistributionPage() {
 
       {/* Summary Stats */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
-        <div
-          className="rounded-lg border border-border p-6"
-          className="bg-card"
-        >
+        <div className="rounded-lg border border-border p-6 bg-card">
           <p className="text-muted-foreground text-sm font-medium mb-2 uppercase">Total Blocked Items</p>
           <p className="text-4xl font-bold text-red-400">{totalBlockedItems}</p>
           <p className="text-xs text-gray-500 mt-2">Items preventing progress</p>
         </div>
 
-        <div
-          className="rounded-lg border border-border p-6"
-          className="bg-card"
-        >
+        <div className="rounded-lg border border-border p-6 bg-card">
           <p className="text-muted-foreground text-sm font-medium mb-2 uppercase">Avg Weekly Hours</p>
           <p className="text-4xl font-bold text-blue-400">49.2h</p>
           <p className="text-xs text-gray-500 mt-2">Slightly above target</p>
         </div>
 
-        <div
-          className="rounded-lg border border-border p-6"
-          className="bg-card"
-        >
+        <div className="rounded-lg border border-border p-6 bg-card">
           <p className="text-muted-foreground text-sm font-medium mb-2 uppercase">Fairness Score</p>
           <p className="text-4xl font-bold text-yellow-400">65.8</p>
           <p className="text-xs text-gray-500 mt-2">Average allocation equity</p>
@@ -116,10 +107,7 @@ export function WorkDistributionPage() {
       </div>
 
       {/* Team Workload Table */}
-      <div
-        className="rounded-lg border border-border overflow-hidden"
-        className="bg-card"
-      >
+      <div className="rounded-lg border border-border overflow-hidden bg-card">
         <div className="overflow-x-auto">
           <table className="w-full">
             <thead>

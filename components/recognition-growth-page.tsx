@@ -124,8 +124,7 @@ export function RecognitionGrowthPage() {
           {gapsData.map((gap) => (
             <div
               key={gap.id}
-              className="rounded-lg border border-border p-6"
-              className="bg-card"
+              className="rounded-lg border border-border p-6 bg-card"
             >
               <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
                 <div className="flex-1">
@@ -153,10 +152,7 @@ export function RecognitionGrowthPage() {
 
       {/* Quick Draft Interface */}
       {selectedEmployee && (
-        <div
-          className="rounded-lg border border-pink-500/30 p-6 mb-12"
-          className="bg-card"
-        >
+        <div className="rounded-lg border border-pink-500/30 p-6 mb-12 bg-card">
           <div className="mb-4">
             <h3 className="text-lg font-semibold text-foreground mb-1">Draft Recognition for {selectedEmployee}</h3>
             <p className="text-sm text-muted-foreground">Write a thoughtful recognition message</p>
@@ -203,8 +199,7 @@ export function RecognitionGrowthPage() {
           {aiSuggestions.map((suggestion) => (
             <div
               key={suggestion.id}
-              className="rounded-lg border border-blue-500/30 p-6"
-              className="bg-card"
+              className="rounded-lg border border-blue-500/30 p-6 bg-card"
             >
               <div className="flex items-start gap-3 mb-2">
                 <Lightbulb className="w-5 h-5 text-yellow-400 flex-shrink-0 mt-1" />
@@ -229,8 +224,7 @@ export function RecognitionGrowthPage() {
           {recentRecognition.map((rec) => (
             <div
               key={rec.id}
-              className="rounded-lg border border-border p-6"
-              className="bg-card"
+              className="rounded-lg border border-border p-6 bg-card"
             >
               <div className="flex items-start justify-between mb-2">
                 <div>

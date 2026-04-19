@@ -36,10 +36,7 @@ export function SettingsPage() {
       {/* Team Information */}
       <div className="mb-12">
         <h2 className="text-2xl font-bold text-foreground mb-6">Team Information</h2>
-        <div
-          className="rounded-lg border border-border p-6"
-          className="bg-card"
-        >
+        <div className="rounded-lg border border-border p-6 bg-card">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
               <p className="text-muted-foreground text-sm font-medium mb-1">Team Name</p>
@@ -70,10 +67,7 @@ export function SettingsPage() {
           <Bell className="w-6 h-6 text-blue-400" />
           Notification Preferences
         </h2>
-        <div
-          className="rounded-lg border border-border p-6"
-          className="bg-card"
-        >
+        <div className="rounded-lg border border-border p-6 bg-card">
           <div className="space-y-4">
             <div className="flex items-center justify-between p-4 rounded-lg bg-muted/50 border border-border">
               <div>
@@ -160,10 +154,7 @@ export function SettingsPage() {
           <Download className="w-6 h-6 text-blue-400" />
           Data Management
         </h2>
-        <div
-          className="rounded-lg border border-border p-6"
-          className="bg-card"
-        >
+        <div className="rounded-lg border border-border p-6 bg-card">
           <div className="space-y-4">
             <div className="flex items-center justify-between p-4 rounded-lg bg-muted/50 border border-border">
               <div>
@@ -192,10 +183,7 @@ export function SettingsPage() {
           <Shield className="w-6 h-6 text-blue-400" />
           Privacy & Security
         </h2>
-        <div
-          className="rounded-lg border border-border p-6"
-          className="bg-card"
-        >
+        <div className="rounded-lg border border-border p-6 bg-card">
           <div className="space-y-4">
             <a
               href="/privacy"

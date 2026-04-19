@@ -85,8 +85,7 @@ export function IntegrationsPage() {
           {integrations.map((integ) => (
             <div
               key={integ.id}
-              className="rounded-lg border border-border p-6"
-              className="bg-card"
+              className="rounded-lg border border-border p-6 bg-card"
             >
               <div className="flex items-start justify-between mb-4">
                 <div className="flex-1">
@@ -136,7 +135,7 @@ export function IntegrationsPage() {
       {/* Permissions Tab */}
       {activeTab === 'permissions' && (
         <div>
-          <div className="mb-8 p-6 rounded-lg border border-blue-500/30 bg-blue-500/10" className="bg-card">
+          <div className="mb-8 p-6 rounded-lg border border-blue-500/30 bg-blue-500/10">
             <div className="flex items-start gap-3 mb-4">
               <Lock className="w-5 h-5 text-blue-400 mt-1 flex-shrink-0" />
               <div>
@@ -148,7 +147,7 @@ export function IntegrationsPage() {
 
           <div className="space-y-4">
             {/* Privacy Permissions */}
-            <div className="rounded-lg border border-border p-6" className="bg-card">
+            <div className="rounded-lg border border-border p-6 bg-card">
               <h4 className="text-lg font-semibold text-foreground mb-4">Privacy Permissions</h4>
               <div className="space-y-3">
                 <label className="flex items-center p-3 rounded-lg border border-border cursor-pointer hover:bg-muted/50 transition-colors">
@@ -167,7 +166,7 @@ export function IntegrationsPage() {
             </div>
 
             {/* Data Controls */}
-            <div className="rounded-lg border border-border p-6" className="bg-card">
+            <div className="rounded-lg border border-border p-6 bg-card">
               <h4 className="text-lg font-semibold text-foreground mb-4">Data Controls</h4>
               <div className="space-y-3">
                 <label className="flex items-center p-3 rounded-lg border border-border cursor-pointer hover:bg-muted/50 transition-colors">

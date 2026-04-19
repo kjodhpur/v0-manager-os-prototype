@@ -101,8 +101,7 @@ export function TeamHealthPage() {
           return (
             <div
               key={essential.id}
-              className="rounded-lg border border-border overflow-hidden"
-              className="bg-card"
+              className="rounded-lg border border-border overflow-hidden bg-card"
             >
               {/* Header */}
               <div className="p-6 border-b border-border">
