@@ -97,11 +97,11 @@ export function ActionsPage() {
   const completedActions = actions.filter((a) => a.status === 'done');
 
   return (
-    <div className="w-full min-h-screen p-6 lg:p-12 overflow-x-hidden" style={{ backgroundColor: '#05050a' }}>
+    <div className="w-full min-h-screen p-6 lg:p-12 overflow-x-hidden bg-background">
       {/* Header */}
       <div className="mb-12">
-        <h1 className="text-4xl lg:text-5xl font-bold mb-2 text-white">Action Queue</h1>
-        <p className="text-base text-gray-400">
+        <h1 className="text-4xl lg:text-5xl font-bold mb-2 text-foreground">Action Queue</h1>
+        <p className="text-base text-muted-foreground">
           {activateActions.length} active {activateActions.length === 1 ? 'action' : 'actions'} prioritized by importance
         </p>
       </div>
@@ -110,19 +110,19 @@ export function ActionsPage() {
       <div className="space-y-4 mb-12">
         {activateActions.length === 0 ? (
           <div
-            className="rounded-lg p-8 text-center border border-gray-700"
-            style={{ backgroundColor: '#0d0d14' }}
+            className="rounded-lg p-8 text-center border border-border"
+            className="bg-card"
           >
             <CheckCircle2 className="w-12 h-12 text-green-400 mx-auto mb-3" />
-            <p className="text-lg font-semibold text-white">All actions complete!</p>
-            <p className="text-gray-400 text-sm mt-2">Check completed actions below</p>
+            <p className="text-lg font-semibold text-foreground">All actions complete!</p>
+            <p className="text-muted-foreground text-sm mt-2">Check completed actions below</p>
           </div>
         ) : (
           activateActions.map((action) => (
             <div
               key={action.id}
-              className="rounded-lg border border-gray-700 p-6 transition-all hover:border-gray-600"
-              style={{ backgroundColor: '#0d0d14' }}
+              className="rounded-lg border border-border p-6 transition-all hover:border-gray-600"
+              className="bg-card"
             >
               <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
                 {/* Action Details */}
@@ -132,8 +132,8 @@ export function ActionsPage() {
                       {getPriorityIcon(action.priority)}
                     </div>
                     <div className="flex-1">
-                      <p className="text-lg font-semibold text-white">{action.title}</p>
-                      <p className="text-sm text-gray-400 mt-1">{action.description}</p>
+                      <p className="text-lg font-semibold text-foreground">{action.title}</p>
+                      <p className="text-sm text-muted-foreground mt-1">{action.description}</p>
                     </div>
                   </div>
 
@@ -174,18 +174,18 @@ export function ActionsPage() {
       {/* Completed Actions */}
       {completedActions.length > 0 && (
         <div>
-          <h2 className="text-xl font-bold text-white mb-4">Completed</h2>
+          <h2 className="text-xl font-bold text-foreground mb-4">Completed</h2>
           <div className="space-y-3">
             {completedActions.map((action) => (
               <div
                 key={action.id}
-                className="rounded-lg border border-gray-700/50 p-4 opacity-50"
-                style={{ backgroundColor: '#0d0d14' }}
+                className="rounded-lg border border-border/50 p-4 opacity-50"
+                className="bg-card"
               >
                 <div className="flex items-center gap-3">
                   <CheckCircle2 className="w-5 h-5 text-green-400 flex-shrink-0" />
                   <div className="flex-1">
-                    <p className="font-medium text-white line-through">{action.title}</p>
+                    <p className="font-medium text-foreground line-through">{action.title}</p>
                     <p className="text-xs text-gray-500 mt-1">{action.description}</p>
                   </div>
                 </div>

@@ -75,41 +75,41 @@ export function WorkDistributionPage() {
   };
 
   return (
-    <div className="w-full min-h-screen p-6 lg:p-12 overflow-x-hidden" style={{ backgroundColor: '#05050a' }}>
+    <div className="w-full min-h-screen p-6 lg:p-12 overflow-x-hidden bg-background">
       {/* Header */}
       <div className="mb-12">
-        <h1 className="text-4xl lg:text-5xl font-bold mb-2 text-white flex items-center gap-3">
+        <h1 className="text-4xl lg:text-5xl font-bold mb-2 text-foreground flex items-center gap-3">
           <BarChart3 className="w-10 h-10 text-blue-400" />
           Work Distribution
         </h1>
-        <p className="text-base text-gray-400">Monitor workload balance and allocation fairness</p>
+        <p className="text-base text-muted-foreground">Monitor workload balance and allocation fairness</p>
       </div>
 
       {/* Summary Stats */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
         <div
-          className="rounded-lg border border-gray-700 p-6"
-          style={{ backgroundColor: '#0d0d14' }}
+          className="rounded-lg border border-border p-6"
+          className="bg-card"
         >
-          <p className="text-gray-400 text-sm font-medium mb-2 uppercase">Total Blocked Items</p>
+          <p className="text-muted-foreground text-sm font-medium mb-2 uppercase">Total Blocked Items</p>
           <p className="text-4xl font-bold text-red-400">{totalBlockedItems}</p>
           <p className="text-xs text-gray-500 mt-2">Items preventing progress</p>
         </div>
 
         <div
-          className="rounded-lg border border-gray-700 p-6"
-          style={{ backgroundColor: '#0d0d14' }}
+          className="rounded-lg border border-border p-6"
+          className="bg-card"
         >
-          <p className="text-gray-400 text-sm font-medium mb-2 uppercase">Avg Weekly Hours</p>
+          <p className="text-muted-foreground text-sm font-medium mb-2 uppercase">Avg Weekly Hours</p>
           <p className="text-4xl font-bold text-blue-400">49.2h</p>
           <p className="text-xs text-gray-500 mt-2">Slightly above target</p>
         </div>
 
         <div
-          className="rounded-lg border border-gray-700 p-6"
-          style={{ backgroundColor: '#0d0d14' }}
+          className="rounded-lg border border-border p-6"
+          className="bg-card"
         >
-          <p className="text-gray-400 text-sm font-medium mb-2 uppercase">Fairness Score</p>
+          <p className="text-muted-foreground text-sm font-medium mb-2 uppercase">Fairness Score</p>
           <p className="text-4xl font-bold text-yellow-400">65.8</p>
           <p className="text-xs text-gray-500 mt-2">Average allocation equity</p>
         </div>
@@ -117,33 +117,33 @@ export function WorkDistributionPage() {
 
       {/* Team Workload Table */}
       <div
-        className="rounded-lg border border-gray-700 overflow-hidden"
-        style={{ backgroundColor: '#0d0d14' }}
+        className="rounded-lg border border-border overflow-hidden"
+        className="bg-card"
       >
         <div className="overflow-x-auto">
           <table className="w-full">
             <thead>
-              <tr className="border-b border-gray-700 bg-gray-900/50">
-                <th className="px-6 py-3 text-left text-xs font-semibold text-gray-400 uppercase">Team Member</th>
-                <th className="px-6 py-3 text-left text-xs font-semibold text-gray-400 uppercase">Weekly Hours</th>
-                <th className="px-6 py-3 text-left text-xs font-semibold text-gray-400 uppercase">Meeting Time</th>
-                <th className="px-6 py-3 text-left text-xs font-semibold text-gray-400 uppercase">Blocked Items</th>
-                <th className="px-6 py-3 text-left text-xs font-semibold text-gray-400 uppercase">Fairness</th>
-                <th className="px-6 py-3 text-left text-xs font-semibold text-gray-400 uppercase">Status</th>
+              <tr className="border-b border-border bg-muted/50">
+                <th className="px-6 py-3 text-left text-xs font-semibold text-muted-foreground uppercase">Team Member</th>
+                <th className="px-6 py-3 text-left text-xs font-semibold text-muted-foreground uppercase">Weekly Hours</th>
+                <th className="px-6 py-3 text-left text-xs font-semibold text-muted-foreground uppercase">Meeting Time</th>
+                <th className="px-6 py-3 text-left text-xs font-semibold text-muted-foreground uppercase">Blocked Items</th>
+                <th className="px-6 py-3 text-left text-xs font-semibold text-muted-foreground uppercase">Fairness</th>
+                <th className="px-6 py-3 text-left text-xs font-semibold text-muted-foreground uppercase">Status</th>
               </tr>
             </thead>
             <tbody>
               {teamMembers.map((member, idx) => (
-                <tr key={idx} className="border-b border-gray-700 last:border-0 hover:bg-gray-900/30">
+                <tr key={idx} className="border-b border-border last:border-0 hover:bg-muted/30">
                   <td className="px-6 py-4">
                     <div>
-                      <p className="font-medium text-white">{member.name}</p>
+                      <p className="font-medium text-foreground">{member.name}</p>
                       <p className="text-xs text-gray-500">{member.role}</p>
                     </div>
                   </td>
                   <td className="px-6 py-4">
                     <div className="flex items-center gap-2">
-                      <div className="w-16 h-2 rounded-full bg-gray-700 overflow-hidden">
+                      <div className="w-16 h-2 rounded-full bg-border overflow-hidden">
                         <div
                           className={`h-full ${
                             member.weeklyHours > 55
@@ -155,11 +155,11 @@ export function WorkDistributionPage() {
                           style={{ width: `${Math.min((member.weeklyHours / 60) * 100, 100)}%` }}
                         />
                       </div>
-                      <span className="text-sm text-white font-medium">{member.weeklyHours}h</span>
+                      <span className="text-sm text-foreground font-medium">{member.weeklyHours}h</span>
                     </div>
                   </td>
                   <td className="px-6 py-4">
-                    <span className="text-sm text-gray-300">{member.meetingHours}h</span>
+                    <span className="text-sm text-card-foreground">{member.meetingHours}h</span>
                   </td>
                   <td className="px-6 py-4">
                     {member.blockedItems > 0 ? (
@@ -194,7 +194,7 @@ export function WorkDistributionPage() {
 
       {/* Legend */}
       <div className="mt-8 text-xs text-gray-500">
-        <p className="font-semibold text-gray-400 mb-2">Status Reference:</p>
+        <p className="font-semibold text-muted-foreground mb-2">Status Reference:</p>
         <div className="flex flex-wrap gap-4">
           <div className="flex items-center gap-2">
             <div className="w-3 h-3 rounded-full bg-red-500" />

@@ -107,30 +107,30 @@ export function RecognitionGrowthPage() {
   };
 
   return (
-    <div className="w-full min-h-screen p-6 lg:p-12 overflow-x-hidden" style={{ backgroundColor: '#05050a' }}>
+    <div className="w-full min-h-screen p-6 lg:p-12 overflow-x-hidden bg-background">
       {/* Header */}
       <div className="mb-12">
-        <h1 className="text-4xl lg:text-5xl font-bold mb-2 text-white flex items-center gap-3">
+        <h1 className="text-4xl lg:text-5xl font-bold mb-2 text-foreground flex items-center gap-3">
           <Heart className="w-10 h-10 text-pink-400" />
           Recognition & Growth
         </h1>
-        <p className="text-base text-gray-400">Monitor recognition gaps and AI-powered suggestions</p>
+        <p className="text-base text-muted-foreground">Monitor recognition gaps and AI-powered suggestions</p>
       </div>
 
       {/* Recognition Gaps */}
       <div className="mb-12">
-        <h2 className="text-2xl font-bold text-white mb-6">Recognition Gaps</h2>
+        <h2 className="text-2xl font-bold text-foreground mb-6">Recognition Gaps</h2>
         <div className="space-y-4">
           {gapsData.map((gap) => (
             <div
               key={gap.id}
-              className="rounded-lg border border-gray-700 p-6"
-              style={{ backgroundColor: '#0d0d14' }}
+              className="rounded-lg border border-border p-6"
+              className="bg-card"
             >
               <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
                 <div className="flex-1">
-                  <p className="text-lg font-semibold text-white">{gap.name}</p>
-                  <p className="text-sm text-gray-400">{gap.role}</p>
+                  <p className="text-lg font-semibold text-foreground">{gap.name}</p>
+                  <p className="text-sm text-muted-foreground">{gap.role}</p>
                   <p className="text-sm text-gray-500 mt-2">Last recognized: {gap.lastRecognized}</p>
                 </div>
 
@@ -155,18 +155,18 @@ export function RecognitionGrowthPage() {
       {selectedEmployee && (
         <div
           className="rounded-lg border border-pink-500/30 p-6 mb-12"
-          style={{ backgroundColor: '#0d0d14' }}
+          className="bg-card"
         >
           <div className="mb-4">
-            <h3 className="text-lg font-semibold text-white mb-1">Draft Recognition for {selectedEmployee}</h3>
-            <p className="text-sm text-gray-400">Write a thoughtful recognition message</p>
+            <h3 className="text-lg font-semibold text-foreground mb-1">Draft Recognition for {selectedEmployee}</h3>
+            <p className="text-sm text-muted-foreground">Write a thoughtful recognition message</p>
           </div>
 
           <textarea
             value={draftMessage}
             onChange={(e) => setDraftMessage(e.target.value)}
             placeholder="What do you want to recognize them for?"
-            className="w-full rounded-lg p-3 mb-4 bg-gray-900 border border-gray-700 text-white placeholder-gray-500 focus:outline-none focus:border-pink-500/50"
+            className="w-full rounded-lg p-3 mb-4 bg-muted border border-border text-foreground placeholder-gray-500 focus:outline-none focus:border-pink-500/50"
             rows={4}
           />
 
@@ -185,7 +185,7 @@ export function RecognitionGrowthPage() {
                 setDraftMessage('');
                 setSelectedEmployee(null);
               }}
-              className="flex-1 px-4 py-2 rounded-lg bg-gray-700/30 text-gray-400 hover:bg-gray-700/50 border border-gray-700 font-medium transition-colors"
+              className="flex-1 px-4 py-2 rounded-lg bg-border/30 text-muted-foreground hover:bg-border/50 border border-border font-medium transition-colors"
             >
               Cancel
             </button>
@@ -195,7 +195,7 @@ export function RecognitionGrowthPage() {
 
       {/* AI Coach Suggestions */}
       <div className="mb-12">
-        <h2 className="text-2xl font-bold text-white mb-6 flex items-center gap-2">
+        <h2 className="text-2xl font-bold text-foreground mb-6 flex items-center gap-2">
           <Lightbulb className="w-6 h-6 text-yellow-400" />
           AI Coach Suggestions
         </h2>
@@ -204,13 +204,13 @@ export function RecognitionGrowthPage() {
             <div
               key={suggestion.id}
               className="rounded-lg border border-blue-500/30 p-6"
-              style={{ backgroundColor: '#0d0d14' }}
+              className="bg-card"
             >
               <div className="flex items-start gap-3 mb-2">
                 <Lightbulb className="w-5 h-5 text-yellow-400 flex-shrink-0 mt-1" />
                 <div className="flex-1">
-                  <p className="font-semibold text-white">{suggestion.employeeName}</p>
-                  <p className="text-sm text-gray-300 mt-2">{suggestion.suggestion}</p>
+                  <p className="font-semibold text-foreground">{suggestion.employeeName}</p>
+                  <p className="text-sm text-card-foreground mt-2">{suggestion.suggestion}</p>
                   <p className="text-xs text-gray-500 mt-3 italic">Context: {suggestion.context}</p>
                 </div>
               </div>
@@ -221,7 +221,7 @@ export function RecognitionGrowthPage() {
 
       {/* Recent Recognition Log */}
       <div>
-        <h2 className="text-2xl font-bold text-white mb-6 flex items-center gap-2">
+        <h2 className="text-2xl font-bold text-foreground mb-6 flex items-center gap-2">
           <Calendar className="w-6 h-6 text-green-400" />
           Recent Recognition
         </h2>
@@ -229,16 +229,16 @@ export function RecognitionGrowthPage() {
           {recentRecognition.map((rec) => (
             <div
               key={rec.id}
-              className="rounded-lg border border-gray-700 p-6"
-              style={{ backgroundColor: '#0d0d14' }}
+              className="rounded-lg border border-border p-6"
+              className="bg-card"
             >
               <div className="flex items-start justify-between mb-2">
                 <div>
-                  <p className="text-lg font-semibold text-white">
+                  <p className="text-lg font-semibold text-foreground">
                     {rec.recipient}
-                    <span className="text-gray-400 font-normal text-sm ml-2">recognized by {rec.giver}</span>
+                    <span className="text-muted-foreground font-normal text-sm ml-2">recognized by {rec.giver}</span>
                   </p>
-                  <p className="text-gray-300 mt-2">{rec.message}</p>
+                  <p className="text-card-foreground mt-2">{rec.message}</p>
                 </div>
                 <span className={`px-3 py-1 rounded text-xs font-medium whitespace-nowrap ml-4 ${getRecognitionBadgeColor(rec.type)}`}>
                   {rec.type}

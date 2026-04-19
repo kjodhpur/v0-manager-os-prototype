@@ -77,7 +77,7 @@ export function DemoOverview() {
   };
 
   return (
-    <div className="w-full min-h-screen p-6 lg:p-12 overflow-x-hidden" style={{ backgroundColor: '#05050a' }}>
+    <div className="w-full min-h-screen p-6 lg:p-12 overflow-x-hidden bg-background">
       {/* Header */}
       <div className="mb-12">
         <h1 className="text-4xl lg:text-5xl font-bold mb-2 text-white" style={{ fontFamily: 'Inter' }}>
@@ -122,7 +122,7 @@ export function DemoOverview() {
         {/* Graph */}
         <div
           className="lg:col-span-2 rounded-xl p-6 border border-gray-700"
-          style={{ backgroundColor: '#0d0d14' }}
+          className="bg-card"
         >
           <div className="flex items-center justify-between mb-6">
             <h2 className="text-lg font-semibold text-white flex items-center gap-2">
@@ -189,7 +189,7 @@ export function DemoOverview() {
         {/* Fairness Score Card */}
         <div
           className="rounded-xl p-6 border border-gray-700 flex flex-col justify-center items-center"
-          style={{ backgroundColor: '#0d0d14' }}
+          className="bg-card"
         >
           <p className="text-gray-400 text-sm font-medium mb-3 uppercase">Manager Fairness Score</p>
           <p className="text-5xl font-bold text-white mb-2">{fairnessScore}</p>
@@ -207,7 +207,7 @@ export function DemoOverview() {
             <div
               key={idx}
               className={`rounded-lg p-4 border ${getPriorityColor(action.priority)}`}
-              style={{ backgroundColor: '#0d0d14' }}
+              className="bg-card"
             >
               <p className="font-medium text-white">{action.title}</p>
               <p className="text-xs text-gray-400 mt-2">Due: {action.dueDate}</p>
@@ -224,7 +224,7 @@ export function DemoOverview() {
             <div
               key={idx}
               className="rounded-xl p-6 border border-gray-700"
-              style={{ backgroundColor: '#0d0d14' }}
+              className="bg-card"
             >
               <div className="flex items-start justify-between mb-4">
                 <div>

@@ -126,14 +126,14 @@ export function TimelinePage() {
   };
 
   return (
-    <div className="w-full min-h-screen p-6 lg:p-12 overflow-x-hidden" style={{ backgroundColor: '#05050a' }}>
+    <div className="w-full min-h-screen p-6 lg:p-12 overflow-x-hidden bg-background">
       {/* Header */}
       <div className="mb-12">
-        <h1 className="text-4xl lg:text-5xl font-bold mb-2 text-white flex items-center gap-3">
+        <h1 className="text-4xl lg:text-5xl font-bold mb-2 text-foreground flex items-center gap-3">
           <Users className="w-10 h-10 text-blue-400" />
           Team Flow
         </h1>
-        <p className="text-base text-gray-400">Monitor individual team member wellbeing and metrics</p>
+        <p className="text-base text-muted-foreground">Monitor individual team member wellbeing and metrics</p>
       </div>
 
       {/* Team Members List */}
@@ -141,18 +141,18 @@ export function TimelinePage() {
         {teamMembers.map((member, idx) => (
           <div
             key={idx}
-            className="rounded-xl border border-gray-700 overflow-hidden"
-            style={{ backgroundColor: '#0d0d14' }}
+            className="rounded-xl border border-border overflow-hidden"
+            className="bg-card"
           >
             {/* Member Header */}
-            <div className="p-6 border-b border-gray-700">
+            <div className="p-6 border-b border-border">
               <div className="flex items-baseline justify-between mb-4">
                 <div>
-                  <p className="text-2xl font-bold text-white">{member.name}</p>
-                  <p className="text-sm text-gray-400">{member.role}</p>
+                  <p className="text-2xl font-bold text-foreground">{member.name}</p>
+                  <p className="text-sm text-muted-foreground">{member.role}</p>
                 </div>
                 <div className="text-right">
-                  <p className="text-gray-400 text-sm mb-1">Work Wellbeing Index</p>
+                  <p className="text-muted-foreground text-sm mb-1">Work Wellbeing Index</p>
                   <div className="flex items-baseline gap-2">
                     <p className={`text-4xl font-bold ${getWWIColor(member.wwiScore)}`}>{member.wwiScore}</p>
                     <span className={`text-lg font-semibold ${member.trend >= 0 ? 'text-green-400' : 'text-red-400'}`}>
@@ -163,7 +163,7 @@ export function TimelinePage() {
               </div>
 
               {/* 5-Component Breakdown */}
-              <div className="grid grid-cols-2 md:grid-cols-5 gap-4 pt-4 border-t border-gray-700">
+              <div className="grid grid-cols-2 md:grid-cols-5 gap-4 pt-4 border-t border-border">
                 {member.components.map((comp, cidx) => (
                   <div key={cidx} className="text-center">
                     <p className="text-xs text-gray-500 mb-2">{comp.name}</p>
@@ -177,18 +177,18 @@ export function TimelinePage() {
             <div className="overflow-x-auto">
               <table className="w-full">
                 <thead>
-                  <tr className="border-b border-gray-700 bg-gray-900/50">
-                    <th className="px-6 py-3 text-left text-xs font-semibold text-gray-400 uppercase">Metric</th>
-                    <th className="px-6 py-3 text-left text-xs font-semibold text-gray-400 uppercase">Value</th>
-                    <th className="px-6 py-3 text-left text-xs font-semibold text-gray-400 uppercase">Status</th>
+                  <tr className="border-b border-border bg-muted/50">
+                    <th className="px-6 py-3 text-left text-xs font-semibold text-muted-foreground uppercase">Metric</th>
+                    <th className="px-6 py-3 text-left text-xs font-semibold text-muted-foreground uppercase">Value</th>
+                    <th className="px-6 py-3 text-left text-xs font-semibold text-muted-foreground uppercase">Status</th>
                   </tr>
                 </thead>
                 <tbody>
                   {member.metrics.map((metric, midx) => (
-                    <tr key={midx} className="border-b border-gray-700 last:border-0 hover:bg-gray-900/30">
-                      <td className="px-6 py-4 text-sm font-medium text-white">{metric.label}</td>
+                    <tr key={midx} className="border-b border-border last:border-0 hover:bg-muted/30">
+                      <td className="px-6 py-4 text-sm font-medium text-foreground">{metric.label}</td>
                       <td className="px-6 py-4 text-sm">
-                        <span className="font-semibold text-white">{metric.value}</span>
+                        <span className="font-semibold text-foreground">{metric.value}</span>
                         <span className="text-gray-500 ml-1">{metric.unit}</span>
                       </td>
                       <td className="px-6 py-4">

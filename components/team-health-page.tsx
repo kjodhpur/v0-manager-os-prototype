@@ -87,11 +87,11 @@ export function TeamHealthPage() {
   };
 
   return (
-    <div className="w-full min-h-screen p-6 lg:p-12 overflow-x-hidden" style={{ backgroundColor: '#05050a' }}>
+    <div className="w-full min-h-screen p-6 lg:p-12 overflow-x-hidden bg-background">
       {/* Header */}
       <div className="mb-12">
-        <h1 className="text-4xl lg:text-5xl font-bold mb-2 text-white">Team Wellbeing</h1>
-        <p className="text-base text-gray-400">Monitor the 5 Surgeon General essentials for workplace health</p>
+        <h1 className="text-4xl lg:text-5xl font-bold mb-2 text-foreground">Team Wellbeing</h1>
+        <p className="text-base text-muted-foreground">Monitor the 5 Surgeon General essentials for workplace health</p>
       </div>
 
       {/* Essentials Grid */}
@@ -101,23 +101,23 @@ export function TeamHealthPage() {
           return (
             <div
               key={essential.id}
-              className="rounded-lg border border-gray-700 overflow-hidden"
-              style={{ backgroundColor: '#0d0d14' }}
+              className="rounded-lg border border-border overflow-hidden"
+              className="bg-card"
             >
               {/* Header */}
-              <div className="p-6 border-b border-gray-700">
+              <div className="p-6 border-b border-border">
                 <div className="flex items-start justify-between mb-4">
                   <div className="flex items-center gap-3">
                     <div className="p-2 rounded-lg bg-blue-500/20">
                       <Icon className="w-6 h-6 text-blue-400" />
                     </div>
                     <div>
-                      <p className="text-xl font-bold text-white">{essential.name}</p>
-                      <p className="text-sm text-gray-400">{essential.description}</p>
+                      <p className="text-xl font-bold text-foreground">{essential.name}</p>
+                      <p className="text-sm text-muted-foreground">{essential.description}</p>
                     </div>
                   </div>
                   <div className="text-right">
-                    <p className="text-gray-400 text-sm">Team Average</p>
+                    <p className="text-muted-foreground text-sm">Team Average</p>
                     <div className="flex items-baseline gap-2">
                       <p className="text-3xl font-bold text-blue-400">{essential.avgScore}</p>
                       <span className="text-green-400 font-semibold text-sm">↑{essential.trend}</span>
@@ -126,7 +126,7 @@ export function TeamHealthPage() {
                 </div>
 
                 {/* Score Bar */}
-                <div className="w-full h-2 rounded-full bg-gray-700 overflow-hidden">
+                <div className="w-full h-2 rounded-full bg-border overflow-hidden">
                   <div
                     className="h-full bg-gradient-to-r from-blue-500 to-green-500 rounded-full"
                     style={{ width: `${(essential.avgScore / 100) * 100}%` }}
@@ -136,15 +136,15 @@ export function TeamHealthPage() {
 
               {/* Team Member Breakdown */}
               <div className="p-6">
-                <p className="text-sm font-semibold text-gray-400 mb-4 uppercase">At-Risk Team Members</p>
+                <p className="text-sm font-semibold text-muted-foreground mb-4 uppercase">At-Risk Team Members</p>
                 <div className="space-y-3">
                   {essential.employees.map((emp, idx) => (
-                    <div key={idx} className="flex items-center justify-between p-3 rounded-lg bg-gray-900/50 border border-gray-700">
+                    <div key={idx} className="flex items-center justify-between p-3 rounded-lg bg-muted/50 border border-border">
                       <div className="flex-1">
-                        <p className="font-medium text-white">{emp.name}</p>
+                        <p className="font-medium text-foreground">{emp.name}</p>
                       </div>
                       <div className="flex items-center gap-3">
-                        <p className="font-bold text-white w-8 text-right">{emp.score}</p>
+                        <p className="font-bold text-foreground w-8 text-right">{emp.score}</p>
                         <span className={`px-3 py-1 rounded text-xs font-medium ${getStatusColor(emp.status)}`}>
                           {emp.status}
                         </span>
