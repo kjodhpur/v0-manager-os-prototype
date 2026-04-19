@@ -1,0 +1,65 @@
+<!doctype html><html><head><meta charset="utf-8">
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+<style>
+  :root{--sans:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;--mono:'SF Mono',Monaco,monospace}
+  html,body{margin:0;padding:0;font-family:var(--sans)}
+  .wrap{position:relative;padding-top:14px}
+  .dark{background:#020807;color:#EAF4F1;border-bottom:1px solid #132421}
+  .light{background:#FAF8F5;color:#0F2420}
+  .tag{position:absolute;top:6px;left:22px;font-family:var(--mono);font-size:9px;text-transform:uppercase;letter-spacing:0.12em;padding:2px 8px;border-radius:4px;z-index:2}
+  .dark .tag{background:#0A1A18;color:#8FB3AC;border:1px solid #132421}
+  .light .tag{background:#EAF4F1;color:#7A8C88;border:1px solid #DAD3C7}
+
+  table{width:100%;border-collapse:collapse;font-size:13px}
+  th{text-align:left;padding:10px 18px;font-family:var(--mono);font-weight:500;font-size:10px;text-transform:uppercase;letter-spacing:0.08em}
+  td{padding:10px 18px}
+  .dark th{color:#8FB3AC;border-bottom:1px solid #132421;background:#050D0C}
+  .dark td{border-bottom:1px solid #0F1D1B}
+  .dark tr:last-child td{border-bottom:0}
+  .light th{color:#7A8C88;border-bottom:1px solid #DAD3C7;background:#F3EFE6}
+  .light td{border-bottom:1px solid #E8E1D3}
+  .light tr:last-child td{border-bottom:0}
+
+  .name{font-weight:600}
+  .role{font-size:11px;margin-left:6px;font-family:var(--mono)}
+  .dark .role{color:#6B8A84}
+  .light .role{color:#7A8C88}
+
+  .whi{font-weight:600;font-variant-numeric:tabular-nums;display:inline-flex;align-items:center;gap:4px}
+  .dark .whi i{color:#D96B6B}
+  .light .whi i{color:#C85858}
+
+  .badge{display:inline-block;padding:2px 10px;border-radius:6px;font-size:11px;font-weight:500;border:1px solid transparent}
+  .dark .b-risk{background:linear-gradient(180deg,rgba(240,133,133,0.2),rgba(217,107,107,0.1));color:#F08585;border-color:rgba(217,107,107,0.3)}
+  .dark .b-warn{background:linear-gradient(180deg,rgba(226,188,87,0.2),rgba(226,188,87,0.1));color:#E2BC57;border-color:rgba(226,188,87,0.3)}
+  .dark .b-muted{background:#0A1A18;color:#8FB3AC;border-color:#132421}
+  .light .b-risk{background:linear-gradient(180deg,#FDEDED,#FBE5E5);color:#A84040;border-color:#E8C2C2}
+  .light .b-warn{background:linear-gradient(180deg,#FDF6E3,#FBF1DA);color:#8C5A1F;border-color:#E8D9B8}
+  .light .b-muted{background:#EAF4F1;color:#7A8C88;border-color:#DAD3C7}
+
+  .btn{padding:4px 12px;border-radius:6px;font-size:11px;font-weight:600;cursor:pointer;font-family:var(--sans)}
+  .dark .btn{background:linear-gradient(180deg,#14E3CE,#00B8A0);color:#001B17;box-shadow:inset 0 1px 0 rgba(255,255,255,0.35),0 0 10px rgba(0,209,193,0.35)}
+  .light .btn{background:linear-gradient(180deg,#00B8A0,#00806F);color:#fff;box-shadow:inset 0 1px 0 rgba(255,255,255,0.3),0 1px 6px rgba(0,128,111,0.25)}
+
+  [data-lucide]{width:12px;height:12px;stroke-width:2}
+</style></head>
+<body>
+
+<div class="wrap dark"><span class="tag">Dark</span>
+<table><thead><tr><th>Name</th><th>WHI</th><th>Issue</th><th></th></tr></thead><tbody>
+<tr><td><span class="name">Riya Sharma</span><span class="role">Staff Eng</span></td><td><span class="whi">41 <i data-lucide="trending-down"></i></span></td><td><span class="badge b-risk">Blocked + Overloaded</span></td><td><span class="btn">View</span></td></tr>
+<tr><td><span class="name">Sam Patel</span><span class="role">Senior Eng</span></td><td><span class="whi">48 <i data-lucide="trending-down"></i></span></td><td><span class="badge b-warn">High firefighting</span></td><td><span class="btn">View</span></td></tr>
+<tr><td><span class="name">Olivia Chen</span><span class="role">Eng</span></td><td><span class="whi">55</span></td><td><span class="badge b-warn">Recognition gap</span></td><td><span class="btn">View</span></td></tr>
+<tr><td><span class="name">Jordan Lee</span><span class="role">Eng</span></td><td><span class="whi">58</span></td><td><span class="badge b-muted">Declining</span></td><td><span class="btn">View</span></td></tr>
+</tbody></table></div>
+
+<div class="wrap light"><span class="tag">Light</span>
+<table><thead><tr><th>Name</th><th>WHI</th><th>Issue</th><th></th></tr></thead><tbody>
+<tr><td><span class="name">Riya Sharma</span><span class="role">Staff Eng</span></td><td><span class="whi">41 <i data-lucide="trending-down"></i></span></td><td><span class="badge b-risk">Blocked + Overloaded</span></td><td><span class="btn">View</span></td></tr>
+<tr><td><span class="name">Sam Patel</span><span class="role">Senior Eng</span></td><td><span class="whi">48 <i data-lucide="trending-down"></i></span></td><td><span class="badge b-warn">High firefighting</span></td><td><span class="btn">View</span></td></tr>
+<tr><td><span class="name">Olivia Chen</span><span class="role">Eng</span></td><td><span class="whi">55</span></td><td><span class="badge b-warn">Recognition gap</span></td><td><span class="btn">View</span></td></tr>
+<tr><td><span class="name">Jordan Lee</span><span class="role">Eng</span></td><td><span class="whi">58</span></td><td><span class="badge b-muted">Declining</span></td><td><span class="btn">View</span></td></tr>
+</tbody></table></div>
+
+<script>lucide.createIcons()</script>
+</body></html>

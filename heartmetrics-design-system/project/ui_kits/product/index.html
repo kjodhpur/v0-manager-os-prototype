@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>HeartMetrics · ManagerOS</title>
+<link rel="stylesheet" href="../../colors_and_type.css"/>
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<style>
+  html, body { margin:0; padding:0; background:#000; color:#F8FAFC;
+    font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; }
+  * { box-sizing: border-box; }
+  .layout { display:flex; min-height:100vh; }
+  .main { flex:1; padding:24px; max-width:1400px; }
+  .kpi-row { display:grid; grid-template-columns: repeat(4, 1fr); gap:16px; margin-bottom:20px; }
+  .section-head { display:flex; justify-content:space-between; align-items:baseline; margin: 24px 0 12px; }
+  .section-head h2 { font-size:20px; font-weight:600; margin:0; letter-spacing:-0.01em; }
+  .section-head .muted { color:#8B8B8B; font-size:13px; }
+  .tabs { display:flex; gap:4px; border-bottom:1px solid #1A1A1A; margin-bottom:16px; }
+  .tab { padding:10px 16px; font-size:13px; color:#8B8B8B; cursor:pointer;
+    border-bottom:2px solid transparent; background:none; border-left:none; border-right:none; border-top:none;
+    font-family:inherit; }
+  .tab.active { color:#00B8A0; border-bottom-color:#00B8A0; }
+  .grid-2 { display:grid; grid-template-columns: 1fr 1fr; gap:16px; }
+</style>
+</head>
+<body>
+<div id="root"></div>
+
+<script type="text/babel" src="TopBar.jsx"></script>
+<script type="text/babel" src="Sidebar.jsx"></script>
+<script type="text/babel" src="Cards.jsx"></script>
+<script type="text/babel" src="AttentionTable.jsx"></script>
+<script type="text/babel" src="WorkDistributionTable.jsx"></script>
+<script type="text/babel" src="ActionsGrid.jsx"></script>
+
+<script type="text/babel">
+const { useState, useEffect } = React;
+
+function App() {
+  const [active, setActive] = useState(localStorage.getItem('hm_nav') || 'overview');
+  const [tab, setTab] = useState('overview');
+
+  useEffect(()=>{ localStorage.setItem('hm_nav', active); }, [active]);
+  useEffect(()=>{ if (window.lucide) window.lucide.createIcons(); });
+
+  return (
+    <div>
+      <TopBar/>
+      <div className="layout">
+        <Sidebar active={active} onChange={setActive}/>
+        <main className="main">
+          <div className="section-head">
+            <h2>Team Overview</h2>
+            <span className="muted">Updated 2 min ago · Week of Apr 14</span>
+          </div>
+
+          <div className="tabs">
+            {['overview','distribution','actions'].map(t => (
+              <button key={t} className={`tab ${tab===t?'active':''}`} onClick={()=>setTab(t)}>
+                {t==='overview' ? 'Overview' : t==='distribution' ? 'Work Distribution' : 'Actions'}
+              </button>
+            ))}
+          </div>
+
+          {tab==='overview' && (
+            <>
+              <div className="kpi-row">
+                <KPICard label="Team WHI" value="67" delta="+4" deltaKind="up" sub="Healthy range" subColor="#5DD67A"/>
+                <KPICard label="At-Risk" value="2" sub="Need attention" subColor="#FF8A8A"/>
+                <KPICard label="Recognition Gaps" value="1" sub="Olivia · 21 days" subColor="#FFB347"/>
+                <KPICard label="Meeting Load" value="14.2h" delta="-1.1h" deltaKind="down" sub="avg/person · down from last wk" subColor="#5DD67A"/>
+              </div>
+
+              <div className="grid-2" style={{marginBottom:20}}>
+                <AIInsightCard/>
+                <div style={{border:'1px solid #1A1A1A', borderRadius:12, padding:16}}>
+                  <div style={{display:'flex', alignItems:'center', gap:8, marginBottom:12}}>
+                    <i data-lucide="trending-up" style={{width:16,height:16,color:'#00B8A0'}}></i>
+                    <strong style={{fontSize:14}}>WHI Trend · 4 weeks</strong>
+                  </div>
+                  <svg viewBox="0 0 400 100" style={{width:'100%', height:100}}>
+                    <defs>
+                      <linearGradient id="ga" x1="0" x2="0" y1="0" y2="1">
+                        <stop offset="0%" stopColor="#00B8A0" stopOpacity="0.3"/>
+                        <stop offset="100%" stopColor="#00B8A0" stopOpacity="0"/>
+                      </linearGradient>
+                    </defs>
+                    <path d="M0,70 L80,65 L160,58 L240,52 L320,45 L400,40 L400,100 L0,100 Z" fill="url(#ga)"/>
+                    <path d="M0,70 L80,65 L160,58 L240,52 L320,45 L400,40" stroke="#00B8A0" strokeWidth="2" fill="none"/>
+                  </svg>
+                  <div style={{display:'flex', justifyContent:'space-between', fontSize:11, color:'#8B8B8B', marginTop:4}}>
+                    <span>W1</span><span>W2</span><span>W3</span><span>W4</span>
+                  </div>
+                </div>
+              </div>
+
+              <AttentionTable onView={(p)=>alert(`Opening profile for ${p.name}`)}/>
+              <div style={{height:20}}/>
+              <ActionsGrid onAction={(a)=>alert(`Action: ${a.title}`)}/>
+              <TrustMicrocopy/>
+            </>
+          )}
+
+          {tab==='distribution' && (
+            <>
+              <WorkDistributionTable/>
+              <TrustMicrocopy/>
+            </>
+          )}
+
+          {tab==='actions' && (
+            <>
+              <ActionsGrid onAction={(a)=>alert(`Action: ${a.title}`)}/>
+              <TrustMicrocopy/>
+            </>
+          )}
+        </main>
+      </div>
+    </div>
+  );
+}
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(<App/>);
+</script>
+</body>
+</html>

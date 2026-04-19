@@ -1,0 +1,79 @@
+<!doctype html><html><head><meta charset="utf-8">
+<link rel="stylesheet" href="../colors_and_type.css">
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+<style>
+  html,body{margin:0;padding:0;font-family:var(--font-sans)}
+  .row{padding:18px 24px;display:flex;gap:10px;flex-wrap:wrap;align-items:flex-start}
+  .dark{background:#000;color:#F8FAFC;border-bottom:1px solid #1A1A1A}
+  .light{background:#FAFAF7;color:#111}
+  .item{display:flex;flex-direction:column;align-items:center;gap:4px;min-width:58px}
+  .ic{width:44px;height:44px;border-radius:10px;display:flex;align-items:center;justify-content:center;transition:all .2s}
+  [data-lucide]{width:22px;height:22px;stroke-width:1.75}
+
+  /* Dark mode chip — teal fill + outer glow */
+  .dark .ic{
+    background:rgba(0,184,160,0.12);
+    color:#00D4A8;
+    border:1px solid rgba(0,184,160,0.25);
+    box-shadow:
+      0 0 0 1px rgba(0,184,160,0.08),
+      0 0 16px rgba(0,212,168,0.28),
+      inset 0 0 12px rgba(0,212,168,0.08);
+  }
+  .dark .ic [data-lucide]{
+    filter: drop-shadow(0 0 4px rgba(0,212,168,0.7));
+  }
+
+  /* Light mode chip — soft teal tint + subtle glow */
+  .light .ic{
+    background:#E8FAF6;
+    color:#00806F;
+    border:1px solid rgba(0,128,111,0.18);
+    box-shadow:
+      0 1px 2px rgba(15,41,38,0.04),
+      0 0 14px rgba(0,184,160,0.18);
+  }
+  .light .ic [data-lucide]{
+    filter: drop-shadow(0 0 3px rgba(0,184,160,0.45));
+  }
+
+  .lbl{font-family:var(--font-mono);font-size:10px;text-align:center}
+  .dark .lbl{color:#8B8B8B}
+  .light .lbl{color:#6B6B6B}
+
+  .tag{font-family:var(--font-mono);font-size:9px;text-transform:uppercase;letter-spacing:0.1em;padding:2px 8px;border-radius:4px;margin-right:10px;align-self:center}
+  .dark .tag{background:#1A1A1A;color:#8B8B8B}
+  .light .tag{background:#EDEDE4;color:#6B6B6B}
+</style></head>
+<body>
+
+<div class="row dark">
+  <div class="tag">Dark</div>
+  <div class="item"><div class="ic"><i data-lucide="heart-pulse"></i></div><div class="lbl">heart-pulse</div></div>
+  <div class="item"><div class="ic"><i data-lucide="brain"></i></div><div class="lbl">brain</div></div>
+  <div class="item"><div class="ic"><i data-lucide="shield-check"></i></div><div class="lbl">shield-check</div></div>
+  <div class="item"><div class="ic"><i data-lucide="flame"></i></div><div class="lbl">flame</div></div>
+  <div class="item"><div class="ic"><i data-lucide="bar-chart-3"></i></div><div class="lbl">bar-chart-3</div></div>
+  <div class="item"><div class="ic"><i data-lucide="scale"></i></div><div class="lbl">scale</div></div>
+  <div class="item"><div class="ic"><i data-lucide="award"></i></div><div class="lbl">award</div></div>
+  <div class="item"><div class="ic"><i data-lucide="target"></i></div><div class="lbl">target</div></div>
+  <div class="item"><div class="ic"><i data-lucide="sparkles"></i></div><div class="lbl">sparkles</div></div>
+  <div class="item"><div class="ic"><i data-lucide="alert-triangle"></i></div><div class="lbl">alert</div></div>
+</div>
+
+<div class="row light">
+  <div class="tag">Light</div>
+  <div class="item"><div class="ic"><i data-lucide="heart-pulse"></i></div><div class="lbl">heart-pulse</div></div>
+  <div class="item"><div class="ic"><i data-lucide="brain"></i></div><div class="lbl">brain</div></div>
+  <div class="item"><div class="ic"><i data-lucide="shield-check"></i></div><div class="lbl">shield-check</div></div>
+  <div class="item"><div class="ic"><i data-lucide="flame"></i></div><div class="lbl">flame</div></div>
+  <div class="item"><div class="ic"><i data-lucide="bar-chart-3"></i></div><div class="lbl">bar-chart-3</div></div>
+  <div class="item"><div class="ic"><i data-lucide="scale"></i></div><div class="lbl">scale</div></div>
+  <div class="item"><div class="ic"><i data-lucide="award"></i></div><div class="lbl">award</div></div>
+  <div class="item"><div class="ic"><i data-lucide="target"></i></div><div class="lbl">target</div></div>
+  <div class="item"><div class="ic"><i data-lucide="sparkles"></i></div><div class="lbl">sparkles</div></div>
+  <div class="item"><div class="ic"><i data-lucide="alert-triangle"></i></div><div class="lbl">alert</div></div>
+</div>
+
+<script>lucide.createIcons()</script>
+</body></html>

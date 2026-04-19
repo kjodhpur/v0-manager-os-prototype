@@ -1,0 +1,64 @@
+<!doctype html><html><head><meta charset="utf-8">
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+<style>
+  :root{
+    --sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    --serif: 'Source Serif 4', Georgia, 'Palatino', serif;
+    --mono: 'SF Mono', Monaco, monospace;
+  }
+  html,body{margin:0;padding:0;font-family:var(--sans)}
+  .row{padding:18px 22px;position:relative}
+  .dark{background:#020807;color:#EAF4F1;border-bottom:1px solid #132421}
+  .light{background:#FAF8F5;color:#0F2420}
+  .tag{position:absolute;top:6px;left:22px;font-family:var(--mono);font-size:9px;text-transform:uppercase;letter-spacing:0.12em;padding:2px 8px;border-radius:4px}
+  .dark .tag{background:#0A1A18;color:#8FB3AC;border:1px solid #132421}
+  .light .tag{background:#EAF4F1;color:#7A8C88;border:1px solid #DAD3C7}
+
+  .insight{margin-top:14px;border-radius:12px;padding:16px;position:relative;overflow:hidden}
+  .dark .insight{border:1px solid rgba(0,184,160,0.3);background:linear-gradient(135deg,rgba(0,184,160,0.10) 0%,rgba(52,217,139,0.05) 60%,rgba(226,188,87,0.04) 100%);box-shadow:inset 0 1px 0 rgba(0,209,193,0.12),0 0 28px rgba(0,184,160,0.12)}
+  .light .insight{border:1px solid rgba(0,128,111,0.22);background:linear-gradient(135deg,rgba(0,184,160,0.10) 0%,rgba(45,160,105,0.06) 60%,rgba(214,174,74,0.05) 100%);box-shadow:inset 0 1px 0 rgba(255,255,255,0.5),0 2px 14px rgba(0,128,111,0.08)}
+
+  .hdr{display:flex;align-items:center;gap:8px;margin-bottom:10px}
+  .hdr strong{font-size:13px;font-weight:600;letter-spacing:-0.01em}
+  .hdr i{width:16px;height:16px;stroke-width:2}
+  .dark .hdr i{color:#14E3CE;filter:drop-shadow(0 0 4px rgba(0,209,193,0.5))}
+  .light .hdr i{color:#00806F}
+
+  .pill{font-family:var(--mono);font-size:9px;text-transform:uppercase;letter-spacing:0.12em;padding:2px 8px;border-radius:4px;margin-left:auto}
+  .dark .pill{background:rgba(0,184,160,0.15);color:#14E3CE;border:1px solid rgba(0,184,160,0.3)}
+  .light .pill{background:rgba(0,128,111,0.1);color:#00806F;border:1px solid rgba(0,128,111,0.2)}
+
+  .body{font-size:13px;line-height:1.6;font-family:var(--serif)}
+  .dark .body{color:#C7D8D4}
+  .light .body{color:#2A3D39}
+  .body em{font-style:italic}
+  .dark .body b{color:#E2BC57;font-weight:600}
+  .light .body b{color:#8C5A1F;font-weight:600}
+
+  .actions{display:flex;gap:8px;margin-top:12px}
+  .btn{font-family:var(--sans);display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:500;padding:6px 14px;border-radius:6px;cursor:pointer}
+  .dark .primary{background:linear-gradient(180deg,#14E3CE 0%,#00B8A0 100%);color:#001B17;font-weight:600;box-shadow:inset 0 1px 0 rgba(255,255,255,0.4),0 0 14px rgba(0,209,193,0.4)}
+  .dark .ghost{color:#8FB3AC;border:1px solid #132421}
+  .light .primary{background:linear-gradient(180deg,#00B8A0 0%,#00806F 100%);color:#fff;font-weight:600;box-shadow:inset 0 1px 0 rgba(255,255,255,0.3),0 2px 10px rgba(0,128,111,0.25)}
+  .light .ghost{color:#7A8C88;border:1px solid #DAD3C7;background:#fff}
+</style></head>
+<body>
+
+<div class="row dark"><span class="tag">Dark</span>
+  <div class="insight">
+    <div class="hdr"><i data-lucide="sparkles"></i><strong>Weekly team insight</strong><span class="pill">AI · Haiku 4.5</span></div>
+    <div class="body">Your team's wellbeing is trending upward this week. <b>Riya</b> and <b>Sam</b> need attention due to workload imbalance — consider redistributing 2–3 tasks from Riya to <em>Olivia</em>, who currently has capacity.</div>
+    <div class="actions"><span class="btn primary">View suggestion</span><span class="btn ghost">Dismiss</span></div>
+  </div>
+</div>
+
+<div class="row light"><span class="tag">Light</span>
+  <div class="insight">
+    <div class="hdr"><i data-lucide="sparkles"></i><strong>Weekly team insight</strong><span class="pill">AI · Haiku 4.5</span></div>
+    <div class="body">Your team's wellbeing is trending upward this week. <b>Riya</b> and <b>Sam</b> need attention due to workload imbalance — consider redistributing 2–3 tasks from Riya to <em>Olivia</em>, who currently has capacity.</div>
+    <div class="actions"><span class="btn primary">View suggestion</span><span class="btn ghost">Dismiss</span></div>
+  </div>
+</div>
+
+<script>lucide.createIcons()</script>
+</body></html>

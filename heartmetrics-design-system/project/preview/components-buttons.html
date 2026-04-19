@@ -1,0 +1,126 @@
+<!doctype html><html><head><meta charset="utf-8">
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+<style>
+  :root{
+    --sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Oxygen', 'Helvetica Neue', sans-serif;
+    --serif: 'Source Serif 4', Georgia, 'Palatino', serif;
+    --mono: 'SF Mono', Monaco, 'Inconsolata', 'Fira Code', monospace;
+  }
+  html,body{margin:0;padding:0;font-family:var(--sans)}
+  .row{padding:22px 24px;display:flex;gap:12px;flex-wrap:wrap;align-items:center;position:relative}
+  .dark{background:#020807;color:#EAF4F1;border-bottom:1px solid #132421}
+  .light{background:#FAF8F5;color:#0F2420}
+  .tag{font-family:var(--mono);font-size:9px;text-transform:uppercase;letter-spacing:0.12em;padding:2px 8px;border-radius:4px;margin-right:4px}
+  .dark .tag{background:#0A1A18;color:#8FB3AC;border:1px solid #132421}
+  .light .tag{background:#EAF4F1;color:#7A8C88;border:1px solid #DAD3C7}
+
+  button{all:unset;cursor:pointer;display:inline-flex;align-items:center;gap:7px;font-family:var(--sans);font-weight:500;font-size:13px;padding:0 16px;height:36px;border-radius:8px;transition:all .3s cubic-bezier(.34,1.56,.64,1);position:relative}
+  [data-lucide]{width:14px;height:14px;stroke-width:2.2}
+
+  /* ───── DARK ───── */
+  .dark .primary{
+    background:linear-gradient(180deg,#14E3CE 0%,#00B8A0 55%,#008C79 100%);
+    color:#001B17;font-weight:600;
+    box-shadow:
+      inset 0 1px 0 rgba(255,255,255,0.4),
+      inset 0 -1px 0 rgba(0,0,0,0.2),
+      0 0 0 1px rgba(0,184,160,0.4),
+      0 0 18px rgba(0,209,193,0.45),
+      0 4px 20px rgba(0,184,160,0.35);
+  }
+  .dark .primary:hover{transform:translateY(-1px);box-shadow:inset 0 1px 0 rgba(255,255,255,0.5),inset 0 -1px 0 rgba(0,0,0,0.2),0 0 0 1px rgba(0,184,160,0.6),0 0 28px rgba(0,209,193,0.7),0 6px 28px rgba(0,184,160,0.5)}
+
+  .dark .secondary{
+    background:linear-gradient(180deg,#0E1F1C 0%,#061311 100%);
+    color:#E2BC57;border:1px solid #1A2E2A;
+    box-shadow:inset 0 1px 0 rgba(226,188,87,0.08),0 0 14px rgba(226,188,87,0.15);
+  }
+  .dark .secondary:hover{border-color:#3A2F14;box-shadow:inset 0 1px 0 rgba(226,188,87,0.12),0 0 22px rgba(226,188,87,0.28)}
+
+  .dark .outline{
+    background:linear-gradient(180deg,rgba(234,244,241,0.04) 0%,rgba(234,244,241,0) 100%);
+    color:#EAF4F1;border:1px solid #1B302C;
+    box-shadow:inset 0 1px 0 rgba(234,244,241,0.06);
+  }
+  .dark .outline:hover{border-color:#2D4A44;background:linear-gradient(180deg,rgba(234,244,241,0.08) 0%,rgba(234,244,241,0.02) 100%)}
+
+  .dark .ghost{color:#8FB3AC;font-weight:500}
+  .dark .ghost:hover{color:#EAF4F1;background:rgba(234,244,241,0.04)}
+
+  .dark .pill{
+    border-radius:9999px;padding:0 22px;height:44px;font-size:14px;font-weight:600;letter-spacing:-0.005em;
+    background:linear-gradient(135deg,#14E3CE 0%,#00B8A0 45%,#34D98B 100%);
+    color:#001B17;
+    box-shadow:
+      inset 0 1px 0 rgba(255,255,255,0.5),
+      inset 0 -1px 0 rgba(0,0,0,0.2),
+      0 0 0 1px rgba(0,209,193,0.5),
+      0 0 24px rgba(0,209,193,0.55),
+      0 0 48px rgba(0,184,160,0.35),
+      0 6px 24px rgba(0,184,160,0.4);
+  }
+  .dark .pill:hover{transform:translateY(-2px);box-shadow:inset 0 1px 0 rgba(255,255,255,0.6),inset 0 -1px 0 rgba(0,0,0,0.2),0 0 0 1px rgba(0,209,193,0.7),0 0 32px rgba(0,209,193,0.8),0 0 64px rgba(0,184,160,0.5),0 10px 32px rgba(0,184,160,0.5)}
+
+  /* ───── LIGHT ───── */
+  .light .primary{
+    background:linear-gradient(180deg,#00B8A0 0%,#00806F 100%);
+    color:#fff;font-weight:600;
+    box-shadow:
+      inset 0 1px 0 rgba(255,255,255,0.35),
+      inset 0 -1px 0 rgba(0,0,0,0.1),
+      0 0 0 1px rgba(0,128,111,0.35),
+      0 2px 10px rgba(0,184,160,0.3),
+      0 8px 22px rgba(0,128,111,0.22);
+  }
+  .light .primary:hover{transform:translateY(-1px);box-shadow:inset 0 1px 0 rgba(255,255,255,0.4),inset 0 -1px 0 rgba(0,0,0,0.1),0 0 0 1px rgba(0,128,111,0.45),0 4px 16px rgba(0,184,160,0.4),0 12px 28px rgba(0,128,111,0.3)}
+
+  .light .secondary{
+    background:linear-gradient(180deg,#FCF2DE 0%,#F4E6C6 100%);
+    color:#8C5A1F;border:1px solid #E8D9B8;
+    box-shadow:inset 0 1px 0 rgba(255,255,255,0.6),0 1px 2px rgba(140,90,31,0.08);
+  }
+  .light .secondary:hover{border-color:#D6AE4A;box-shadow:inset 0 1px 0 rgba(255,255,255,0.6),0 2px 8px rgba(214,174,74,0.35)}
+
+  .light .outline{
+    background:#fff;color:#0F2420;border:1px solid #DAD3C7;
+    box-shadow:0 1px 2px rgba(15,36,32,0.05);
+  }
+  .light .outline:hover{border-color:#B8AFA0;box-shadow:0 2px 8px rgba(15,36,32,0.1)}
+
+  .light .ghost{color:#7A8C88;font-weight:500}
+  .light .ghost:hover{color:#0F2420;background:rgba(15,36,32,0.05)}
+
+  .light .pill{
+    border-radius:9999px;padding:0 22px;height:44px;font-size:14px;font-weight:600;letter-spacing:-0.005em;
+    background:linear-gradient(135deg,#00B8A0 0%,#00806F 60%,#2DA069 100%);
+    color:#fff;
+    box-shadow:
+      inset 0 1px 0 rgba(255,255,255,0.4),
+      inset 0 -1px 0 rgba(0,0,0,0.1),
+      0 0 0 1px rgba(0,128,111,0.4),
+      0 4px 14px rgba(0,184,160,0.4),
+      0 10px 28px rgba(0,128,111,0.28);
+  }
+  .light .pill:hover{transform:translateY(-2px);box-shadow:inset 0 1px 0 rgba(255,255,255,0.5),inset 0 -1px 0 rgba(0,0,0,0.1),0 0 0 1px rgba(0,128,111,0.5),0 6px 20px rgba(0,184,160,0.55),0 14px 36px rgba(0,128,111,0.35)}
+</style></head>
+<body>
+
+<div class="row dark">
+  <span class="tag">Dark</span>
+  <button class="primary">Try Demo<i data-lucide="arrow-right"></i></button>
+  <button class="secondary">Learn more</button>
+  <button class="outline">Sign in</button>
+  <button class="ghost">Cancel</button>
+  <button class="pill">Try Live Demo<i data-lucide="arrow-right"></i></button>
+</div>
+
+<div class="row light">
+  <span class="tag">Light</span>
+  <button class="primary">Try Demo<i data-lucide="arrow-right"></i></button>
+  <button class="secondary">Learn more</button>
+  <button class="outline">Sign in</button>
+  <button class="ghost">Cancel</button>
+  <button class="pill">Try Live Demo<i data-lucide="arrow-right"></i></button>
+</div>
+<script>lucide.createIcons()</script>
+</body></html>
