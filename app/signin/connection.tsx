@@ -11,6 +11,10 @@ export async function login() {
   })
 }
 
+export async function logout() {
+  await supabase.auth.signOut()
+}
+
 export async function getAccessToken() {
   const { data } = await supabase.auth.getSession()
   return data.session?.access_token

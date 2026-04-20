@@ -2,6 +2,7 @@
 
 import { useState, useEffect, type ReactNode } from "react"
 import { cn } from "@/lib/utils"
+import { login, logout, supabase } from "@/app/signin/connection"
 import {
   LayoutDashboard,
   HeartPulse,
@@ -41,6 +42,8 @@ import { NotificationsPanel } from "@/components/notifications-panel"
 import { NudgeBar } from "@/components/nudge-bar"
 import { teams } from "@/lib/data"
 import Link from "next/link"
+import { useRouter } from "next/navigation"
+import React from "react"
 
 const navItems = [
   { id: "overview", label: "Overview", icon: LayoutDashboard },
@@ -84,6 +87,28 @@ export function DashboardLayout({
     document.documentElement.classList.toggle("dark", darkMode)
   }, [darkMode])
 
+  const router = useRouter()
+  const [isLoading, setIsLoading] = useState(false)
+
+  useEffect(() => {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+      if (session) {
+        router.push("/app")
+      }
+    })
+
+    return () => subscription.unsubscribe()
+  }, [router])
+    
+  const handleSignOut = async () => {
+    setIsLoading(true)
+    try {
+      await logout()
+    } catch (error) {
+      console.error("Error signing out:", error)
+      setIsLoading(false)
+    }
+  }
   return (
     <div className="min-h-screen bg-background">
       {/* Nudge Bar */}
@@ -188,7 +213,7 @@ export function DashboardLayout({
                 <Settings className="mr-2 h-4 w-4" />
                 Settings
               </DropdownMenuItem>
-              <DropdownMenuItem asChild>
+              <DropdownMenuItem asChild onClick={handleSignOut} disabled={isLoading}>
                 <Link href="/">
                   <LogOut className="mr-2 h-4 w-4" />
                   Sign Out
