@@ -2,26 +2,37 @@
 
 import React from "react"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
 import { Card, CardContent } from "@/components/ui/card"
 import { HeartMetricsLogo } from "@/components/heart-metrics-logo"
 import { ShieldCheck } from "lucide-react"
+import { login, supabase } from "./connection"
 
 export default function SignInPage() {
   const router = useRouter()
   const [isLoading, setIsLoading] = useState(false)
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
+  useEffect(() => {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+      if (session) {
+        router.push("/app")
+      }
+    })
+
+    return () => subscription.unsubscribe()
+  }, [router])
+
+  const handleGoogleSignIn = async () => {
     setIsLoading(true)
-    setTimeout(() => {
-      router.push("/app")
-    }, 800)
+    try {
+      await login()
+    } catch (error) {
+      console.error("Error signing in:", error)
+      setIsLoading(false)
+    }
   }
 
   const handleDemoMode = () => {
@@ -35,30 +46,16 @@ export default function SignInPage() {
           <Link href="/">
             <HeartMetricsLogo />
           </Link>
-          <h1 className="mt-4 text-2xl font-bold text-foreground">Sign In</h1>
-          <p className="mt-3 text-sm text-muted-foreground">Sign in to your account</p>
+          <p className="mt-3 text-sm text-muted-foreground">Sign into your account</p>
         </div>
 
         <Card className="border-border">
           <CardContent className="p-6">
-            <form onSubmit={handleSubmit} className="flex flex-col gap-5">
-              <div className="flex flex-col gap-2">
-                <Label htmlFor="email">Email</Label>
-                <Input id="email" type="email" placeholder="you@company.com" required />
-              </div>
-              <div className="flex flex-col gap-2">
-                <div className="flex items-center justify-between">
-                  <Label htmlFor="password">Password</Label>
-                  <button type="button" className="text-xs text-primary hover:underline">
-                    Forgot password?
-                  </button>
-                </div>
-                <Input id="password" type="password" placeholder="Enter your password" required />
-              </div>
-              <Button type="submit" className="w-full" disabled={isLoading}>
-                {isLoading ? "Signing in..." : "Sign In"}
+            <div className="flex flex-col gap-5">
+              <Button onClick={handleGoogleSignIn} className="w-full" disabled={isLoading}>
+                {isLoading ? "Signing in..." : "Sign in with Google"}
               </Button>
-            </form>
+            </div>
 
             <div className="relative my-6">
               <div className="absolute inset-0 flex items-center">

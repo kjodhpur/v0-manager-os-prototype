@@ -7,6 +7,7 @@ import { Badge } from "@/components/ui/badge"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 import { teamStats, topAttentionEmployees, actions, fairnessFlags, type Employee } from "@/lib/data"
 import { AiInsightCard } from "@/components/ai/ai-insight-card"
+import { useEffect, useState } from "react"
 
 interface OverviewPageProps {
   onEmployeeClick: (employee: Employee) => void
@@ -94,9 +95,53 @@ export function OverviewPage({ onEmployeeClick, onActionClick }: OverviewPagePro
     }
   }
 
+  // TODO: This is temporary loading state logic to simulate API calls. It can be replaced with real API integration in the future.
+  interface User {
+    id: string;
+    name: string;
+    email: string;
+    mbti?: string | null;
+  }
+
+  const [items, setItems] = useState<User[]|null>(null);
+  const [error, setError] = useState<string|null>(null);
+
+  useEffect(() => {
+  fetch('http://localhost:5001/api/index')
+    .then(res => res.json())
+    .then(data => {
+      // Ensure data is an array
+      setItems(Array.isArray(data) ? data : []);
+    })
+    .catch(err => setItems([]));
+}, []);
+
+  var myData = {
+    "name": "John Doe",
+    "email": "mathpun2768@gmail.com",
+    "password": "Password123*"
+  }
+
   return (
     <TooltipProvider>
       <div className="flex flex-col gap-6">
+        {!items && !error && (
+          <p>Loading…</p>
+        )}
+        {error && (
+          <p className="text-red-600">Error: {error}</p>
+        )}
+        {
+          items && (
+            <ul>
+              {items.map(i => (
+                <li key={i.id}>{i.name} ({i.email})</li>
+              ))}
+            </ul>
+          )
+        }
+
+
         {/* AI Insight Summary */}
         <AiInsightCard />
 
