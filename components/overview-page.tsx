@@ -143,7 +143,7 @@ export function OverviewPage({ onEmployeeClick, onActionClick }: OverviewPagePro
 
 
         {/* AI Insight Summary */}
-        <AiInsightCard />
+        {/* <AiInsightCard /> */}
 
         {/* KPI Cards */}
         <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">

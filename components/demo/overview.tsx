@@ -1,10 +1,11 @@
 'use client';
 
 import { TrendingUp, TrendingDown, BarChart3 } from 'lucide-react';
-
+import "@/styles/globals.css";
+import WWISummary from './wwi-summary';
 export function DemoOverview() {
   // Hardcoded demo data - LOCKED
-  const teamWWI = 67;
+  const teamWWI = 72;
   const wwiTrend = 4;
   const fairnessScore = 74;
   const fairnessTrend = -3;
@@ -71,58 +72,34 @@ export function DemoOverview() {
   };
 
   const getRiskColor = (score: number) => {
-    if (score < 50) return 'text-red-400';
-    if (score < 55) return 'text-orange-400';
-    return 'text-yellow-400';
+    if (score < 50) return 'warning';
+    return 'healthy';
   };
+  // For the header, we want a gradient text effect that goes from primary to accent color. We can achieve this with Tailwind's bg-gradient and text-transparent utilities.
+  // bg-gradient-to-r from-[var(--primary)] to-[var(--accent)] bg-clip-text text-transparent
 
   return (
-    <div className="w-full min-h-screen p-6 lg:p-12 overflow-x-hidden bg-background">
+    <div className="w-full min-h-screen p-6 lg:p-12 overflow-x-hidden bg-text-[var(--bg)]">
       {/* Header */}
       <div className="mb-12">
-        <h1 className="text-4xl lg:text-5xl font-bold mb-2 text-white" style={{ fontFamily: 'Inter' }}>
+        <h1 className="text-4xl 
+                      lg:text-5xl 
+                      font-bold 
+                      mb-2 
+                      text-[var(--fg)]
+        " style={{ fontFamily: 'Georgia, serif' }}>
           Team Overview
         </h1>
-        <p className="text-base text-gray-400">Monitor team wellbeing, actions, and metrics in real-time</p>
       </div>
 
       {/* Main WWI Card */}
-      <div
-        className="rounded-xl p-8 mb-12 border-t border-transparent"
-        style={{
-          backgroundColor: '#0d0d14',
-          borderImage: 'linear-gradient(90deg, #8BA8F0 0%, #A87AC8 50%, #E0607A 100%)',
-          borderImageSlice: 1,
-          boxShadow: '0 0 40px rgba(139, 168, 240, 0.15)',
-        }}
-      >
-        <div className="text-center">
-          <p className="text-gray-400 text-sm font-medium mb-4 uppercase tracking-wider">Work Wellbeing Index</p>
-          <div className="mb-6">
-            <span className="text-6xl font-bold text-white">{teamWWI}</span>
-            <span className={`ml-4 text-2xl font-semibold ${wwiTrend >= 0 ? 'text-green-400' : 'text-red-400'}`}>
-              {wwiTrend >= 0 ? '↑' : '↓'} {Math.abs(wwiTrend)}
-            </span>
-          </div>
-
-          {/* 5-Component Breakdown */}
-          <div className="grid grid-cols-1 md:grid-cols-5 gap-4 mt-8 pt-8 border-t border-gray-700">
-            {wwiComponents.map((comp, idx) => (
-              <div key={idx} className="text-center">
-                <p className="text-xs text-gray-500 mb-2 font-medium">{comp.name}</p>
-                <p className="text-3xl font-bold text-blue-400">{comp.value}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
+      {WWISummary(teamWWI, wwiTrend, wwiComponents)}
 
       {/* Duration Selector & WWI Trend Graph */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-12">
         {/* Graph */}
         <div
           className="lg:col-span-2 rounded-xl p-6 border border-gray-700"
-          className="bg-card"
         >
           <div className="flex items-center justify-between mb-6">
             <h2 className="text-lg font-semibold text-white flex items-center gap-2">
@@ -189,7 +166,6 @@ export function DemoOverview() {
         {/* Fairness Score Card */}
         <div
           className="rounded-xl p-6 border border-gray-700 flex flex-col justify-center items-center"
-          className="bg-card"
         >
           <p className="text-gray-400 text-sm font-medium mb-3 uppercase">Manager Fairness Score</p>
           <p className="text-5xl font-bold text-white mb-2">{fairnessScore}</p>
@@ -207,7 +183,6 @@ export function DemoOverview() {
             <div
               key={idx}
               className={`rounded-lg p-4 border ${getPriorityColor(action.priority)}`}
-              className="bg-card"
             >
               <p className="font-medium text-white">{action.title}</p>
               <p className="text-xs text-gray-400 mt-2">Due: {action.dueDate}</p>
@@ -224,7 +199,6 @@ export function DemoOverview() {
             <div
               key={idx}
               className="rounded-xl p-6 border border-gray-700"
-              className="bg-card"
             >
               <div className="flex items-start justify-between mb-4">
                 <div>
