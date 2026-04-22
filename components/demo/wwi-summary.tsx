@@ -1,4 +1,4 @@
-
+import "@/styles/globals.css";
 const getRiskColor = (score: number) => {
     if (score < 50) return 'warning';
     return 'healthy';
@@ -9,13 +9,15 @@ export default function WWISummary(teamWWI: number, wwiTrend: number, wwiCompone
         className="rounded-xl 
                   p-8 
                   mb-12 
+                  border
                   border-[var(--border)]
-                  bg-[var(--fg)]
+                  bg-[var(--neutral)]
                   "
       >
         <div className={`text-center`}>
-          <p className="text-border 
-                        text-sm 
+          <p className="text-[var(--fg)] 
+                        text-medium 
+                        font-semibold
                         font-medium 
                         mb-4 
                         uppercase 
@@ -35,7 +37,7 @@ export default function WWISummary(teamWWI: number, wwiTrend: number, wwiCompone
           <div className="grid grid-cols-1 md:grid-cols-5 gap-4 mt-8 pt-8 border-t border-border">
             {wwiComponents.map((comp, idx) => (
               <div key={idx} className="text-center">
-                <p className="text-xs mb-2 font-medium text-border">{comp.name}</p>
+                <p className="text-medium mb-2 font-medium text-[var(--fg)]">{comp.name}</p>
                 <p className={`text-[var(--${getRiskColor(comp.value)})] text-3xl font-bold `}>{comp.value}</p>
               </div>
             ))}

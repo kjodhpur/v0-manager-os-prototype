@@ -5,6 +5,7 @@
 
 :root {
   --bg: #faf8f5;
+  --neutral: #f7f4eeff;
   --fg: #0f2420;
   --fg-muted: #6b7b78;
   --border: #dad3c7;
@@ -13,10 +14,14 @@
   --healthy: #5dd67a;
   --warning: #ffc940;
 
+    /* Additional colors for charts, sidebar, etc. */
+
+
 }
 
 .dark {
   --bg: #020807;
+  --neutral: #010d0d;
   --fg: #faf4f1;
   --fg-muted: #6b8a84;
   --border: #132421;
