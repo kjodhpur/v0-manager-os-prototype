@@ -3,15 +3,28 @@
 import { Sidebar } from '@/components/demo/sidebar';
 import { DemoOverview } from '@/components/demo/overview';
 import { Navigation } from '@/components/landing/navigation';
-import { TimelinePage } from '@/components/timeline-page';
 import { ActionsPage } from '@/components/actions-page';
-import { RecognitionGrowthPage } from '@/components/recognition-growth-page';
-import { TeamHealthPage } from '@/components/team-health-page';
-import { WorkDistributionPage } from '@/components/work-distribution-page';
 import { IntegrationsPage } from '@/components/integrations-page';
-import { SettingsPage } from '@/components/settings-page';
 import { useSearchParams } from 'next/navigation';
 import { Suspense } from 'react';
+
+function TeamPage() {
+  return (
+    <div className="w-full min-h-screen bg-background p-6 lg:p-8">
+      <h1 className="text-2xl font-bold mb-6">Team</h1>
+      <p className="text-muted-foreground">Team page coming soon...</p>
+    </div>
+  );
+}
+
+function AiCoachPage() {
+  return (
+    <div className="w-full min-h-screen bg-background p-6 lg:p-8">
+      <h1 className="text-2xl font-bold mb-6">AI Coach</h1>
+      <p className="text-muted-foreground">AI Coach page coming soon...</p>
+    </div>
+  );
+}
 
 function DemoContent() {
   const searchParams = useSearchParams();
@@ -19,20 +32,14 @@ function DemoContent() {
 
   const renderContent = () => {
     switch (page) {
-      case 'timeline':
-        return <TimelinePage />;
       case 'actions':
         return <ActionsPage onActionClick={() => {}} />;
-      case 'recognition':
-        return <RecognitionGrowthPage onEmployeeClick={() => {}} onActionClick={() => {}} />;
-      case 'team-health':
-        return <TeamHealthPage onEmployeeClick={() => {}} />;
-      case 'work-distribution':
-        return <WorkDistributionPage onEmployeeClick={() => {}} />;
-      case 'integrations':
-        return <IntegrationsPage />;
+      case 'team':
+        return <TeamPage />;
+      case 'ai-coach':
+        return <AiCoachPage />;
       case 'settings':
-        return <SettingsPage />;
+        return <IntegrationsPage />;
       default:
         return <DemoOverview />;
     }

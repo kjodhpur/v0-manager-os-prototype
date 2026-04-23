@@ -4,29 +4,16 @@ import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { Suspense } from 'react';
 import {
-  LayoutDashboard, Sparkles, HeartPulse, Flame, BarChart3, Award,
-  Calendar, ClipboardList, Target, MessageSquare, Clock, Scale,
-  FileText, ListChecks, Link2, Settings, LogOut, Menu, X,
+  LayoutDashboard, Sparkles, Users, ListChecks, Settings, LogOut, Menu, X,
 } from 'lucide-react';
 import { useState } from 'react';
 
 const navItems = [
-  { id: 'overview',          label: 'Overview',         icon: LayoutDashboard, href: '/demo' },
-  { id: 'ai-coach',          label: 'AI Coach',         icon: Sparkles,        href: '/demo?page=ai-coach' },
-  { id: 'team-health',       label: 'Team Health',      icon: HeartPulse,      href: '/demo?page=team-health' },
-  { id: 'burnout-risk',      label: 'Burnout Risk',     icon: Flame,           href: '/demo?page=burnout-risk' },
-  { id: 'work-distribution', label: 'Work Distribution',icon: BarChart3,       href: '/demo?page=work-distribution' },
-  { id: 'recognition',       label: 'Recognition',      icon: Award,           href: '/demo?page=recognition' },
-  { id: 'meetings',          label: '1:1 Meetings',     icon: Calendar,        href: '/demo?page=meetings' },
-  { id: 'surveys',           label: 'Pulse Surveys',    icon: ClipboardList,   href: '/demo?page=surveys' },
-  { id: 'goals',             label: 'Goals & OKRs',     icon: Target,          href: '/demo?page=goals' },
-  { id: 'feedback',          label: 'Feedback Wall',    icon: MessageSquare,   href: '/demo?page=feedback' },
-  { id: 'timeline',          label: 'Timeline',         icon: Clock,           href: '/demo?page=timeline' },
-  { id: 'benchmarking',      label: 'Benchmarking',     icon: Scale,           href: '/demo?page=benchmarking' },
-  { id: 'reports',           label: 'Reports',          icon: FileText,        href: '/demo?page=reports' },
-  { id: 'actions',           label: 'Actions',          icon: ListChecks,      href: '/demo?page=actions' },
-  { id: 'integrations',      label: 'Integrations',     icon: Link2,           href: '/demo?page=integrations' },
-  { id: 'settings',          label: 'Settings',         icon: Settings,        href: '/demo?page=settings' },
+  { id: 'overview',  label: 'Dashboard', icon: LayoutDashboard, href: '/demo' },
+  { id: 'team',      label: 'Team',      icon: Users,           href: '/demo?page=team' },
+  { id: 'actions',   label: 'Actions',   icon: ListChecks,      href: '/demo?page=actions' },
+  { id: 'ai-coach',  label: 'AI Coach',  icon: Sparkles,        href: '/demo?page=ai-coach' },
+  { id: 'settings',  label: 'Integrations', icon: Settings,     href: '/demo?page=settings' },
 ];
 
 function SidebarInner() {
