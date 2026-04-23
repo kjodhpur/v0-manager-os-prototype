@@ -7,6 +7,7 @@ import { ActionsPage } from '@/components/actions-page';
 import { IntegrationsPage } from '@/components/integrations-page';
 import { TeamPageNew } from '@/components/team-page-new';
 import { AiCoachPage } from '@/components/ai-coach-page';
+import { FloatingChatWidget } from '@/components/demo/floating-chat-widget';
 import { useSearchParams } from 'next/navigation';
 import { Suspense } from 'react';
 
@@ -49,6 +50,7 @@ export default function DemoPage() {
           </Suspense>
         </div>
       </div>
+      <FloatingChatWidget />
     </>
   );
 }

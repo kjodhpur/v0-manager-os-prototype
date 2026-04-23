@@ -91,6 +91,24 @@ export function DemoOverview() {
   return (
     <div className="w-full min-h-screen bg-background p-6 lg:p-8 overflow-x-hidden">
 
+      {/* Notification banner */}
+      <div className="mb-6 rounded-[12px] border border-red-200 dark:border-red-900/30 bg-red-50 dark:bg-red-950/20 p-4">
+        <div className="flex items-start gap-3">
+          <div className="w-2 h-2 rounded-full bg-red-500 mt-1.5 flex-shrink-0" />
+          <div className="flex-1 min-w-0">
+            <p className="text-sm font-semibold text-red-900 dark:text-red-400">
+              Action Needed: Riya S. overloaded for 3 days
+            </p>
+            <p className="text-xs text-red-800 dark:text-red-300 mt-0.5">
+              Workload at 1.8x team average. Consider redistributing 2–3 tasks to Olivia or Diego who have capacity.
+            </p>
+          </div>
+          <button className="px-3 py-1 text-xs font-medium rounded bg-red-600 text-white hover:bg-red-700 transition-colors flex-shrink-0 whitespace-nowrap">
+            View
+          </button>
+        </div>
+      </div>
+
       {/* Header */}
       <div className="flex items-baseline justify-between mb-6">
         <h1 className="text-2xl font-bold">Team Overview</h1>
