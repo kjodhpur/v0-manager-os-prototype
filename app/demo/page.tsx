@@ -48,9 +48,9 @@ function DemoContent() {
 
 export default function DemoPage() {
   return (
-    <>
+    <div className="max-h-[100vh]">
       <Navigation />
-      <div className="pt-14 min-h-screen bg-background">
+      <div className="pt-14 bg-background">
         <div className="flex">
           <Sidebar />
           <Suspense fallback={<div className="flex-1 flex items-center justify-center">Loading...</div>}>
@@ -58,6 +58,6 @@ export default function DemoPage() {
           </Suspense>
         </div>
       </div>
-    </>
+    </div>
   );
 }

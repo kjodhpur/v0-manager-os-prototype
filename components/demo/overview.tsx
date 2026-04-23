@@ -50,7 +50,7 @@ export function DemoOverview() {
   // bg-gradient-to-r from-[var(--primary)] to-[var(--accent)] bg-clip-text text-transparent
 
   return (
-    <div className="w-full min-h-screen p-6 lg:p-12 overflow-x-hidden bg-text-[var(--bg)]">
+    <div className="w-full max-h-[100vh] p-6 lg:p-12 overflow-x-hidden bg-text-[var(--bg)]">
       {/* Header */}
       <div className="mb-12">
         <h1 className="text-4xl 

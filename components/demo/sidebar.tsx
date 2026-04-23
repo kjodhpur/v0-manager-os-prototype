@@ -25,7 +25,7 @@ const menuItems = [
 
 export function Sidebar() {
   const [isOpen, setIsOpen] = useState(false);
-
+  const [activePage, setActivePage] = useState('Overview');
   return (
     <>
       {/* Mobile toggle */}
@@ -38,7 +38,7 @@ export function Sidebar() {
 
       {/* Sidebar */}
       <aside
-        className={`w-64 border-r border-border bg-card/50 flex flex-col transition-all duration-300 max-lg:fixed max-lg:top-14 max-lg:left-0 max-lg:bottom-0 max-lg:z-30 ${
+        className={`w-64 border-r border-border bg-card/50 flex flex-col transition-all duration-300 max-lg:fixed max-lg:top-14 max-lg:left-0 max-lg:bottom-0 max-lg:z-30 max-h-[100vh] ${
           isOpen ? 'max-lg:translate-x-0' : 'max-lg:-translate-x-full'
         }`}
       >
@@ -52,7 +52,7 @@ export function Sidebar() {
           <div className="space-y-2">
             {menuItems.map((item, idx) => {
               const Icon = item.icon;
-              const isActive = idx === 0;
+              const isActive = activePage === item.label;
               return (
                 <Link
                   key={item.label}
@@ -62,7 +62,10 @@ export function Sidebar() {
                       ? 'bg-primary/10 text-primary border border-primary/30'
                       : 'text-foreground/70 hover:text-foreground hover:bg-card'
                   }`}
-                  onClick={() => setIsOpen(false)}
+                  onClick={() => {
+                    setIsOpen(false);
+                    setActivePage(item.label);
+                  }}
                 >
                   <Icon className="w-5 h-5 flex-shrink-0" />
                   <span className="text-sm font-medium">{item.label}</span>
