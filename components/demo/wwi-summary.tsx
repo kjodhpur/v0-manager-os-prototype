@@ -13,7 +13,7 @@ export default function WWISummary(
     <div className="rounded-[12px] border border-border bg-card p-6 mb-6">
       <div className="text-center mb-6">
         <p className="font-mono text-xs uppercase tracking-widest text-muted-foreground mb-3">
-          Work Happiness Index
+          Work Wellbeing Index
         </p>
         <div className="flex items-baseline justify-center gap-3">
           <span

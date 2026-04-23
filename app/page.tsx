@@ -1,7 +1,6 @@
 import { Navigation } from "@/components/landing/navigation";
 import { HeroSection } from "@/components/landing/hero-section";
 import { BuiltByBanner } from "@/components/landing/built-by-banner";
-import { ECGCanvas } from "@/components/landing/ecg-canvas";
 import { SocialProofBar } from "@/components/landing/social-proof-bar";
 import { StorySection } from "@/components/landing/story-section";
 import { TimelineScrubber } from "@/components/landing/timeline-scrubber";
@@ -23,9 +22,6 @@ export default function Home() {
       <Navigation />
       <HeroSection />
       <BuiltByBanner />
-      <div className="py-12 px-4">
-        <ECGCanvas />
-      </div>
       <SocialProofBar />
       <StorySection />
       <div className="py-20 px-4">

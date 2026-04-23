@@ -41,12 +41,12 @@ function SidebarInner() {
 
       {/* Sidebar */}
       <aside
-        className={`w-56 flex-shrink-0 border-r border-border bg-sidebar flex flex-col
+        className={`w-72 flex-shrink-0 border-r border-border bg-sidebar flex flex-col
           max-lg:fixed max-lg:top-14 max-lg:left-0 max-lg:bottom-0 max-lg:z-40 max-lg:transition-transform
           ${isOpen ? 'max-lg:translate-x-0' : 'max-lg:-translate-x-full'}`}
         style={{ height: 'calc(100vh - 56px)' }}
       >
-        <nav className="flex-1 overflow-y-auto py-3 px-2 space-y-0.5">
+        <nav className="py-4 px-3 space-y-1">
           {navItems.map((item) => {
             const Icon = item.icon;
             const isActive = item.id === page;
@@ -55,22 +55,22 @@ function SidebarInner() {
                 key={item.id}
                 href={item.href}
                 onClick={() => setIsOpen(false)}
-                className={`flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
+                className={`flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm font-medium transition-colors ${
                   isActive
                     ? 'bg-primary/10 text-primary'
                     : 'text-sidebar-foreground/60 hover:bg-muted hover:text-sidebar-foreground'
                 }`}
               >
-                <Icon className="w-4 h-4 flex-shrink-0" strokeWidth={2} />
+                <Icon className="w-5 h-5 flex-shrink-0" strokeWidth={2} />
                 {item.label}
               </Link>
             );
           })}
         </nav>
 
-        <div className="border-t border-border p-2">
-          <button className="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-sidebar-foreground/50 hover:text-sidebar-foreground hover:bg-muted transition-colors">
-            <LogOut className="w-4 h-4" />
+        <div className="px-3 pb-2">
+          <button className="w-full flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm text-sidebar-foreground/50 hover:text-sidebar-foreground hover:bg-muted transition-colors">
+            <LogOut className="w-5 h-5" />
             Sign out
           </button>
         </div>

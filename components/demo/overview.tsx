@@ -128,7 +128,7 @@ function TrendGraph({
   return (
     <div className="relative">
       <div className="flex items-center justify-between mb-2">
-        <p className="text-sm font-semibold">WHI Trend · {duration}</p>
+        <p className="text-sm font-semibold">WWI Trend · {duration}</p>
         <span className={`text-xs font-semibold ${trend >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
           {trend >= 0 ? '↑' : '↓'}{Math.abs(trend)} this period
         </span>
@@ -286,7 +286,7 @@ export function DemoOverview() {
       {/* KPI row */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-6">
         {[
-          { label: 'Team WHI', value: String(durData.whi), delta: duration === 'Month' ? '+4' : duration === 'Sprint' ? '+2' : duration === 'Quarter' ? '+9' : '+12', up: true, sub: 'Healthy range', subColor: '#34D98B', brand: true },
+          { label: 'Team WWI', value: String(durData.whi), delta: duration === 'Month' ? '+4' : duration === 'Sprint' ? '+2' : duration === 'Quarter' ? '+9' : '+12', up: true, sub: 'Healthy range', subColor: '#34D98B', brand: true },
           { label: 'At-Risk', value: '2', sub: 'Need attention', subColor: '#FF8A8A' },
           { label: 'Recognition Gap', value: '1', sub: 'Olivia · 21 days', subColor: '#FFB347' },
           { label: 'Meeting Load', value: '14.2h', delta: '1.1h', up: false, sub: 'avg/person · ↓ vs last wk', subColor: '#34D98B' },
@@ -343,12 +343,12 @@ export function DemoOverview() {
         </div>
       </div>
 
-      {/* WHI Score Card (toggle) + Pentagon */}
+      {/* WWI Score Card (toggle) + Pentagon */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-6">
-        {/* WHI toggle card */}
+        {/* WWI toggle card */}
         <div className="rounded-[12px] border border-border bg-card p-6">
           <div className="flex items-center justify-between mb-4">
-            <p className="font-mono text-xs uppercase tracking-widest text-muted-foreground">Work Happiness Index</p>
+            <p className="font-mono text-xs uppercase tracking-widest text-muted-foreground">Work Wellbeing Index</p>
             <button
               onClick={() => setWhiView(whiView === 'team' ? 'individual' : 'team')}
               className="text-xs px-3 py-1 rounded-full border border-border text-muted-foreground hover:bg-muted hover:text-foreground transition-colors"
@@ -421,7 +421,7 @@ export function DemoOverview() {
         <table className="w-full">
           <thead>
             <tr>
-              {['Name', 'WHI', 'Status', 'Action'].map((h) => (
+              {['Name', 'WWI', 'Status', 'Action'].map((h) => (
                 <th key={h} className="px-5 py-3 text-left font-mono text-xs uppercase tracking-wider text-muted-foreground border-b border-border">{h}</th>
               ))}
             </tr>

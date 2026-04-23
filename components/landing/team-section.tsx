@@ -144,35 +144,6 @@ export function TeamSection() {
           ))}
         </motion.div>
 
-        {/* Partnership section */}
-        <motion.div
-          className="mt-20 pt-16 border-t border-border/30"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-          viewport={{ once: true }}
-        >
-          <h3 className="text-xl font-semibold mb-8 text-center">In Partnership With</h3>
-          <div className="grid md:grid-cols-3 gap-8">
-            {[
-              { name: "ASU W.P. Carey", desc: "MS AI in Business" },
-              { name: "Google AI", desc: "Gemini LLM Technology" },
-              { name: "Enterprise Tech Leaders", desc: "Walmart, Amazon, Microsoft, Deloitte" },
-            ].map((partner, i) => (
-              <motion.div
-                key={i}
-                className="text-center p-4 rounded-lg border border-border/30 hover:border-primary/30 transition-colors"
-                initial={{ opacity: 0 }}
-                whileInView={{ opacity: 1 }}
-                transition={{ delay: 0.1 * i }}
-                viewport={{ once: true }}
-              >
-                <p className="font-semibold mb-1">{partner.name}</p>
-                <p className="text-sm text-muted-foreground">{partner.desc}</p>
-              </motion.div>
-            ))}
-          </div>
-        </motion.div>
       </div>
     </section>
   );

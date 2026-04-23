@@ -189,7 +189,7 @@ export function MetricsSection() {
               <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
                 <Card className="border-border">
                   <CardContent className="p-3">
-                    <p className="text-[10px] font-medium text-muted-foreground">Team WHI Average</p>
+                    <p className="text-[10px] font-medium text-muted-foreground">Team WWI Average</p>
                     <div className="mt-0.5 flex items-baseline gap-1.5">
                       <span className="text-2xl font-bold text-foreground">{teamStats.whiAverage}</span>
                       <span className="flex items-center gap-0.5 text-[10px] text-emerald-600">
@@ -239,7 +239,7 @@ export function MetricsSection() {
                     <thead>
                       <tr className="border-b border-border text-left text-[10px] text-muted-foreground">
                         <th className="pb-2 pr-3 font-medium">Name</th>
-                        <th className="pb-2 pr-3 font-medium">WHI</th>
+                        <th className="pb-2 pr-3 font-medium">WWI</th>
                         <th className="pb-2 pr-3 font-medium">Issue</th>
                         <th className="pb-2 font-medium">Action</th>
                       </tr>

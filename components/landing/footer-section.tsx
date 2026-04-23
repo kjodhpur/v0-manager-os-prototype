@@ -56,7 +56,7 @@ export function FooterSection() {
           <div className="grid grid-cols-2 md:grid-cols-5 gap-12 lg:gap-8">
             {/* Brand Column */}
             <div className="col-span-2">
-              <HeartMetricsLogo />
+              <HeartMetricsLogo size="xxl" />
 
               <p className="text-muted-foreground leading-relaxed mb-6 mt-6 max-w-xs">
                 Make work more human with ethical AI. Privacy-first workplace wellbeing analytics for managers who care.

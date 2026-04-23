@@ -157,7 +157,7 @@ export function HowItWorksSection() {
             ))}
           </div>
 
-          {/* WHI Categories panel */}
+          {/* WWI Categories panel */}
           <div className="lg:sticky lg:top-32 self-start">
             <div className="border border-border rounded-xl overflow-hidden bg-card/80 backdrop-blur-sm">
               {/* Panel header */}
@@ -167,7 +167,7 @@ export function HowItWorksSection() {
                   <p className="text-xs text-muted-foreground mt-0.5">5 Surgeon General dimensions</p>
                 </div>
                 <span className="text-xs font-mono px-2.5 py-1 rounded-full border border-border text-muted-foreground">
-                  WHI Score
+                  WWI Score
                 </span>
               </div>
 

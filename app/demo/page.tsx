@@ -1,15 +1,26 @@
 'use client';
 
+import Link from 'next/link';
 import { Sidebar } from '@/components/demo/sidebar';
 import { DemoOverview } from '@/components/demo/overview';
-import { Navigation } from '@/components/landing/navigation';
 import { ActionsPage } from '@/components/actions-page';
 import { IntegrationsPage } from '@/components/integrations-page';
 import { TeamPageNew } from '@/components/team-page-new';
 import { AiCoachPage } from '@/components/ai-coach-page';
 import { FloatingChatWidget } from '@/components/demo/floating-chat-widget';
+import { HeartMetricsLogo } from '@/components/heart-metrics-logo';
 import { useSearchParams } from 'next/navigation';
 import { Suspense } from 'react';
+
+function DemoHeader() {
+  return (
+    <header className="fixed top-0 left-0 right-0 z-50 h-14 bg-card/90 backdrop-blur-xl border-b border-border flex items-center px-4">
+      <Link href="/" className="flex items-center">
+        <HeartMetricsLogo variant="icon" size="lg" />
+      </Link>
+    </header>
+  );
+}
 
 function DemoContent() {
   const searchParams = useSearchParams();
@@ -41,7 +52,7 @@ function DemoContent() {
 export default function DemoPage() {
   return (
     <>
-      <Navigation />
+      <DemoHeader />
       <div className="pt-14 min-h-screen bg-background">
         <div className="flex">
           <Sidebar />
