@@ -47,7 +47,7 @@ const itemVariants = {
 
 export function TeamSection() {
   return (
-    <section className="relative py-24 lg:py-32 px-6 lg:px-12 overflow-hidden">
+    <section id="about" className="relative py-24 lg:py-32 px-6 lg:px-12 overflow-hidden">
       {/* Background gradient */}
       <div className="absolute inset-0 bg-gradient-to-b from-primary/5 via-transparent to-accent/5 pointer-events-none" />
 

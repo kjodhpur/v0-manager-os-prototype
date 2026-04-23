@@ -84,7 +84,7 @@ export function HowItWorksSection() {
 
   return (
     <section
-      id="how-it-works"
+      id="how-we-calculate"
       ref={sectionRef}
       className="relative py-24 lg:py-32 bg-gradient-to-br from-primary/20 via-card to-accent/10 text-foreground overflow-hidden"
     >
