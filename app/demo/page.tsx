@@ -5,26 +5,10 @@ import { DemoOverview } from '@/components/demo/overview';
 import { Navigation } from '@/components/landing/navigation';
 import { ActionsPage } from '@/components/actions-page';
 import { IntegrationsPage } from '@/components/integrations-page';
+import { TeamPageNew } from '@/components/team-page-new';
+import { AiCoachPage } from '@/components/ai-coach-page';
 import { useSearchParams } from 'next/navigation';
 import { Suspense } from 'react';
-
-function TeamPage() {
-  return (
-    <div className="w-full min-h-screen bg-background p-6 lg:p-8">
-      <h1 className="text-2xl font-bold mb-6">Team</h1>
-      <p className="text-muted-foreground">Team page coming soon...</p>
-    </div>
-  );
-}
-
-function AiCoachPage() {
-  return (
-    <div className="w-full min-h-screen bg-background p-6 lg:p-8">
-      <h1 className="text-2xl font-bold mb-6">AI Coach</h1>
-      <p className="text-muted-foreground">AI Coach page coming soon...</p>
-    </div>
-  );
-}
 
 function DemoContent() {
   const searchParams = useSearchParams();
@@ -35,7 +19,7 @@ function DemoContent() {
       case 'actions':
         return <ActionsPage onActionClick={() => {}} />;
       case 'team':
-        return <TeamPage />;
+        return <TeamPageNew />;
       case 'ai-coach':
         return <AiCoachPage />;
       case 'settings':
