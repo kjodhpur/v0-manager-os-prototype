@@ -1,145 +1,88 @@
-import { BarChart3 } from 'lucide-react';
-import {
-  LineChart,
-  Line,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  ResponsiveContainer,
-} from "recharts";
+'use client';
 
-import "@/styles/globals.css";
-const stops = [
-    { t: 0.0, color: 'var(--primary)' },
-    { t: 0.33, color: 'var(--healthy)' },
-    { t: 0.67, color: 'var(--warning)' },
-    { t: 1.0, color: 'var(--accent)' },
-];
+import { TrendingDown } from 'lucide-react';
 
-const getRiskColor = (score: number) => {
-    if (score < 50) return 'warning';
-    return 'healthy';
-};
+interface DataPoint { week: number; value: number; }
 
-export default function WWWITrend(wwiTrendData: { week: number; value: number }[], fairnessScore: number, fairnessTrend: number) {
+export default function WWITrend(
+  data: DataPoint[],
+  fairnessScore: number,
+  fairnessTrend: number,
+) {
+  const W = 360;
+  const H = 100;
+  const pad = 8;
+  const min = Math.min(...data.map((d) => d.value)) - 2;
+  const max = Math.max(...data.map((d) => d.value)) + 2;
 
-    
-    const durations = ['Sprint', 'Month', 'Quarter', 'Year'];
-    const [selectedDuration] = ['Month']; // Default to Month
+  const x = (i: number) => pad + (i / (data.length - 1)) * (W - pad * 2);
+  const y = (v: number) => pad + (1 - (v - min) / (max - min)) * (H - pad * 2);
 
-    // Calculate SVG line path for graph
-    const maxValue = Math.max(...wwiTrendData.map(d => d.value));
-    const minValue = Math.min(...wwiTrendData.map(d => d.value));
-    const range = maxValue - minValue;
-    const chartWidth = 400;
-    const chartHeight = 150;
-    const padding = 20;
+  const linePath = data.map((d, i) => `${i === 0 ? 'M' : 'L'}${x(i)},${y(d.value)}`).join(' ');
+  const areaPath = `${linePath} L${x(data.length - 1)},${H} L${x(0)},${H} Z`;
 
-    const points = wwiTrendData.map((d, i) => ({
-        x: padding + (i / (wwiTrendData.length - 1)) * (chartWidth - 2 * padding),
-        y: padding + (1 - (d.value - minValue) / range) * (chartHeight - 2 * padding),
-        value: d.value,
-    }));
+  const trendUp = fairnessTrend >= 0;
 
-    const pathD = points.map((p, i) => `${i === 0 ? 'M' : 'L'} ${p.x} ${p.y}`).join(' ');
-    
-{/* Graph */}
-    return (
-            <div
-            className="lg:col-span-2 rounded-xl p-6 border border-border bg-[var(--neutral)] text-[var(--fg)]"
+  return (
+    <div className="lg:col-span-2 rounded-[12px] border border-border bg-card p-5">
+      <div className="flex items-center justify-between mb-3">
+        <p className="text-sm font-semibold">WHI Trend · {data.length} weeks</p>
+        <div className="flex gap-1">
+          {['Sprint', 'Month', 'Quarter'].map((d, i) => (
+            <button
+              key={d}
+              className={`px-2.5 py-1 text-xs rounded transition-colors ${
+                i === 1
+                  ? 'bg-primary/15 text-primary border border-primary/30'
+                  : 'text-muted-foreground hover:text-foreground'
+              }`}
             >
-                <div className="flex items-center justify-between mb-6">
-                    <h2 className="text-lg font-semibold flex items-center gap-2">
-                    <BarChart3 className="w-5 h-5 text-[var(--primary)]" />
-                    WWI Trend
-                    </h2>
-                    <div className="flex gap-2">
-                    {durations.map((d) => (
-                        <button
-                        key={d}
-                        className={`px-3 py-1 text-sm rounded transition-colors ${
-                            d === selectedDuration
-                            ? 'bg-[var(--primary)]/30 text-[var(--fg)] border border-[var(--primary)]/50'
-                            : 'hover:text-[var(--primary)]'
-                        }`}
-                        >
-                        {d}
-                        </button>
-                    ))}
-                    </div>
-            </div>
-
-            {/* Line Chart */}
-            <ResponsiveContainer width="100%" height={300}>
-                <LineChart data={wwiTrendData}>
-                    <defs>
-                        <linearGradient id="lineGradient" x1="0" y1="0" x2="0" y2="1">
-                            <stop offset="0%" stopColor="var(--primary)" />
-                            <stop offset="33%" stopColor="var(--healthy)" />
-                            <stop offset="67%" stopColor="var(--warning)" />
-                            <stop offset="100%" stopColor="var(--accent)" />
-                        </linearGradient>
-                    </defs>
-
-                    <CartesianGrid stroke="var(--fg)" />
-                    <XAxis dataKey="week" stroke="var(--fg)" />
-                    <YAxis domain={['auto', 'auto']} stroke="var(--fg)" />
-
-                    <Line
-                    type="monotone"
-                    dataKey="value"
-                    stroke="url(#lineGradient)"
-                    strokeWidth={3}
-                    dot={({ cx, cy, payload }) => {
-                        const t = normalize(payload.value, minValue, maxValue);
-                        return (
-                                <circle
-                                key={`${payload.week}-${payload.value}`}
-                                cx={cx}
-                                cy={cy}
-                                r={4}
-                                fill={getColor(t)}
-                                stroke="var(--fg)"
-                                strokeWidth={1}
-                                />
-                            );
-                        }}
-                    />
-                </LineChart>
-            </ResponsiveContainer>
+              {d}
+            </button>
+          ))}
         </div>
-    )
-}
-// {/* Fairness Score Card */}
-//         {/* <div
-//           className="rounded-xl p-6 text-[var(--border)] bg-[var(--fg)]"
-//         >
-//             <div className = "rounded-xl border border-[var(--border)] flex flex-col items-center justify-center w-full h-full p-4">
-//                 <p className=" text-medium font-medium mb-3 uppercase text-center">Manager Fairness Score</p>
-//                 <p className={`text-5xl font-bold mb-2 text-[var(--${getRiskColor(fairnessScore)})]`}>
-//                     {fairnessScore}
-//                 </p>
-//                 <p className={`text-lg font-semibold ${fairnessTrend <= 0 ? 'text-red-400' : 'text-green-400'}`}>
-//                     {fairnessTrend <= 0 ? '↓' : '↑'} {Math.abs(fairnessTrend)}
-//                 </p>
-//             </div>
-//         </div> */}
+      </div>
 
-function getColor(t: number) {
-  for (let i = 0; i < stops.length - 1; i++) {
-    const a = stops[i];
-    const b = stops[i + 1];
+      <svg viewBox={`0 0 ${W} ${H}`} className="w-full h-24">
+        <defs>
+          <linearGradient id="whi-area" x1="0" x2="0" y1="0" y2="1">
+            <stop offset="0%" stopColor="#00B8A0" stopOpacity="0.25" />
+            <stop offset="100%" stopColor="#00B8A0" stopOpacity="0" />
+          </linearGradient>
+        </defs>
+        <path d={areaPath} fill="url(#whi-area)" />
+        <path d={linePath} stroke="#00B8A0" strokeWidth="2" fill="none" strokeLinejoin="round" />
+        {data.map((d, i) => (
+          <circle key={i} cx={x(i)} cy={y(d.value)} r="3" fill="#00B8A0" />
+        ))}
+      </svg>
 
-    if (t >= a.t && t <= b.t) {
-      return t < (a.t + b.t) / 2 ? a.color : b.color;
-    }
-  }
-  return stops[stops.length - 1].color;
-}
-export function normalize(value: number, min: number, max: number): number {
-  const range = max - min;
+      <div className="flex justify-between text-xs text-muted-foreground mt-1 px-1">
+        {data.map((d) => (
+          <span key={d.week}>W{d.week}</span>
+        ))}
+      </div>
 
-  if (range === 0) return 0; // avoids divide-by-zero
-
-  return 1 - (value - min) / range;
+      {/* Manager Fairness Score */}
+      <div className="mt-4 pt-4 border-t border-border flex items-center justify-between">
+        <div>
+          <p className="font-mono text-xs uppercase tracking-widest text-muted-foreground">
+            Manager Fairness Score
+          </p>
+          <div className="flex items-baseline gap-2 mt-1">
+            <span className="text-3xl font-bold tabular-nums">{fairnessScore}</span>
+            <span
+              className="text-sm font-semibold flex items-center gap-1"
+              style={{ color: trendUp ? '#34D98B' : '#D96B6B' }}
+            >
+              {!trendUp && <TrendingDown className="w-3 h-3" />}
+              {trendUp ? '↑' : '↓'}
+              {Math.abs(fairnessTrend)}
+            </span>
+          </div>
+        </div>
+        <p className="text-xs text-muted-foreground">Confidence: high</p>
+      </div>
+    </div>
+  );
 }

@@ -1,199 +1,115 @@
 'use client';
 
-import { CheckCircle2, AlertCircle, ArrowDown } from 'lucide-react';
+import { AlertTriangle, Star, RefreshCw, Calendar, Unlock, CheckCircle2 } from 'lucide-react';
 import { useState } from 'react';
 
-export function ActionsPage() {
-  const initialActions = [
-    {
-      id: 1,
-      title: 'Schedule urgent 1:1 with Riya S.',
-      description: 'Address declining WWI and workload concerns',
-      assignee: 'You',
-      dueDate: 'Today',
-      priority: 'urgent',
-      status: 'pending',
-    },
-    {
-      id: 2,
-      title: 'Review Sam J. workload distribution',
-      description: 'Redistribute tasks to improve balance',
-      assignee: 'You',
-      dueDate: 'Tomorrow',
-      priority: 'high',
-      status: 'pending',
-    },
-    {
-      id: 3,
-      title: 'Conduct recognition review',
-      description: 'Identify employees with low recognition',
-      assignee: 'You',
-      dueDate: 'This week',
-      priority: 'high',
-      status: 'pending',
-    },
-    {
-      id: 4,
-      title: 'Growth opportunity assignment',
-      description: 'Assign stretch work to high performers',
-      assignee: 'You',
-      dueDate: 'Next week',
-      priority: 'medium',
-      status: 'pending',
-    },
-    {
-      id: 5,
-      title: 'Team engagement survey',
-      description: 'Send pulse survey on team connection',
-      assignee: 'You',
-      dueDate: 'Next week',
-      priority: 'medium',
-      status: 'pending',
-    },
-  ];
+const initialActions = [
+  { id: 1, icon: 'alert-triangle', iconColor: '#FF6B6B', title: "Unblock Riya's 4 blocked tasks",    desc: 'Schedule a 30-min unblock session with tech leads.', effort: 'Medium', impact: 'High',   due: 'Today' },
+  { id: 2, icon: 'star',           iconColor: '#FFB347', title: "Recognize Olivia's platform work",   desc: 'Post a public shoutout for three quiet wins this sprint.', effort: 'Low',    impact: 'Medium', due: 'Tomorrow' },
+  { id: 3, icon: 'refresh-cw',     iconColor: '#00B8A0', title: 'Rotate stretch project opportunity', desc: "Give Jordan next quarter's design-review lead role.", effort: 'Low',    impact: 'High',   due: 'This week' },
+  { id: 4, icon: 'calendar',       iconColor: '#00B8A0', title: 'Schedule 1:1 with Sam',              desc: 'Check in on firefighting load — no 1:1 in 3 weeks.',  effort: 'Low',    impact: 'Medium', due: 'This week' },
+  { id: 5, icon: 'unlock',         iconColor: '#00B8A0', title: "Clear Priya's meeting load",          desc: 'Reassign 2 recurring meetings to free 3 hrs/week.',   effort: 'Medium', impact: 'Medium', due: 'Next week' },
+];
 
-  const [actions, setActions] = useState(initialActions);
+const ICONS: Record<string, React.ElementType> = {
+  'alert-triangle': AlertTriangle,
+  'star': Star,
+  'refresh-cw': RefreshCw,
+  'calendar': Calendar,
+  'unlock': Unlock,
+};
 
-  const handleSnooze = (id: number) => {
-    setActions((prev) => {
-      const actionIndex = prev.findIndex((a) => a.id === id);
-      if (actionIndex === -1) return prev;
+const effortColor: Record<string, string> = { Low: '#5DD67A', Medium: '#FFB347', High: '#FF6B6B' };
+const impactColor: Record<string, string> = { Low: '#8B8B8B', Medium: '#FFB347', High: '#FF6B6B' };
 
-      const action = prev[actionIndex];
-      const newActions = [...prev];
-      newActions.splice(actionIndex, 1);
-      newActions.push(action);
-      return newActions;
-    });
-  };
+export function ActionsPage({ onActionClick }: { onActionClick?: (id: number) => void }) {
+  const [completed, setCompleted] = useState<number[]>([]);
+  const [snoozed, setSnoozed]     = useState<number[]>([]);
 
-  const handleComplete = (id: number) => {
-    setActions((prev) => prev.map((a) => (a.id === id ? { ...a, status: 'done' } : a)));
-  };
-
-  const getPriorityColor = (priority: string) => {
-    switch (priority) {
-      case 'urgent':
-        return 'bg-red-500/20 text-red-400 border-red-500/30';
-      case 'high':
-        return 'bg-orange-500/20 text-orange-400 border-orange-500/30';
-      default:
-        return 'bg-blue-500/20 text-blue-400 border-blue-500/30';
-    }
-  };
-
-  const getPriorityIcon = (priority: string) => {
-    switch (priority) {
-      case 'urgent':
-        return <AlertCircle className="w-4 h-4" />;
-      case 'high':
-        return <AlertCircle className="w-4 h-4" />;
-      default:
-        return <CheckCircle2 className="w-4 h-4" />;
-    }
-  };
-
-  const activateActions = actions.filter((a) => a.status !== 'done');
-  const completedActions = actions.filter((a) => a.status === 'done');
+  const active      = initialActions.filter((a) => !completed.includes(a.id) && !snoozed.includes(a.id));
+  const snoozedList = initialActions.filter((a) => snoozed.includes(a.id));
+  const doneList    = initialActions.filter((a) => completed.includes(a.id));
 
   return (
-    <div className="w-full min-h-screen p-6 lg:p-12 overflow-x-hidden bg-background">
-      {/* Header */}
-      <div className="mb-12">
-        <h1 className="text-4xl lg:text-5xl font-bold mb-2 text-foreground">Action Queue</h1>
-        <p className="text-base text-muted-foreground">
-          {activateActions.length} active {activateActions.length === 1 ? 'action' : 'actions'} prioritized by importance
-        </p>
+    <div className="w-full min-h-screen bg-background p-6 lg:p-8 overflow-x-hidden">
+      <div className="mb-8">
+        <div className="flex items-center gap-3 mb-1">
+          <h1 className="text-2xl font-bold text-foreground">Actions</h1>
+          <span className="text-xs font-medium px-2 py-0.5 rounded bg-primary text-primary-foreground">
+            {active.length}
+          </span>
+        </div>
+        <p className="text-sm text-muted-foreground">This week's recommended actions</p>
       </div>
 
-      {/* Active Actions */}
-      <div className="space-y-4 mb-12">
-        {activateActions.length === 0 ? (
-          <div
-            className="rounded-lg p-8 text-center border border-border"
-            className="bg-card"
-          >
-            <CheckCircle2 className="w-12 h-12 text-green-400 mx-auto mb-3" />
-            <p className="text-lg font-semibold text-foreground">All actions complete!</p>
-            <p className="text-muted-foreground text-sm mt-2">Check completed actions below</p>
-          </div>
-        ) : (
-          activateActions.map((action) => (
+      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-3 mb-8">
+        {active.map((a) => {
+          const Icon = ICONS[a.icon];
+          return (
             <div
-              key={action.id}
-              className="rounded-lg border border-border p-6 transition-all hover:border-gray-600"
-              className="bg-card"
+              key={a.id}
+              className="rounded-[12px] border border-border bg-card p-4 hover:shadow-md transition-all cursor-pointer"
+              onClick={() => onActionClick?.(a.id)}
             >
-              <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
-                {/* Action Details */}
-                <div className="flex-1">
-                  <div className="flex items-start gap-3 mb-2">
-                    <div className={`flex-shrink-0 mt-1 p-1 rounded ${getPriorityColor(action.priority)}`}>
-                      {getPriorityIcon(action.priority)}
-                    </div>
-                    <div className="flex-1">
-                      <p className="text-lg font-semibold text-foreground">{action.title}</p>
-                      <p className="text-sm text-muted-foreground mt-1">{action.description}</p>
-                    </div>
-                  </div>
-
-                  {/* Metadata */}
-                  <div className="flex flex-wrap gap-4 mt-3 text-xs">
-                    <span
-                      className={`px-2 py-1 rounded border ${getPriorityColor(action.priority)}`}
-                    >
-                      {action.priority.charAt(0).toUpperCase() + action.priority.slice(1)} Priority
-                    </span>
-                    <span className="text-gray-500">Due: {action.dueDate}</span>
-                    <span className="text-gray-500">Assignee: {action.assignee}</span>
-                  </div>
-                </div>
-
-                {/* Actions */}
-                <div className="flex gap-2 lg:flex-col lg:gap-2">
-                  <button
-                    onClick={() => handleComplete(action.id)}
-                    className="flex-1 lg:flex-none px-4 py-2 rounded-lg bg-green-500/20 text-green-400 hover:bg-green-500/30 border border-green-500/50 font-medium text-sm transition-colors"
-                  >
-                    Complete
-                  </button>
-                  <button
-                    onClick={() => handleSnooze(action.id)}
-                    className="flex-1 lg:flex-none px-4 py-2 rounded-lg bg-blue-500/20 text-blue-400 hover:bg-blue-500/30 border border-blue-500/50 font-medium text-sm transition-colors flex items-center justify-center gap-1"
-                  >
-                    <ArrowDown className="w-3 h-3" />
-                    Snooze
-                  </button>
+              <div className="flex gap-3 mb-3">
+                <Icon className="w-5 h-5 flex-shrink-0 mt-0.5" style={{ color: a.iconColor }} />
+                <div>
+                  <p className="text-sm font-medium leading-snug">{a.title}</p>
+                  <p className="text-xs text-muted-foreground mt-1 leading-relaxed">{a.desc}</p>
                 </div>
               </div>
+              <div className="flex items-center justify-between text-xs text-muted-foreground pt-3 border-t border-border">
+                <div className="flex items-center gap-2">
+                  <span>Effort:</span>
+                  <span className="px-2 py-0.5 rounded font-medium" style={{ backgroundColor: `${effortColor[a.effort]}18`, color: effortColor[a.effort] }}>{a.effort}</span>
+                  <span className="ml-1">Impact:</span>
+                  <span className="font-medium" style={{ color: impactColor[a.impact] }}>{a.impact}</span>
+                </div>
+                <span>{a.due}</span>
+              </div>
+              <div className="flex gap-2 mt-3">
+                <button onClick={(e) => { e.stopPropagation(); setCompleted((p) => [...p, a.id]); }} className="flex-1 py-1.5 text-xs font-medium rounded bg-primary text-primary-foreground hover:opacity-90 transition-opacity">Complete</button>
+                <button onClick={(e) => { e.stopPropagation(); setSnoozed((p) => [...p, a.id]); }} className="flex-1 py-1.5 text-xs font-medium rounded border border-border text-muted-foreground hover:bg-muted/50 transition-colors">Snooze</button>
+              </div>
             </div>
-          ))
-        )}
+          );
+        })}
       </div>
 
-      {/* Completed Actions */}
-      {completedActions.length > 0 && (
-        <div>
-          <h2 className="text-xl font-bold text-foreground mb-4">Completed</h2>
-          <div className="space-y-3">
-            {completedActions.map((action) => (
-              <div
-                key={action.id}
-                className="rounded-lg border border-border/50 p-4 opacity-50"
-                className="bg-card"
-              >
-                <div className="flex items-center gap-3">
-                  <CheckCircle2 className="w-5 h-5 text-green-400 flex-shrink-0" />
-                  <div className="flex-1">
-                    <p className="font-medium text-foreground line-through">{action.title}</p>
-                    <p className="text-xs text-gray-500 mt-1">{action.description}</p>
-                  </div>
+      {snoozedList.length > 0 && (
+        <div className="mb-6">
+          <p className="font-mono text-xs uppercase tracking-wider text-muted-foreground mb-3">Snoozed</p>
+          <div className="space-y-2">
+            {snoozedList.map((a) => {
+              const Icon = ICONS[a.icon];
+              return (
+                <div key={a.id} className="flex items-center justify-between rounded-[10px] border border-border bg-card/50 p-3 opacity-60">
+                  <div className="flex items-center gap-3"><Icon className="w-4 h-4" style={{ color: a.iconColor }} /><p className="text-sm">{a.title}</p></div>
+                  <button onClick={() => setSnoozed((p) => p.filter((id) => id !== a.id))} className="text-xs text-primary hover:underline">Restore</button>
                 </div>
+              );
+            })}
+          </div>
+        </div>
+      )}
+
+      {doneList.length > 0 && (
+        <div>
+          <p className="font-mono text-xs uppercase tracking-wider text-muted-foreground mb-3">Completed</p>
+          <div className="space-y-2">
+            {doneList.map((a) => (
+              <div key={a.id} className="flex items-center gap-3 rounded-[10px] border border-border bg-card/50 p-3 opacity-50">
+                <CheckCircle2 className="w-4 h-4" style={{ color: '#5DD67A' }} />
+                <p className="text-sm line-through text-muted-foreground">{a.title}</p>
               </div>
             ))}
           </div>
         </div>
       )}
+
+      <p className="text-center text-xs text-muted-foreground mt-8">
+        This product uses work-system signals (tasks, meetings, assignments). It does not read private messages by default.
+      </p>
     </div>
   );
 }

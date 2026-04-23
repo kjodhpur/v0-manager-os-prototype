@@ -1,29 +1,37 @@
 'use client';
 
 import Link from 'next/link';
-import { useState } from 'react';
+import { useSearchParams } from 'next/navigation';
+import { Suspense } from 'react';
 import {
-  LayoutDashboard,
-  Users,
-  TrendingUp,
-  BarChart3,
-  AlertCircle,
-  Settings,
-  HelpCircle,
-  LogOut,
-  Menu,
-  X,
+  LayoutDashboard, Sparkles, HeartPulse, Flame, BarChart3, Award,
+  Calendar, ClipboardList, Target, MessageSquare, Clock, Scale,
+  FileText, ListChecks, Link2, Settings, LogOut, Menu, X,
 } from 'lucide-react';
+import { useState } from 'react';
 
-const menuItems = [
-  { icon: LayoutDashboard, label: 'Overview', href: '/demo' },
-  { icon: TrendingUp, label: 'Team', href: '/demo?page=timeline' },
-  { icon: AlertCircle, label: 'Actions', href: '/demo?page=actions' },
-  { icon: BarChart3, label: 'AI Coach', href: '/demo?page=ai-coach' },
-  { icon: Settings, label: 'Settings', href: '/demo?page=settings' },
+const navItems = [
+  { id: 'overview',          label: 'Overview',         icon: LayoutDashboard, href: '/demo' },
+  { id: 'ai-coach',          label: 'AI Coach',         icon: Sparkles,        href: '/demo?page=ai-coach' },
+  { id: 'team-health',       label: 'Team Health',      icon: HeartPulse,      href: '/demo?page=team-health' },
+  { id: 'burnout-risk',      label: 'Burnout Risk',     icon: Flame,           href: '/demo?page=burnout-risk' },
+  { id: 'work-distribution', label: 'Work Distribution',icon: BarChart3,       href: '/demo?page=work-distribution' },
+  { id: 'recognition',       label: 'Recognition',      icon: Award,           href: '/demo?page=recognition' },
+  { id: 'meetings',          label: '1:1 Meetings',     icon: Calendar,        href: '/demo?page=meetings' },
+  { id: 'surveys',           label: 'Pulse Surveys',    icon: ClipboardList,   href: '/demo?page=surveys' },
+  { id: 'goals',             label: 'Goals & OKRs',     icon: Target,          href: '/demo?page=goals' },
+  { id: 'feedback',          label: 'Feedback Wall',    icon: MessageSquare,   href: '/demo?page=feedback' },
+  { id: 'timeline',          label: 'Timeline',         icon: Clock,           href: '/demo?page=timeline' },
+  { id: 'benchmarking',      label: 'Benchmarking',     icon: Scale,           href: '/demo?page=benchmarking' },
+  { id: 'reports',           label: 'Reports',          icon: FileText,        href: '/demo?page=reports' },
+  { id: 'actions',           label: 'Actions',          icon: ListChecks,      href: '/demo?page=actions' },
+  { id: 'integrations',      label: 'Integrations',     icon: Link2,           href: '/demo?page=integrations' },
+  { id: 'settings',          label: 'Settings',         icon: Settings,        href: '/demo?page=settings' },
 ];
 
-export function Sidebar() {
+function SidebarInner() {
+  const searchParams = useSearchParams();
+  const page = searchParams.get('page') || 'overview';
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -31,55 +39,63 @@ export function Sidebar() {
       {/* Mobile toggle */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="hidden max-lg:fixed bottom-8 right-8 z-40 p-3 bg-primary text-primary-foreground rounded-full shadow-lg hover:bg-primary/90 transition-all"
+        className="lg:hidden fixed bottom-6 right-6 z-50 p-3 bg-primary text-primary-foreground rounded-full shadow-lg"
       >
-        {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+        {isOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
       </button>
+
+      {/* Overlay */}
+      {isOpen && (
+        <div
+          className="lg:hidden fixed inset-0 z-30 bg-black/60"
+          onClick={() => setIsOpen(false)}
+        />
+      )}
 
       {/* Sidebar */}
       <aside
-        className={`w-64 border-r border-border bg-card/50 flex flex-col transition-all duration-300 max-lg:fixed max-lg:top-14 max-lg:left-0 max-lg:bottom-0 max-lg:z-30 ${
-          isOpen ? 'max-lg:translate-x-0' : 'max-lg:-translate-x-full'
-        }`}
+        className={`w-56 flex-shrink-0 border-r border-border bg-sidebar flex flex-col
+          max-lg:fixed max-lg:top-14 max-lg:left-0 max-lg:bottom-0 max-lg:z-40 max-lg:transition-transform
+          ${isOpen ? 'max-lg:translate-x-0' : 'max-lg:-translate-x-full'}`}
+        style={{ height: 'calc(100vh - 56px)' }}
       >
-        {/* Logo */}
-        <div className="h-14 border-b border-border flex items-center px-6">
-          <span className="font-display text-lg font-bold text-gradient">HM</span>
-        </div>
-
-        {/* Menu items */}
-        <nav className="flex-1 overflow-y-auto py-6 px-3">
-          <div className="space-y-2">
-            {menuItems.map((item, idx) => {
-              const Icon = item.icon;
-              const isActive = idx === 0;
-              return (
-                <Link
-                  key={item.label}
-                  href={item.href}
-                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200 ${
-                    isActive
-                      ? 'bg-primary/10 text-primary border border-primary/30'
-                      : 'text-foreground/70 hover:text-foreground hover:bg-card'
-                  }`}
-                  onClick={() => setIsOpen(false)}
-                >
-                  <Icon className="w-5 h-5 flex-shrink-0" />
-                  <span className="text-sm font-medium">{item.label}</span>
-                </Link>
-              );
-            })}
-          </div>
+        <nav className="flex-1 overflow-y-auto py-3 px-2 space-y-0.5">
+          {navItems.map((item) => {
+            const Icon = item.icon;
+            const isActive = item.id === page;
+            return (
+              <Link
+                key={item.id}
+                href={item.href}
+                onClick={() => setIsOpen(false)}
+                className={`flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
+                  isActive
+                    ? 'bg-primary/10 text-primary'
+                    : 'text-sidebar-foreground/60 hover:bg-muted hover:text-sidebar-foreground'
+                }`}
+              >
+                <Icon className="w-4 h-4 flex-shrink-0" strokeWidth={2} />
+                {item.label}
+              </Link>
+            );
+          })}
         </nav>
 
-        {/* Logout */}
-        <div className="border-t border-border p-4">
-          <button className="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-foreground/70 hover:text-foreground hover:bg-card transition-all duration-200">
-            <LogOut className="w-5 h-5" />
-            <span className="text-sm font-medium">Sign out</span>
+        <div className="border-t border-border p-2">
+          <button className="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-sidebar-foreground/50 hover:text-sidebar-foreground hover:bg-muted transition-colors">
+            <LogOut className="w-4 h-4" />
+            Sign out
           </button>
         </div>
       </aside>
     </>
+  );
+}
+
+export function Sidebar() {
+  return (
+    <Suspense fallback={null}>
+      <SidebarInner />
+    </Suspense>
   );
 }
