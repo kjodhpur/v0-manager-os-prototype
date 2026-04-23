@@ -7,37 +7,54 @@ const steps = [
     number: "I",
     title: "Connect your tools",
     description: "Link Jira, Asana, or Salesforce. HeartMetrics reads work-system signals only, never private messages.",
-    code: `import { heartmetrics } from '@heartmetrics/sdk'
-
-heartmetrics.connect({
-  source: 'jira',
-  workspace: 'your-team',
-  privacy: 'work-signals-only'
-})`,
   },
   {
     number: "II",
     title: "See wellbeing & fairness",
     description: "Get a clear dashboard showing team health, work distribution, and recognition patterns in real-time.",
-    code: `heartmetrics.dashboard({
-  metrics: [
-    'work-happiness-index',
-    'burnout-risk',
-    'fairness-score'
-  ],
-  view: 'team-overview'
-})`,
   },
   {
     number: "III",
     title: "Take recommended actions",
     description: "Follow AI-powered suggestions to reduce overload, recognize invisible work, and rotate opportunities.",
-    code: `heartmetrics.actions({
-  type: 'ai-recommendations',
-  priority: 'high-risk-first'
-})
+  },
+];
 
-// 3 team members need attention`,
+const whiCategories = [
+  {
+    name: "Work-Life Balance",
+    color: "#00B8A0",
+    bg: "rgba(0,184,160,0.08)",
+    border: "rgba(0,184,160,0.25)",
+    inputs: ["Workload", "Outside work %", "Meeting hrs", "Blocked tickets", "Time since last PTO"],
+  },
+  {
+    name: "Recognition",
+    color: "#FFB347",
+    bg: "rgba(255,179,71,0.08)",
+    border: "rgba(255,179,71,0.25)",
+    inputs: ["No. of recognitions", "No. of shoutouts"],
+  },
+  {
+    name: "Connection & Community",
+    color: "#5DD67A",
+    bg: "rgba(93,214,122,0.08)",
+    border: "rgba(93,214,122,0.25)",
+    inputs: ["Feedback", "Team building events", "1:1 cadence"],
+  },
+  {
+    name: "Opportunity for Growth",
+    color: "#8BA8F0",
+    bg: "rgba(139,168,240,0.08)",
+    border: "rgba(139,168,240,0.25)",
+    inputs: ["Allocation of work", "Leadership opportunities", "Visibility opportunities"],
+  },
+  {
+    name: "Safety",
+    color: "#FF6B6B",
+    bg: "rgba(255,107,107,0.08)",
+    border: "rgba(255,107,107,0.25)",
+    inputs: ["Physical safety incidents"],
   },
 ];
 
@@ -124,15 +141,13 @@ export function HowItWorksSection() {
                     <p className="text-muted-foreground leading-relaxed">
                       {step.description}
                     </p>
-                    
+
                     {/* Progress indicator */}
                     {activeStep === index && (
                       <div className="mt-4 h-px bg-border overflow-hidden">
-                        <div 
+                        <div
                           className="h-full bg-gradient-to-r from-primary via-ring to-accent w-0"
-                          style={{
-                            animation: 'progress 5s linear forwards'
-                          }}
+                          style={{ animation: "progress 5s linear forwards" }}
                         />
                       </div>
                     )}
@@ -142,53 +157,57 @@ export function HowItWorksSection() {
             ))}
           </div>
 
-          {/* Code display */}
+          {/* WHI Categories panel */}
           <div className="lg:sticky lg:top-32 self-start">
             <div className="border border-border rounded-xl overflow-hidden bg-card/80 backdrop-blur-sm">
-              {/* Window header */}
+              {/* Panel header */}
               <div className="px-6 py-4 border-b border-border flex items-center justify-between">
-                <div className="flex gap-2">
-                  <div className="w-3 h-3 rounded-full bg-accent/60" />
-                  <div className="w-3 h-3 rounded-full bg-ring/60" />
-                  <div className="w-3 h-3 rounded-full bg-primary/60" />
+                <div>
+                  <p className="text-sm font-semibold text-foreground">Work Happiness Index</p>
+                  <p className="text-xs text-muted-foreground mt-0.5">5 Surgeon General dimensions</p>
                 </div>
-                <span className="text-xs font-mono text-muted-foreground">setup.ts</span>
+                <span className="text-xs font-mono px-2.5 py-1 rounded-full border border-border text-muted-foreground">
+                  WHI Score
+                </span>
               </div>
 
-              {/* Code content */}
-              <div className="p-8 font-mono text-sm min-h-[280px]">
-                <pre className="text-foreground/80">
-                  {steps[activeStep].code.split('\n').map((line, lineIndex) => (
-                    <div 
-                      key={`${activeStep}-${lineIndex}`} 
-                      className="leading-loose code-line-reveal"
-                      style={{ 
-                        animationDelay: `${lineIndex * 80}ms`,
-                      }}
-                    >
-                      <span className="text-muted-foreground select-none w-8 inline-block">{lineIndex + 1}</span>
-                      <span className="inline-flex">
-                        {line.split('').map((char, charIndex) => (
-                          <span
-                            key={`${activeStep}-${lineIndex}-${charIndex}`}
-                            className="code-char-reveal"
-                            style={{
-                              animationDelay: `${lineIndex * 80 + charIndex * 15}ms`,
-                            }}
-                          >
-                            {char === ' ' ? '\u00A0' : char}
-                          </span>
-                        ))}
-                      </span>
+              {/* Categories */}
+              <div className="p-5 space-y-3">
+                {whiCategories.map((cat) => (
+                  <div
+                    key={cat.name}
+                    className="rounded-[10px] p-4"
+                    style={{ backgroundColor: cat.bg, border: `1px solid ${cat.border}` }}
+                  >
+                    <div className="flex items-center gap-2 mb-3">
+                      <span
+                        className="w-2 h-2 rounded-full flex-shrink-0"
+                        style={{ backgroundColor: cat.color }}
+                      />
+                      <p className="text-sm font-semibold" style={{ color: cat.color }}>
+                        {cat.name}
+                      </p>
                     </div>
-                  ))}
-                </pre>
+                    <div className="flex flex-wrap gap-1.5">
+                      {cat.inputs.map((input) => (
+                        <span
+                          key={input}
+                          className="text-xs px-2 py-0.5 rounded-full bg-background/60 text-muted-foreground border border-border"
+                        >
+                          {input}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                ))}
               </div>
 
-              {/* Status */}
+              {/* Footer */}
               <div className="px-6 py-4 border-t border-border flex items-center gap-3">
-                <span className="w-2 h-2 rounded-full bg-primary animate-pulse shadow-[0_0_8px_rgba(125,211,252,0.6)]" />
-                <span className="text-xs font-mono text-muted-foreground">Connected</span>
+                <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
+                <span className="text-xs font-mono text-muted-foreground">
+                  Quantitative + qualitative signals combined
+                </span>
               </div>
             </div>
           </div>
@@ -199,32 +218,6 @@ export function HowItWorksSection() {
         @keyframes progress {
           from { width: 0%; }
           to { width: 100%; }
-        }
-        
-        .code-line-reveal {
-          opacity: 0;
-          transform: translateX(-8px);
-          animation: lineReveal 0.4s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-        }
-        
-        @keyframes lineReveal {
-          to {
-            opacity: 1;
-            transform: translateX(0);
-          }
-        }
-        
-        .code-char-reveal {
-          opacity: 0;
-          filter: blur(8px);
-          animation: charReveal 0.3s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-        }
-        
-        @keyframes charReveal {
-          to {
-            opacity: 1;
-            filter: blur(0);
-          }
         }
       `}</style>
     </section>
