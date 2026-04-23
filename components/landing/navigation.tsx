@@ -89,10 +89,8 @@ export function Navigation() {
     >
       <nav className="mx-auto max-w-7xl h-full px-4 sm:px-6 lg:px-8 flex items-center justify-between">
         {/* Logo */}
-        <Link href="/" className="flex items-center gap-2 shrink-0">
-          <div className="scale-[2.5] origin-left">
-            <HeartMetricsLogo variant="horizontal" className="translate-y-1" />
-          </div>
+        <Link href="/" className="flex items-center shrink-0">
+          <HeartMetricsLogo variant="horizontal" size="lg" />
         </Link>
 
         {/* Desktop Nav Links */}
