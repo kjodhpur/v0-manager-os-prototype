@@ -89,15 +89,11 @@ export function Navigation() {
     >
       <nav className="mx-auto max-w-7xl h-full px-4 sm:px-6 lg:px-8 flex items-center justify-between">
         {/* Logo */}
-        <a
-          href="#"
-          onClick={(e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
-          className="flex items-center gap-2 shrink-0"
-        >
-          <div className="scale-125 origin-left">
+        <Link href="/" className="flex items-center gap-2 shrink-0">
+          <div className="scale-[2.5] origin-left">
             <HeartMetricsLogo variant="horizontal" className="translate-y-1" />
           </div>
-        </a>
+        </Link>
 
         {/* Desktop Nav Links */}
         <div className="hidden lg:flex items-center gap-8">

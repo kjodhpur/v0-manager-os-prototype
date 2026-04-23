@@ -1,5 +1,6 @@
 import { Navigation } from "@/components/landing/navigation";
 import { HeroSection } from "@/components/landing/hero-section";
+import { BuiltByBanner } from "@/components/landing/built-by-banner";
 import { ECGCanvas } from "@/components/landing/ecg-canvas";
 import { SocialProofBar } from "@/components/landing/social-proof-bar";
 import { StorySection } from "@/components/landing/story-section";
@@ -21,6 +22,7 @@ export default function Home() {
     <main className="relative min-h-screen overflow-x-hidden">
       <Navigation />
       <HeroSection />
+      <BuiltByBanner />
       <div className="py-12 px-4">
         <ECGCanvas />
       </div>

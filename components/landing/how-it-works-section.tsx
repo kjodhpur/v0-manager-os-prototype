@@ -163,7 +163,7 @@ export function HowItWorksSection() {
               {/* Panel header */}
               <div className="px-6 py-4 border-b border-border flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-semibold text-foreground">Work Happiness Index</p>
+                  <p className="text-sm font-semibold text-foreground">Work Wellbeing Index</p>
                   <p className="text-xs text-muted-foreground mt-0.5">5 Surgeon General dimensions</p>
                 </div>
                 <span className="text-xs font-mono px-2.5 py-1 rounded-full border border-border text-muted-foreground">
