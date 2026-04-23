@@ -9,7 +9,7 @@ import { RecognitionGrowthPage } from "@/components/recognition-growth-page"
 import { ActionsPage } from "@/components/actions-page"
 import { IntegrationsPage } from "@/components/integrations-page"
 import { SettingsPage } from "@/components/settings-page"
-import { AICoachPage } from "@/components/ai-coach-page"
+import { AiCoachPage } from "@/components/ai-coach-page"
 import { MeetingsPage } from "@/components/meetings-page"
 import { SurveysPage } from "@/components/surveys-page"
 import { GoalsPage } from "@/components/goals-page"
@@ -96,7 +96,7 @@ export default function AppDashboard() {
       case "overview":
         return <OverviewPage onEmployeeClick={handleEmployeeClick} onActionClick={handleActionClick} />
       case "ai-coach":
-        return <AICoachPage onActionClick={handleActionClick} />
+        return <AiCoachPage />
       case "team-health":
         return <TeamHealthPage onEmployeeClick={handleEmployeeClick} />
       case "burnout-risk":
