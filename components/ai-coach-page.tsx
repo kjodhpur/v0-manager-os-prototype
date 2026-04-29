@@ -13,7 +13,7 @@ interface AICoachPageProps {
   onActionClick: (action: { title: string; description: string }) => void
 }
 
-export function AICoachPage({ onActionClick }: AICoachPageProps) {
+export function AICoachPage() {
   const [insightList, setInsightList] = useState(initialInsights)
   const [expanded, setExpanded] = useState<string | null>(null)
 
@@ -62,7 +62,6 @@ export function AICoachPage({ onActionClick }: AICoachPageProps) {
 
   const handleAct = (insight: Insight) => {
     setInsightList(insightList.map((i) => (i.id === insight.id ? { ...i, status: "acted" as const } : i)))
-    onActionClick({ title: insight.suggestedAction, description: insight.description })
   }
 
   const renderInsightCard = (insight: Insight) => (

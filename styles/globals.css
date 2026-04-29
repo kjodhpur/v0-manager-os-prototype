@@ -1,7 +1,7 @@
 @import 'tailwindcss';
 @import 'tw-animate-css';
 
-@custom-variant dark (&:is(.dark *));
+/* @custom-variant dark (&:is(.dark *)); */
 
 :root {
   --bg: #faf8f5;
@@ -19,7 +19,7 @@
 
 }
 
-.dark {
+/* .dark {
   --bg: #020807;
   --neutral: #010d0d;
   --fg: #faf4f1;
@@ -29,7 +29,7 @@
   --accent: #ffb347;
   --healthy: #5dd67a;
   --warning: #ffc940;
-}
+} */
 
 @theme inline {
   --font-sans: 'Georgia', 'Georgia Fallback';

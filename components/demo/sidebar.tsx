@@ -14,18 +14,19 @@ import {
   Menu,
   X,
 } from 'lucide-react';
+import { HeartMetricsLogo } from '../heart-metrics-logo';
 
 const menuItems = [
-  { icon: LayoutDashboard, label: 'Overview', href: '/demo' },
-  { icon: TrendingUp, label: 'Team', href: '/demo?page=timeline' },
-  { icon: AlertCircle, label: 'Actions', href: '/demo?page=actions' },
-  { icon: BarChart3, label: 'AI Coach', href: '/demo?page=ai-coach' },
-  { icon: Settings, label: 'Settings', href: '/demo?page=settings' },
+  { icon: LayoutDashboard, label: 'Overview', href: '/demo', pageKey: 'overview' },
+  { icon: Users, label: 'Team', href: '/demo?page=team-health', pageKey: 'team-health' },
+  //{ icon: AlertCircle, label: 'Actions', href: '/demo?page=actions', pageKey: 'actions' },
+  { icon: BarChart3, label: 'AI Coach', href: '/demo?page=ai-coach', pageKey: 'ai-coach' },
+  { icon: Settings, label: 'Settings', href: '/demo?page=settings', pageKey: 'settings' },
 ];
 
-export function Sidebar() {
+export function Sidebar({ page }: { page: string }) {
   const [isOpen, setIsOpen] = useState(false);
-  const [activePage, setActivePage] = useState('Overview');
+
   return (
     <>
       {/* Mobile toggle */}
@@ -43,16 +44,18 @@ export function Sidebar() {
         }`}
       >
         {/* Logo */}
-        <div className="h-14 border-b border-border flex items-center px-6">
-          <span className="font-display text-lg font-bold text-gradient">HM</span>
-        </div>
+        <Link href="/" className="flex items-center px-4 gap-2 shrink-0">
+          <div className="scale-200 origin-left">
+            <HeartMetricsLogo variant="horizontal" className="translate-y-1.5" />
+          </div>
+        </Link>
 
         {/* Menu items */}
         <nav className="flex-1 overflow-y-auto py-6 px-3">
           <div className="space-y-2">
-            {menuItems.map((item, idx) => {
+            {menuItems.map((item) => {
               const Icon = item.icon;
-              const isActive = activePage === item.label;
+              const isActive = page === item.pageKey;
               return (
                 <Link
                   key={item.label}
@@ -62,10 +65,7 @@ export function Sidebar() {
                       ? 'bg-primary/10 text-primary border border-primary/30'
                       : 'text-foreground/70 hover:text-foreground hover:bg-card'
                   }`}
-                  onClick={() => {
-                    setIsOpen(false);
-                    setActivePage(item.label);
-                  }}
+                  onClick={() => setIsOpen(false)}
                 >
                   <Icon className="w-5 h-5 flex-shrink-0" />
                   <span className="text-sm font-medium">{item.label}</span>
