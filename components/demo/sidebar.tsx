@@ -32,14 +32,14 @@ export function Sidebar({ page }: { page: string }) {
       {/* Mobile toggle */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="hidden max-lg:fixed bottom-8 right-8 z-40 p-3 bg-primary text-primary-foreground rounded-full shadow-lg hover:bg-primary/90 transition-all"
+        className="hidden max-lg:fixed bottom-8 right-8 z-40 p-3 bg-[var(--primary)] text-[var(--primary-foreground)] rounded-full shadow-lg hover:bg-[var(--primary)]/90 transition-all"
       >
         {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
       </button>
 
       {/* Sidebar */}
       <aside
-        className={`w-64 border-r border-border bg-card/50 flex flex-col transition-all duration-300 max-lg:fixed max-lg:top-14 max-lg:left-0 max-lg:bottom-0 max-lg:z-30 max-h-[100vh] ${
+        className={`w-64 border-r border-[var(--border)] bg-[var(--neutral)]/50 flex flex-col transition-all duration-300 max-lg:fixed max-lg:top-14 max-lg:left-0 max-lg:bottom-0 max-lg:z-30 max-h-[100vh] ${
           isOpen ? 'max-lg:translate-x-0' : 'max-lg:-translate-x-full'
         }`}
       >
@@ -62,8 +62,8 @@ export function Sidebar({ page }: { page: string }) {
                   href={item.href}
                   className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200 ${
                     isActive
-                      ? 'bg-primary/10 text-primary border border-primary/30'
-                      : 'text-foreground/70 hover:text-foreground hover:bg-card'
+                      ? 'bg-[var(--primary)]/10 text-[var(--primary)] border border-[var(--primary)]/30'
+                      : 'text-[var(--fg)]/70 hover:text-[var(--fg)] hover:bg-[var(--neutral)]'
                   }`}
                   onClick={() => setIsOpen(false)}
                 >
@@ -76,8 +76,8 @@ export function Sidebar({ page }: { page: string }) {
         </nav>
 
         {/* Logout */}
-        <div className="border-t border-border p-4">
-          <button className="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-foreground/70 hover:text-foreground hover:bg-card transition-all duration-200">
+        <div className="border-t border-[var(--border)] p-4">
+          <button className="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-[var(--fg)]/70 hover:text-foreground hover:bg-[var(--neutral)] transition-all duration-200">
             <LogOut className="w-5 h-5" />
             <span className="text-sm font-medium">Sign out</span>
           </button>

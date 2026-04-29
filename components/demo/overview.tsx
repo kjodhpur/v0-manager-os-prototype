@@ -110,7 +110,7 @@ export function DemoOverview() {
         </h1>
 
         {/* Time range toggle */}
-        <div className="ml-auto flex items-center bg-card border border-border rounded-lg p-1 gap-1">
+        <div className="ml-auto flex items-center bg-[var(--neutral)] border border-[var(--border)] rounded-lg p-1 gap-1">
           {TIME_RANGES.map(({ label, value }) => (
             <button
               key={value}
