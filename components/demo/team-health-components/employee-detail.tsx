@@ -64,7 +64,7 @@ export default function EmployeeDetail({ employee }: Props) {
           </div>
 
           {/* Actions */}
-          <div className="p-6 flex flex-col h-full min-h-0">
+          <div className="p-6 flex flex-col h-full min-h-[480px]">
             <div className="flex items-center justify-between mb-4 flex-shrink-0">
               <h2 className="text-sm font-semibold uppercase tracking-wider text-[var(--fg)]">
                 {activeLabel}

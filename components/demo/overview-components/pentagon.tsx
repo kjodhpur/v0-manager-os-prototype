@@ -13,12 +13,19 @@ const getColor = (value: number) => {
   return 'var(--accent)';
 };
 
-// Core geometry
-const cx = 200, cy = 200, r = 110, labelR = r + 48;
+// ── Tweak these to adjust text size ──
+const LABEL_FONT_SIZE = 14;
+const VALUE_FONT_SIZE = 16;
+// ─────────────────────────────────────
+
+const r = 110;
+const labelGap = VALUE_FONT_SIZE * 3;
+const labelR = r + labelGap;
+
 const angle = (i: number) => (Math.PI * 2 * i) / 5 - Math.PI / 2;
 const pt = (radius: number, i: number) => ({
-  x: cx + radius * Math.cos(angle(i)),
-  y: cy + radius * Math.sin(angle(i)),
+  x: radius * Math.cos(angle(i)),
+  y: radius * Math.sin(angle(i)),
 });
 
 const ringPath = (pct: number) =>
@@ -26,13 +33,13 @@ const ringPath = (pct: number) =>
     .map((i) => { const p = pt((pct / 100) * r, i); return `${i === 0 ? 'M' : 'L'} ${p.x} ${p.y}`; })
     .join(' ') + ' Z';
 
-// Compute viewBox that fits all label positions + padding
-const PAD = 36; // extra room for text that extends beyond the label point
-const labelPoints = [0, 1, 2, 3, 4].map((i) => pt(labelR + PAD, i));
-const minX = Math.min(...labelPoints.map((p) => p.x)) - PAD;
-const maxX = Math.max(...labelPoints.map((p) => p.x)) + PAD;
-const minY = Math.min(...labelPoints.map((p) => p.y)) - PAD;
-const maxY = Math.max(...labelPoints.map((p) => p.y)) + PAD;
+// ViewBox computed symmetrically from origin
+// Compute raw bounds from label points
+const outerPoints = [0, 1, 2, 3, 4].map((i) => pt(labelR, i));
+const minX = Math.min(...outerPoints.map((p) => p.x)) - VALUE_FONT_SIZE * 5;
+const maxX = Math.max(...outerPoints.map((p) => p.x)) + VALUE_FONT_SIZE * 5;
+const minY = Math.min(...outerPoints.map((p) => p.y)) - VALUE_FONT_SIZE * 2;
+const maxY = Math.max(...outerPoints.map((p) => p.y)) + VALUE_FONT_SIZE * 5; // extra bottom padding
 const vbW = maxX - minX;
 const vbH = maxY - minY;
 
@@ -57,28 +64,24 @@ export default function Pentagon({
     <svg
       viewBox={`${minX} ${minY} ${vbW} ${vbH}`}
       width="100%"
-      style={{ maxWidth: 400, display: 'block' }}
+      style={{ maxWidth: 480, display: 'block', margin: '0 auto' }}
     >
-      {/* Grid rings */}
       {[25, 50, 75, 100].map((pct) => (
         <path key={pct} d={ringPath(pct)} fill="none" stroke="var(--border)" strokeWidth={1} opacity={0.5} />
       ))}
 
-      {/* Spokes */}
       {components.map((_, i) => {
         const outer = pt(r, i);
-        return <line key={i} x1={cx} y1={cy} x2={outer.x} y2={outer.y} stroke="var(--border)" strokeWidth={1} opacity={0.5} />;
+        return <line key={i} x1={0} y1={0} x2={outer.x} y2={outer.y} stroke="var(--border)" strokeWidth={1} opacity={0.5} />;
       })}
 
-      {/* Data fill */}
       <path d={dataPath} fill={fillColor} fillOpacity={0.15} stroke={fillColor} strokeWidth={2} />
 
-      {/* Dots + labels */}
       {components.map((comp, i) => {
         const dataPt = pt((comp.value / 100) * r, i);
         const labelPt = pt(labelR, i);
         const isSelected = selected === comp.name;
-        const textAnchor = labelPt.x < cx - 10 ? 'end' : labelPt.x > cx + 10 ? 'start' : 'middle';
+        const textAnchor = labelPt.x < -10 ? 'end' : labelPt.x > 10 ? 'start' : 'middle';
         const color = getColor(comp.value);
 
         return (
@@ -93,17 +96,23 @@ export default function Pentagon({
               className="transition-all duration-200"
             />
             <text
-              x={labelPt.x} y={labelPt.y - 10}
+              x={labelPt.x}
+              y={labelPt.y - VALUE_FONT_SIZE * 0.4}
               textAnchor={textAnchor}
-              fill="var(--fg)" fontSize={14} fontWeight={isSelected ? 700 : 400}
+              fill="var(--fg)"
+              fontSize={LABEL_FONT_SIZE}
+              fontWeight={isSelected ? 700 : 400}
               className="transition-all duration-200 select-none"
             >
               {comp.shortName}
             </text>
             <text
-              x={labelPt.x} y={labelPt.y + 10}
+              x={labelPt.x}
+              y={labelPt.y + VALUE_FONT_SIZE * 1.1}
               textAnchor={textAnchor}
-              fill={color} fontSize={16} fontWeight={700}
+              fill={color}
+              fontSize={VALUE_FONT_SIZE}
+              fontWeight={700}
             >
               {comp.value}
             </text>
