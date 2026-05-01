@@ -44,7 +44,7 @@ export default function SignInPage() {
       <div className="w-full max-w-md">
         <div className="mb-8 flex flex-col items-center">
           <Link href="/">
-            <HeartMetricsLogo size="xxl" />
+            <HeartMetricsLogo />
           </Link>
           <p className="mt-3 text-sm text-muted-foreground">Sign into your account</p>
         </div>

@@ -22,7 +22,7 @@ const accolades = [
     icon: Target,
     title: "Ignite the Future",
     subtitle: "Competition Finalist",
-    description: "Selected to compete in the finalist teams advancing workplace innovation and employee wellbeing",
+    description: "Selected among top 5% of ventures advancing workplace innovation and employee wellbeing",
     color: "from-purple-500 to-pink-500",
   },
   {

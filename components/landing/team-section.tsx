@@ -1,4 +1,5 @@
 'use client';
+"use client";
 
 import { motion } from "framer-motion";
 import { Linkedin, Award } from "lucide-react";

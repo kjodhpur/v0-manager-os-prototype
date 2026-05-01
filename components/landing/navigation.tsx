@@ -6,30 +6,11 @@ import { Button } from '@/components/ui/button';
 import { Menu, X, ArrowRight, Sun, Moon } from 'lucide-react';
 import { HeartMetricsLogo } from '@/components/heart-metrics-logo';
 
-const NAV_ITEMS = [
-  { label: 'Product',      id: 'product' },
-  { label: 'How it Works', id: 'how-we-calculate' },
-  { label: 'Pricing',      id: 'pricing' },
-  { label: 'Security',     id: 'security' },
-  { label: 'About',        id: 'about' },
-  { label: 'Contact',      id: 'contact' },
-];
-
-const HEADER_HEIGHT = 56; // matches h-14
-
-function smoothScrollTo(id: string) {
-  const el = document.getElementById(id);
-  if (!el) return;
-  const top = el.getBoundingClientRect().top + window.scrollY - HEADER_HEIGHT;
-  window.scrollTo({ top, behavior: 'smooth' });
-}
-
 export function Navigation() {
-  const [isScrolled, setIsScrolled]         = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [isDark, setIsDark]                 = useState(true);
-  const [mounted, setMounted]               = useState(false);
-  const [activeSection, setActiveSection]   = useState('');
+  const [isDark, setIsDark] = useState(true);
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
     setMounted(true);
@@ -37,46 +18,27 @@ export function Navigation() {
     const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
     setIsDark(savedTheme === 'dark' || (savedTheme === null && prefersDark));
 
-    const onScroll = () => setIsScrolled(window.scrollY > 60);
-    window.addEventListener('scroll', onScroll, { passive: true });
-
-    // Intersection Observer for active link
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) setActiveSection(entry.target.id);
-        });
-      },
-      { rootMargin: '-40% 0px -55% 0px' }
-    );
-
-    // Observe all anchor sections
-    NAV_ITEMS.forEach(({ id }) => {
-      const el = document.getElementById(id);
-      if (el) observer.observe(el);
-    });
-
-    return () => {
-      window.removeEventListener('scroll', onScroll);
-      observer.disconnect();
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 60);
     };
-  }, []);
 
-  const handleSmoothScroll = (e: React.MouseEvent<HTMLAnchorElement>) => {
-    const href = e.currentTarget.getAttribute('href');
-    if (href?.startsWith('#')) {
-      e.preventDefault();
-      smoothScrollTo(href.substring(1));
-      setIsMobileMenuOpen(false);
-    }
-  };
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   const toggleTheme = () => {
     const newIsDark = !isDark;
     setIsDark(newIsDark);
-    document.documentElement.classList.toggle('dark', newIsDark);
-    document.documentElement.classList.toggle('light', !newIsDark);
-    localStorage.setItem('theme', newIsDark ? 'dark' : 'light');
+
+    if (newIsDark) {
+      document.documentElement.classList.remove('light');
+      document.documentElement.classList.add('dark');
+      localStorage.setItem('theme', 'dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+      document.documentElement.classList.add('light');
+      localStorage.setItem('theme', 'light');
+    }
   };
 
   return (
@@ -89,26 +51,32 @@ export function Navigation() {
     >
       <nav className="mx-auto max-w-7xl h-full px-4 sm:px-6 lg:px-8 flex items-center justify-between">
         {/* Logo */}
-        <Link href="/" className="flex items-center shrink-0">
-          <HeartMetricsLogo variant="horizontal" size="lg" />
+        <Link href="/" className="flex items-center gap-2 shrink-0">
+          <div className="scale-125 origin-left">
+            <HeartMetricsLogo variant="horizontal" className="translate-y-1" />
+          </div>
         </Link>
 
         {/* Desktop Nav Links */}
         <div className="hidden lg:flex items-center gap-8">
-          {NAV_ITEMS.map(({ label, id }) => (
-            <a
-              key={id}
-              href={`#${id}`}
-              onClick={handleSmoothScroll}
-              className={`text-sm transition-colors ${
-                activeSection === id
-                  ? 'text-primary font-medium'
-                  : 'text-foreground/70 hover:text-foreground'
-              }`}
-            >
-              {label}
-            </a>
-          ))}
+          <Link href="/product" className="text-sm text-foreground/70 hover:text-foreground transition-colors">
+            Product
+          </Link>
+          <Link href="/how-we-calculate" className="text-sm text-foreground/70 hover:text-foreground transition-colors">
+            How it Works
+          </Link>
+          <a href="#pricing" className="text-sm text-foreground/70 hover:text-foreground transition-colors">
+            Pricing
+          </a>
+          <Link href="/security" className="text-sm text-foreground/70 hover:text-foreground transition-colors">
+            Security
+          </Link>
+          <Link href="/about" className="text-sm text-foreground/70 hover:text-foreground transition-colors">
+            About
+          </Link>
+          <Link href="/contact" className="text-sm text-foreground/70 hover:text-foreground transition-colors">
+            Contact
+          </Link>
         </div>
 
         {/* Desktop CTA */}
@@ -118,9 +86,16 @@ export function Navigation() {
             className="p-2 hover:bg-card rounded-lg transition-colors"
             aria-label="Toggle theme"
           >
-            {mounted && isDark ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+            {mounted && isDark ? (
+              <Sun className="w-5 h-5" />
+            ) : (
+              <Moon className="w-5 h-5" />
+            )}
           </button>
-          <Link href="/signin" className="text-sm text-foreground/70 hover:text-primary transition-colors">
+          <Link
+            href="/signin"
+            className="text-sm text-foreground/70 hover:text-primary transition-colors"
+          >
             Sign in
           </Link>
           <Button
@@ -139,38 +114,74 @@ export function Navigation() {
         <button
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           className="lg:hidden p-2 hover:bg-card rounded-lg transition-colors"
-          aria-label="Toggle menu"
         >
-          {isMobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+          {isMobileMenuOpen ? (
+            <X className="w-5 h-5" />
+          ) : (
+            <Menu className="w-5 h-5" />
+          )}
         </button>
 
         {/* Mobile Menu */}
         {isMobileMenuOpen && (
           <div className="absolute top-14 left-0 right-0 bg-card/95 backdrop-blur-xl border-b border-border p-6 lg:hidden">
             <nav className="flex flex-col gap-6 mb-8">
-              {NAV_ITEMS.map(({ label, id }) => (
-                <a
-                  key={id}
-                  href={`#${id}`}
-                  onClick={handleSmoothScroll}
-                  className={`transition-colors ${
-                    activeSection === id
-                      ? 'text-primary font-medium'
-                      : 'text-foreground/70 hover:text-foreground'
-                  }`}
-                >
-                  {label}
-                </a>
-              ))}
+              <Link
+                href="/product"
+                className="text-foreground/70 hover:text-foreground transition-colors"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                Product
+              </Link>
+              <Link
+                href="/how-we-calculate"
+                className="text-foreground/70 hover:text-foreground transition-colors"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                How it Works
+              </Link>
+              <a
+                href="#pricing"
+                className="text-foreground/70 hover:text-foreground transition-colors"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                Pricing
+              </a>
+              <Link
+                href="/security"
+                className="text-foreground/70 hover:text-foreground transition-colors"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                Security
+              </Link>
+              <Link
+                href="/about"
+                className="text-foreground/70 hover:text-foreground transition-colors"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                About
+              </Link>
+              <Link
+                href="/contact"
+                className="text-foreground/70 hover:text-foreground transition-colors"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                Contact
+              </Link>
             </nav>
 
+            {/* Bottom CTAs */}
             <div className="flex gap-4 pt-8 border-t border-border">
               <button
                 onClick={toggleTheme}
                 className="p-3 hover:bg-card rounded-lg transition-colors border border-border"
                 aria-label="Toggle theme"
               >
-                {mounted && isDark ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+                {mounted && isDark ? (
+                  <Sun className="w-5 h-5" />
+                ) : (
+                  <Moon className="w-5 h-5" />
+                )}
               </button>
               <Button
                 variant="outline"

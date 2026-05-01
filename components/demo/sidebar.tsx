@@ -1,10 +1,8 @@
 'use client';
 
 import Link from 'next/link';
-import { useSearchParams } from 'next/navigation';
-import { Suspense } from 'react';
+import { useState } from 'react';
 import {
-<<<<<<< HEAD
   LayoutDashboard,
   Users,
   TrendingUp,
@@ -28,23 +26,6 @@ const menuItems = [
 ];
 
 export function Sidebar({ page }: { page: string }) {
-=======
-  LayoutDashboard, Sparkles, Users, ListChecks, Settings, LogOut, Menu, X,
-} from 'lucide-react';
-import { useState } from 'react';
-
-const navItems = [
-  { id: 'overview',  label: 'Dashboard', icon: LayoutDashboard, href: '/demo' },
-  { id: 'team',      label: 'Team',      icon: Users,           href: '/demo?page=team' },
-  { id: 'actions',   label: 'Actions',   icon: ListChecks,      href: '/demo?page=actions' },
-  { id: 'ai-coach',  label: 'AI Coach',  icon: Sparkles,        href: '/demo?page=ai-coach' },
-  { id: 'settings',  label: 'Integrations', icon: Settings,     href: '/demo?page=settings' },
-];
-
-function SidebarInner() {
-  const searchParams = useSearchParams();
-  const page = searchParams.get('page') || 'overview';
->>>>>>> refs/remotes/origin/main
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -52,26 +33,13 @@ function SidebarInner() {
       {/* Mobile toggle */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-<<<<<<< HEAD
         className="hidden max-lg:fixed bottom-8 right-8 z-40 p-3 bg-[var(--primary)] text-[var(--primary-foreground)] rounded-full shadow-lg hover:bg-[var(--primary)]/90 transition-all"
-=======
-        className="lg:hidden fixed bottom-6 right-6 z-50 p-3 bg-primary text-primary-foreground rounded-full shadow-lg"
->>>>>>> refs/remotes/origin/main
       >
-        {isOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+        {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
       </button>
-
-      {/* Overlay */}
-      {isOpen && (
-        <div
-          className="lg:hidden fixed inset-0 z-30 bg-black/60"
-          onClick={() => setIsOpen(false)}
-        />
-      )}
 
       {/* Sidebar */}
       <aside
-<<<<<<< HEAD
         className={`w-64 border-r border-[var(--border)] bg-[var(--neutral)]/50 flex flex-col transition-all duration-300 max-lg:fixed max-lg:top-14 max-lg:left-0 max-lg:bottom-0 max-lg:z-30 min-h-[100vh] max-h-[100vh] ${
           isOpen ? 'max-lg:translate-x-0' : 'max-lg:-translate-x-full'
         }`}
@@ -111,50 +79,11 @@ function SidebarInner() {
         {/* Logout */}
         <div className="border-t border-[var(--border)] p-4">
           <button className="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-[var(--fg)]/70 hover:text-foreground hover:bg-[var(--neutral)] transition-all duration-200">
-=======
-        className={`w-72 flex-shrink-0 border-r border-border bg-sidebar flex flex-col
-          max-lg:fixed max-lg:top-14 max-lg:left-0 max-lg:bottom-0 max-lg:z-40 max-lg:transition-transform
-          ${isOpen ? 'max-lg:translate-x-0' : 'max-lg:-translate-x-full'}`}
-        style={{ height: 'calc(100vh - 56px)' }}
-      >
-        <nav className="py-4 px-3 space-y-1">
-          {navItems.map((item) => {
-            const Icon = item.icon;
-            const isActive = item.id === page;
-            return (
-              <Link
-                key={item.id}
-                href={item.href}
-                onClick={() => setIsOpen(false)}
-                className={`flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm font-medium transition-colors ${
-                  isActive
-                    ? 'bg-primary/10 text-primary'
-                    : 'text-sidebar-foreground/60 hover:bg-muted hover:text-sidebar-foreground'
-                }`}
-              >
-                <Icon className="w-5 h-5 flex-shrink-0" strokeWidth={2} />
-                {item.label}
-              </Link>
-            );
-          })}
-        </nav>
-
-        <div className="px-3 pb-2">
-          <button className="w-full flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm text-sidebar-foreground/50 hover:text-sidebar-foreground hover:bg-muted transition-colors">
->>>>>>> refs/remotes/origin/main
             <LogOut className="w-5 h-5" />
-            Sign out
+            <span className="text-sm font-medium">Sign out</span>
           </button>
         </div>
       </aside>
     </>
-  );
-}
-
-export function Sidebar() {
-  return (
-    <Suspense fallback={null}>
-      <SidebarInner />
-    </Suspense>
   );
 }

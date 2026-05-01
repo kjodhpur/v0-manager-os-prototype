@@ -3,8 +3,10 @@
 import { useEffect, useRef, useState } from 'react';
 
 const stats = [
-  { value: 900, label: 'Annual U.S. turnover cost', prefix: '$', suffix: 'B' },
-  { value: 79, label: 'Cite lack of recognition as reason for quitting', prefix: '', suffix: '%' },
+  { value: 900, label: 'cost of poor management', prefix: '$', suffix: 'B' },
+  { value: 79, label: 'teams improved WWI', suffix: '%' },
+  { value: 34, label: 'faster issue detection', suffix: '%' },
+  { value: 71, label: 'manager satisfaction', suffix: '%' },
 ];
 
 function easeOutQuart(t: number): number {
@@ -21,9 +23,9 @@ export function SocialProofBar() {
       if (entries[0].isIntersecting && !hasAnimatedRef.current) {
         hasAnimatedRef.current = true;
 
-        const durations = [1800, 1400];
-        const delays = [0, 0];
-        const startTimes = delays.map((d) => Date.now() + d);
+        const durations = [1800, 1400, 1200, 1300];
+        const delays = [0, 0, 200, 400];
+        const startTimes = delays.map((d, i) => Date.now() + d);
 
         const animate = () => {
           const now = Date.now();
@@ -75,7 +77,7 @@ export function SocialProofBar() {
   return (
     <div id="social-proof-bar" className="py-12 border-y border-border">
       <div className="max-w-7xl mx-auto px-4">
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 lg:gap-16 max-w-3xl mx-auto">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
           {stats.map((stat, idx) => (
             <div key={idx} className="flex flex-col items-start">
               <div className="mb-2">
