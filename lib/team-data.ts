@@ -164,3 +164,60 @@ export const EMPLOYEES: Employee[] = [
     ],
   },
 ];
+
+export function buildTeamContext() {
+  return {
+    schema: "WWI_TEAM_CONTEXT_V1",
+
+    summary: {
+      totalEmployees: EMPLOYEES.length,
+      riskBands: {
+        critical: EMPLOYEES.filter(e => e.wwiScore < 50).length,
+        elevated: EMPLOYEES.filter(e => e.wwiScore >= 50 && e.wwiScore < 70).length,
+        healthy: EMPLOYEES.filter(e => e.wwiScore >= 70).length,
+      },
+    },
+
+    employees: EMPLOYEES.map((e) => ({
+      id: e.id,
+      name: e.name,
+      role: e.role,
+      status: e.status,
+      wwiScore: e.wwiScore,
+
+      components: e.components.map((c) => ({
+        name: c.name,
+        short: c.shortName,
+        value: c.value,
+      })),
+
+      actions: e.actions.map((a) => ({
+        title: a.title,
+        priority: a.priority,
+        due: a.dueDate,
+        component: a.component,
+      })),
+
+      // derived signals (important for LLM reasoning)
+      signals: {
+        lowestComponent: e.components.reduce((min, c) =>
+          c.value < min.value ? c : min
+        ),
+        highestComponent: e.components.reduce((max, c) =>
+          c.value > max.value ? c : max
+        ),
+        urgentActions: e.actions.filter(a => a.priority === "urgent").length,
+      },
+    })),
+
+    meta: {
+      componentsTracked: [
+        "Protection from Harm",
+        "Work-Life Harmony",
+        "Connection & Community",
+        "Mattering at Work",
+        "Opportunity for Growth",
+      ],
+    },
+  };
+}

@@ -1,19 +1,12 @@
 'use client';
 import { useState, useRef, useEffect } from 'react';
 import { Send, Bot, User, Loader2, Sparkles } from 'lucide-react';
-
 // ─── PASTE YOUR API KEY HERE ──────────────────────────────────────────────────
-const ANTHROPIC_API_KEY = 'YOUR_API_KEY_HERE';
 // Note: In production, move this to an environment variable:
 //   1. Add to your .env.local:  NEXT_PUBLIC_ANTHROPIC_API_KEY=sk-ant-...
 //   2. Replace above line with: const ANTHROPIC_API_KEY = process.env.NEXT_PUBLIC_ANTHROPIC_API_KEY ?? '';
 // ─────────────────────────────────────────────────────────────────────────────
 
-const SYSTEM_PROMPT = `You are an AI coach embedded in HeartMetrics, a workplace wellbeing platform for managers. 
-You help managers understand their team's Work Wellbeing Index (WWI), interpret signals, and take meaningful action.
-You are empathetic, data-informed, and practical. You give specific, actionable advice.
-Keep responses concise and focused. Use bullet points sparingly — prefer clear prose.
-You have access to context about the team including WWI scores, blocked items, workload status, and recognition gaps.`;
 
 interface Message {
   role: 'user' | 'assistant';
@@ -61,27 +54,23 @@ export function AIChatPage() {
     setLoading(true);
 
     try {
-      const response = await fetch('https://api.anthropic.com/v1/messages', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'x-api-key': ANTHROPIC_API_KEY,
-          'anthropic-version': '2023-06-01',
-          'anthropic-dangerous-allow-cors': 'true',
-        },
-        body: JSON.stringify({
-          model: 'claude-opus-4-5',
-          max_tokens: 1024,
-          system: SYSTEM_PROMPT,
-          messages: newMessages.map((m) => ({
-            role: m.role,
-            content: m.content,
-          })),
-        }),
-      });
+      const response = await fetch("/api/ai/chat", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        messages: newMessages,
+      }),
+    });
+
+      if (!response.ok) {
+        throw new Error("API failed");
+      }
 
       const data = await response.json();
-      const reply = data.content?.[0]?.text ?? 'Sorry, I could not generate a response.';
+      const reply = data.reply;
+
       setMessages((prev) => [...prev, { role: 'assistant', content: reply }]);
     } catch {
       setMessages((prev) => [
@@ -110,7 +99,7 @@ export function AIChatPage() {
         </div>
         <div>
           <p className="text-sm font-semibold text-[var(--fg)]">AI Coach</p>
-          <p className="text-xs text-[var(--fg)]/40">Powered by Claude</p>
+          <p className="text-xs text-[var(--fg)]/40">Powered by Gemini</p>
         </div>
       </div>
 
@@ -162,7 +151,7 @@ export function AIChatPage() {
       </div>
 
       {/* Suggestions — only show before first user message */}
-      {(
+      { (
         <div className="flex-shrink-0 px-4 pb-3 flex gap-2 flex-wrap">
           {SUGGESTIONS.map((s) => (
             <button
