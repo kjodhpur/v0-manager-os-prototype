@@ -1,3 +1,4 @@
+'use client';
 import '@/styles/globals.css';
 export default function WWIOverviewCard({ teamWWI, wwiTrend }: { teamWWI: number; wwiTrend: number }) {
     
