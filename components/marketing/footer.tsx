@@ -1,3 +1,4 @@
+'use client';
 import Link from "next/link"
 import { HeartMetricsLogo } from "@/components/heart-metrics-logo"
 import { ShieldCheck } from "lucide-react"
