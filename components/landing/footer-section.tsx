@@ -5,33 +5,46 @@ import { ArrowUpRight, ShieldCheck } from "lucide-react";
 import { AnimatedWave } from "./animated-wave";
 import { HeartMetricsLogo } from "@/components/heart-metrics-logo";
 
+// Anchor links scroll on the landing page; Legal links navigate to separate pages
 const footerLinks = {
   Product: [
-    { name: "Features", href: "/product" },
-    { name: "How it works", href: "/how-we-calculate" },
-    { name: "Security", href: "/security" },
-    { name: "FAQ", href: "/faq" },
+    { name: "Features", href: "#product", anchor: true },
+    { name: "How it works", href: "#how-we-calculate", anchor: true },
+    { name: "Security", href: "#security", anchor: true },
+    { name: "Pricing", href: "#pricing", anchor: true },
   ],
   Company: [
-    { name: "About", href: "/about" },
-    { name: "Contact", href: "/contact" },
-    { name: "Blog", href: "https://heartmetrics.io/blog" },
+    { name: "About", href: "#about", anchor: true },
+    { name: "Contact", href: "#contact", anchor: true },
+    { name: "Blog", href: "https://heartmetrics.io/blog", anchor: false },
   ],
   Legal: [
-    { name: "Privacy Policy", href: "/privacy" },
-    { name: "Terms of Service", href: "/terms" },
-    { name: "Security & Trust", href: "/security" },
+    { name: "Privacy Policy", href: "/privacy", anchor: false },
+    { name: "Terms of Service", href: "/terms", anchor: false },
+    { name: "Security & Trust", href: "#security", anchor: true },
   ],
-};
+} as const;
 
 const socialLinks = [
   { name: "Twitter", href: "https://twitter.com/heartmetrics" },
   { name: "LinkedIn", href: "https://linkedin.com/company/heartmetrics" },
 ];
 
+const HEADER_HEIGHT = 56;
+
+function handleFooterScroll(e: React.MouseEvent<HTMLAnchorElement>, href: string) {
+  e.preventDefault();
+  const id = href.substring(1);
+  const el = document.getElementById(id);
+  if (el) {
+    const top = el.getBoundingClientRect().top + window.scrollY - HEADER_HEIGHT;
+    window.scrollTo({ top, behavior: 'smooth' });
+  }
+}
+
 export function FooterSection() {
   return (
-    <footer className="relative border-t border-border">
+    <footer id="contact" className="relative border-t border-border">
       {/* Animated wave background */}
       <div className="absolute inset-0 h-64 opacity-15 pointer-events-none overflow-hidden">
         <AnimatedWave />
@@ -43,7 +56,7 @@ export function FooterSection() {
           <div className="grid grid-cols-2 md:grid-cols-5 gap-12 lg:gap-8">
             {/* Brand Column */}
             <div className="col-span-2">
-              <HeartMetricsLogo />
+              <HeartMetricsLogo size="xxl" />
 
               <p className="text-muted-foreground leading-relaxed mb-6 mt-6 max-w-xs">
                 Make work more human with ethical AI. Privacy-first workplace wellbeing analytics for managers who care.
@@ -77,17 +90,23 @@ export function FooterSection() {
                 <ul className="space-y-4">
                   {links.map((link) => (
                     <li key={link.name}>
-                      <Link
-                        href={link.href}
-                        className="text-sm text-muted-foreground hover:text-foreground transition-colors inline-flex items-center gap-2"
-                      >
-                        {link.name}
-                        {"badge" in link && link.badge && (
-                          <span className="text-xs px-2 py-0.5 bg-primary text-primary-foreground rounded-full">
-                            {link.badge}
-                          </span>
-                        )}
-                      </Link>
+                      {link.anchor ? (
+                        <a
+                          href={link.href}
+                          onClick={(e) => handleFooterScroll(e, link.href)}
+                          className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+                        >
+                          {link.name}
+                        </a>
+                      ) : (
+                        <Link
+                          href={link.href}
+                          className="text-sm text-muted-foreground hover:text-foreground transition-colors inline-flex items-center gap-1"
+                        >
+                          {link.name}
+                          {link.href.startsWith('http') && <ArrowUpRight className="w-3 h-3" />}
+                        </Link>
+                      )}
                     </li>
                   ))}
                 </ul>

@@ -1,0 +1,32 @@
+<!doctype html><html><head><meta charset="utf-8">
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  html,body{margin:0;padding:0;background:#FAF8F5;color:#1A2B28;font-family:var(--font-sans)}
+  .card{padding:20px 24px}
+  .label{font-size:10px;color:#7A8C88;margin-bottom:12px;text-transform:uppercase;letter-spacing:0.1em;font-family:var(--font-mono);display:flex;align-items:center;gap:10px}
+  .label::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,#E5DFD5 0%,transparent 100%)}
+  .row{display:grid;grid-template-columns:repeat(6,1fr);gap:10px}
+  .swatch{border-radius:10px;overflow:hidden;border:1px solid #E5DFD5;background:#fff}
+  .chip{height:58px;position:relative}
+  .chip.lite::after{
+    content:'';position:absolute;inset:0;
+    background:radial-gradient(circle at 30% 20%, rgba(0,184,160,0.08) 0%, transparent 65%);
+    pointer-events:none;
+  }
+  .meta{padding:7px 10px;background:#fff}
+  .name{font-size:11px;font-weight:600;letter-spacing:-0.01em;color:#1A2B28}
+  .hex{font-family:var(--font-mono);font-size:10px;color:#7A8C88;margin-top:1px}
+  .accent-stripe{height:4px;background:linear-gradient(90deg,#00D1C1 0%,#34D98B 28%,#8EDB52 52%,#E4D34A 76%,#E2BC57 100%);border-radius:2px;margin-bottom:14px;opacity:0.7}
+</style></head>
+<body><div class="card">
+<div class="accent-stripe"></div>
+<div class="label">Light mode · warm parchment + teal wash</div>
+<div class="row">
+  <div class="swatch"><div class="chip" style="background:#FAF8F5"></div><div class="meta"><div class="name">bg / canvas</div><div class="hex">#FAF8F5</div></div></div>
+  <div class="swatch"><div class="chip lite" style="background:#F5EFE7"></div><div class="meta"><div class="name">card · parchment</div><div class="hex">#F5EFE7</div></div></div>
+  <div class="swatch"><div class="chip lite" style="background:#EAF4F1"></div><div class="meta"><div class="name">surface · teal wash</div><div class="hex">#EAF4F1</div></div></div>
+  <div class="swatch"><div class="chip" style="background:#DAD3C7"></div><div class="meta"><div class="name">border</div><div class="hex">#DAD3C7</div></div></div>
+  <div class="swatch"><div class="chip" style="background:#6B7B78"></div><div class="meta"><div class="name">fg-muted</div><div class="hex">#6B7B78</div></div></div>
+  <div class="swatch"><div class="chip" style="background:#0F2420"></div><div class="meta"><div class="name">fg</div><div class="hex">#0F2420</div></div></div>
+</div>
+</div></body></html>

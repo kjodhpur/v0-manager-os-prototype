@@ -1,0 +1,89 @@
+<!doctype html><html><head><meta charset="utf-8">
+<style>
+  :root{
+    --sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Oxygen', 'Ubuntu', 'Cantarell', 'Helvetica Neue', sans-serif;
+    --serif: Georgia, 'Palatino', 'Times New Roman', serif;
+    --mono: 'SF Mono', Monaco, 'Inconsolata', 'Fira Code', monospace;
+  }
+  html,body{margin:0;padding:0;font-family:var(--sans)}
+
+  .row{padding:18px 22px}
+  .dark{background:#020807;color:#EAF4F1;border-bottom:1px solid #132421}
+  .light{background:#FAF8F5;color:#0F2420}
+
+  .head{display:flex;align-items:center;gap:10px;margin-bottom:12px;font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:0.1em}
+  .head::after{content:'';flex:1;height:1px}
+  .dark .head{color:#8FB3AC}
+  .dark .head::after{background:linear-gradient(90deg,#132421 0%,transparent 100%)}
+  .light .head{color:#7A8C88}
+  .light .head::after{background:linear-gradient(90deg,#DAD3C7 0%,transparent 100%)}
+
+  .swatches{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+  .swatch{border-radius:10px;overflow:hidden}
+  .dark .swatch{border:1px solid #132421}
+  .light .swatch{border:1px solid #DAD3C7;background:#fff}
+  .chip{height:50px}
+  .meta{padding:8px 10px}
+  .dark .meta{background:#050D0C}
+  .light .meta{background:#fff}
+  .name{font-family:var(--serif);font-weight:700;font-size:14px;letter-spacing:-0.01em;line-height:1.1}
+  .hex{font-family:var(--mono);font-size:10px;margin-top:2px}
+  .dark .hex{color:#6B8A84}
+  .light .hex{color:#7A8C88}
+
+  .stripe{display:flex;height:14px;border-radius:4px;overflow:hidden;margin-top:12px}
+  .dark .stripe{border:1px solid #132421}
+  .light .stripe{border:1px solid #DAD3C7}
+
+  .legend{display:flex;gap:16px;margin-top:8px;font-family:var(--mono);font-size:10px;flex-wrap:wrap}
+  .dark .legend{color:#8FB3AC}
+  .light .legend{color:#7A8C88}
+  .legend .dot{width:9px;height:9px;border-radius:2px;display:inline-block;margin-right:6px;vertical-align:-1px}
+</style></head>
+<body>
+
+<div class="row dark">
+  <div class="head">Work distribution · dark</div>
+  <div class="swatches">
+    <div class="swatch"><div class="chip" style="background:#00B8A0"></div><div class="meta"><div class="name">Strategic</div><div class="hex">#00B8A0</div></div></div>
+    <div class="swatch"><div class="chip" style="background:#34D98B"></div><div class="meta"><div class="name">Operational</div><div class="hex">#34D98B</div></div></div>
+    <div class="swatch"><div class="chip" style="background:#C8CE4A"></div><div class="meta"><div class="name">Firefighting</div><div class="hex">#C8CE4A</div></div></div>
+    <div class="swatch"><div class="chip" style="background:#E2BC57"></div><div class="meta"><div class="name">Admin</div><div class="hex">#E2BC57</div></div></div>
+  </div>
+  <div class="stripe">
+    <div style="width:35%;background:#00B8A0"></div>
+    <div style="width:28%;background:#34D98B"></div>
+    <div style="width:22%;background:#C8CE4A"></div>
+    <div style="width:15%;background:#E2BC57"></div>
+  </div>
+  <div class="legend">
+    <span><span class="dot" style="background:#00B8A0"></span>Strategic 35%</span>
+    <span><span class="dot" style="background:#34D98B"></span>Operational 28%</span>
+    <span><span class="dot" style="background:#C8CE4A"></span>Firefighting 22%</span>
+    <span><span class="dot" style="background:#E2BC57"></span>Admin 15%</span>
+  </div>
+</div>
+
+<div class="row light">
+  <div class="head">Work distribution · light</div>
+  <div class="swatches">
+    <div class="swatch"><div class="chip" style="background:#00806F"></div><div class="meta"><div class="name">Strategic</div><div class="hex">#00806F</div></div></div>
+    <div class="swatch"><div class="chip" style="background:#2DA069"></div><div class="meta"><div class="name">Operational</div><div class="hex">#2DA069</div></div></div>
+    <div class="swatch"><div class="chip" style="background:#A8B23D"></div><div class="meta"><div class="name">Firefighting</div><div class="hex">#A8B23D</div></div></div>
+    <div class="swatch"><div class="chip" style="background:#C69A3E"></div><div class="meta"><div class="name">Admin</div><div class="hex">#C69A3E</div></div></div>
+  </div>
+  <div class="stripe">
+    <div style="width:35%;background:#00806F"></div>
+    <div style="width:28%;background:#2DA069"></div>
+    <div style="width:22%;background:#A8B23D"></div>
+    <div style="width:15%;background:#C69A3E"></div>
+  </div>
+  <div class="legend">
+    <span><span class="dot" style="background:#00806F"></span>Strategic 35%</span>
+    <span><span class="dot" style="background:#2DA069"></span>Operational 28%</span>
+    <span><span class="dot" style="background:#A8B23D"></span>Firefighting 22%</span>
+    <span><span class="dot" style="background:#C69A3E"></span>Admin 15%</span>
+  </div>
+</div>
+
+</body></html>

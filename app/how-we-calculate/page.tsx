@@ -148,87 +148,56 @@ function FivePetalDiagram() {
 }
 
 // ===== SECTION 2: FIVE ESSENTIALS =====
-const essentials = [
+const whiCategories = [
   {
-    id: "protection",
-    icon: Shield,
-    title: "Protection from Harm",
-    color: "#c0392b",
-    surgeonGeneral: "Workers need physical and psychological safety, with normalized mental health support and adequate rest.",
-    metrics: [
-      { name: "Workload manageability", description: "Is the employee's task volume sustainable within standard hours?", mapping: "Enable Adequate Rest", signal: "My work is manageable" },
-      { name: "After-hours work signals", description: "Are they being expected to work beyond normal hours?", mapping: "Enable Adequate Rest", signal: "I am often expected to work beyond my normal hours" },
-      { name: "Mental health support accessibility", description: "Does the organization communicate available resources?", mapping: "Normalize & Support Mental Health", signal: null },
-      { name: "Burnout comfort signals", description: "Would the employee feel comfortable seeking support if struggling?", mapping: "Psychological safety around stress/burnout", signal: null },
-      { name: "DEIA signals", description: "Does the employee feel respected and valued regardless of background?", mapping: "Operationalize DEIA", signal: null },
-    ],
-    dataSources: "Task volume vs. capacity from Jira/Asana, after-hours commit/message timestamps, calendar events outside business hours, pulse survey responses on workload manageability."
+    id: "work-life-balance",
+    icon: Heart,
+    name: "Work-Life Balance",
+    color: "#00B8A0",
+    bg: "rgba(0,184,160,0.08)",
+    border: "rgba(0,184,160,0.2)",
+    inputs: ["Workload", "Outside work %", "Meeting hrs", "Blocked tickets", "Time since last PTO"],
   },
   {
-    id: "harmony",
-    icon: Heart,
-    title: "Work-Life Harmony",
-    color: "#e67e22",
-    surgeonGeneral: "Workers need autonomy, schedule predictability, and respected boundaries between work and personal time.",
-    metrics: [
-      { name: "Boundary respect", description: "Can the employee disconnect from work during non-work hours without negative consequences?", mapping: null, signal: "I am able to disconnect from work during non-work hours without negative consequences" },
-      { name: "Workload within standard hours", description: "Is the workload manageable within normal working hours?", mapping: null, signal: "My workload is manageable within my standard working hours" },
-      { name: "Schedule predictability", description: "Is the schedule predictable enough to plan personal life?", mapping: null, signal: "My schedule is predictable enough for me to plan my personal life" },
-      { name: "Autonomy", description: "Does the employee have control over how and when they complete work?", mapping: null, signal: "I feel I have adequate control over how and when I complete my work" },
-    ],
-    dataSources: "Calendar density and after-hours meeting patterns, time-in-status for tasks, meeting hours/day vs. team average, pulse survey responses on autonomy and boundaries."
+    id: "recognition",
+    icon: Star,
+    name: "Recognition",
+    color: "#FFB347",
+    bg: "rgba(255,179,71,0.08)",
+    border: "rgba(255,179,71,0.2)",
+    inputs: ["No. of recognitions", "No. of shoutouts"],
   },
   {
     id: "connection",
     icon: Users,
-    title: "Connection & Community",
-    color: "#27ae60",
-    surgeonGeneral: "Workers need cultures of inclusion, trusted relationships, and collaboration and teamwork.",
-    metrics: [
-      { name: "Inclusion & belonging", description: "Does the manager cultivate environments where culture and connection are encouraged?", mapping: "Cultures of inclusion", signal: null },
-      { name: "Trusted relationships", description: "Does the employee have someone comfortable to reach out to about professional or personal issues?", mapping: "Trusted relationships", signal: null },
-      { name: "Collaboration frequency", description: "How often does the employee communicate with their manager and team?", mapping: "Collaboration and teamwork", signal: null },
-      { name: "Prosocial behaviors", description: "Do positive social relationships exist — welcoming, helping, reassuring others?", mapping: null, signal: null },
-      { name: "Bias & discrimination response", description: "Would the manager react appropriately to bias, discrimination, or exclusion?", mapping: null, signal: null },
-    ],
-    dataSources: "Communication frequency signals from Slack/Teams (metadata only — never message content), meeting patterns, collaboration tool activity, pulse survey responses on trust and inclusion."
-  },
-  {
-    id: "mattering",
-    icon: Star,
-    title: "Mattering at Work",
-    color: "#2980b9",
-    surgeonGeneral: "Workers need dignity, recognition, voice in decisions, and a sense of purpose. This is the core of recognition gap signals.",
-    metrics: [
-      { name: "Recognition frequency", description: "Has the employee received meaningful recognition for contributions in the past month?", mapping: null, signal: "In the past month, I received meaningful recognition for my contributions" },
-      { name: "Valued as a person", description: "Does the employee feel valued as a team member, not just for what they produce?", mapping: null, signal: "I feel valued as a member of my team, not just for what I produce, but as a person" },
-      { name: "Voice in decisions", description: "Is the employee's input considered when decisions affect their work?", mapping: null, signal: "My input is considered when decisions are made that affect my work" },
-      { name: "Purpose & mission connection", description: "Does the employee feel their work connects to a larger organizational mission?", mapping: null, signal: "I feel that my work connects to a larger organizational mission or goal" },
-      { name: "Types of recognized work", description: "Are all types of contributions valued — high-impact projects, maintenance, firefighting, and mentoring?", mapping: null, signal: null },
-    ],
-    dataSources: "Recognition events from Slack kudos channels, peer feedback tools, time-since-last-recognition tracker (flags 30+ day gaps), pulse survey responses."
+    name: "Connection & Community",
+    color: "#5DD67A",
+    bg: "rgba(93,214,122,0.08)",
+    border: "rgba(93,214,122,0.2)",
+    inputs: ["Feedback", "Team building events", "1:1 cadence"],
   },
   {
     id: "growth",
     icon: TrendingUp,
-    title: "Opportunity for Growth",
-    color: "#8e44ad",
-    surgeonGeneral: "Workers need quality training, education, mentoring, and clear, equitable pathways for career advancement.",
-    metrics: [
-      { name: "Learning opportunities", description: "Does the company provide opportunities to learn outside of work (higher education, certifications)?", mapping: null, signal: null },
-      { name: "Resource access", description: "Does the organization provide resources and tools to support daily work?", mapping: null, signal: null },
-      { name: "Career pathway transparency", description: "Are career advancement pathways and promotion opportunities clearly communicated?", mapping: null, signal: null },
-      { name: "Feedback quality", description: "Is feedback a balanced mix of positive and constructive, with specific actionable next steps?", mapping: null, signal: null },
-      { name: "Stretch assignment distribution", description: "What percentage of the employee's work is stretch/growth work vs. routine?", mapping: null, signal: null },
-      { name: "Retention intent", description: "Would the employee stay at the company for the next 1-3 years?", mapping: null, signal: null },
-    ],
-    dataSources: "Task variety analysis from project tools (% stretch vs. routine assignments), career-advancing assignment tracking, pulse survey responses on growth and development."
+    name: "Opportunity for Growth",
+    color: "#8BA8F0",
+    bg: "rgba(139,168,240,0.08)",
+    border: "rgba(139,168,240,0.2)",
+    inputs: ["Allocation of work", "Leadership opportunities", "Visibility opportunities"],
+  },
+  {
+    id: "safety",
+    icon: Shield,
+    name: "Safety",
+    color: "#FF6B6B",
+    bg: "rgba(255,107,107,0.08)",
+    border: "rgba(255,107,107,0.2)",
+    inputs: ["Physical safety incidents"],
   },
 ];
 
 function FiveEssentialsSection() {
   const [isVisible, setIsVisible] = useState(false);
-  const [activeEssential, setActiveEssential] = useState<string>("protection");
   const sectionRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
@@ -240,9 +209,6 @@ function FiveEssentialsSection() {
     return () => observer.disconnect();
   }, []);
 
-  const activeData = essentials.find(e => e.id === activeEssential)!;
-  const IconComponent = activeData.icon;
-
   return (
     <section id="five-essentials" ref={sectionRef} className="relative py-24 lg:py-32 bg-muted/30">
       <div className="max-w-[1200px] mx-auto px-6 lg:px-12">
@@ -250,88 +216,46 @@ function FiveEssentialsSection() {
         <div className={`text-center mb-16 transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
           <span className="inline-flex items-center gap-3 text-sm font-mono text-muted-foreground mb-6">
             <span className="w-8 h-px bg-foreground/30" />
-            WORK WELLBEING INDEX
+            WORK HAPPINESS INDEX
             <span className="w-8 h-px bg-foreground/30" />
           </span>
           <h2 className="text-3xl lg:text-4xl font-display tracking-tight mb-4">
             Five Research-Backed Dimensions. One Score.
           </h2>
-          <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
-            The Work Wellbeing Index (WWI) is a composite 0–100 score built from five dimensions, each mapped directly to one of the Surgeon General&apos;s five essentials for workplace well-being. Higher = healthier.
-          </p>
         </div>
 
-        {/* Essential Tabs */}
-        <div className={`mb-8 transition-all duration-700 delay-100 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
-          <div className="flex flex-wrap justify-center gap-2">
-            {essentials.map((essential) => {
-              const Icon = essential.icon;
-              return (
-                <button
-                  key={essential.id}
-                  onClick={() => setActiveEssential(essential.id)}
-                  className={`flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
-                    activeEssential === essential.id
-                      ? "text-white shadow-lg"
-                      : "bg-background text-foreground hover:bg-accent"
-                  }`}
-                  style={{ backgroundColor: activeEssential === essential.id ? essential.color : undefined }}
-                >
-                  <Icon className="w-4 h-4" />
-                  <span className="hidden sm:inline">{essential.title}</span>
-                  <span className="sm:hidden">{essential.title.split(" ")[0]}</span>
-                </button>
-              );
-            })}
-          </div>
-        </div>
-
-        {/* Essential Content */}
-        <div className={`bg-card rounded-2xl border border-border p-6 lg:p-8 transition-all duration-700 delay-200 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
-          <div className="flex items-start gap-4 mb-6">
-            <div 
-              className="w-12 h-12 rounded-xl flex items-center justify-center text-white shrink-0"
-              style={{ backgroundColor: activeData.color }}
-            >
-              <IconComponent className="w-6 h-6" />
-            </div>
-            <div>
-              <h3 className="text-xl font-semibold mb-2">{activeData.title}</h3>
-              <p className="text-muted-foreground">
-                <span className="font-medium text-foreground">What the Surgeon General says:</span> {activeData.surgeonGeneral}
-              </p>
-            </div>
-          </div>
-
-          <div className="mb-6">
-            <h4 className="font-semibold mb-4 flex items-center gap-2">
-              <BarChart3 className="w-4 h-4 text-muted-foreground" />
-              What HeartMetrics Measures
-            </h4>
-            <div className="space-y-4">
-              {activeData.metrics.map((metric, i) => (
-                <div key={i} className="bg-muted/50 rounded-lg p-4">
-                  <div className="font-medium mb-1">{metric.name}</div>
-                  <div className="text-sm text-muted-foreground mb-2">{metric.description}</div>
-                  {(metric.mapping || metric.signal) && (
-                    <div className="text-xs space-y-1">
-                      {metric.mapping && (
-                        <div className="text-primary">Maps to: &quot;{metric.mapping}&quot;</div>
-                      )}
-                      {metric.signal && (
-                        <div className="text-chart-2 italic">Survey signal: &quot;{metric.signal}&quot;</div>
-                      )}
-                    </div>
-                  )}
+        {/* Category cards */}
+        <div className={`grid md:grid-cols-2 lg:grid-cols-3 gap-4 transition-all duration-700 delay-100 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
+          {whiCategories.map((cat) => {
+            const Icon = cat.icon;
+            return (
+              <div
+                key={cat.id}
+                className="rounded-[12px] p-5"
+                style={{ backgroundColor: cat.bg, border: `1px solid ${cat.border}` }}
+              >
+                <div className="flex items-center gap-3 mb-4">
+                  <div
+                    className="w-9 h-9 rounded-lg flex items-center justify-center"
+                    style={{ backgroundColor: cat.color + "20" }}
+                  >
+                    <Icon className="w-4 h-4" style={{ color: cat.color }} />
+                  </div>
+                  <p className="font-semibold text-sm" style={{ color: cat.color }}>{cat.name}</p>
                 </div>
-              ))}
-            </div>
-          </div>
-
-          <div className="bg-muted/30 rounded-lg p-4">
-            <h4 className="font-medium mb-2 text-sm">Data Sources</h4>
-            <p className="text-sm text-muted-foreground">{activeData.dataSources}</p>
-          </div>
+                <div className="flex flex-wrap gap-1.5">
+                  {cat.inputs.map((input) => (
+                    <span
+                      key={input}
+                      className="text-xs px-2.5 py-1 rounded-full bg-background/70 text-muted-foreground border border-border"
+                    >
+                      {input}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            );
+          })}
         </div>
       </div>
     </section>

@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>HeartMetrics Design System · Print</title>
+<style>
+  :root{
+    --sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+    --serif: Georgia, 'Palatino', 'Times New Roman', serif;
+    --mono: 'SF Mono', Monaco, 'Inconsolata', 'Fira Code', monospace;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;background:#FAF8F5;color:#0F2420;font-family:var(--sans);-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .page{width:210mm;min-height:297mm;padding:14mm;margin:0 auto;background:#fff;page-break-after:always;break-after:page}
+  .page:last-child{page-break-after:auto;break-after:auto}
+
+  .cover{background:#020807;color:#EAF4F1}
+  .cover .wordmark{font-family:var(--serif);font-weight:700;font-size:68px;line-height:1;letter-spacing:-0.02em;margin-top:50mm}
+  .cover .wordmark .g{background:linear-gradient(90deg,#00D1C1 0%,#34D98B 28%,#8EDB52 52%,#E4D34A 76%,#E2BC57 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+  .cover .sub{font-family:var(--serif);font-size:22px;margin-top:14px;color:#8FB3AC;max-width:460px;line-height:1.4}
+  .cover .meta{position:absolute;bottom:14mm;left:14mm;right:14mm;display:flex;justify-content:space-between;font-family:var(--mono);font-size:10px;color:#6B8A84;text-transform:uppercase;letter-spacing:0.15em}
+  .cover{position:relative}
+  .cover .stripe{position:absolute;top:14mm;left:14mm;width:80px;height:4px;background:linear-gradient(90deg,#00D1C1 0%,#34D98B 28%,#8EDB52 52%,#E4D34A 76%,#E2BC57 100%);border-radius:2px}
+
+  h1.section{font-family:var(--serif);font-weight:700;font-size:36px;letter-spacing:-0.02em;margin:0 0 4px}
+  .section-sub{font-family:var(--mono);font-size:10px;color:#7A8C88;text-transform:uppercase;letter-spacing:0.15em;margin-bottom:18px}
+
+  .cards{display:grid;grid-template-columns:1fr;gap:14px}
+  .card{border:1px solid #DAD3C7;border-radius:8px;overflow:hidden;background:#fff;break-inside:avoid}
+  .card .head{display:flex;justify-content:space-between;align-items:center;padding:10px 14px;background:#F5EFE7;border-bottom:1px solid #DAD3C7}
+  .card .head .name{font-family:var(--serif);font-weight:700;font-size:14px}
+  .card .head .tag{font-family:var(--mono);font-size:9px;color:#7A8C88;text-transform:uppercase;letter-spacing:0.12em}
+  .card iframe{display:block;width:100%;border:0;background:#fff}
+
+  @page { size: A4; margin: 0; }
+  @media print{
+    body{background:#fff}
+    .page{margin:0;box-shadow:none;width:210mm;height:297mm}
+    .card{box-shadow:none}
+  }
+</style>
+</head>
+<body>
+
+<!-- Cover -->
+<div class="page cover">
+  <div class="stripe"></div>
+  <div class="wordmark">heart<span class="g">metrics</span></div>
+  <div class="wordmark" style="font-size:36px;color:#EAF4F1;margin-top:8px">Design System</div>
+  <div class="sub">An AI copilot for managers — brand, tokens, and product UI components.</div>
+  <div class="meta"><span>v1.0 · print edition</span><span>April 2026</span></div>
+</div>
+
+<!-- Brand -->
+<div class="page">
+  <h1 class="section">Brand</h1>
+  <div class="section-sub">Logo · Wordmark · Iconography</div>
+  <div class="cards">
+    <div class="card"><div class="head"><div class="name">Logos</div><div class="tag">brand</div></div><iframe src="preview/brand-logos.html" height="220"></iframe></div>
+    <div class="card"><div class="head"><div class="name">Iconography · Lucide</div><div class="tag">brand</div></div><iframe src="preview/brand-icons.html" height="260"></iframe></div>
+  </div>
+</div>
+
+<!-- Colors -->
+<div class="page">
+  <h1 class="section">Colors</h1>
+  <div class="section-sub">Brand · Neutrals · Functional palettes</div>
+  <div class="cards">
+    <div class="card"><div class="head"><div class="name">Brand palette</div><div class="tag">colors</div></div><iframe src="preview/colors-brand.html" height="200"></iframe></div>
+    <div class="card"><div class="head"><div class="name">Neutrals · Dark</div><div class="tag">colors</div></div><iframe src="preview/colors-neutrals-dark.html" height="160"></iframe></div>
+    <div class="card"><div class="head"><div class="name">Neutrals · Light</div><div class="tag">colors</div></div><iframe src="preview/colors-neutrals-light.html" height="160"></iframe></div>
+  </div>
+</div>
+
+<div class="page">
+  <h1 class="section">Functional palettes</h1>
+  <div class="section-sub">WHI degradation · Work distribution</div>
+  <div class="cards">
+    <div class="card"><div class="head"><div class="name">WHI degradation ramp</div><div class="tag">colors</div></div><iframe src="preview/colors-whi-ramp.html" height="240"></iframe></div>
+    <div class="card"><div class="head"><div class="name">Work-distribution palette</div><div class="tag">colors</div></div><iframe src="preview/colors-work-distribution.html" height="320"></iframe></div>
+  </div>
+</div>
+
+<!-- Type -->
+<div class="page">
+  <h1 class="section">Typography</h1>
+  <div class="section-sub">Georgia display · System sans · SF Mono</div>
+  <div class="cards">
+    <div class="card"><div class="head"><div class="name">Display · Georgia</div><div class="tag">type</div></div><iframe src="preview/type-display.html" height="340"></iframe></div>
+    <div class="card"><div class="head"><div class="name">Type scale</div><div class="tag">type</div></div><iframe src="preview/type-scale.html" height="640"></iframe></div>
+  </div>
+</div>
+
+<div class="page">
+  <h1 class="section">KPI numerals</h1>
+  <div class="section-sub">Tabular, tight tracking, brand-gradient hero metric</div>
+  <div class="cards">
+    <div class="card"><div class="head"><div class="name">KPI numbers</div><div class="tag">type</div></div><iframe src="preview/type-kpi-numbers.html" height="300"></iframe></div>
+  </div>
+</div>
+
+<!-- Spacing -->
+<div class="page">
+  <h1 class="section">Spacing &amp; form</h1>
+  <div class="section-sub">4px grid · Radii · Shadow + glow</div>
+  <div class="cards">
+    <div class="card"><div class="head"><div class="name">Spacing scale</div><div class="tag">spacing</div></div><iframe src="preview/spacing-scale.html" height="260"></iframe></div>
+    <div class="card"><div class="head"><div class="name">Radii</div><div class="tag">spacing</div></div><iframe src="preview/spacing-radii.html" height="280"></iframe></div>
+    <div class="card"><div class="head"><div class="name">Shadow + glow</div><div class="tag">spacing</div></div><iframe src="preview/spacing-shadow.html" height="280"></iframe></div>
+  </div>
+</div>
+
+<!-- Components -->
+<div class="page">
+  <h1 class="section">Components</h1>
+  <div class="section-sub">Buttons · Badges · KPI cards</div>
+  <div class="cards">
+    <div class="card"><div class="head"><div class="name">Buttons</div><div class="tag">components</div></div><iframe src="preview/components-buttons.html" height="300"></iframe></div>
+    <div class="card"><div class="head"><div class="name">Badges + chips</div><div class="tag">components</div></div><iframe src="preview/components-badges.html" height="280"></iframe></div>
+    <div class="card"><div class="head"><div class="name">KPI cards</div><div class="tag">components</div></div><iframe src="preview/components-kpi-cards.html" height="300"></iframe></div>
+  </div>
+</div>
+
+<div class="page">
+  <h1 class="section">Surfaces</h1>
+  <div class="section-sub">AI insight · Attention table · Nav · Inputs</div>
+  <div class="cards">
+    <div class="card"><div class="head"><div class="name">AI insight card</div><div class="tag">components</div></div><iframe src="preview/components-ai-insight.html" height="320"></iframe></div>
+    <div class="card"><div class="head"><div class="name">Attention table</div><div class="tag">components</div></div><iframe src="preview/components-attention-table.html" height="340"></iframe></div>
+  </div>
+</div>
+
+<div class="page">
+  <h1 class="section">Navigation &amp; forms</h1>
+  <div class="section-sub">Sidebar · Inputs</div>
+  <div class="cards">
+    <div class="card"><div class="head"><div class="name">Sidebar nav</div><div class="tag">components</div></div><iframe src="preview/components-sidebar-nav.html" height="300"></iframe></div>
+    <div class="card"><div class="head"><div class="name">Form inputs</div><div class="tag">components</div></div><iframe src="preview/components-form-inputs.html" height="280"></iframe></div>
+  </div>
+</div>
+
+<script>
+  // Wait for iframes + fonts, then print
+  (async () => {
+    try { if (document.fonts && document.fonts.ready) await document.fonts.ready; } catch(e){}
+    const frames = [...document.querySelectorAll('iframe')];
+    await Promise.all(frames.map(f => new Promise(res => {
+      if (f.contentDocument && f.contentDocument.readyState === 'complete') return res();
+      f.addEventListener('load', res, {once:true});
+      setTimeout(res, 4000);
+    })));
+    await new Promise(r => setTimeout(r, 800));
+    window.print();
+  })();
+</script>
+
+</body>
+</html>

@@ -141,7 +141,7 @@ export function HeroSection() {
               className="h-14 px-8 text-base rounded-full border-primary/30 hover:border-primary/60 hover:bg-primary/5 transition-all duration-300 justify-center"
               asChild
             >
-              <Link href="/product">Watch Demo Video</Link>
+              <a href="mailto:vsnavale@asu.edu">Connect with Us</a>
             </Button>
 
             {/* Social proof below CTAs */}

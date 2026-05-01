@@ -1,0 +1,32 @@
+<!doctype html><html><head><meta charset="utf-8">
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  html,body{margin:0;padding:0;background:#05100E;color:#F8FAFC;font-family:var(--font-sans)}
+  .card{padding:20px 24px}
+  .label{font-size:10px;color:#8FB3AC;margin-bottom:12px;text-transform:uppercase;letter-spacing:0.1em;font-family:var(--font-mono);display:flex;align-items:center;gap:10px}
+  .label::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,#1A2B28 0%,transparent 100%)}
+  .row{display:grid;grid-template-columns:repeat(6,1fr);gap:10px}
+  .swatch{border-radius:10px;overflow:hidden;border:1px solid #132421}
+  .chip{height:58px;position:relative}
+  .chip.lite::after{
+    content:'';position:absolute;inset:0;
+    background:radial-gradient(circle at 30% 20%, rgba(0,209,193,0.08) 0%, transparent 60%);
+    pointer-events:none;
+  }
+  .meta{padding:7px 10px;background:#050D0C}
+  .name{font-size:11px;font-weight:600;letter-spacing:-0.01em}
+  .hex{font-family:var(--font-mono);font-size:10px;color:#6B8A84;margin-top:1px}
+  .accent-stripe{height:4px;background:linear-gradient(90deg,#00D1C1 0%,#34D98B 28%,#8EDB52 52%,#E4D34A 76%,#E2BC57 100%);border-radius:2px;margin-bottom:14px;opacity:0.5}
+</style></head>
+<body><div class="card">
+<div class="accent-stripe"></div>
+<div class="label">Dark mode · teal-tinted neutrals</div>
+<div class="row">
+  <div class="swatch"><div class="chip" style="background:#020807"></div><div class="meta"><div class="name">bg / canvas</div><div class="hex">#020807</div></div></div>
+  <div class="swatch"><div class="chip lite" style="background:#07110F"></div><div class="meta"><div class="name">surface</div><div class="hex">#07110F</div></div></div>
+  <div class="swatch"><div class="chip lite" style="background:#0A1A18"></div><div class="meta"><div class="name">surface-raised</div><div class="hex">#0A1A18</div></div></div>
+  <div class="swatch"><div class="chip" style="background:#132421"></div><div class="meta"><div class="name">border</div><div class="hex">#132421</div></div></div>
+  <div class="swatch"><div class="chip" style="background:#6B8A84"></div><div class="meta"><div class="name">fg-muted</div><div class="hex">#6B8A84</div></div></div>
+  <div class="swatch"><div class="chip" style="background:#EAF4F1"></div><div class="meta" style="color:#05100E"><div class="name" style="color:#05100E">fg</div><div class="hex" style="color:#44625C">#EAF4F1</div></div></div>
+</div>
+</div></body></html>

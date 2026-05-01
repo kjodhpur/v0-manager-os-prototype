@@ -1,0 +1,276 @@
+/* ============================================================
+   HeartMetrics Design System — Tokens
+   Source: app/globals.css in kjodhpur/v0-manager-os-prototype
+   ============================================================ */
+
+/* Fonts: The product uses system sans (-apple-system stack) for UI,
+   Source Serif 4 for display/brand (the wordmark and editorial headlines),
+   system mono for numeric/mono accents.
+   We self-host nothing new — system fonts render everywhere; for Source
+   Serif 4 we pull from Google Fonts so previews can render the wordmark
+   styling off-logo. */
+@import url('https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,300..900;1,8..60,300..900&display=swap');
+
+:root {
+  /* ─── BRAND CORE ─────────────────────────────────────────── */
+  --brand-teal: #00B8A0;           /* Primary — "fresh teal" */
+  --brand-amber: #FFB347;          /* Accent — amber/orange */
+  --brand-green: #5DD67A;          /* Healthy */
+  --brand-yellow: #FFC940;         /* Warning */
+  --brand-red: #FF6B6B;            /* Risk */
+  --brand-light-bg: #F5FFFE;       /* Mint-tinted off-white */
+
+  /* Wordmark gradient stops (see /assets/hm-logo-horizontal.svg) */
+  --logo-stop-1: #00D1C1;
+  --logo-stop-2: #34D98B;
+  --logo-stop-3: #8EDB52;
+  --logo-stop-4: #E4D34A;
+  --logo-stop-5: #E2BC57;
+
+  /* Timeline / 7-week WHI degradation scale (healthy → risk) */
+  --week-1: #5DD67A;
+  --week-2: #00B8A0;
+  --week-3: #FFC940;
+  --week-4: #FFB347;
+  --week-5: #FF9B47;
+  --week-6: #FF6B6B;
+  --week-7: #FF6B6B;
+
+  /* Work-distribution muted palette (see hero + work-distribution table) */
+  --wd-strategic: #0C2C55;
+  --wd-operational: #296374;
+  --wd-firefighting: #629FAD;
+  --wd-admin: #EDEDCE;
+
+  /* ─── SEMANTIC (DARK MODE — PRODUCT DEFAULT) ─────────────── */
+  --background: #000000;
+  --foreground: #F8FAFC;
+  --card: #000000;
+  --card-foreground: #F8FAFC;
+  --popover: #000000;
+  --popover-foreground: #F8FAFC;
+
+  --primary: var(--brand-teal);
+  --primary-foreground: #000000;
+
+  --secondary: #0A1A18;            /* Dark teal tint */
+  --secondary-foreground: var(--brand-amber);
+
+  --muted: #1A1A1A;
+  --muted-foreground: #8B8B8B;
+
+  --accent: var(--brand-amber);
+  --accent-foreground: #000000;
+
+  --destructive: var(--brand-red);
+  --destructive-foreground: #FFFFFF;
+
+  --border: #1A1A1A;
+  --input: #1A1A1A;
+  --ring: var(--brand-teal);
+
+  /* Chart colors */
+  --chart-1: var(--brand-teal);
+  --chart-2: var(--brand-amber);
+  --chart-3: var(--brand-green);
+  --chart-4: var(--brand-yellow);
+  --chart-5: var(--brand-red);
+
+  /* Sidebar (same tokens — sidebar-aware) */
+  --sidebar: #000000;
+  --sidebar-foreground: #F8FAFC;
+  --sidebar-primary: var(--brand-teal);
+  --sidebar-primary-foreground: #000000;
+  --sidebar-accent: #0A1A18;
+  --sidebar-accent-foreground: #F8FAFC;
+  --sidebar-border: #1A1A1A;
+  --sidebar-ring: var(--brand-teal);
+
+  /* ─── RADII ──────────────────────────────────────────────── */
+  --radius: 0.75rem;               /* 12px — product default */
+  --radius-sm: calc(var(--radius) - 4px);  /* 8px  */
+  --radius-md: calc(var(--radius) - 2px);  /* 10px */
+  --radius-lg: var(--radius);              /* 12px */
+  --radius-xl: calc(var(--radius) + 4px);  /* 16px */
+  --radius-full: 9999px;                   /* pills, status chips */
+
+  /* ─── SPACING (tailwind-derived, 4px grid) ───────────────── */
+  --space-0: 0;
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-20: 80px;
+
+  /* ─── SHADOW / GLOW ──────────────────────────────────────── */
+  --shadow-color: var(--brand-teal);
+  --shadow-opacity: 0.4;
+  --shadow-xs: 0 2px 12px 0 color-mix(in srgb, var(--shadow-color) 40%, transparent);
+  --shadow-sm: 0 2px 18px 0 color-mix(in srgb, var(--shadow-color) 40%, transparent);
+  --shadow-md: 0 4px 36px -1px color-mix(in srgb, var(--shadow-color) 40%, transparent);
+  --shadow-lg: 0 8px 60px -3px color-mix(in srgb, var(--shadow-color) 40%, transparent);
+
+  /* Glow tokens — signature move for buttons + AI CTAs */
+  --glow-primary: rgba(0, 184, 160, 0.4);
+  --glow-primary-hover: rgba(0, 184, 160, 0.5);
+  --glow-accent: rgba(255, 179, 71, 0.4);
+  --glow-green: rgba(93, 214, 122, 0.4);
+
+  /* ─── TYPE FAMILIES ──────────────────────────────────────── */
+  --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto',
+               'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans',
+               'Helvetica Neue', sans-serif;
+  --font-serif: 'Source Serif 4', 'Georgia', 'Palatino', 'Times New Roman', serif;
+  --font-display: 'Source Serif 4', 'Georgia', serif;  /* brand/editorial */
+  --font-mono: 'SF Mono', 'Monaco', 'Inconsolata', 'Fira Code', monospace;
+
+  /* ─── TYPE SCALE ─────────────────────────────────────────── */
+  --text-xs: 0.75rem;      /* 12 */
+  --text-sm: 0.875rem;     /* 14 */
+  --text-base: 1rem;       /* 16 */
+  --text-lg: 1.125rem;     /* 18 */
+  --text-xl: 1.25rem;      /* 20 */
+  --text-2xl: 1.5rem;      /* 24 */
+  --text-3xl: 1.875rem;    /* 30 */
+  --text-4xl: 2.25rem;     /* 36 */
+  --text-5xl: 3rem;        /* 48 */
+  --text-6xl: 3.75rem;     /* 60 */
+  --text-hero: clamp(3rem, 12vw, 6.5rem);  /* landing hero */
+
+  /* Weights */
+  --weight-normal: 400;
+  --weight-medium: 500;
+  --weight-semibold: 600;
+  --weight-bold: 700;
+
+  /* ─── MOTION ─────────────────────────────────────────────── */
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);   /* hover-lift, items */
+  --ease-reveal: cubic-bezier(0.77, 0, 0.175, 1);     /* line-reveal */
+  --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);      /* buttons */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);         /* char-in */
+
+  --dur-fast: 0.15s;
+  --dur-base: 0.3s;
+  --dur-slow: 0.5s;
+  --dur-hero: 0.8s;
+}
+
+/* ─── LIGHT MODE ──────────────────────────────────────────── */
+.light {
+  --background: #FAF8F5;           /* Warm off-white — NOT pure white */
+  --foreground: #1A1A1A;
+  --card: #F5EFE7;                 /* Warm parchment */
+  --card-foreground: #1A1A1A;
+  --popover: #FFFFFF;
+  --popover-foreground: #1A1A1A;
+  --primary-foreground: #FFFFFF;
+  --secondary: #E8F5F3;            /* Pale teal wash */
+  --secondary-foreground: var(--brand-teal);
+  --muted: #E5DFD5;
+  --muted-foreground: #777777;
+  --destructive: #EF4444;
+  --border: #E5DFD5;
+  --input: #F5EFE7;
+  --shadow-opacity: 0.15;
+  --glow-primary: rgba(0, 184, 160, 0.2);
+  --glow-accent: rgba(255, 179, 71, 0.2);
+  --glow-green: rgba(93, 214, 122, 0.2);
+  --sidebar: #F5EFE7;
+  --sidebar-foreground: #1A1A1A;
+  --sidebar-primary-foreground: #FFFFFF;
+  --sidebar-accent: #E8F5F3;
+  --sidebar-accent-foreground: var(--brand-teal);
+  --sidebar-border: #E5DFD5;
+}
+
+/* ─── SEMANTIC TYPE ROLES ─────────────────────────────────── */
+body, .p-body {
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  line-height: 1.55;
+  color: var(--foreground);
+  background: var(--background);
+  -webkit-font-smoothing: antialiased;
+}
+
+.h-hero {
+  font-family: var(--font-display);
+  font-weight: var(--weight-bold);
+  font-size: var(--text-hero);
+  line-height: 0.95;
+  letter-spacing: -0.02em;
+}
+.h1 {
+  font-family: var(--font-sans);
+  font-weight: var(--weight-bold);
+  font-size: var(--text-4xl);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+.h2 {
+  font-family: var(--font-sans);
+  font-weight: var(--weight-bold);
+  font-size: var(--text-3xl);
+  line-height: 1.15;
+  letter-spacing: -0.015em;
+}
+.h3 {
+  font-family: var(--font-sans);
+  font-weight: var(--weight-semibold);
+  font-size: var(--text-xl);
+  line-height: 1.3;
+}
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-medium);
+  letter-spacing: 0;
+}
+.lead {
+  font-size: var(--text-lg);
+  line-height: 1.55;
+  color: var(--muted-foreground);
+}
+.body-sm { font-size: var(--text-sm); line-height: 1.5; }
+.caption { font-size: var(--text-xs); color: var(--muted-foreground); }
+.kpi-number {
+  font-family: var(--font-sans);
+  font-weight: var(--weight-bold);
+  font-size: var(--text-4xl);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
+}
+
+/* ─── UTILITIES ───────────────────────────────────────────── */
+.text-gradient {
+  background: linear-gradient(135deg,
+    var(--logo-stop-1) 0%,
+    var(--logo-stop-2) 28%,
+    var(--logo-stop-3) 52%,
+    var(--logo-stop-4) 76%,
+    var(--logo-stop-5) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+.btn-glow {
+  box-shadow: 0 0 15px var(--glow-primary);
+  transition: all var(--dur-base) var(--ease-standard);
+}
+.btn-glow:hover {
+  box-shadow: 0 0 25px var(--glow-primary-hover),
+              0 0 50px var(--glow-primary);
+  transform: translateY(-2px);
+}
+.glass {
+  background: rgba(12, 12, 12, 0.8);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
