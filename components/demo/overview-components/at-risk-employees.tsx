@@ -1,4 +1,3 @@
-'use client';
 import "@/styles/globals.css";
 
 interface Employee {

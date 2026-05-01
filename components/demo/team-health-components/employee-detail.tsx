@@ -1,4 +1,3 @@
-'use client';
 import { useState } from 'react';
 import { ArrowRight } from 'lucide-react';
 import { Employee, getColor, getColorClass, getBorderClass, getBgClass } from '@/lib/team-data';

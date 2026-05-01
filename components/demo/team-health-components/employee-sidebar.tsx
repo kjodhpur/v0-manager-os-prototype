@@ -1,4 +1,3 @@
-'use client';
 import { Employee, getColorClass, getBorderClass, getBgClass } from '@/lib/team-data';
 
 interface Props {

@@ -1,4 +1,3 @@
-'use client';
 import { BarChart3 } from 'lucide-react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, ResponsiveContainer } from "recharts";
 import "@/styles/globals.css";

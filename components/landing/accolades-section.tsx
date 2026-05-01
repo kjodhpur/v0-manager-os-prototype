@@ -1,5 +1,4 @@
 'use client';
-"use client";
 
 import { motion } from "framer-motion";
 import { Trophy, Award, Zap, Target } from "lucide-react";
