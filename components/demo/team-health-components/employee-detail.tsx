@@ -79,10 +79,8 @@ export default function EmployeeDetail({ employee }: Props) {
             </div>
 
             <div className="relative flex-1 min-h-0">
-              <div className="pointer-events-none absolute top-0 left-0 w-full h-8 bg-gradient-to-b from-[var(--neutral)] to-transparent z-10" />
-              <div className="pointer-events-none absolute bottom-0 left-0 w-full h-8 bg-gradient-to-t from-[var(--neutral)] to-transparent z-10" />
-              <div className="absolute inset-0 overflow-y-auto">
-                <div className="grid grid-cols-1 gap-3 py-4 px-1">
+              <div className="h-full overflow-x-visible overflow-y-auto">
+                <div className="grid grid-cols-1 gap-3 py-4 px-2">
                   {filteredActions.length === 0 ? (
                     <p className="text-sm text-[var(--fg)]/40 text-center py-8">
                       No actions for this component.
@@ -99,6 +97,12 @@ export default function EmployeeDetail({ employee }: Props) {
                     ))
                   )}
                 </div>
+                {/* Top fade */}
+                <div className="pointer-events-none absolute top-0 left-0 w-full h-10 z-10"
+                  style={{ background: 'linear-gradient(to bottom, var(--neutral) 0%, transparent 100%)' }} />
+                {/* Bottom fade */}
+                <div className="pointer-events-none absolute bottom-0 left-0 w-full h-16 z-10"
+                  style={{ background: 'linear-gradient(to top, var(--neutral) 30%, transparent 100%)' }} />
               </div>
             </div>
           </div>

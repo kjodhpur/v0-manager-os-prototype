@@ -1,3 +1,4 @@
+'use client';
 import { useState } from 'react';
 import { ArrowRight } from 'lucide-react';
 import "@/styles/globals.css";
@@ -52,9 +53,9 @@ export default function WWIComponents({ wwiComponents, keyActions }: Props) {
           />
         </div>
 
-        {/* Right: Actions — fixed height on mobile, flex on desktop */}
-        <div className="flex flex-col p-6 h-[360px] lg:h-full min-h-0">
-          <div className="flex items-center justify-between mb-4 flex-shrink-0">
+        {/* Right: Actions */}
+        <div className="flex flex-col p-10 h-[360px] lg:h-full min-h-0">
+          <div className="flex items-center justify-between mb-2 flex-shrink-0">
             <h2 className="text-sm font-semibold uppercase tracking-wider text-[var(--fg)]">
               {selectedComponent ?? 'All Actions'}
             </h2>
@@ -68,29 +69,34 @@ export default function WWIComponents({ wwiComponents, keyActions }: Props) {
             )}
           </div>
 
+          {/* Scroll area with fades */}
           <div className="relative flex-1 min-h-0">
-            <div className="pointer-events-none absolute top-0 left-0 w-full h-8 bg-gradient-to-b from-[var(--neutral)] to-transparent z-10" />
-            <div className="pointer-events-none absolute bottom-0 left-0 w-full h-8 bg-gradient-to-t from-[var(--neutral)] to-transparent z-10" />
-            <div className="absolute inset-0 overflow-y-auto">
-              <div className="grid grid-cols-1 gap-3 py-4 px-1">
-                {filteredActions.length === 0 ? (
-                  <p className="text-sm text-[var(--fg)]/40 text-center py-8">
-                    No actions for this component.
-                  </p>
-                ) : (
-                  filteredActions.map((action, idx) => (
-                    <button
-                      key={idx}
-                      className={`rounded-lg p-4 border ${getPriorityColor(action.priority)} hover:scale-[1.02] transition-all duration-200 text-left w-full`}
-                    >
-                      <p className="font-medium text-sm">{action.title}</p>
-                      <p className="text-xs mt-1 opacity-60">Due: {action.dueDate}</p>
-                    </button>
-                  ))
-                )}
+              <div className="h-full overflow-x-visible overflow-y-auto">
+                <div className="grid grid-cols-1 gap-3 py-4 px-2">
+                  {filteredActions.length === 0 ? (
+                    <p className="text-sm text-[var(--fg)]/40 text-center py-8">
+                      No actions for this component.
+                    </p>
+                  ) : (
+                    filteredActions.map((action, idx) => (
+                      <button
+                        key={idx}
+                        className={`rounded-lg p-4 border ${getPriorityColor(action.priority)} hover:scale-[1.02] transition-all duration-200 text-left w-full`}
+                      >
+                        <p className="font-medium text-sm">{action.title}</p>
+                        <p className="text-xs mt-1 opacity-60">Due: {action.dueDate}</p>
+                      </button>
+                    ))
+                  )}
+                </div>
+                {/* Top fade */}
+                <div className="pointer-events-none absolute top-0 left-0 w-full h-10 z-10"
+                  style={{ background: 'linear-gradient(to bottom, var(--neutral) 0%, transparent 100%)' }} />
+                {/* Bottom fade */}
+                <div className="pointer-events-none absolute bottom-0 left-0 w-full h-16 z-10"
+                  style={{ background: 'linear-gradient(to top, var(--neutral) 30%, transparent 100%)' }} />
               </div>
             </div>
-          </div>
         </div>
 
       </div>

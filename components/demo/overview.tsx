@@ -117,8 +117,8 @@ export function DemoOverview() {
               onClick={() => setTimeRange(value)}
               className={`px-3 py-1.5 rounded-md text-sm font-medium transition-all duration-200 ${
                 timeRange === value
-                  ? 'bg-primary text-primary-foreground shadow-sm'
-                  : 'text-foreground/60 hover:text-foreground hover:bg-card'
+                  ? 'bg-[var(--primary)] text-[var(--fg)] shadow-sm'
+                  : 'text-[var(--fg-muted)] hover:text-[var(--fg)] hover:bg-[var(--neutral)]'
               }`}
             >
               {label}

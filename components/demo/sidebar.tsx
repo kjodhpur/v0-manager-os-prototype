@@ -13,6 +13,7 @@ import {
   LogOut,
   Menu,
   X,
+  Sparkle
 } from 'lucide-react';
 import { HeartMetricsLogo } from '../heart-metrics-logo';
 
@@ -20,8 +21,8 @@ const menuItems = [
   { icon: LayoutDashboard, label: 'Overview', href: '/demo', pageKey: 'overview' },
   { icon: Users, label: 'Team', href: '/demo?page=team-health', pageKey: 'team-health' },
   //{ icon: AlertCircle, label: 'Actions', href: '/demo?page=actions', pageKey: 'actions' },
-  { icon: BarChart3, label: 'AI Coach', href: '/demo?page=ai-coach', pageKey: 'ai-coach' },
-  { icon: Settings, label: 'Settings', href: '/demo?page=settings', pageKey: 'settings' },
+  { icon: Sparkle, label: 'AI Coach', href: '/demo?page=ai-chat-page', pageKey: 'ai-chat-page' },
+  { icon: Settings, label: 'Settings', href: '/demo?page=settings-page', pageKey: 'settings-page' },
 ];
 
 export function Sidebar({ page }: { page: string }) {
@@ -39,7 +40,7 @@ export function Sidebar({ page }: { page: string }) {
 
       {/* Sidebar */}
       <aside
-        className={`w-64 border-r border-[var(--border)] bg-[var(--neutral)]/50 flex flex-col transition-all duration-300 max-lg:fixed max-lg:top-14 max-lg:left-0 max-lg:bottom-0 max-lg:z-30 max-h-[100vh] ${
+        className={`w-64 border-r border-[var(--border)] bg-[var(--neutral)]/50 flex flex-col transition-all duration-300 max-lg:fixed max-lg:top-14 max-lg:left-0 max-lg:bottom-0 max-lg:z-30 min-h-[100vh] max-h-[100vh] ${
           isOpen ? 'max-lg:translate-x-0' : 'max-lg:-translate-x-full'
         }`}
       >

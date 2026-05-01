@@ -3,8 +3,8 @@ import { useSearchParams } from 'next/navigation';
 import { Sidebar } from '@/components/demo/sidebar';
 import { DemoOverview } from '@/components/demo/overview';
 import { ActionsPage } from '@/components/actions-page';
-import { SettingsPage } from '@/components/settings-page';
-import { AICoachPage } from '@/components/ai-coach-page';
+import SettingsPage from '@/components/demo/settings-page';
+import { AIChatPage } from '@/components/demo/ai-chat-page';
 import TeamPage from '@/components/demo/team-health-page';
 
 export function DemoContent() {
@@ -15,8 +15,8 @@ export function DemoContent() {
     switch (page) {
       case 'actions':     return <ActionsPage />;
       case 'team-health': return <TeamPage />;
-      case 'settings':    return <SettingsPage />;
-      case 'ai-coach':    return <AICoachPage />;
+      case 'settings-page':    return <SettingsPage />;
+      case 'ai-chat-page':  return <AIChatPage />;
       default:            return <DemoOverview />;
     }
   };
