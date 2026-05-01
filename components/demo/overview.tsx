@@ -5,6 +5,7 @@ import WWITrend from './overview-components/wwi-trend';
 import WWIComponents from './overview-components/wwi-components';
 import AtRiskEmployees from './overview-components/at-risk-employees';
 import "@/styles/globals.css";
+import { EMPLOYEES } from '@/lib/team-data';
 
 type TimeRange = '2w' | '1m' | '3m' | '1y';
 
@@ -84,11 +85,7 @@ const keyActions = [
   { title: 'Reassign at-risk tasks',          priority: 'high',   dueDate: 'Today',      components: ['Protection from Harm'] },
 ];
 
-const atRiskEmployees = [
-  { name: 'Riya S.',  role: 'Analyst',     wwiScore: 41, status: 'Critical', riskLevel: 5 },
-  { name: 'Sam J.',   role: 'Operations',  wwiScore: 49, status: 'High',     riskLevel: 4 },
-  { name: 'Diego P.', role: 'Specialist',  wwiScore: 52, status: 'High',     riskLevel: 3 },
-];
+const atRiskEmployees = EMPLOYEES.filter((e) => e.wwiScore < 70).sort((a, b) => a.wwiScore - b.wwiScore).slice(0, 3);
 
 
 

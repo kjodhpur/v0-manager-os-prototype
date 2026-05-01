@@ -3,13 +3,25 @@ import { useState } from 'react';
 import { EMPLOYEES } from '@/lib/team-data';
 import EmployeeSidebar from '@/components/demo/team-health-components/employee-sidebar';
 import EmployeeDetail from '@/components/demo/team-health-components/employee-detail';
+import { useSearchParams } from 'next/navigation';
+import { useEffect } from 'react';
 
 const sorted = [...EMPLOYEES].sort((a, b) => a.wwiScore - b.wwiScore);
 
 export default function TeamPage() {
-  const [selectedId, setSelectedId] = useState(sorted[0].id);
+
+  const searchParams = useSearchParams();
+  const paramId = searchParams.get('employeeId');
+  const [selectedId, setSelectedId] = useState(
+    paramId ?? sorted[0].id
+  );
   const raw = sorted.find((e) => e.id === selectedId) ?? sorted[0];
   const employee = raw;
+  useEffect(() => {
+    if (paramId) {
+      setSelectedId(paramId);
+    }
+  }, [paramId]);
  
   return (
     <div className="flex p-4 h-full min-h-0 pl-10">

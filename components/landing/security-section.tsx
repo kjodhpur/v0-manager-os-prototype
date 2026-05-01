@@ -1,5 +1,4 @@
 'use client';
-"use client";
 
 import { useEffect, useState, useRef } from "react";
 import { ShieldCheck, Eye, Zap, Lock, Users } from "lucide-react";
