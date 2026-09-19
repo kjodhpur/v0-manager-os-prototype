@@ -187,9 +187,12 @@ export default function ProductPage() {
                     { label: "Recognition", value: "0 public, 1 private", color: "text-[var(--accent)]" },
                     { label: "Growth", value: "10% strategic work (team needs 20%+)", color: "text-muted-foreground" },
                   ].map((item) => (
-                    <div key={item.label} className="flex items-center justify-between rounded bg-card p-3 border border-border">
+                    <div
+                      key={item.label}
+                      className="flex flex-col gap-1 rounded-lg border border-border bg-card p-3 sm:flex-row sm:items-baseline sm:justify-between sm:gap-4"
+                    >
                       <span className="text-sm font-medium text-foreground">{item.label}</span>
-                      <span className={`text-sm ${item.color}`}>{item.value}</span>
+                      <span className={`text-sm sm:text-right ${item.color}`}>{item.value}</span>
                     </div>
                   ))}
                 </div>
