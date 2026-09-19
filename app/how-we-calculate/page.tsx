@@ -388,21 +388,23 @@ function WWIFormulaSection() {
                 </tr>
               </thead>
               <tbody>
-                <tr className="border-t border-border">
-                  <td className="px-6 py-4 font-mono">70–100</td>
-                  <td className="px-6 py-4"><span className="inline-flex items-center gap-2 text-[var(--healthy)] font-medium"><span className="w-2 h-2 rounded-full bg-[var(--healthy)]" /> Healthy</span></td>
-                  <td className="px-6 py-4 text-muted-foreground">Employee is balanced and thriving</td>
-                </tr>
-                <tr className="border-t border-border">
-                  <td className="px-6 py-4 font-mono">50–69</td>
-                  <td className="px-6 py-4"><span className="inline-flex items-center gap-2 text-[var(--warning)] font-medium"><span className="w-2 h-2 rounded-full bg-[var(--warning)]" /> Monitor</span></td>
-                  <td className="px-6 py-4 text-muted-foreground">Some signals need attention</td>
-                </tr>
-                <tr className="border-t border-border">
-                  <td className="px-6 py-4 font-mono">0–49</td>
-                  <td className="px-6 py-4"><span className="inline-flex items-center gap-2 text-[var(--risk)] font-medium"><span className="w-2 h-2 rounded-full bg-[var(--risk)]" /> At Risk</span></td>
-                  <td className="px-6 py-4 text-muted-foreground">Immediate manager action recommended</td>
-                </tr>
+                {[
+                  { range: "70–100", label: "Healthy", token: "healthy", meaning: "Employee is balanced and thriving" },
+                  { range: "55–69", label: "Elevated", token: "warning", meaning: "Some signals need attention" },
+                  { range: "45–54", label: "High Risk", token: "accent", meaning: "Act within the next sprint" },
+                  { range: "0–44", label: "Critical", token: "risk", meaning: "Immediate manager action recommended" },
+                ].map((band) => (
+                  <tr key={band.range} className="border-t border-border">
+                    <td className="px-6 py-4 font-mono">{band.range}</td>
+                    <td className="px-6 py-4">
+                      <span className="inline-flex items-center gap-2 font-medium" style={{ color: `var(--${band.token})` }}>
+                        <span className="h-2 w-2 rounded-full" style={{ backgroundColor: `var(--${band.token})` }} aria-hidden="true" />
+                        {band.label}
+                      </span>
+                    </td>
+                    <td className="px-6 py-4 text-muted-foreground">{band.meaning}</td>
+                  </tr>
+                ))}
               </tbody>
             </table>
           </div>
@@ -565,7 +567,7 @@ function RiyaExampleSection() {
               <div className="text-right">
                 <div className="text-3xl font-bold text-[var(--risk)]">{riyaData.wwi}</div>
                 <div className="text-xs text-[var(--risk)] flex items-center gap-1 justify-end">
-                  <span className="w-2 h-2 rounded-full bg-[var(--risk)]" /> At Risk
+                  <span className="h-2 w-2 rounded-full bg-[var(--risk)]" aria-hidden="true" /> Critical
                 </div>
               </div>
             </div>
