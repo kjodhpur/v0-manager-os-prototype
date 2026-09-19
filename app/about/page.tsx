@@ -1,5 +1,5 @@
-import { MarketingNav } from "@/components/marketing/nav"
-import { MarketingFooter } from "@/components/marketing/footer"
+import { SiteHeader } from "@/components/site/site-header"
+import { SiteFooter } from "@/components/site/site-footer"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent } from "@/components/ui/card"
 import { Heart, ShieldCheck, Eye, Scale, Users } from "lucide-react"
@@ -30,8 +30,8 @@ const principles = [
 export default function AboutPage() {
   return (
     <div className="min-h-screen bg-background">
-      <MarketingNav />
-      <main>
+      <SiteHeader />
+      <main className="pt-16">
         {/* Hero */}
         <section className="bg-card py-20 lg:py-28">
           <div className="mx-auto max-w-3xl px-4 text-center lg:px-8">
@@ -124,7 +124,7 @@ export default function AboutPage() {
           </div>
         </section>
       </main>
-      <MarketingFooter />
+      <SiteFooter />
     </div>
   )
 }

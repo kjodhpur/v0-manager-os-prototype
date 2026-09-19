@@ -1,15 +1,24 @@
 import { useState } from 'react';
 import { ArrowRight } from 'lucide-react';
-import { Employee, getColor, getColorClass, getBorderClass, getBgClass } from '@/lib/team-data';
+import { Employee, getColor, getColorClass, getBorderClass, getBgClass, getRiskLabel } from '@/lib/team-data';
 import Pentagon from '@/components/demo/overview-components/pentagon';
 
 const getPriorityColor = (priority: string) => {
   switch (priority) {
-    case 'urgent': return 'bg-[var(--accent)]/30 text-[var(--fg)] border-[var(--accent)]';
-    case 'high':   return 'bg-[var(--warning)]/30 text-[var(--fg)] border-[var(--warning)]';
-    default:       return 'bg-[var(--primary)]/30 text-[var(--fg)] border-[var(--primary)]';
+    case 'urgent': return 'bg-[var(--accent)]/15 text-foreground border-[var(--accent)]/50';
+    case 'high':   return 'bg-[var(--warning)]/15 text-foreground border-[var(--warning)]/50';
+    default:       return 'bg-primary/10 text-foreground border-primary/40';
   }
 };
+
+const initialsOf = (name: string) =>
+  name
+    .trim()
+    .split(/\s+/)
+    .slice(0, 2)
+    .map((part) => part[0] ?? '')
+    .join('')
+    .toUpperCase();
 
 interface Props {
   employee: Employee;
@@ -23,37 +32,48 @@ export default function EmployeeDetail({ employee }: Props) {
     : employee.actions;
 
   const activeLabel = selectedComponent ?? 'All Actions';
-  const avg = employee.components.reduce((s, c) => s + c.value, 0) / employee.components.length;
 
   return (
-    <div className="flex-1 flex flex-col min-h-0 overflow-auto p-6 lg:p-10 gap-8">
-
+    <div className="flex flex-col gap-6">
       {/* Header */}
-      <div className="flex items-center gap-4">
-        <div className={`w-12 h-12 rounded-full flex items-center justify-center text-sm font-bold ${getBgClass(employee.wwiScore)} ${getColorClass(employee.wwiScore)}`}>
-          {employee.name.split(' ')[0][0]}{employee.name.split(' ')[1]?.[0] ?? ''}
+      <div className="flex flex-wrap items-center gap-x-4 gap-y-3">
+        <div
+          className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-full text-sm font-bold ${getBgClass(employee.wwiScore)} ${getColorClass(employee.wwiScore)}`}
+        >
+          {initialsOf(employee.name)}
         </div>
-        <div>
-          <h1 className="text-2xl font-bold text-[var(--fg)]">{employee.name}</h1>
-          <p className="text-sm text-[var(--fg)]/50">{employee.role}</p>
+
+        <div className="min-w-0">
+          <h2 className="truncate text-2xl font-bold text-foreground">{employee.name}</h2>
+          <p className="truncate text-sm text-muted-foreground">{employee.role}</p>
         </div>
-        <div className={`ml-auto px-3 py-1 rounded-full text-xs font-semibold border ${getBorderClass(employee.wwiScore)} ${getBgClass(employee.wwiScore)} ${getColorClass(employee.wwiScore)}`}>
-          {employee.status}
-        </div>
-        <div className="text-right">
-          <p className={`text-4xl font-bold ${getColorClass(employee.wwiScore)}`}>{employee.wwiScore}</p>
-          <p className="text-xs text-[var(--fg)]/40 uppercase tracking-wider">WWI Score</p>
+
+        <div className="flex w-full items-center justify-between gap-4 sm:ml-auto sm:w-auto">
+          <span
+            className={`rounded-full border px-3 py-1 text-xs font-semibold ${getBorderClass(employee.wwiScore)} ${getBgClass(employee.wwiScore)} ${getColorClass(employee.wwiScore)}`}
+          >
+            {getRiskLabel(employee.wwiScore)}
+          </span>
+          <div className="text-right">
+            <p className={`text-3xl font-bold leading-none tabular-nums sm:text-4xl ${getColorClass(employee.wwiScore)}`}>
+              {employee.wwiScore}
+            </p>
+            <p className="mt-1 text-xs uppercase tracking-wider text-muted-foreground">
+              WWI Score
+            </p>
+          </div>
         </div>
       </div>
 
       {/* Pentagon + Actions */}
-      <div className="rounded-xl border border-[var(--border)] bg-[var(--neutral)] overflow-hidden">
-        <div className="grid grid-cols-1 lg:grid-cols-2 lg:h-[480px]">
-
-          {/* Pentagon */}
-          <div className="flex flex-col items-center justify-center p-8 border-b lg:border-b-0 lg:border-r border-[var(--border)] h-full">
-            <p className="text-xl font-semibold uppercase tracking-widest text-[var(--fg)]">
+      <div className="overflow-hidden rounded-xl border border-border bg-card">
+        <div className="grid grid-cols-1 lg:grid-cols-2">
+          <div className="flex flex-col items-center border-b border-border p-6 lg:border-b-0 lg:border-r">
+            <h3 className="text-center text-sm font-semibold uppercase tracking-widest text-foreground">
               5-Component Signal
+            </h3>
+            <p className="mt-1 text-center text-xs text-muted-foreground">
+              Select a point to filter actions
             </p>
             <Pentagon
               components={employee.components}
@@ -62,80 +82,78 @@ export default function EmployeeDetail({ employee }: Props) {
             />
           </div>
 
-          {/* Actions */}
-          <div className="p-6 flex flex-col h-full min-h-[480px]">
-            <div className="flex items-center justify-between mb-4 flex-shrink-0">
-              <h2 className="text-sm font-semibold uppercase tracking-wider text-[var(--fg)]">
+          <div className="flex flex-col p-6">
+            <div className="mb-4 flex items-center justify-between gap-3">
+              <h3 className="truncate text-sm font-semibold uppercase tracking-wider text-foreground">
                 {activeLabel}
-              </h2>
+              </h3>
               {selectedComponent && (
                 <button
+                  type="button"
                   onClick={() => setSelectedComponent(null)}
-                  className="text-xs text-[var(--primary)] flex items-center gap-1 hover:underline"
+                  className="flex shrink-0 items-center gap-1 rounded-lg px-2 py-1.5 text-xs text-primary transition-colors hover:bg-primary/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
                 >
-                  View all <ArrowRight className="w-3 h-3" />
+                  View all <ArrowRight className="h-3 w-3" aria-hidden="true" />
                 </button>
               )}
             </div>
 
-            <div className="relative flex-1 min-h-0">
-              <div className="h-full overflow-x-visible overflow-y-auto">
-                <div className="grid grid-cols-1 gap-3 py-4 px-2">
-                  {filteredActions.length === 0 ? (
-                    <p className="text-sm text-[var(--fg)]/40 text-center py-8">
-                      No actions for this component.
-                    </p>
-                  ) : (
-                    filteredActions.map((action, idx) => (
-                      <button
-                        key={idx}
-                        className={`rounded-lg p-4 border ${getPriorityColor(action.priority)} hover:scale-[1.02] transition-all duration-200 text-left w-full`}
-                      >
-                        <p className="font-medium text-sm">{action.title}</p>
-                        <p className="text-xs mt-1 opacity-60">Due: {action.dueDate}</p>
-                      </button>
-                    ))
-                  )}
-                </div>
-                {/* Top fade */}
-                <div className="pointer-events-none absolute top-0 left-0 w-full h-10 z-10"
-                  style={{ background: 'linear-gradient(to bottom, var(--neutral) 0%, transparent 100%)' }} />
-                {/* Bottom fade */}
-                <div className="pointer-events-none absolute bottom-0 left-0 w-full h-16 z-10"
-                  style={{ background: 'linear-gradient(to top, var(--neutral) 30%, transparent 100%)' }} />
-              </div>
-            </div>
+            <ul className="flex flex-col gap-3 lg:max-h-[340px] lg:overflow-y-auto">
+              {filteredActions.length === 0 ? (
+                <li className="py-8 text-center text-sm text-muted-foreground">
+                  No actions for this component.
+                </li>
+              ) : (
+                filteredActions.map((action) => (
+                  <li
+                    key={`${action.component}-${action.title}`}
+                    className={`rounded-xl border p-4 ${getPriorityColor(action.priority)}`}
+                  >
+                    <p className="text-sm font-medium">{action.title}</p>
+                    <p className="mt-1 text-xs text-muted-foreground">Due: {action.dueDate}</p>
+                  </li>
+                ))
+              )}
+            </ul>
           </div>
         </div>
       </div>
 
-      {/* Component breakdown bar */}
-      <div className="rounded-xl border border-[var(--border)] bg-[var(--neutral)] p-6">
-        <p className="text-xs font-semibold uppercase tracking-widest text-[var(--fg)]/50 mb-5">
+      {/* Component breakdown */}
+      <div className="rounded-xl border border-border bg-card p-6">
+        <h3 className="mb-5 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
           Component Breakdown
-        </p>
-        <div className="grid grid-cols-1 gap-4">
-          {employee.components.map((comp) => (
-            <button
-              key={comp.name}
-              onClick={() => setSelectedComponent(selectedComponent === comp.name ? null : comp.name)}
-              className={`w-full text-left transition-all duration-200 rounded-lg p-1 ${selectedComponent === comp.name ? 'ring-1 ring-[var(--primary)]' : ''}`}
-            >
-              <div className="flex items-center justify-between mb-1">
-                <span className="text-sm text-[var(--fg)]/70">{comp.name}</span>
-                <span className={`text-sm font-bold ${getColorClass(comp.value)}`}>{comp.value}</span>
-              </div>
-              <div className="h-1.5 w-full rounded-full bg-[var(--border)]">
-                <div
-                  className="h-full rounded-full transition-all duration-500"
-                  style={{ width: `${comp.value}%`, backgroundColor: getColor(comp.value) }}
-                />
-              </div>
-            </button>
-          ))}
+        </h3>
+        <div className="flex flex-col gap-4">
+          {employee.components.map((comp) => {
+            const isSelected = selectedComponent === comp.name;
+            return (
+              <button
+                key={comp.name}
+                type="button"
+                aria-pressed={isSelected}
+                onClick={() => setSelectedComponent(isSelected ? null : comp.name)}
+                className={`w-full rounded-lg p-2 text-left transition-colors hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary ${
+                  isSelected ? 'ring-1 ring-primary' : ''
+                }`}
+              >
+                <div className="mb-1.5 flex items-center justify-between gap-3">
+                  <span className="truncate text-sm text-foreground/80">{comp.name}</span>
+                  <span className={`text-sm font-bold tabular-nums ${getColorClass(comp.value)}`}>
+                    {comp.value}
+                  </span>
+                </div>
+                <div className="h-1.5 w-full rounded-full bg-border">
+                  <div
+                    className="h-full rounded-full transition-all duration-500"
+                    style={{ width: `${comp.value}%`, backgroundColor: getColor(comp.value) }}
+                  />
+                </div>
+              </button>
+            );
+          })}
         </div>
       </div>
-
     </div>
   );
 }

@@ -190,11 +190,11 @@ export function MetricsSection() {
               <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
                 <Card className="border-border">
                   <CardContent className="p-3">
-                    <p className="text-[10px] font-medium text-muted-foreground">Team WHI Average</p>
+                    <p className="text-[10px] font-medium text-muted-foreground">Team WWI Average</p>
                     <div className="mt-0.5 flex items-baseline gap-1.5">
-                      <span className="text-2xl font-bold text-foreground">{teamStats.whiAverage}</span>
+                      <span className="text-2xl font-bold text-foreground">{teamStats.wwiAverage}</span>
                       <span className="flex items-center gap-0.5 text-[10px] text-emerald-600">
-                        <TrendingUp className="h-3 w-3" />+{teamStats.whiChange}
+                        <TrendingUp className="h-3 w-3" />+{teamStats.wwiChange}
                       </span>
                     </div>
                   </CardContent>
@@ -240,7 +240,7 @@ export function MetricsSection() {
                     <thead>
                       <tr className="border-b border-border text-left text-[10px] text-muted-foreground">
                         <th className="pb-2 pr-3 font-medium">Name</th>
-                        <th className="pb-2 pr-3 font-medium">WHI</th>
+                        <th className="pb-2 pr-3 font-medium">WWI</th>
                         <th className="pb-2 pr-3 font-medium">Issue</th>
                         <th className="pb-2 font-medium">Action</th>
                       </tr>
@@ -250,8 +250,8 @@ export function MetricsSection() {
                         <tr key={emp.id} className="border-b border-border last:border-0">
                           <td className="py-1.5 pr-3 text-[11px] font-medium text-foreground">{emp.name}</td>
                           <td className="py-1.5 pr-3 text-[11px] font-semibold text-foreground flex items-center gap-1">
-                            {emp.whi}
-                            {emp.whiTrend === "down" && <TrendingDown className="h-3 w-3 text-red-500" />}
+                            {emp.wwi}
+                            {emp.wwiTrend === "down" && <TrendingDown className="h-3 w-3 text-red-500" />}
                           </td>
                           <td className="py-1.5 pr-3">
                             <Badge className={`text-[9px] px-1.5 py-0 ${

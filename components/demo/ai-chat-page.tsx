@@ -1,12 +1,7 @@
 'use client';
+
 import { useState, useRef, useEffect } from 'react';
 import { Send, Bot, User, Loader2, Sparkles } from 'lucide-react';
-// ─── PASTE YOUR API KEY HERE ──────────────────────────────────────────────────
-// Note: In production, move this to an environment variable:
-//   1. Add to your .env.local:  NEXT_PUBLIC_ANTHROPIC_API_KEY=sk-ant-...
-//   2. Replace above line with: const ANTHROPIC_API_KEY = process.env.NEXT_PUBLIC_ANTHROPIC_API_KEY ?? '';
-// ─────────────────────────────────────────────────────────────────────────────
-
 
 interface Message {
   role: 'user' | 'assistant';
@@ -14,29 +9,30 @@ interface Message {
 }
 
 const SUGGESTIONS = [
-  'Why is Riya\'s WWI so low?',
+  "Why is Riya's WWI so low?",
   'How can I improve team recognition?',
   'What should I prioritize this week?',
   'How do I reduce firefighting on my team?',
 ];
 
+const GREETING: Message = {
+  role: 'assistant',
+  content:
+    "Hi, I'm your AI Coach. I can help you understand your team's wellbeing signals and figure out what actions to take. What's on your mind?",
+};
+
 export function AIChatPage() {
-  const [messages, setMessages] = useState<Message[]>([
-    {
-      role: 'assistant',
-      content: "Hi, I'm your AI Coach. I can help you understand your team's wellbeing signals and figure out what actions to take. What's on your mind?",
-    },
-  ]);
+  const [messages, setMessages] = useState<Message[]>([GREETING]);
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
   const bottomRef = useRef<HTMLDivElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const abortRef = useRef<AbortController | null>(null);
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages, loading]);
 
-  // Auto-resize textarea
   useEffect(() => {
     const ta = textareaRef.current;
     if (!ta) return;
@@ -44,41 +40,45 @@ export function AIChatPage() {
     ta.style.height = `${Math.min(ta.scrollHeight, 160)}px`;
   }, [input]);
 
+  // Cancel any request still in flight when the view unmounts.
+  useEffect(() => () => abortRef.current?.abort(), []);
+
   const sendMessage = async (text: string) => {
     if (!text.trim() || loading) return;
 
     const userMessage: Message = { role: 'user', content: text.trim() };
-    const newMessages = [...messages, userMessage];
-    setMessages(newMessages);
+    const nextMessages = [...messages, userMessage];
+    setMessages(nextMessages);
     setInput('');
     setLoading(true);
 
-    try {
-      const response = await fetch("/api/ai/chat", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        messages: newMessages,
-      }),
-    });
+    const controller = new AbortController();
+    abortRef.current = controller;
 
-      if (!response.ok) {
-        throw new Error("API failed");
-      }
+    try {
+      const response = await fetch('/api/ai/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ messages: nextMessages }),
+        signal: controller.signal,
+      });
+
+      if (!response.ok) throw new Error(`Request failed with ${response.status}`);
 
       const data = await response.json();
-      const reply = data.reply;
-
-      setMessages((prev) => [...prev, { role: 'assistant', content: reply }]);
-    } catch {
+      setMessages((prev) => [...prev, { role: 'assistant', content: data.reply }]);
+    } catch (error) {
+      if ((error as Error).name === 'AbortError') return;
       setMessages((prev) => [
         ...prev,
-        { role: 'assistant', content: 'Something went wrong. Please check your API key and try again.' },
+        {
+          role: 'assistant',
+          content:
+            "I couldn't reach the coaching service just now. Give it another try in a moment.",
+        },
       ]);
     } finally {
-      setLoading(false);
+      if (!controller.signal.aborted) setLoading(false);
     }
   };
 
@@ -89,60 +89,59 @@ export function AIChatPage() {
     }
   };
 
-  return (
-    <div className="flex flex-col h-[calc(100vh-56px)] bg-[var(--bg)]">
+  const showSuggestions = !messages.some((m) => m.role === 'user');
 
-      {/* Header */}
-      <div className="flex-shrink-0 px-6 py-4 border-b border-[var(--border)] bg-[var(--neutral)] flex items-center gap-3">
-        <div className="w-8 h-8 rounded-full bg-[var(--primary)]/20 flex items-center justify-center">
-          <Sparkles className="w-4 h-4 text-[var(--primary)]" />
-        </div>
+  return (
+    <div className="flex h-[calc(100dvh-3.5rem)] flex-col bg-background lg:h-screen">
+      <div className="flex shrink-0 items-center gap-3 border-b border-border bg-card px-4 py-3 lg:px-6">
+        <span className="flex h-9 w-9 items-center justify-center rounded-full bg-primary/20">
+          <Sparkles className="h-4 w-4 text-primary" aria-hidden="true" />
+        </span>
         <div>
-          <p className="text-sm font-semibold text-[var(--fg)]">AI Coach</p>
-          <p className="text-xs text-[var(--fg)]/40">Powered by Gemini</p>
+          <h2 className="text-sm font-semibold text-foreground">AI Coach</h2>
+          <p className="text-xs text-muted-foreground">Powered by Gemini</p>
         </div>
       </div>
 
-      {/* Messages */}
-      <div className="flex-1 overflow-y-auto px-4 py-6 space-y-6">
+      <div className="flex-1 space-y-6 overflow-y-auto px-4 py-6" aria-live="polite">
         {messages.map((msg, idx) => (
           <div
-            key={idx}
+            key={`${msg.role}-${idx}`}
             className={`flex gap-3 ${msg.role === 'user' ? 'flex-row-reverse' : 'flex-row'}`}
           >
-            {/* Avatar */}
-            <div className={`w-7 h-7 rounded-full flex-shrink-0 flex items-center justify-center text-xs mt-0.5 ${
-              msg.role === 'assistant'
-                ? 'bg-[var(--primary)]/20 text-[var(--primary)]'
-                : 'bg-[var(--fg)]/10 text-[var(--fg)]'
-            }`}>
-              {msg.role === 'assistant' ? <Bot className="w-3.5 h-3.5" /> : <User className="w-3.5 h-3.5" />}
-            </div>
+            <span
+              className={`mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full ${
+                msg.role === 'assistant'
+                  ? 'bg-primary/20 text-primary'
+                  : 'bg-muted text-foreground'
+              }`}
+            >
+              {msg.role === 'assistant' ? (
+                <Bot className="h-3.5 w-3.5" aria-hidden="true" />
+              ) : (
+                <User className="h-3.5 w-3.5" aria-hidden="true" />
+              )}
+            </span>
 
-            {/* Bubble */}
-            <div className={`max-w-[75%] rounded-2xl px-4 py-3 text-sm leading-relaxed ${
-              msg.role === 'user'
-                ? 'bg-[var(--primary)] text-white rounded-tr-sm'
-                : 'bg-[var(--neutral)] border border-[var(--border)] text-[var(--fg)] rounded-tl-sm'
-            }`}>
-              {msg.content.split('\n').map((line, i) => (
-                <span key={i}>
-                  {line}
-                  {i < msg.content.split('\n').length - 1 && <br />}
-                </span>
-              ))}
+            <div
+              className={`max-w-[80%] whitespace-pre-wrap rounded-2xl px-4 py-3 text-sm leading-relaxed ${
+                msg.role === 'user'
+                  ? 'rounded-tr-sm bg-primary text-primary-foreground'
+                  : 'rounded-tl-sm border border-border bg-card text-foreground'
+              }`}
+            >
+              {msg.content}
             </div>
           </div>
         ))}
 
-        {/* Loading indicator */}
         {loading && (
           <div className="flex gap-3">
-            <div className="w-7 h-7 rounded-full flex-shrink-0 flex items-center justify-center bg-[var(--primary)]/20 text-[var(--primary)]">
-              <Bot className="w-3.5 h-3.5" />
-            </div>
-            <div className="bg-[var(--neutral)] border border-[var(--border)] rounded-2xl rounded-tl-sm px-4 py-3">
-              <Loader2 className="w-4 h-4 animate-spin text-[var(--fg)]/40" />
+            <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-primary/20 text-primary">
+              <Bot className="h-3.5 w-3.5" aria-hidden="true" />
+            </span>
+            <div className="rounded-2xl rounded-tl-sm border border-border bg-card px-4 py-3">
+              <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" aria-label="Thinking" />
             </div>
           </div>
         )}
@@ -150,14 +149,14 @@ export function AIChatPage() {
         <div ref={bottomRef} />
       </div>
 
-      {/* Suggestions — only show before first user message */}
-      { (
-        <div className="flex-shrink-0 px-4 pb-3 flex gap-2 flex-wrap">
+      {showSuggestions && (
+        <div className="flex shrink-0 flex-wrap gap-2 px-4 pb-3">
           {SUGGESTIONS.map((s) => (
             <button
               key={s}
+              type="button"
               onClick={() => sendMessage(s)}
-              className="text-xs px-3 py-1.5 rounded-full border border-[var(--border)] bg-[var(--neutral)] text-[var(--fg)]/60 hover:text-[var(--fg)] hover:border-[var(--primary)]/50 transition-all duration-200"
+              className="min-h-[40px] rounded-full border border-border bg-card px-3.5 text-xs text-muted-foreground transition-colors hover:border-primary/50 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
             >
               {s}
             </button>
@@ -165,33 +164,36 @@ export function AIChatPage() {
         </div>
       )}
 
-      {/* Input */}
-      <div className="flex-shrink-0 px-4">
-        <div className="flex items-end gap-4 bg-[var(--neutral)] border border-[var(--border)] rounded-2xl px-4 py-3 focus-within:border-[var(--primary)]/50 transition-colors">
+      <div className="shrink-0 px-4 pb-[max(1rem,env(safe-area-inset-bottom))]">
+        <div className="flex items-end gap-3 rounded-2xl border border-border bg-card px-4 py-3 transition-colors focus-within:border-primary/50">
+          <label htmlFor="coach-input" className="sr-only">
+            Ask the AI Coach about your team
+          </label>
           <textarea
-          
+            id="coach-input"
             ref={textareaRef}
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={handleKeyDown}
             placeholder="Ask about your team..."
             rows={1}
-            className="flex-1 mb-1 items-center bg-transparent text-sm text-[var(--fg)] placeholder:text-[var(--fg)]/30 resize-none outline-none leading-relaxed"
+            className="flex-1 resize-none bg-transparent text-sm leading-relaxed text-foreground outline-none placeholder:text-muted-foreground"
           />
 
           <button
+            type="button"
             onClick={() => sendMessage(input)}
             disabled={!input.trim() || loading}
-            className="flex-shrink-0 w-8 h-8 rounded-xl bg-[var(--primary)] text-white flex items-center justify-center hover:opacity-90 transition-opacity disabled:opacity-30 disabled:cursor-not-allowed"
+            aria-label="Send message"
+            className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-primary text-primary-foreground transition-opacity hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-card disabled:cursor-not-allowed disabled:opacity-30"
           >
-            <Send className="w-3.5 h-3.5" />
+            <Send className="h-4 w-4" aria-hidden="true" />
           </button>
         </div>
-        <p className="text-[10px] text-[var(--fg)]/25 text-center mt-2">
-          Press Enter to send · Shift+Enter for new line
+        <p className="mt-2 text-center text-[11px] text-muted-foreground">
+          Press Enter to send · Shift+Enter for a new line
         </p>
       </div>
-
     </div>
   );
 }

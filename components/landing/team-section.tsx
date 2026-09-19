@@ -10,8 +10,8 @@ const founders = [
     name: "Vipul Navale",
     role: "CEO & Co-Founder",
     bio: "Led 35+ cross-functional teams at Walmart, Amazon, and Microsoft. Vipul brings deep expertise in scaling operations and building high-performing teams at Fortune 500 companies. Currently pursuing MS AI in Business at ASU W.P. Carey.",
-    highlights: ["Walmart", "Amazon", "Microsoft", "35+ years enterprise"],
-    linkedin: "#",
+    highlights: ["Walmart", "Amazon", "Microsoft", "35+ teams led"],
+    linkedin: "",
     initials: "VN",
     imageUrl: "/vipul.jpg"
   },
@@ -20,7 +20,7 @@ const founders = [
     role: "Chief AI Officer & Co-Founder",
     bio: "AI Product Owner at Deloitte, led Google's AI Rapid Innovation Team. Built domain-specific LLM on Google Gemini for enterprise clients. Pursuing MS AI in Business at ASU W.P. Carey and bringing cutting-edge AI research to HeartMetrics.",
     highlights: ["Deloitte", "Google Gemini", "LLM Expert", "Product AI"],
-    linkedin: "#",
+    linkedin: "",
     initials: "KJ",
     imageUrl: "/kanha.jpg"
   }
@@ -132,14 +132,19 @@ export function TeamSection() {
                   ))}
                 </div>
 
-                {/* LinkedIn link */}
-                <a
-                  href={founder.linkedin}
-                  className="inline-flex items-center gap-2 text-primary hover:text-primary/80 transition-colors text-sm"
-                >
-                  <Linkedin className="w-4 h-4" />
-                  LinkedIn Profile
-                </a>
+                {/* Rendered only once a real profile URL exists, so the site never
+                    ships a link that goes nowhere. */}
+                {founder.linkedin && (
+                  <a
+                    href={founder.linkedin}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 text-sm text-primary transition-colors hover:text-primary/80"
+                  >
+                    <Linkedin className="h-4 w-4" aria-hidden="true" />
+                    LinkedIn Profile
+                  </a>
+                )}
               </div>
             </motion.div>
           ))}
@@ -153,23 +158,23 @@ export function TeamSection() {
           transition={{ duration: 0.6, delay: 0.2 }}
           viewport={{ once: true }}
         >
-          <h3 className="text-xl font-semibold mb-8 text-center">In Partnership With</h3>
-          <div className="grid md:grid-cols-3 gap-8">
+          <h3 className="mb-8 text-center text-xl font-semibold">Background &amp; Affiliations</h3>
+          <div className="grid gap-6 md:grid-cols-3">
             {[
-              { name: "ASU W.P. Carey", desc: "MS AI in Business" },
-              { name: "Google AI", desc: "Gemini LLM Technology" },
-              { name: "Enterprise Tech Leaders", desc: "Walmart, Amazon, Microsoft, Deloitte" },
-            ].map((partner, i) => (
+              { name: "ASU W.P. Carey", desc: "Both founders are MS AI in Business candidates" },
+              { name: "Google Gemini", desc: "The AI coach is built on the Gemini API" },
+              { name: "Enterprise experience", desc: "Walmart, Amazon, Microsoft, Deloitte" },
+            ].map((item, i) => (
               <motion.div
-                key={i}
-                className="text-center p-4 rounded-lg border border-border/30 hover:border-primary/30 transition-colors"
+                key={item.name}
+                className="rounded-xl border border-border p-5 text-center transition-colors hover:border-primary/30"
                 initial={{ opacity: 0 }}
                 whileInView={{ opacity: 1 }}
                 transition={{ delay: 0.1 * i }}
                 viewport={{ once: true }}
               >
-                <p className="font-semibold mb-1">{partner.name}</p>
-                <p className="text-sm text-muted-foreground">{partner.desc}</p>
+                <p className="mb-1 font-semibold">{item.name}</p>
+                <p className="text-sm text-muted-foreground">{item.desc}</p>
               </motion.div>
             ))}
           </div>

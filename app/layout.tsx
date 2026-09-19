@@ -3,12 +3,40 @@ import type { Metadata } from 'next'
 
 import { Analytics } from '@vercel/analytics/next'
 import { ThemeProvider } from '@/components/theme-provider'
+import { SITE } from '@/lib/site-config'
 import './globals.css'
 
 export const metadata: Metadata = {
-  title: 'HeartMetrics - AI-Powered Manager Dashboard',
-  description: 'An AI copilot that helps managers run fairer, healthier teams by making work distribution, contribution, and growth visible.',
-  generator: 'v0.app',
+  metadataBase: new URL(SITE.url),
+  title: {
+    default: 'HeartMetrics — See your team\'s real story before they leave',
+    template: '%s | HeartMetrics',
+  },
+  description: SITE.description,
+  applicationName: SITE.name,
+  keywords: [
+    'workplace wellbeing',
+    'employee burnout prevention',
+    'manager analytics',
+    'work wellbeing index',
+    'privacy-first people analytics',
+  ],
+  openGraph: {
+    type: 'website',
+    siteName: SITE.name,
+    url: SITE.url,
+    title: 'HeartMetrics — See your team\'s real story before they leave',
+    description: SITE.description,
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'HeartMetrics — See your team\'s real story before they leave',
+    description: SITE.description,
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
   icons: {
     icon: [
       {

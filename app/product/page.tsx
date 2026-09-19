@@ -1,7 +1,7 @@
 "use client"
 
-import { MarketingNav } from "@/components/marketing/nav"
-import { MarketingFooter } from "@/components/marketing/footer"
+import { SiteHeader } from "@/components/site/site-header"
+import { SiteFooter } from "@/components/site/site-footer"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
@@ -24,15 +24,15 @@ const dashboards = [
     icon: LayoutDashboard,
     title: "Overview Dashboard",
     description: "Team wellbeing index, high-risk employees, blocked work summary, and top recommended actions at a glance.",
-    managerView: "Full team health and individual WHI scores with trend indicators.",
+    managerView: "Full team health and individual WWI scores with trend indicators.",
     employeeView: "Personal score with drivers, but not comparisons to other employees.",
   },
   {
     icon: HeartPulse,
     title: "Team Health",
-    description: "Work Happiness Index distribution across your team. Filter by risk tier, sort by score or trend.",
-    managerView: "Individual employee WHI scores, confidence levels, and top drivers for each team member.",
-    employeeView: "Their own WHI score with driver breakdown and trend over time.",
+    description: "Work Wellbeing Index distribution across your team. Filter by risk tier, sort by score or trend.",
+    managerView: "Individual employee WWI scores, confidence levels, and top drivers for each team member.",
+    employeeView: "Their own WWI score with driver breakdown and trend over time.",
   },
   {
     icon: BarChart3,
@@ -60,7 +60,7 @@ const dashboards = [
 const useCases = [
   {
     title: "Detecting burnout before it escalates",
-    description: "A manager notices Riya's WHI dropped to 41 with 3 blocked items and overloaded status. HeartMetrics recommends reassigning 2 tasks and scheduling an unblock meeting.",
+    description: "A manager notices Riya's WWI dropped to 41 with 3 blocked items and overloaded status. HeartMetrics recommends reassigning 2 tasks and scheduling an unblock meeting.",
   },
   {
     title: "Ensuring fair opportunity distribution",
@@ -79,8 +79,8 @@ const useCases = [
 export default function ProductPage() {
   return (
     <div className="min-h-screen bg-background">
-      <MarketingNav />
-      <main>
+      <SiteHeader />
+      <main className="pt-16">
         {/* Hero */}
         <section className="bg-card py-20 lg:py-28">
           <div className="mx-auto max-w-6xl px-4 lg:px-8">
@@ -172,7 +172,7 @@ export default function ProductPage() {
                 </ul>
               </div>
               <div className="rounded-xl border border-border bg-secondary/30 p-8">
-                <h3 className="text-lg font-semibold text-foreground">Example: Riya S. (WHI: 41)</h3>
+                <h3 className="text-lg font-semibold text-foreground">Example: Riya S. (WWI: 41)</h3>
                 <div className="mt-4 flex flex-col gap-3">
                   {[
                     { label: "Workload", value: "9 WIP items (team avg: 6.8)", color: "text-destructive" },
@@ -232,7 +232,7 @@ export default function ProductPage() {
           </div>
         </section>
       </main>
-      <MarketingFooter />
+      <SiteFooter />
     </div>
   )
 }

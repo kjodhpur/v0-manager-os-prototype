@@ -1,55 +1,62 @@
 'use client';
-import { useState } from 'react';
+
+import { useEffect, useState } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { EMPLOYEES } from '@/lib/team-data';
 import EmployeeSidebar from '@/components/demo/team-health-components/employee-sidebar';
 import EmployeeDetail from '@/components/demo/team-health-components/employee-detail';
-import { useSearchParams } from 'next/navigation';
-import { useEffect } from 'react';
 
 const sorted = [...EMPLOYEES].sort((a, b) => a.wwiScore - b.wwiScore);
 
 export default function TeamPage() {
-
+  const router = useRouter();
   const searchParams = useSearchParams();
   const paramId = searchParams.get('employeeId');
-  const [selectedId, setSelectedId] = useState(
-    paramId ?? sorted[0].id
-  );
-  const raw = sorted.find((e) => e.id === selectedId) ?? sorted[0];
-  const employee = raw;
+
+  // The URL is the single source of truth for selection, so deep links, the
+  // back button and the at-risk cards all stay in agreement.
+  const selectedId = sorted.some((e) => e.id === paramId) ? (paramId as string) : sorted[0].id;
+  const employee = sorted.find((e) => e.id === selectedId) ?? sorted[0];
+
+  const [notFound, setNotFound] = useState(false);
   useEffect(() => {
-    if (paramId) {
-      setSelectedId(paramId);
-    }
+    setNotFound(Boolean(paramId) && !sorted.some((e) => e.id === paramId));
   }, [paramId]);
- 
+
+  const handleSelect = (id: string) => {
+    router.push(`/demo?page=team-health&employeeId=${encodeURIComponent(id)}`, { scroll: false });
+  };
+
   return (
-    <div className="flex p-4 h-full min-h-0 pl-10">
- 
-      {/* Floating sidebar card */}
-      <aside className="flex-shrink-0 w-52 self-start sticky pt-8">
-        <div className="rounded-2xl border border-[var(--border)] bg-[var(--neutral)] shadow-lg overflow-hidden">
-          <div className="px-4 py-3 border-b border-[var(--border)]">
-            <p className="text-xs font-semibold uppercase tracking-widest text-[var(--fg)]/50">
-              Team
-            </p>
+    <div className="mx-auto w-full max-w-7xl px-4 py-6 lg:px-8 lg:py-8">
+      {notFound && (
+        <p
+          role="status"
+          className="mb-4 rounded-xl border border-accent/30 bg-accent/10 px-4 py-3 text-sm text-foreground"
+        >
+          We couldn&apos;t find that team member, so we&apos;re showing {employee.name} instead.
+        </p>
+      )}
+
+      <div className="flex flex-col gap-6 lg:flex-row lg:items-start">
+        {/* Team list — a horizontal rail on mobile, a sticky column on desktop. */}
+        <aside className="lg:sticky lg:top-8 lg:w-60 lg:shrink-0">
+          <div className="overflow-hidden rounded-xl border border-border bg-card">
+            <div className="border-b border-border px-4 py-3">
+              <h2 className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+                Team
+              </h2>
+            </div>
+            <div className="lg:max-h-[calc(100vh-12rem)] lg:overflow-y-auto">
+              <EmployeeSidebar employees={sorted} selectedId={selectedId} onSelect={handleSelect} />
+            </div>
           </div>
-          <div className="overflow-y-auto max-h-[calc(100vh-12rem)]">
-            <EmployeeSidebar
-              employees={sorted}
-              selectedId={selectedId}
-              onSelect={setSelectedId}
-            />
-          </div>
+        </aside>
+
+        <div className="min-w-0 flex-1">
+          <EmployeeDetail key={selectedId} employee={employee} />
         </div>
-      </aside>
- 
-      {/* Detail panel */}
-      <div className="flex-1 min-w-0 overflow-auto">
-        <EmployeeDetail key={selectedId} employee={employee} />
       </div>
- 
     </div>
   );
 }
- 

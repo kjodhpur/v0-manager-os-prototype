@@ -1,8 +1,8 @@
 "use client"
 
 import { useState } from "react"
-import { MarketingNav } from "@/components/marketing/nav"
-import { MarketingFooter } from "@/components/marketing/footer"
+import { SiteHeader } from "@/components/site/site-header"
+import { SiteFooter } from "@/components/site/site-footer"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
@@ -22,7 +22,7 @@ const faqCategories = [
       },
       {
         q: "Can employees see their own data?",
-        a: "Yes. Employees can view their own Work Happiness Index, drivers, and trends. They cannot see other employees' individual scores. Organizations can also enable aggregate-only mode where even managers see only team-level patterns.",
+        a: "Yes. Employees can view their own Work Wellbeing Index, drivers, and trends. They cannot see other employees' individual scores. Organizations can also enable aggregate-only mode where even managers see only team-level patterns.",
       },
       {
         q: "How do I request data deletion?",
@@ -38,8 +38,8 @@ const faqCategories = [
         a: "Currently: Jira, Asana, and Salesforce. We use OAuth for secure connections and clearly disclose what data is accessed. More integrations are on our roadmap.",
       },
       {
-        q: "How is the Work Happiness Index (WHI) calculated?",
-        a: "The WHI combines weighted signals: workload (WIP count, meeting hours), blockers (count and duration), recognition (public and private), and growth opportunities (stretch vs. operational work ratio). Every score shows a 'why this score' breakdown with the specific signals that contributed.",
+        q: "How is the Work Wellbeing Index (WWI) calculated?",
+        a: "The WWI combines weighted signals: workload (WIP count, meeting hours), blockers (count and duration), recognition (public and private), and growth opportunities (stretch vs. operational work ratio). Every score shows a 'why this score' breakdown with the specific signals that contributed.",
       },
       {
         q: "What is the Manager Fairness Score?",
@@ -79,8 +79,8 @@ export default function FAQPage() {
 
   return (
     <div className="min-h-screen bg-background">
-      <MarketingNav />
-      <main>
+      <SiteHeader />
+      <main className="pt-16">
         <section className="bg-card py-20 lg:py-28">
           <div className="mx-auto max-w-3xl px-4 lg:px-8">
             <div className="text-center">
@@ -143,7 +143,7 @@ export default function FAQPage() {
           </div>
         </section>
       </main>
-      <MarketingFooter />
+      <SiteFooter />
     </div>
   )
 }

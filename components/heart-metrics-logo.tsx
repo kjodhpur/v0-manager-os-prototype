@@ -1,30 +1,42 @@
+const SIZES = {
+  sm: 'h-5 md:h-6',
+  default: 'h-6 md:h-7',
+  lg: 'h-8 md:h-9',
+  xl: 'h-10 md:h-12',
+  xxl: 'h-12 md:h-16',
+} as const;
+
+const SOURCES = {
+  horizontal: '/hm-logo-horizontal.svg',
+  icon: '/hm-logo-icon.svg',
+  dark: '/hm-logo-dark.svg',
+} as const;
+
+/** Intrinsic ratios, used to reserve space so the logo never shifts layout. */
+const RATIOS = {
+  horizontal: { width: 1000, height: 215 },
+  icon: { width: 512, height: 512 },
+  dark: { width: 512, height: 512 },
+} as const;
+
 export function HeartMetricsLogo({
-  className = "",
-  variant = "horizontal", // "horizontal" | "icon" | "dark"
-  size = "default" // "sm" | "default" | "lg" | "xl"
+  className = '',
+  variant = 'horizontal',
+  size = 'default',
 }: {
   className?: string;
-  variant?: "horizontal" | "icon" | "dark";
-  size?: "sm" | "default" | "lg" | "xl";
+  variant?: keyof typeof SOURCES;
+  size?: keyof typeof SIZES;
 }) {
-  const sizeMap = {
-    sm:      "h-7 md:h-8",
-    default: "h-9 md:h-11",
-    lg:      "h-10 md:h-14",
-    xl:      "h-12 md:w-56 md:h-auto",
-  };
-
-  const logoSrc = {
-    horizontal: "/hm-logo-horizontal.svg",
-    icon: "/hm-logo-icon.svg",
-    dark: "/hm-logo-dark.svg"
-  }[variant];
+  const { width, height } = RATIOS[variant];
 
   return (
     <img
-      src={logoSrc}
+      src={SOURCES[variant]}
       alt="HeartMetrics"
-      className={`${sizeMap[size]} w-auto ${variant === "horizontal" ? "object-contain leading-none" : ""} ${className}`}
+      width={width}
+      height={height}
+      className={`${SIZES[size]} w-auto object-contain ${className}`}
     />
   );
 }

@@ -1,5 +1,5 @@
-import { MarketingNav } from "@/components/marketing/nav"
-import { MarketingFooter } from "@/components/marketing/footer"
+import { SiteHeader } from "@/components/site/site-header"
+import { SiteFooter } from "@/components/site/site-footer"
 import { Badge } from "@/components/ui/badge"
 
 const sections = [
@@ -44,8 +44,8 @@ const sections = [
 export default function TermsPage() {
   return (
     <div className="min-h-screen bg-background">
-      <MarketingNav />
-      <main>
+      <SiteHeader />
+      <main className="pt-16">
         <section className="bg-card py-20 lg:py-28">
           <div className="mx-auto max-w-3xl px-4 lg:px-8">
             <div className="text-center">
@@ -79,7 +79,7 @@ export default function TermsPage() {
           </div>
         </section>
       </main>
-      <MarketingFooter />
+      <SiteFooter />
     </div>
   )
 }

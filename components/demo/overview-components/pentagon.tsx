@@ -1,17 +1,10 @@
-import '@/styles/globals.css';
+import { getColor } from '@/lib/team-data';
 
 interface WWIComponent {
   name: string;
   shortName: string;
   value: number;
 }
-
-const getColor = (value: number) => {
-  if (value >= 75) return 'var(--primary)';
-  if (value >= 50) return 'var(--healthy)';
-  if (value >= 25) return 'var(--warning)';
-  return 'var(--accent)';
-};
 
 // ── Tweak these to adjust text size ──
 const LABEL_FONT_SIZE = 14;
@@ -52,32 +45,41 @@ export default function Pentagon({
   selected: string | null;
   onSelect: (name: string | null) => void;
 }) {
+  // The geometry assumes five axes; anything else would produce NaN coordinates.
+  const points = components.slice(0, 5);
+  if (points.length === 0) {
+    return <p className="py-8 text-sm text-muted-foreground">No component data available.</p>;
+  }
+
   const dataPath =
-    components
+    points
       .map((c, i) => { const p = pt((c.value / 100) * r, i); return `${i === 0 ? 'M' : 'L'} ${p.x} ${p.y}`; })
       .join(' ') + ' Z';
 
-  const avg = components.reduce((sum, c) => sum + c.value, 0) / components.length;
+  const avg = points.reduce((sum, c) => sum + c.value, 0) / points.length;
   const fillColor = getColor(avg);
+  const summary = points.map((c) => `${c.shortName} ${c.value}`).join(', ');
 
   return (
     <svg
       viewBox={`${minX} ${minY} ${vbW} ${vbH}`}
       width="100%"
+      role="img"
+      aria-label={`Five-component wellbeing signal: ${summary}`}
       style={{ maxWidth: 480, display: 'block', margin: '0 auto' }}
     >
       {[25, 50, 75, 100].map((pct) => (
         <path key={pct} d={ringPath(pct)} fill="none" stroke="var(--border)" strokeWidth={1} opacity={0.5} />
       ))}
 
-      {components.map((_, i) => {
+      {points.map((_, i) => {
         const outer = pt(r, i);
         return <line key={i} x1={0} y1={0} x2={outer.x} y2={outer.y} stroke="var(--border)" strokeWidth={1} opacity={0.5} />;
       })}
 
       <path d={dataPath} fill={fillColor} fillOpacity={0.15} stroke={fillColor} strokeWidth={2} />
 
-      {components.map((comp, i) => {
+      {points.map((comp, i) => {
         const dataPt = pt((comp.value / 100) * r, i);
         const labelPt = pt(labelR, i);
         const isSelected = selected === comp.name;
@@ -85,13 +87,27 @@ export default function Pentagon({
         const color = getColor(comp.value);
 
         return (
-          <g key={comp.name} onClick={() => onSelect(isSelected ? null : comp.name)} className="cursor-pointer">
+          <g
+            key={comp.name}
+            onClick={() => onSelect(isSelected ? null : comp.name)}
+            className="cursor-pointer"
+            role="button"
+            tabIndex={0}
+            aria-pressed={isSelected}
+            aria-label={`${comp.name}: ${comp.value}`}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                onSelect(isSelected ? null : comp.name);
+              }
+            }}
+          >
             <circle cx={dataPt.x} cy={dataPt.y} r={18} fill="transparent" />
             <circle
               cx={dataPt.x} cy={dataPt.y}
               r={isSelected ? 7 : 5}
               fill={isSelected ? fillColor : color}
-              stroke="var(--neutral)"
+              stroke="var(--card)"
               strokeWidth={2}
               className="transition-all duration-200"
             />
@@ -99,7 +115,7 @@ export default function Pentagon({
               x={labelPt.x}
               y={labelPt.y - VALUE_FONT_SIZE * 0.4}
               textAnchor={textAnchor}
-              fill="var(--fg)"
+              fill="currentColor"
               fontSize={LABEL_FONT_SIZE}
               fontWeight={isSelected ? 700 : 400}
               className="transition-all duration-200 select-none"

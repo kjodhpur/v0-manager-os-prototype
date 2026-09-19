@@ -1,5 +1,5 @@
-import { MarketingNav } from "@/components/marketing/nav"
-import { MarketingFooter } from "@/components/marketing/footer"
+import { SiteHeader } from "@/components/site/site-header"
+import { SiteFooter } from "@/components/site/site-footer"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent } from "@/components/ui/card"
 import { ShieldCheck, Lock, Eye, Server, Users, FileKey, Trash2, Bell } from "lucide-react"
@@ -57,8 +57,8 @@ const neverAccess = [
 export default function SecurityPage() {
   return (
     <div className="min-h-screen bg-background">
-      <MarketingNav />
-      <main>
+      <SiteHeader />
+      <main className="pt-16">
         <section className="bg-card py-20 lg:py-28">
           <div className="mx-auto max-w-6xl px-4 lg:px-8">
             <div className="mx-auto max-w-3xl text-center">
@@ -153,7 +153,7 @@ export default function SecurityPage() {
           </div>
         </section>
       </main>
-      <MarketingFooter />
+      <SiteFooter />
     </div>
   )
 }

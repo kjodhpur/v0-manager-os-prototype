@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg width="1600" height="900" viewBox="0 0 1600 900" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="heartmetrics logo">
+<!-- viewBox is cropped to the wordmark's measured bounds so the logo fills the
+     height it is given instead of sitting inside a mostly-empty 1600x900 canvas. -->
+<svg width="1000" height="215" viewBox="210 352 1000 215" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="heartmetrics logo">
   <defs>
     <linearGradient id="hmGradient" x1="0%" y1="0%" x2="100%" y2="0%">
       <stop offset="0%" stop-color="#00D1C1"/>

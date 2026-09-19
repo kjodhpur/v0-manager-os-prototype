@@ -1,10 +1,10 @@
 'use client';
+
 import { useState } from 'react';
 import WWIOverviewCard from './overview-components/wwi-overview-card';
 import WWITrend from './overview-components/wwi-trend';
 import WWIComponents from './overview-components/wwi-components';
 import AtRiskEmployees from './overview-components/at-risk-employees';
-import "@/styles/globals.css";
 import { EMPLOYEES } from '@/lib/team-data';
 
 type TimeRange = '2w' | '1m' | '3m' | '1y';
@@ -16,63 +16,45 @@ const TIME_RANGES: { label: string; value: TimeRange }[] = [
   { label: '1Y', value: '1y' },
 ];
 
-// All trend data keyed by time range
+/**
+ * Every headline number is derived from the same roster the Team page renders,
+ * so the overview can never disagree with the employees it summarises.
+ */
+const TEAM_WWI = Math.round(
+  EMPLOYEES.reduce((sum, e) => sum + e.wwiScore, 0) / EMPLOYEES.length,
+);
+
+const TEAM_COMPONENTS = EMPLOYEES[0].components.map((component, index) => ({
+  name: component.name,
+  shortName: component.shortName,
+  value: Math.round(
+    EMPLOYEES.reduce((sum, e) => sum + e.components[index].value, 0) / EMPLOYEES.length,
+  ),
+}));
+
+/** Each series walks up to the live team score, so the trend and the headline agree. */
+const buildSeries = (labels: string[], startValue: number) =>
+  labels.map((label, index) => ({
+    week: index + 1,
+    label,
+    value:
+      index === labels.length - 1
+        ? TEAM_WWI
+        : Math.round(startValue + ((TEAM_WWI - startValue) * index) / (labels.length - 1)),
+  }));
+
 const ALL_TREND_DATA: Record<TimeRange, { week: number; label: string; value: number }[]> = {
-  '2w': [
-    { week: 1, label: 'Wk 1', value: 66 },
-    { week: 2, label: 'Wk 2', value: 72 },
-  ],
-  '1m': [
-    { week: 1, label: 'Wk 1', value: 63 },
-    { week: 2, label: 'Wk 2', value: 65 },
-    { week: 3, label: 'Wk 3', value: 69 },
-    { week: 4, label: 'Wk 4', value: 72 },
-  ],
-  '3m': [
-    { week: 1,  label: 'Wk 1',  value: 58 },
-    { week: 2,  label: 'Wk 2',  value: 60 },
-    { week: 3,  label: 'Wk 3',  value: 61 },
-    { week: 4,  label: 'Wk 4',  value: 62 },
-    { week: 5,  label: 'Wk 5',  value: 63 },
-    { week: 6,  label: 'Wk 6',  value: 64 },
-    { week: 7,  label: 'Wk 7',  value: 63 },
-    { week: 8,  label: 'Wk 8',  value: 65 },
-    { week: 9,  label: 'Wk 9',  value: 67 },
-    { week: 10, label: 'Wk 10', value: 69 },
-    { week: 11, label: 'Wk 11', value: 70 },
-    { week: 12, label: 'Wk 12', value: 72 },
-  ],
-  '1y': [
-    { week: 1,  label: 'Jan', value: 54 },
-    { week: 2,  label: 'Feb', value: 57 },
-    { week: 3,  label: 'Mar', value: 59 },
-    { week: 4,  label: 'Apr', value: 58 },
-    { week: 5,  label: 'May', value: 61 },
-    { week: 6,  label: 'Jun', value: 63 },
-    { week: 7,  label: 'Jul', value: 62 },
-    { week: 8,  label: 'Aug', value: 65 },
-    { week: 9,  label: 'Sep', value: 67 },
-    { week: 10, label: 'Oct', value: 68 },
-    { week: 11, label: 'Nov', value: 70 },
-    { week: 12, label: 'Dec', value: 72 },
-  ],
+  '2w': buildSeries(['Wk 1', 'Wk 2'], TEAM_WWI - 3),
+  '1m': buildSeries(['Wk 1', 'Wk 2', 'Wk 3', 'Wk 4'], TEAM_WWI - 6),
+  '3m': buildSeries(
+    Array.from({ length: 12 }, (_, i) => `Wk ${i + 1}`),
+    TEAM_WWI - 11,
+  ),
+  '1y': buildSeries(
+    ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+    TEAM_WWI - 16,
+  ),
 };
-
-// Summary stats per time range
-const SUMMARY_BY_RANGE: Record<TimeRange, { teamWWI: number; wwiTrend: number; fairnessScore: number; fairnessTrend: number }> = {
-  '2w': { teamWWI: 72, wwiTrend: 4,  fairnessScore: 74, fairnessTrend: -3 },
-  '1m': { teamWWI: 70, wwiTrend: 7,  fairnessScore: 72, fairnessTrend: -1 },
-  '3m': { teamWWI: 67, wwiTrend: 14, fairnessScore: 70, fairnessTrend:  2 },
-  '1y': { teamWWI: 61, wwiTrend: 18, fairnessScore: 66, fairnessTrend:  8 },
-};
-
-const wwiComponents = [
-  { name: 'Protection from Harm',  shortName: 'Protection', value: 72 },
-  { name: 'Work-Life Harmony',     shortName: 'Work-Life',  value: 65 },
-  { name: 'Connection & Community',shortName: 'Connection', value: 68 },
-  { name: 'Mattering at Work',     shortName: 'Mattering',  value: 71 },
-  { name: 'Opportunity for Growth',shortName: 'Growth',     value: 63 },
-];
 
 const keyActions = [
   { title: 'Schedule 1:1 with Riya S.',      priority: 'urgent', dueDate: 'Today',      components: ['Protection from Harm', 'Opportunity for Growth'] },
@@ -85,37 +67,39 @@ const keyActions = [
   { title: 'Reassign at-risk tasks',          priority: 'high',   dueDate: 'Today',      components: ['Protection from Harm'] },
 ];
 
-const atRiskEmployees = EMPLOYEES.filter((e) => e.wwiScore < 70).sort((a, b) => a.wwiScore - b.wwiScore).slice(0, 3);
-
-
+const atRiskEmployees = [...EMPLOYEES]
+  .filter((e) => e.wwiScore < 70)
+  .sort((a, b) => a.wwiScore - b.wwiScore)
+  .slice(0, 3);
 
 export function DemoOverview() {
   const [timeRange, setTimeRange] = useState<TimeRange>('3m');
 
   const trendData = ALL_TREND_DATA[timeRange];
-  const { teamWWI, wwiTrend, fairnessScore, fairnessTrend } = SUMMARY_BY_RANGE[timeRange];
+  const wwiTrend = TEAM_WWI - trendData[0].value;
 
   return (
-    <div className="w-full max-h-[100vh] p-6 lg:p-12 overflow-x-hidden bg-text-[var(--bg)]">
-      {/* Header */}
-      <div className="mb-12 flex items-center gap-6 flex-wrap">
-        <h1
-          className="text-4xl lg:text-5xl font-bold text-[var(--fg)]"
-          style={{ fontFamily: 'Georgia, serif' }}
-        >
+    <div className="mx-auto w-full max-w-7xl px-4 py-8 lg:px-8 lg:py-12">
+      <div className="mb-10 flex flex-wrap items-center gap-4">
+        <h2 className="font-display text-3xl font-bold text-foreground lg:text-4xl">
           Team Overview
-        </h1>
+        </h2>
 
-        {/* Time range toggle */}
-        <div className="ml-auto flex items-center bg-[var(--neutral)] border border-[var(--border)] rounded-lg p-1 gap-1">
+        <div
+          className="ml-auto flex items-center gap-1 rounded-xl border border-border bg-card p-1"
+          role="group"
+          aria-label="Time range"
+        >
           {TIME_RANGES.map(({ label, value }) => (
             <button
               key={value}
+              type="button"
               onClick={() => setTimeRange(value)}
-              className={`px-3 py-1.5 rounded-md text-sm font-medium transition-all duration-200 ${
+              aria-pressed={timeRange === value}
+              className={`min-h-[40px] rounded-lg px-3.5 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary ${
                 timeRange === value
-                  ? 'bg-[var(--primary)] text-[var(--fg)] shadow-sm'
-                  : 'text-[var(--fg-muted)] hover:text-[var(--fg)] hover:bg-[var(--neutral)]'
+                  ? 'bg-primary text-primary-foreground'
+                  : 'text-muted-foreground hover:bg-muted hover:text-foreground'
               }`}
             >
               {label}
@@ -124,16 +108,13 @@ export function DemoOverview() {
         </div>
       </div>
 
-
-      {/* Big WWI Number and Trend + WWI Trend Graph */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-12">
-        <WWIOverviewCard teamWWI={teamWWI} wwiTrend={wwiTrend} />
+      <div className="mb-8 grid grid-cols-1 gap-6 lg:grid-cols-3">
+        <WWIOverviewCard teamWWI={TEAM_WWI} wwiTrend={wwiTrend} />
         <WWITrend wwiTrendData={trendData} />
       </div>
 
-      <WWIComponents wwiComponents={wwiComponents} keyActions={keyActions} />
+      <WWIComponents wwiComponents={TEAM_COMPONENTS} keyActions={keyActions} />
 
-      {/* At-Risk Employees */}
       <AtRiskEmployees atRiskEmployees={atRiskEmployees} />
     </div>
   );

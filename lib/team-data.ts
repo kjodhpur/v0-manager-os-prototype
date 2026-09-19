@@ -21,32 +21,49 @@ export interface Employee {
   actions: Action[];
 }
 
-export const getColor = (value: number) => {
-  if (value >= 75) return 'var(--primary)';
-  if (value >= 50) return 'var(--healthy)';
-  if (value >= 25) return 'var(--warning)';
-  return 'var(--accent)';
-};
+/**
+ * One set of risk bands drives every score colour and label in the demo, so a
+ * "Critical" badge can never render in the healthy colour.
+ *   >= 70 Healthy · 55-69 Elevated · 45-54 High Risk · < 45 Critical
+ */
+export const RISK_BANDS = [
+  { min: 70, label: 'Healthy',   token: 'healthy' },
+  { min: 55, label: 'Elevated',  token: 'warning' },
+  { min: 45, label: 'High Risk', token: 'accent' },
+  { min: -Infinity, label: 'Critical', token: 'risk' },
+] as const;
+
+const bandFor = (value: number) => RISK_BANDS.find((band) => value >= band.min) ?? RISK_BANDS[3];
+
+export const getRiskLabel = (value: number) => bandFor(value).label;
+
+export const getColor = (value: number) => `var(--${bandFor(value).token})`;
 
 export const getColorClass = (value: number) => {
-  if (value >= 75) return 'text-[var(--primary)]';
-  if (value >= 50) return 'text-[var(--healthy)]';
-  if (value >= 25) return 'text-[var(--warning)]';
-  return 'text-[var(--accent)]';
+  switch (bandFor(value).token) {
+    case 'healthy': return 'text-[var(--healthy)]';
+    case 'warning': return 'text-[var(--warning)]';
+    case 'accent':  return 'text-[var(--accent)]';
+    default:        return 'text-[var(--risk)]';
+  }
 };
 
 export const getBorderClass = (value: number) => {
-  if (value >= 75) return 'border-[var(--primary)]';
-  if (value >= 50) return 'border-[var(--healthy)]';
-  if (value >= 25) return 'border-[var(--warning)]';
-  return 'border-[var(--accent)]';
+  switch (bandFor(value).token) {
+    case 'healthy': return 'border-[var(--healthy)]';
+    case 'warning': return 'border-[var(--warning)]';
+    case 'accent':  return 'border-[var(--accent)]';
+    default:        return 'border-[var(--risk)]';
+  }
 };
 
 export const getBgClass = (value: number) => {
-  if (value >= 75) return 'bg-[var(--primary)]/20';
-  if (value >= 50) return 'bg-[var(--healthy)]/20';
-  if (value >= 25) return 'bg-[var(--warning)]/20';
-  return 'bg-[var(--accent)]/20';
+  switch (bandFor(value).token) {
+    case 'healthy': return 'bg-[var(--healthy)]/20';
+    case 'warning': return 'bg-[var(--warning)]/20';
+    case 'accent':  return 'bg-[var(--accent)]/20';
+    default:        return 'bg-[var(--risk)]/20';
+  }
 };
 
 export const EMPLOYEES: Employee[] = [

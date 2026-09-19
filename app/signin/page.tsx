@@ -14,11 +14,12 @@ import { login, supabase } from "./connection"
 export default function SignInPage() {
   const router = useRouter()
   const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
       if (session) {
-        router.push("/app")
+        router.push("/demo")
       }
     })
 
@@ -27,26 +28,35 @@ export default function SignInPage() {
 
   const handleGoogleSignIn = async () => {
     setIsLoading(true)
+    setError(null)
     try {
       await login()
-    } catch (error) {
-      console.error("Error signing in:", error)
+    } catch (err) {
+      console.error("Error signing in:", err)
+      setError("We couldn't start Google sign-in. Please try again, or use demo mode below.")
       setIsLoading(false)
     }
   }
 
   const handleDemoMode = () => {
-    router.push("/app")
+    router.push("/demo")
   }
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-background px-4">
       <div className="w-full max-w-md">
         <div className="mb-8 flex flex-col items-center">
-          <Link href="/">
+          <Link
+            href="/"
+            className="rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+            aria-label="HeartMetrics home"
+          >
             <HeartMetricsLogo />
           </Link>
-          <p className="mt-3 text-sm text-muted-foreground">Sign into your account</p>
+          <h1 className="mt-4 text-xl font-semibold">Sign in to HeartMetrics</h1>
+          <p className="mt-1.5 text-sm text-muted-foreground">
+            Use your work Google account to continue.
+          </p>
         </div>
 
         <Card className="border-border">
@@ -56,6 +66,15 @@ export default function SignInPage() {
                 {isLoading ? "Signing in..." : "Sign in with Google"}
               </Button>
             </div>
+
+            {error && (
+              <p
+                role="alert"
+                className="mt-4 rounded-lg border border-destructive/30 bg-destructive/10 px-3 py-2 text-sm text-destructive"
+              >
+                {error}
+              </p>
+            )}
 
             <div className="relative my-6">
               <div className="absolute inset-0 flex items-center">

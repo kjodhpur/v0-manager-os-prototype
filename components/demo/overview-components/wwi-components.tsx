@@ -1,7 +1,7 @@
 'use client';
+
 import { useState } from 'react';
 import { ArrowRight } from 'lucide-react';
-import "@/styles/globals.css";
 import Pentagon from './pentagon';
 
 interface WWIComponent {
@@ -24,9 +24,9 @@ interface Props {
 
 const getPriorityColor = (priority: string) => {
   switch (priority) {
-    case 'urgent': return 'bg-[var(--accent)]/30 text-[var(--fg)] border-[var(--accent)]';
-    case 'high':   return 'bg-[var(--warning)]/30 text-[var(--fg)] border-[var(--warning)]';
-    default:       return 'bg-[var(--primary)]/30 text-[var(--fg)] border-[var(--primary)]';
+    case 'urgent': return 'bg-[var(--risk)]/15 text-foreground border-[var(--risk)]/50';
+    case 'high':   return 'bg-[var(--accent)]/15 text-foreground border-[var(--accent)]/50';
+    default:       return 'bg-primary/10 text-foreground border-primary/40';
   }
 };
 
@@ -38,13 +38,14 @@ export default function WWIComponents({ wwiComponents, keyActions }: Props) {
     : keyActions;
 
   return (
-    <div className="rounded-xl border border-[var(--border)] bg-[var(--neutral)] text-[var(--fg)] mb-12 overflow-hidden">
-      <div className="grid grid-cols-1 lg:grid-cols-2 lg:h-[480px]">
-
-        {/* Left: Pentagon */}
-        <div className="flex flex-col items-center justify-center p-8 border-b lg:border-b-0 lg:border-r border-[var(--border)]">
-          <p className="text-xl font-semibold uppercase tracking-widest text-[var(--fg)] mb-4">
+    <div className="mb-8 overflow-hidden rounded-xl border border-border bg-card text-foreground">
+      <div className="grid grid-cols-1 lg:grid-cols-2">
+        <div className="flex flex-col items-center border-b border-border p-6 lg:border-b-0 lg:border-r">
+          <h2 className="text-center text-sm font-semibold uppercase tracking-widest text-foreground">
             5-Component Signal
+          </h2>
+          <p className="mt-1 text-center text-xs text-muted-foreground">
+            Select a point to filter actions
           </p>
           <Pentagon
             components={wwiComponents}
@@ -53,52 +54,40 @@ export default function WWIComponents({ wwiComponents, keyActions }: Props) {
           />
         </div>
 
-        {/* Right: Actions */}
-        <div className="flex flex-col p-10 h-[360px] lg:h-full min-h-0">
-          <div className="flex items-center justify-between mb-2 flex-shrink-0">
-            <h2 className="text-sm font-semibold uppercase tracking-wider text-[var(--fg)]">
+        <div className="flex flex-col p-5 lg:p-6">
+          <div className="mb-4 flex items-center justify-between gap-3">
+            <h3 className="truncate text-sm font-semibold uppercase tracking-wider text-foreground">
               {selectedComponent ?? 'All Actions'}
-            </h2>
+            </h3>
             {selectedComponent && (
               <button
+                type="button"
                 onClick={() => setSelectedComponent(null)}
-                className="text-xs text-[var(--primary)] flex items-center gap-1 hover:underline"
+                className="flex shrink-0 items-center gap-1 rounded-lg px-2 py-1.5 text-xs text-primary transition-colors hover:bg-primary/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
               >
-                View all <ArrowRight className="w-3 h-3" />
+                View all <ArrowRight className="h-3 w-3" aria-hidden="true" />
               </button>
             )}
           </div>
 
-          {/* Scroll area with fades */}
-          <div className="relative flex-1 min-h-0">
-              <div className="h-full overflow-x-visible overflow-y-auto">
-                <div className="grid grid-cols-1 gap-3 py-4 px-2">
-                  {filteredActions.length === 0 ? (
-                    <p className="text-sm text-[var(--fg)]/40 text-center py-8">
-                      No actions for this component.
-                    </p>
-                  ) : (
-                    filteredActions.map((action, idx) => (
-                      <button
-                        key={idx}
-                        className={`rounded-lg p-4 border ${getPriorityColor(action.priority)} hover:scale-[1.02] transition-all duration-200 text-left w-full`}
-                      >
-                        <p className="font-medium text-sm">{action.title}</p>
-                        <p className="text-xs mt-1 opacity-60">Due: {action.dueDate}</p>
-                      </button>
-                    ))
-                  )}
-                </div>
-                {/* Top fade */}
-                <div className="pointer-events-none absolute top-0 left-0 w-full h-10 z-10"
-                  style={{ background: 'linear-gradient(to bottom, var(--neutral) 0%, transparent 100%)' }} />
-                {/* Bottom fade */}
-                <div className="pointer-events-none absolute bottom-0 left-0 w-full h-16 z-10"
-                  style={{ background: 'linear-gradient(to top, var(--neutral) 30%, transparent 100%)' }} />
-              </div>
-            </div>
+          <ul className="flex flex-col gap-3 lg:max-h-[380px] lg:overflow-y-auto">
+            {filteredActions.length === 0 ? (
+              <li className="py-8 text-center text-sm text-muted-foreground">
+                No actions for this component.
+              </li>
+            ) : (
+              filteredActions.map((action) => (
+                <li
+                  key={action.title}
+                  className={`rounded-xl border p-4 ${getPriorityColor(action.priority)}`}
+                >
+                  <p className="text-sm font-medium">{action.title}</p>
+                  <p className="mt-1 text-xs text-muted-foreground">Due: {action.dueDate}</p>
+                </li>
+              ))
+            )}
+          </ul>
         </div>
-
       </div>
     </div>
   );

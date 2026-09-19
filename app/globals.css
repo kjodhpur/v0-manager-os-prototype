@@ -82,6 +82,16 @@
   --week-5: #FF9B47;
   --week-6: #FF6B6B;
   --week-7: #FF6B6B;
+
+  /* Dashboard aliases. The demo surfaces address these names; they resolve to
+     the same palette as the marketing site so both themes stay in sync. */
+  --bg: #000000;
+  --fg: #F8FAFC;
+  --fg-muted: #8B8B8B;
+  --neutral: #0D0D0D;
+  --healthy: #5DD67A;
+  --warning: #FFC940;
+  --risk: #FF6B6B;
 }
 
 .dark {
@@ -133,6 +143,14 @@
   --week-5: #FF9B47;
   --week-6: #FF6B6B;
   --week-7: #FF6B6B;
+
+  --bg: #000000;
+  --fg: #F8FAFC;
+  --fg-muted: #8B8B8B;
+  --neutral: #0D0D0D;
+  --healthy: #5DD67A;
+  --warning: #FFC940;
+  --risk: #FF6B6B;
 }
 
 .light {
@@ -184,6 +202,14 @@
   --week-5: #FF9B47;
   --week-6: #EF4444;
   --week-7: #EF4444;
+
+  --bg: #FAF8F5;
+  --fg: #1A1A1A;
+  --fg-muted: #777777;
+  --neutral: #F5EFE7;
+  --healthy: #2FA85A;
+  --warning: #B8860B;
+  --risk: #D64545;
 }
 
 @theme inline {

@@ -1,8 +1,8 @@
 "use client";
 
 import { useState, useRef, useEffect, useMemo } from "react";
-import { Navigation } from "@/components/landing/navigation";
-import { FooterSection } from "@/components/landing/footer-section";
+import { SiteHeader } from "@/components/site/site-header";
+import { SiteFooter } from "@/components/site/site-footer";
 import { Button } from "@/components/ui/button";
 import { 
   Shield, 
@@ -1078,7 +1078,7 @@ function CTASection() {
 export default function HowWeCalculatePage() {
   return (
     <main className="relative min-h-screen overflow-x-hidden">
-      <Navigation />
+      <SiteHeader />
       <HeroSection />
       <FiveEssentialsSection />
       <WWIFormulaSection />
@@ -1089,7 +1089,7 @@ export default function HowWeCalculatePage() {
       <ResearchSection />
       <AICoachingSection />
       <CTASection />
-      <FooterSection />
+      <SiteFooter />
     </main>
   );
 }

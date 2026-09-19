@@ -22,7 +22,7 @@ heartmetrics.connect({
     description: "Get a clear dashboard showing team health, work distribution, and recognition patterns in real-time.",
     code: `heartmetrics.dashboard({
   metrics: [
-    'work-happiness-index',
+    'work-wellbeing-index',
     'burnout-risk',
     'fairness-score'
   ],

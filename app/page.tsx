@@ -1,4 +1,4 @@
-import { Navigation } from "@/components/landing/navigation";
+import { SiteHeader } from "@/components/site/site-header";
 import { HeroSection } from "@/components/landing/hero-section";
 import { ECGCanvas } from "@/components/landing/ecg-canvas";
 import { SocialProofBar } from "@/components/landing/social-proof-bar";
@@ -14,12 +14,12 @@ import { TeamSection } from "@/components/landing/team-section";
 import { AccoladesSection } from "@/components/landing/accolades-section";
 import { PricingSection } from "@/components/landing/pricing-section";
 import { CtaSection } from "@/components/landing/cta-section";
-import { FooterSection } from "@/components/landing/footer-section";
+import { SiteFooter } from "@/components/site/site-footer";
 
 export default function Home() {
   return (
     <main className="relative min-h-screen overflow-x-hidden">
-      <Navigation />
+      <SiteHeader />
       <HeroSection />
       <div className="py-12 px-4">
         <ECGCanvas />
@@ -39,7 +39,7 @@ export default function Home() {
       <FAQSection />
       <PricingSection />
       <CtaSection />
-      <FooterSection />
+      <SiteFooter />
     </main>
   );
 }

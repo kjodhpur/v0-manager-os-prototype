@@ -1,165 +1,115 @@
 'use client';
-"use client";
 
-import { useEffect, useState } from "react";
+import Link from 'next/link';
+import { ArrowUpRight } from 'lucide-react';
 
-const testimonials = [
+/**
+ * Evidence, not endorsements. HeartMetrics is pre-launch, so this section cites
+ * published research rather than presenting customer quotes we don't have.
+ */
+const EVIDENCE = [
   {
-    quote: "HeartMetrics helped us identify burnout risks we never saw coming. Two team members were struggling silently for months.",
-    author: "Sarah Chen",
-    role: "Engineering Director",
-    company: "TechCorp",
-    metric: "40% burnout reduction",
+    stat: '71%',
+    claim: 'of tech employee turnover is linked to poor management',
+    source: 'Gallup, 2023',
   },
   {
-    quote: "Finally, a tool that surfaces invisible work. Our ops team members are finally getting the recognition they deserve.",
-    author: "Marcus Webb",
-    role: "VP People",
-    company: "ScaleUp Inc",
-    metric: "3x recognition increase",
+    stat: '79%',
+    claim: 'cite lack of recognition as a reason for quitting',
+    source: 'O.C. Tanner',
   },
   {
-    quote: "The fairness analytics showed us our stretch assignments were going to the same 20% of the team. We fixed it.",
-    author: "Elena Rodriguez",
-    role: "Head of Engineering",
-    company: "FinanceAI",
-    metric: "Equal opportunity distribution",
+    stat: '34%',
+    claim: 'of employees considered quitting because of burnout',
+    source: 'NAMI, 2024',
   },
   {
-    quote: "Privacy-first approach won over our skeptical team. They trust it because it only sees work signals, not messages.",
-    author: "James Liu",
-    role: "CISO",
-    company: "SecureCo",
-    metric: "100% team adoption",
+    stat: '$900B',
+    claim: 'annual cost of voluntary turnover in the U.S.',
+    source: 'Work Institute, 2024',
   },
 ];
 
+const TEAM_BACKGROUNDS = [
+  'Google',
+  'Amazon',
+  'Deloitte',
+  'Nestlé',
+  'ASU',
+  'PSU',
+  'Meta',
+  'Microsoft',
+];
+
 export function TestimonialsSection() {
-  const [activeIndex, setActiveIndex] = useState(0);
-  const [isAnimating, setIsAnimating] = useState(false);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setIsAnimating(true);
-      setTimeout(() => {
-        setActiveIndex((prev) => (prev + 1) % testimonials.length);
-        setIsAnimating(false);
-      }, 300);
-    }, 5000);
-    return () => clearInterval(interval);
-  }, []);
-
-  const activeTestimonial = testimonials[activeIndex];
-
   return (
-    <section className="relative py-32 lg:py-40 border-t border-foreground/10 lg:pb-14">
-      <div className="max-w-7xl mx-auto px-6 lg:px-12">
-        {/* Section Label */}
-        <div className="flex items-center gap-4 mb-16">
-          <span className="font-mono text-xs tracking-widest text-muted-foreground uppercase">
-            What managers say
+    <section className="border-t border-border py-24 lg:py-32">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="mb-14 flex items-center gap-4">
+          <span className="font-mono text-xs uppercase tracking-widest text-muted-foreground">
+            Why this matters
           </span>
-          <div className="flex-1 h-px bg-foreground/10" />
-          <span className="font-mono text-xs text-muted-foreground">
-            {String(activeIndex + 1).padStart(2, "0")} / {String(testimonials.length).padStart(2, "0")}
-          </span>
+          <div className="h-px flex-1 bg-border" />
         </div>
 
-        {/* Main Quote */}
-        <div className="grid lg:grid-cols-12 gap-12 lg:gap-20">
-          <div className="lg:col-span-8">
-            <blockquote
-              className={`transition-all duration-300 ${
-                isAnimating ? "opacity-0 translate-y-4" : "opacity-100 translate-y-0"
-              }`}
+        <div className="grid gap-12 lg:grid-cols-12 lg:gap-16">
+          <div className="lg:col-span-5">
+            <h2 className="font-display text-3xl tracking-tight md:text-4xl lg:text-5xl">
+              The signals are <span className="text-gradient">already there</span>
+            </h2>
+            <p className="mt-6 text-base leading-relaxed text-muted-foreground lg:text-lg">
+              People rarely leave without warning. The patterns show up in workload, recognition
+              and growth long before a resignation — they&apos;re just spread across systems no one
+              reads together.
+            </p>
+            <Link
+              href="/how-we-calculate"
+              className="group mt-8 inline-flex items-center gap-2 text-sm font-medium text-primary underline-offset-4 hover:underline"
             >
-              <p className="font-display text-3xl md:text-4xl lg:text-5xl leading-[1.15] tracking-tight text-foreground">
-                &ldquo;{activeTestimonial.quote}&rdquo;
-              </p>
-            </blockquote>
-
-            {/* Author */}
-            <div
-              className={`mt-12 flex items-center gap-6 transition-all duration-300 delay-100 ${
-                isAnimating ? "opacity-0" : "opacity-100"
-              }`}
-            >
-              <div className="w-16 h-16 rounded-full bg-gradient-to-br from-primary/20 via-ring/20 to-accent/20 border border-primary/30 flex items-center justify-center">
-                <span className="font-display text-2xl text-gradient">
-                  {activeTestimonial.author.charAt(0)}
-                </span>
-              </div>
-              <div>
-                <p className="text-lg font-medium text-foreground">{activeTestimonial.author}</p>
-                <p className="text-muted-foreground">
-                  {activeTestimonial.role}, {activeTestimonial.company}
-                </p>
-              </div>
-            </div>
+              See the full methodology
+              <ArrowUpRight
+                className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                aria-hidden="true"
+              />
+            </Link>
           </div>
 
-          {/* Right column */}
-          <div className="lg:col-span-4 flex flex-col justify-center">
-            {/* Metric Highlight */}
-            <div
-              className={`p-8 border border-primary/30 bg-primary/5 rounded-xl transition-all duration-300 ${
-                isAnimating ? "opacity-0 scale-95" : "opacity-100 scale-100"
-              }`}
-            >
-              <span className="font-mono text-xs tracking-widest text-muted-foreground uppercase block mb-4">
-                Key Result
-              </span>
-              <p className="font-display text-2xl md:text-3xl text-gradient">
-                {activeTestimonial.metric}
-              </p>
-            </div>
-
-            {/* Navigation Dots */}
-            <div className="flex gap-2 mt-8">
-              {testimonials.map((_, idx) => (
-                <button
-                  key={idx}
-                  onClick={() => {
-                    setIsAnimating(true);
-                    setTimeout(() => {
-                      setActiveIndex(idx);
-                      setIsAnimating(false);
-                    }, 300);
-                  }}
-                  className={`h-2 rounded-full transition-all duration-300 ${
-                    idx === activeIndex
-                      ? "w-8 bg-gradient-to-r from-primary via-ring to-accent"
-                      : "w-2 bg-foreground/20 hover:bg-foreground/40"
-                  }`}
-                />
-              ))}
-            </div>
+          <div className="grid gap-4 sm:grid-cols-2 lg:col-span-7">
+            {EVIDENCE.map((item) => (
+              <div
+                key={item.stat}
+                className="rounded-xl border border-border bg-card p-6 transition-colors hover:border-primary/40"
+              >
+                <p className="font-display text-3xl text-gradient lg:text-4xl">{item.stat}</p>
+                <p className="mt-3 text-sm leading-relaxed text-foreground/80">{item.claim}</p>
+                <p className="mt-3 font-mono text-xs text-muted-foreground">{item.source}</p>
+              </div>
+            ))}
           </div>
         </div>
 
-        {/* Company Logos Marquee Label */}
-        <div className="mt-24 pt-12 border-t border-foreground/10">
-          <p className="font-mono text-xs tracking-widest text-muted-foreground uppercase mb-8 text-center">
+        <div className="mt-20 border-t border-border pt-12">
+          <p className="text-center font-mono text-xs uppercase tracking-widest text-muted-foreground">
             Built by people with experience at
           </p>
         </div>
       </div>
-      
-      {/* Full-width marquee outside container */}
-      <div className="w-full">
-        <div className="flex gap-16 items-center marquee">
-          {[...Array(2)].map((_, setIdx) => (
-            <div key={setIdx} className="flex gap-16 items-center shrink-0">
-              {["Google", "Amazon", "Deloitte", "Nestle", "ASU", "PSU", "Meta", "Microsoft"].map(
-                (company) => (
-                  <span
-                    key={`${setIdx}-${company}`}
-                    className="font-display text-xl md:text-2xl text-foreground/25 whitespace-nowrap hover:text-foreground/50 transition-colors duration-300"
-                  >
-                    {company}
-                  </span>
-                )
-              )}
+
+      {/* Full-bleed marquee. Each set carries its own trailing gap so the -50%
+          translate lands exactly one set over and the loop has no seam. */}
+      <div className="mt-8 w-full overflow-hidden">
+        <div className="marquee flex w-max items-center">
+          {[0, 1].map((setIdx) => (
+            <div key={setIdx} className="flex shrink-0 items-center gap-16 pr-16">
+              {TEAM_BACKGROUNDS.map((company) => (
+                <span
+                  key={`${setIdx}-${company}`}
+                  className="whitespace-nowrap font-display text-xl text-foreground/25 md:text-2xl"
+                  aria-hidden={setIdx === 1 ? 'true' : undefined}
+                >
+                  {company}
+                </span>
+              ))}
             </div>
           ))}
         </div>

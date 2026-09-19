@@ -11,7 +11,7 @@ const FALLBACK_NUDGES = {
       category: "checkin" as const,
       emoji: "🔴",
       message: "Marcus Chen's workload signals are elevated — 7 active WIPs and 22 meeting hours this week. Consider a check-in to discuss priorities.",
-      evidence: "- WIP count: 7 (team avg: 4.2)\n- Meeting hours: 22/week\n- WHI trending downward",
+      evidence: "- WIP count: 7 (team avg: 4.2)\n- Meeting hours: 22/week\n- WWI trending downward",
       actionLabel: "Schedule 1:1",
       actionTarget: "meetings",
       targetEmployee: "Marcus Chen",
