@@ -2,143 +2,136 @@
 
 import { useEffect, useRef, useState } from 'react';
 
+const WAVE_WIDTH = 280;
+const CSS_HEIGHT = 48;
+
 export function ECGCanvas() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const animationRef = useRef<number>();
+  // Scroll speed lives in a ref so changing it doesn't tear down the animation
+  // loop — reading it from state restarted the wave on every scroll frame.
+  const speedRef = useRef(1.2);
   const [isVisible, setIsVisible] = useState(false);
-  const [scrollSpeed, setScrollSpeed] = useState(1.2);
 
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        setIsVisible(entry.isIntersecting);
-      },
-      { threshold: 0.3 }
-    );
+    const canvas = canvasRef.current;
+    if (!canvas) return;
 
-    if (canvasRef.current) {
-      observer.observe(canvasRef.current);
-    }
-
+    const observer = new IntersectionObserver(([entry]) => setIsVisible(entry.isIntersecting), {
+      threshold: 0.3,
+    });
+    observer.observe(canvas);
     return () => observer.disconnect();
   }, []);
 
   useEffect(() => {
-    const handleScroll = () => {
-      const windowHeight = window.innerHeight;
-      const scrollHeight = document.documentElement.scrollHeight;
-      const scrolled = window.scrollY;
-      const scrollPercent = scrolled / (scrollHeight - windowHeight);
-      
-      // Speed ranges from 1.2px/frame to 4px/frame based on scroll
-      setScrollSpeed(1.2 + scrollPercent * 2.8);
+    const onScroll = () => {
+      const scrollable = document.documentElement.scrollHeight - window.innerHeight;
+      const percent = scrollable > 0 ? window.scrollY / scrollable : 0;
+      speedRef.current = 1.2 + percent * 2.8;
     };
-
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
   useEffect(() => {
-    if (!isVisible || !canvasRef.current) return;
+    if (!isVisible) return;
 
     const canvas = canvasRef.current;
-    const ctx = canvas.getContext('2d');
-    if (!ctx) return;
+    const ctx = canvas?.getContext('2d');
+    if (!canvas || !ctx) return;
+
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    let width = 0;
+    let height = CSS_HEIGHT;
+    let gradient: CanvasGradient;
+
+    // Size the backing store to the element's real CSS width and the device
+    // pixel ratio, so the trace isn't squashed or blurry on phones.
+    const resize = () => {
+      const dpr = window.devicePixelRatio || 1;
+      width = canvas.clientWidth || 1;
+      canvas.width = Math.round(width * dpr);
+      canvas.height = Math.round(height * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+      gradient = ctx.createLinearGradient(0, 0, width, 0);
+      gradient.addColorStop(0, '#00B8A0');
+      gradient.addColorStop(0.5, '#5DD67A');
+      gradient.addColorStop(1, '#FFB347');
+    };
+
+    resize();
+    window.addEventListener('resize', resize);
 
     let offset = 0;
-    const waveWidth = 280;
-    const amplitude = canvas.height / 2.5;
-    const centerY = canvas.height / 2;
-    const gradient = ctx.createLinearGradient(0, 0, canvas.width, 0);
-    gradient.addColorStop(0, '#00B8A0');
-    gradient.addColorStop(0.5, '#5DD67A');
-    gradient.addColorStop(1, '#FFB347');
+    const amplitude = height / 2.5;
+    const centerY = height / 2;
 
-    const drawWave = () => {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
+    const traceY = (i: number) => {
+      if (i < 40) return centerY;
+      if (i < 60) return centerY - Math.sin(((i / WAVE_WIDTH) * Math.PI * 2 - Math.PI) * 2) * amplitude * 0.3;
+      if (i < 80) return centerY;
+      if (i < 100) return centerY + Math.sin(((i - 80) / 20) * Math.PI) * amplitude * 1.2;
+      if (i < 120) return centerY - Math.sin(((i - 100) / 20) * Math.PI) * amplitude * 0.8;
+      if (i < 160) return centerY;
+      if (i < 180) return centerY - Math.sin(((i - 160) / 20) * Math.PI) * amplitude * 0.4;
+      return centerY;
+    };
 
-      // Draw multiple waves across the canvas
-      for (let x = 0; x < canvas.width + waveWidth; x += waveWidth) {
+    const draw = () => {
+      ctx.clearRect(0, 0, width, height);
+
+      // Shadow must be set before stroking or the glow never renders.
+      ctx.shadowColor = offset % WAVE_WIDTH < WAVE_WIDTH / 2
+        ? 'rgba(0, 184, 160, 0.4)'
+        : 'rgba(255, 179, 71, 0.4)';
+      ctx.shadowBlur = 6;
+      ctx.shadowOffsetY = 1;
+      ctx.strokeStyle = gradient;
+      ctx.lineWidth = 2;
+      ctx.lineCap = 'round';
+      ctx.lineJoin = 'round';
+
+      for (let x = 0; x < width + WAVE_WIDTH; x += WAVE_WIDTH) {
         ctx.beginPath();
-        for (let i = 0; i < waveWidth; i += 1) {
+        for (let i = 0; i < WAVE_WIDTH; i += 1) {
           const waveX = x + i - offset;
-          const progress = (i / waveWidth) * Math.PI * 2;
-
-          // ECG-like pattern: mostly flat with spikes and dips
-          let y = centerY;
-          if (i < 40) {
-            // Flat line start
-            y = centerY;
-          } else if (i < 60) {
-            // P wave
-            y = centerY - Math.sin((progress - Math.PI) * 2) * amplitude * 0.3;
-          } else if (i < 80) {
-            // PR interval
-            y = centerY;
-          } else if (i < 100) {
-            // QRS complex - sharp downward
-            const qrsProgress = (i - 80) / 20;
-            y = centerY + Math.sin(qrsProgress * Math.PI) * amplitude * 1.2;
-          } else if (i < 120) {
-            // S wave recovery
-            y = centerY - Math.sin((i - 100) / 20 * Math.PI) * amplitude * 0.8;
-          } else if (i < 160) {
-            // ST segment
-            y = centerY;
-          } else if (i < 180) {
-            // T wave
-            y = centerY - Math.sin((i - 160) / 20 * Math.PI) * amplitude * 0.4;
-          } else {
-            // Baseline
-            y = centerY;
-          }
-
-          if (waveX === x) {
-            ctx.moveTo(waveX, y);
-          } else {
-            ctx.lineTo(waveX, y);
-          }
+          const y = traceY(i);
+          if (i === 0) ctx.moveTo(waveX, y);
+          else ctx.lineTo(waveX, y);
         }
-
-        ctx.strokeStyle = gradient;
-        ctx.lineWidth = 2;
-        ctx.lineCap = 'round';
-        ctx.lineJoin = 'round';
         ctx.stroke();
       }
 
-      // Draw glow shadow
-      ctx.shadowColor = offset % 280 < 140 ? 'rgba(0, 184, 160, 0.4)' : 'rgba(255, 179, 71, 0.4)';
-      ctx.shadowBlur = 6;
-      ctx.shadowOffsetX = 0;
-      ctx.shadowOffsetY = 2;
-
-      offset = (offset + scrollSpeed) % waveWidth;
+      offset = (offset + speedRef.current) % WAVE_WIDTH;
     };
 
-    const animate = () => {
-      drawWave();
-      animationRef.current = requestAnimationFrame(animate);
-    };
-
-    animate();
+    if (prefersReducedMotion) {
+      draw();
+    } else {
+      const animate = () => {
+        draw();
+        animationRef.current = requestAnimationFrame(animate);
+      };
+      animate();
+    }
 
     return () => {
-      if (animationRef.current) {
-        cancelAnimationFrame(animationRef.current);
-      }
+      window.removeEventListener('resize', resize);
+      if (animationRef.current) cancelAnimationFrame(animationRef.current);
     };
-  }, [isVisible, scrollSpeed]);
+  }, [isVisible]);
 
   return (
     <canvas
       ref={canvasRef}
-      width={800}
-      height={48}
-      className={`w-full max-w-2xl mx-auto transition-opacity duration-1000 delay-700 ${
+      aria-hidden="true"
+      className={`mx-auto block w-full max-w-2xl transition-opacity duration-1000 ${
         isVisible ? 'opacity-100' : 'opacity-0'
       }`}
-      style={{ height: '48px' }}
+      style={{ height: `${CSS_HEIGHT}px` }}
     />
   );
 }

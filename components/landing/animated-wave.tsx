@@ -21,7 +21,8 @@ export function AnimatedWave() {
       const rect = canvas.getBoundingClientRect();
       canvas.width = rect.width * dpr;
       canvas.height = rect.height * dpr;
-      ctx.scale(dpr, dpr);
+      // setTransform rather than scale: scale() compounds on every resize.
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     };
 
     resize();
@@ -54,8 +55,7 @@ export function AnimatedWave() {
           const charIndex = Math.floor(normalized * (chars.length - 1));
           const alpha = 0.15 + normalized * 0.5;
 
-          // Use CSS variable color (HeartMetrics primary: #0C2C55)
-ctx.fillStyle = `rgba(12, 44, 85, ${alpha})`;
+          ctx.fillStyle = `rgba(0, 184, 160, ${alpha})`;
           ctx.fillText(chars[charIndex], px, py);
         }
       }

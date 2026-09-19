@@ -70,6 +70,9 @@ const faqCategories = [
   },
 ]
 
+const slugify = (value: string) =>
+  value.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "")
+
 export default function FAQPage() {
   const [openItems, setOpenItems] = useState<Record<string, boolean>>({})
 
@@ -100,26 +103,34 @@ export default function FAQPage() {
                   <div className="flex flex-col gap-3">
                     {category.faqs.map((faq) => {
                       const key = `${category.title}-${faq.q}`
-                      const isOpen = openItems[key]
+                      const isOpen = Boolean(openItems[key])
+                      const panelId = `faq-panel-${slugify(key)}`
+                      const buttonId = `faq-trigger-${slugify(key)}`
                       return (
-                        <div key={faq.q} className="rounded-lg border border-border bg-card">
+                        <div key={faq.q} className="rounded-xl border border-border bg-card">
                           <button
-                            className="flex w-full items-center justify-between p-5 text-left"
+                            id={buttonId}
+                            className="flex w-full items-center justify-between gap-4 rounded-xl p-5 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
                             onClick={() => toggleItem(key)}
                             aria-expanded={isOpen}
+                            aria-controls={panelId}
                           >
                             <span className="text-sm font-medium text-foreground">{faq.q}</span>
                             {isOpen ? (
-                              <ChevronUp className="h-5 w-5 shrink-0 text-muted-foreground" />
+                              <ChevronUp className="h-5 w-5 shrink-0 text-muted-foreground" aria-hidden="true" />
                             ) : (
-                              <ChevronDown className="h-5 w-5 shrink-0 text-muted-foreground" />
+                              <ChevronDown className="h-5 w-5 shrink-0 text-muted-foreground" aria-hidden="true" />
                             )}
                           </button>
-                          {isOpen && (
-                            <div className="border-t border-border px-5 pb-5 pt-4">
-                              <p className="text-sm leading-relaxed text-muted-foreground">{faq.a}</p>
-                            </div>
-                          )}
+                          <div
+                            id={panelId}
+                            role="region"
+                            aria-labelledby={buttonId}
+                            hidden={!isOpen}
+                            className="border-t border-border px-5 pb-5 pt-4"
+                          >
+                            <p className="text-sm leading-relaxed text-muted-foreground">{faq.a}</p>
+                          </div>
                         </div>
                       )
                     })}

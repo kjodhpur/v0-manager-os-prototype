@@ -1,3 +1,11 @@
+import type { Metadata } from "next"
+
+export const metadata: Metadata = {
+  title: "Privacy Policy",
+  description:
+    "What HeartMetrics collects, what it never touches, and the controls you have over your data.",
+}
+
 import { SiteHeader } from "@/components/site/site-header"
 import { SiteFooter } from "@/components/site/site-footer"
 import { Badge } from "@/components/ui/badge"

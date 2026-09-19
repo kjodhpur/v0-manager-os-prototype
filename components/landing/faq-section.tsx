@@ -36,19 +36,29 @@ function FAQItem({ faq, index, isOpen, onToggle }: {
 }) {
   const contentRef = useRef<HTMLDivElement>(null);
   const [height, setHeight] = useState(0);
+  const panelId = `faq-panel-${index}`;
+  const buttonId = `faq-trigger-${index}`;
 
+  // Re-measure on resize too: a height captured once goes stale and clips the
+  // answer when the viewport or font size changes while the item is open.
   useEffect(() => {
-    if (contentRef.current) {
-      setHeight(isOpen ? contentRef.current.scrollHeight : 0);
-    }
+    const measure = () => {
+      if (contentRef.current) setHeight(isOpen ? contentRef.current.scrollHeight : 0);
+    };
+    measure();
+    if (!isOpen) return;
+    window.addEventListener('resize', measure);
+    return () => window.removeEventListener('resize', measure);
   }, [isOpen]);
 
   return (
     <div className="border-b border-border">
       <button
-        className="flex w-full items-center justify-between py-6 text-left group"
+        id={buttonId}
+        className="group flex w-full items-center justify-between gap-4 py-6 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
         onClick={onToggle}
         aria-expanded={isOpen}
+        aria-controls={panelId}
       >
         <div className="flex items-center gap-4">
           <span className="font-mono text-sm text-muted-foreground">
@@ -58,14 +68,18 @@ function FAQItem({ faq, index, isOpen, onToggle }: {
             {faq.q}
           </span>
         </div>
-        <ChevronDown 
+        <ChevronDown
+          aria-hidden="true"
           className={`h-5 w-5 shrink-0 text-muted-foreground transition-transform duration-300 ${
             isOpen ? "rotate-180" : ""
-          }`} 
+          }`}
         />
       </button>
-      <div 
-        className="overflow-hidden transition-all duration-300"
+      <div
+        id={panelId}
+        role="region"
+        aria-labelledby={buttonId}
+        className="overflow-hidden transition-[height] duration-300"
         style={{ height }}
       >
         <div ref={contentRef} className="pb-6 pl-10">
@@ -108,7 +122,7 @@ export function FAQSection() {
       ref={sectionRef}
       className="relative py-24 lg:py-32"
     >
-      <div className="max-w-[1000px] mx-auto px-6 lg:px-12">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="text-center mb-16">
           <span className="inline-flex items-center gap-3 text-sm font-mono text-muted-foreground mb-6">

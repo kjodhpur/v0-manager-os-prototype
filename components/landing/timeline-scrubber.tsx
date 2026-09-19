@@ -268,14 +268,16 @@ export function TimelineScrubber() {
             max="6"
             value={activeWeek}
             onChange={handleSliderChange}
-            className="w-full h-1 bg-muted rounded-lg appearance-none cursor-pointer accent-primary transition-all duration-500"
+            aria-label="Week"
+            aria-valuetext={`Week ${currentWeek.week}`}
+            className="h-2 w-full cursor-pointer appearance-none rounded-lg accent-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-4 focus-visible:ring-offset-background"
             style={{
-              background: `linear-gradient(to right, ${currentWeek.color} 0%, ${currentWeek.color} ${(activeWeek / 6) * 100}%, rgba(255,255,255,0.1) ${(activeWeek / 6) * 100}%, rgba(255,255,255,0.1) 100%)`,
+              background: `linear-gradient(to right, ${currentWeek.color} 0%, ${currentWeek.color} ${(activeWeek / 6) * 100}%, var(--border) ${(activeWeek / 6) * 100}%, var(--border) 100%)`,
             }}
           />
 
           {/* Week marks */}
-          <div className="flex justify-between mt-2 px-1">
+          <div className="mt-1 flex justify-between">
             {weeks.map((w, idx) => (
               <button
                 key={idx}
@@ -286,7 +288,13 @@ export function TimelineScrubber() {
                     autoPlayRef.current.forEach(timeout => clearTimeout(timeout));
                   }
                 }}
-                className="text-xs font-mono text-muted-foreground hover:text-foreground transition-colors"
+                aria-label={`Week ${w.week}`}
+                aria-pressed={activeWeek === idx}
+                className={`min-h-[44px] min-w-[36px] rounded-lg font-mono text-xs transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary ${
+                  activeWeek === idx
+                    ? 'font-semibold text-foreground'
+                    : 'text-muted-foreground hover:text-foreground'
+                }`}
               >
                 W{w.week}
               </button>

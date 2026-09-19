@@ -1,4 +1,10 @@
-"use client"
+import type { Metadata } from "next"
+
+export const metadata: Metadata = {
+  title: "Product",
+  description:
+    "See how HeartMetrics turns work-system signals into a Work Wellbeing Index, burnout risk detection and AI coaching for managers.",
+}
 
 import { SiteHeader } from "@/components/site/site-header"
 import { SiteFooter } from "@/components/site/site-footer"
@@ -226,7 +232,7 @@ export default function ProductPage() {
                 </Link>
               </Button>
               <Button size="lg" variant="outline" className="border-primary-foreground/30 text-primary-foreground hover:bg-primary-foreground/10 bg-transparent" asChild>
-                <Link href="/app">Try Demo Mode</Link>
+                <Link href="/demo">Try Live Demo</Link>
               </Button>
             </div>
           </div>

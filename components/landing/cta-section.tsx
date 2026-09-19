@@ -9,18 +9,30 @@ import { AnimatedTetrahedron } from "./animated-tetrahedron";
 export function CtaSection() {
   const [isVisible, setIsVisible] = useState(false);
   const sectionRef = useRef<HTMLDivElement>(null);
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [mousePosition, setMousePosition] = useState({ x: 50, y: 50 });
+  // The tetrahedron is hidden below lg via CSS, but it would still mount and run
+  // a 60fps canvas loop on phones. Gate it on the viewport instead.
+  const [showArtwork, setShowArtwork] = useState(false);
 
   useEffect(() => {
+    const el = sectionRef.current;
+    if (!el) return;
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) setIsVisible(true);
       },
       { threshold: 0.2 }
     );
-
-    if (sectionRef.current) observer.observe(sectionRef.current);
+    observer.observe(el);
     return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    const query = window.matchMedia('(min-width: 1024px)');
+    const update = () => setShowArtwork(query.matches);
+    update();
+    query.addEventListener('change', update);
+    return () => query.removeEventListener('change', update);
   }, []);
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -33,22 +45,22 @@ export function CtaSection() {
 
   return (
     <section ref={sectionRef} className="relative py-24 lg:py-32 overflow-hidden">
-      <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div
-          className={`relative border border-primary/30 bg-card/50 backdrop-blur-sm rounded-2xl transition-all duration-1000 ${
+          className={`relative border border-primary/30 bg-card/50 backdrop-blur-sm rounded-xl transition-all duration-1000 ${
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
           }`}
           onMouseMove={handleMouseMove}
         >
           {/* Spotlight effect using brand colors */}
           <div 
-            className="absolute inset-0 opacity-30 pointer-events-none transition-opacity duration-300 rounded-2xl"
+            className="absolute inset-0 opacity-30 pointer-events-none rounded-xl transition-opacity duration-300"
             style={{
-              background: `radial-gradient(600px circle at ${mousePosition.x}% ${mousePosition.y}%, rgba(125, 211, 252, 0.15), transparent 40%)`
+              background: `radial-gradient(600px circle at ${mousePosition.x}% ${mousePosition.y}%, rgba(0, 184, 160, 0.15), transparent 40%)`
             }}
           />
           
-          <div className="relative z-10 px-8 lg:px-16 py-16 lg:py-24">
+          <div className="relative z-10 px-5 py-12 sm:px-8 lg:px-16 lg:py-24">
             <div className="flex flex-col lg:flex-row items-center justify-between gap-12">
               {/* Left content */}
               <div className="flex-1">
@@ -70,7 +82,7 @@ export function CtaSection() {
                     asChild
                   >
                     <Link href="/demo">
-                      Try Demo Mode
+                      Try Live Demo
                       <ArrowRight className="w-4 h-4 ml-2 transition-transform group-hover:translate-x-1" />
                     </Link>
                   </Button>
@@ -90,15 +102,17 @@ export function CtaSection() {
               </div>
 
               {/* Right animation */}
-              <div className="hidden lg:flex items-center justify-center w-[400px] h-[400px] -mr-8">
-                <AnimatedTetrahedron />
-              </div>
+              {showArtwork && (
+                <div className="hidden h-[400px] w-[400px] shrink-0 items-center justify-center lg:flex">
+                  <AnimatedTetrahedron />
+                </div>
+              )}
             </div>
           </div>
 
           {/* Decorative corners */}
-          <div className="absolute top-0 right-0 w-24 h-24 border-b border-l border-primary/20" />
-          <div className="absolute bottom-0 left-0 w-24 h-24 border-t border-r border-primary/20" />
+          <div aria-hidden="true" className="pointer-events-none absolute right-0 top-0 hidden h-24 w-24 border-b border-l border-primary/20 sm:block" />
+          <div aria-hidden="true" className="pointer-events-none absolute bottom-0 left-0 hidden h-24 w-24 border-r border-t border-primary/20 sm:block" />
         </div>
       </div>
     </section>

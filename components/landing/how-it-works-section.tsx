@@ -1,5 +1,4 @@
 'use client';
-"use client";
 
 import { useEffect, useRef, useState } from "react";
 
@@ -47,24 +46,32 @@ export function HowItWorksSection() {
   const [isVisible, setIsVisible] = useState(false);
   const sectionRef = useRef<HTMLDivElement>(null);
 
+  const [inView, setInView] = useState(false);
+
   useEffect(() => {
+    const el = sectionRef.current;
+    if (!el) return;
     const observer = new IntersectionObserver(
       ([entry]) => {
+        setInView(entry.isIntersecting);
         if (entry.isIntersecting) setIsVisible(true);
       },
       { threshold: 0.1 }
     );
-
-    if (sectionRef.current) observer.observe(sectionRef.current);
+    observer.observe(el);
     return () => observer.disconnect();
   }, []);
 
+  // Only advance while the section is actually on screen.
   useEffect(() => {
+    if (!inView) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
     const interval = setInterval(() => {
       setActiveStep((prev) => (prev + 1) % steps.length);
     }, 5000);
     return () => clearInterval(interval);
-  }, []);
+  }, [inView]);
 
   return (
     <section
@@ -85,7 +92,7 @@ export function HowItWorksSection() {
         }} />
       </div>
 
-      <div className="relative z-10 max-w-[1400px] mx-auto px-6 lg:px-12">
+      <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="mb-16 lg:mb-24">
           <span className="inline-flex items-center gap-3 text-sm font-mono text-muted-foreground mb-6">
@@ -157,30 +164,18 @@ export function HowItWorksSection() {
               </div>
 
               {/* Code content */}
-              <div className="p-8 font-mono text-sm min-h-[280px]">
+              <div className="min-h-[280px] overflow-x-auto p-5 font-mono text-xs sm:p-8 sm:text-sm">
                 <pre className="text-foreground/80">
                   {steps[activeStep].code.split('\n').map((line, lineIndex) => (
-                    <div 
-                      key={`${activeStep}-${lineIndex}`} 
-                      className="leading-loose code-line-reveal"
-                      style={{ 
-                        animationDelay: `${lineIndex * 80}ms`,
-                      }}
+                    <div
+                      key={`${activeStep}-${lineIndex}`}
+                      className="code-line-reveal whitespace-pre leading-loose"
+                      style={{ animationDelay: `${lineIndex * 80}ms` }}
                     >
-                      <span className="text-muted-foreground select-none w-8 inline-block">{lineIndex + 1}</span>
-                      <span className="inline-flex">
-                        {line.split('').map((char, charIndex) => (
-                          <span
-                            key={`${activeStep}-${lineIndex}-${charIndex}`}
-                            className="code-char-reveal"
-                            style={{
-                              animationDelay: `${lineIndex * 80 + charIndex * 15}ms`,
-                            }}
-                          >
-                            {char === ' ' ? '\u00A0' : char}
-                          </span>
-                        ))}
+                      <span className="inline-block w-8 select-none text-muted-foreground">
+                        {lineIndex + 1}
                       </span>
+                      {line}
                     </div>
                   ))}
                 </pre>
@@ -188,7 +183,7 @@ export function HowItWorksSection() {
 
               {/* Status */}
               <div className="px-6 py-4 border-t border-border flex items-center gap-3">
-                <span className="w-2 h-2 rounded-full bg-primary animate-pulse shadow-[0_0_8px_rgba(125,211,252,0.6)]" />
+                <span className="w-2 h-2 rounded-full bg-primary animate-pulse shadow-[0_0_8px_var(--glow-primary)]" />
                 <span className="text-xs font-mono text-muted-foreground">Connected</span>
               </div>
             </div>

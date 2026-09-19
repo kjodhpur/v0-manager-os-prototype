@@ -2,11 +2,31 @@
 
 import { useEffect, useRef, useState } from 'react';
 
+/**
+ * Published research on the cost of turnover — not product outcomes.
+ * HeartMetrics is pre-launch and has no customer results to report.
+ */
 const stats = [
-  { value: 900, label: 'cost of poor management', prefix: '$', suffix: 'B' },
-  { value: 79, label: 'teams improved WWI', suffix: '%' },
-  { value: 34, label: 'faster issue detection', suffix: '%' },
-  { value: 71, label: 'manager satisfaction', suffix: '%' },
+  {
+    value: 900,
+    label: 'Annual U.S. cost of voluntary turnover',
+    prefix: '$',
+    suffix: 'B',
+    source: 'Work Institute, 2024',
+  },
+  {
+    value: 20,
+    label: 'To replace a single tech employee',
+    prefix: '$',
+    suffix: 'K',
+    source: 'SHRM, 2023',
+  },
+  {
+    value: 33,
+    label: 'Quit over a lack of constructive feedback',
+    suffix: '%',
+    source: 'BambooHR, 2025',
+  },
 ];
 
 function easeOutQuart(t: number): number {
@@ -23,8 +43,8 @@ export function SocialProofBar() {
       if (entries[0].isIntersecting && !hasAnimatedRef.current) {
         hasAnimatedRef.current = true;
 
-        const durations = [1800, 1400, 1200, 1300];
-        const delays = [0, 0, 200, 400];
+        const durations = [1800, 1500, 1300];
+        const delays = [0, 150, 300];
         const startTimes = delays.map((d, i) => Date.now() + d);
 
         const animate = () => {
@@ -76,8 +96,8 @@ export function SocialProofBar() {
 
   return (
     <div id="social-proof-bar" className="py-12 border-y border-border">
-      <div className="max-w-7xl mx-auto px-4">
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 gap-8 sm:grid-cols-3 lg:gap-12">
           {stats.map((stat, idx) => (
             <div key={idx} className="flex flex-col items-start">
               <div className="mb-2">
@@ -87,12 +107,10 @@ export function SocialProofBar() {
                   {stat.suffix}
                 </span>
               </div>
-              <p className="text-xs lg:text-sm text-muted-foreground">
+              <p className="text-xs leading-relaxed text-muted-foreground lg:text-sm">
                 {stat.label}
               </p>
-              {idx < 3 && (
-                <div className="absolute left-full top-1/2 -translate-y-1/2 w-px h-8 bg-border hidden lg:block" />
-              )}
+              <p className="mt-1.5 font-mono text-[11px] text-muted-foreground/70">{stat.source}</p>
             </div>
           ))}
         </div>

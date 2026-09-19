@@ -1,5 +1,4 @@
 'use client';
-"use client";
 
 import { motion } from "framer-motion";
 import { Linkedin, Award } from "lucide-react";
@@ -48,11 +47,11 @@ const itemVariants = {
 
 export function TeamSection() {
   return (
-    <section className="relative py-24 lg:py-32 px-6 lg:px-12 overflow-hidden">
+    <section className="relative py-24 lg:py-32 overflow-hidden">
       {/* Background gradient */}
       <div className="absolute inset-0 bg-gradient-to-b from-primary/5 via-transparent to-accent/5 pointer-events-none" />
 
-      <div className="max-w-6xl mx-auto relative z-10">
+      <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <motion.div
           className="mb-16 text-center"

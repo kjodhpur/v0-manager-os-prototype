@@ -61,7 +61,8 @@ export function AnimatedHeart() {
       const rect = canvas.getBoundingClientRect();
       canvas.width = rect.width * dpr;
       canvas.height = rect.height * dpr;
-      ctx.scale(dpr, dpr);
+      // setTransform rather than scale: scale() compounds on every resize.
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     };
 
     resize();

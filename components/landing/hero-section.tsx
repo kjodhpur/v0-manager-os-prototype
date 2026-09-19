@@ -7,6 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { ArrowRight, ShieldCheck, Sparkles } from "lucide-react";
 import { motion } from "framer-motion";
 import { AnimatedHeart } from "./animated-heart";
+import { ROUTES, CTA } from "@/lib/site-config";
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -33,12 +34,13 @@ const itemVariants = {
 
 export function HeroSection() {
   return (
-    <section className="relative min-h-screen flex flex-col justify-center overflow-hidden pt-14">
+    <section className="relative flex min-h-screen flex-col justify-center overflow-hidden pt-16">
       {/* Animated gradient background */}
-      <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-accent/5 pointer-events-none" />
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-accent/5" />
 
-      {/* Animated heart background */}
-      <div className="absolute right-0 top-1/2 -translate-y-1/2 w-[600px] h-[600px] lg:w-[800px] lg:h-[800px] opacity-30 pointer-events-none">
+      {/* Animated heart background. Hidden on small screens, where it would sit
+          directly behind the headline at 2x the viewport width. */}
+      <div className="pointer-events-none absolute right-0 top-1/2 hidden h-[min(80vw,600px)] w-[min(80vw,600px)] -translate-y-1/2 opacity-30 md:block lg:h-[800px] lg:w-[800px]">
         <AnimatedHeart />
       </div>
 
@@ -61,7 +63,7 @@ export function HeroSection() {
       />
 
       <motion.div
-        className="relative z-10 max-w-[1200px] mx-auto px-6 lg:px-12 py-32 lg:py-40"
+        className="relative z-10 mx-auto w-full max-w-7xl px-4 py-24 sm:px-6 lg:px-8 lg:py-32"
         variants={containerVariants}
         initial="hidden"
         animate="visible"
@@ -82,12 +84,16 @@ export function HeroSection() {
 
         {/* Main headline - stronger, more impactful */}
         <motion.div className="mb-8 mt-4" variants={itemVariants}>
-          <h1 className="text-[clamp(3rem,12vw,6.5rem)] font-display leading-[0.95] tracking-tight font-bold">
-            <span className="block">See your team's</span>
+          {/* The clamp floor has to fit "See your team's" inside a 320px
+              viewport minus the page gutters, or the line clips. */}
+          <h1 className="font-display text-[clamp(2rem,10vw,6.5rem)] font-bold leading-[1.02] tracking-tight">
+            <span className="block">See your team&apos;s</span>
             <span className="block">
               <span className="text-gradient">real story</span>
             </span>
-            <span className="block text-muted-foreground text-[0.6em]">before they leave</span>
+            <span className="block text-[0.6em] leading-[1.15] text-muted-foreground">
+              before they leave
+            </span>
           </h1>
         </motion.div>
 
@@ -130,18 +136,21 @@ export function HeroSection() {
               className="bg-primary hover:bg-primary/90 text-primary-foreground px-8 h-14 text-base rounded-full group btn-glow justify-center"
               asChild
             >
-              <Link href="/demo">
-                Try Live Demo
-                <ArrowRight className="w-4 h-4 ml-2 transition-transform group-hover:translate-x-1" />
+              <Link href={ROUTES.demo}>
+                {CTA.demo}
+                <ArrowRight
+                  className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1"
+                  aria-hidden="true"
+                />
               </Link>
             </Button>
             <Button
               size="lg"
               variant="outline"
-              className="h-14 px-8 text-base rounded-full border-primary/30 hover:border-primary/60 hover:bg-primary/5 transition-all duration-300 justify-center"
+              className="h-14 justify-center rounded-full border-primary/30 px-8 text-base transition-colors hover:border-primary/60 hover:bg-primary/5"
               asChild
             >
-              <Link href="/product">Watch Demo Video</Link>
+              <Link href={ROUTES.howWeCalculate}>See how it works</Link>
             </Button>
 
             {/* Social proof below CTAs */}
@@ -151,7 +160,7 @@ export function HeroSection() {
               animate={{ opacity: 1 }}
               transition={{ delay: 0.6 }}
             >
-              <p className="text-xs text-muted-foreground mb-3">Trusted by teams at:</p>
+              <p className="mb-3 text-xs text-muted-foreground">Built for:</p>
               <div className="flex gap-4 text-xs text-muted-foreground">
                 <span>Fortune 500s</span>
                 <span>•</span>

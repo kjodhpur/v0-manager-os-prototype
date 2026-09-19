@@ -1,3 +1,11 @@
+import type { Metadata } from "next"
+
+export const metadata: Metadata = {
+  title: "About",
+  description:
+    "Why we built HeartMetrics: a privacy-first way to see team wellbeing before people burn out.",
+}
+
 import { SiteHeader } from "@/components/site/site-header"
 import { SiteFooter } from "@/components/site/site-footer"
 import { Badge } from "@/components/ui/badge"

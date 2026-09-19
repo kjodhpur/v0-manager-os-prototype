@@ -252,7 +252,7 @@ function FeatureCard({ feature, index }: { feature: typeof features[0]; index: n
         {/* Number & Icon */}
         <div className="shrink-0 flex items-center gap-4">
           <span className="font-mono text-sm text-muted-foreground">{feature.number}</span>
-          <div className="w-10 h-10 flex items-center justify-center border border-primary/30 rounded-lg group-hover:bg-primary group-hover:text-primary-foreground transition-all duration-300 group-hover:shadow-[0_0_20px_rgba(125,211,252,0.4)]">
+          <div className="w-10 h-10 flex items-center justify-center border border-primary/30 rounded-lg group-hover:bg-primary group-hover:text-primary-foreground transition-all duration-300 group-hover:shadow-[0_0_20px_var(--glow-primary)]">
             <Icon className="w-5 h-5 text-primary group-hover:text-primary-foreground" />
           </div>
         </div>
@@ -302,7 +302,7 @@ export function FeaturesSection() {
       ref={sectionRef}
       className="relative py-24 lg:py-32"
     >
-      <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="mb-16 lg:mb-24">
           <span className="inline-flex items-center gap-3 text-sm font-mono text-muted-foreground mb-6">

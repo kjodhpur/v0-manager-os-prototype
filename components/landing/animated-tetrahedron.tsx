@@ -21,7 +21,8 @@ export function AnimatedTetrahedron() {
       const rect = canvas.getBoundingClientRect();
       canvas.width = rect.width * dpr;
       canvas.height = rect.height * dpr;
-      ctx.scale(dpr, dpr);
+      // setTransform rather than scale: scale() compounds on every resize.
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     };
 
     resize();
@@ -149,8 +150,7 @@ export function AnimatedTetrahedron() {
       // Draw points
       points.forEach((point) => {
         const alpha = 0.15 + (point.z + 1.5) * 0.25;
-        // Use CSS variable color (HeartMetrics primary: #0C2C55)
-ctx.fillStyle = `rgba(12, 44, 85, ${Math.min(alpha, 0.9)})`;
+        ctx.fillStyle = `rgba(0, 184, 160, ${Math.min(alpha, 0.9)})`;
         ctx.fillText(point.char, point.x, point.y);
       });
 

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useEffect, useMemo } from "react";
+import { useState, useRef, useEffect } from "react";
 import { SiteHeader } from "@/components/site/site-header";
 import { SiteFooter } from "@/components/site/site-footer";
 import { Button } from "@/components/ui/button";
@@ -10,14 +10,11 @@ import {
   Users, 
   Star, 
   TrendingUp, 
-  ChevronDown,
   ExternalLink,
   Check,
   X,
-  Calendar,
   MessageSquare,
   BarChart3,
-  Clock,
   Award,
   Briefcase,
   ArrowRight,
@@ -40,8 +37,8 @@ function HeroSection() {
   }, []);
 
   return (
-    <section ref={sectionRef} className="relative pt-32 pb-20 lg:pt-40 lg:pb-28">
-      <div className="max-w-[1200px] mx-auto px-6 lg:px-12">
+    <section ref={sectionRef} className="relative pb-20 pt-28 lg:pb-28 lg:pt-36">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
           {/* Left: Text Content */}
           <div className={`transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
@@ -85,11 +82,11 @@ function FivePetalDiagram() {
   const [hoveredPetal, setHoveredPetal] = useState<string | null>(null);
   
   const petals = [
-    { id: "protection", label: "Protection from Harm", angle: -90, color: "#c0392b" },
-    { id: "harmony", label: "Work-Life Harmony", angle: -18, color: "#e67e22" },
-    { id: "connection", label: "Connection & Community", angle: 54, color: "#27ae60" },
-    { id: "mattering", label: "Mattering at Work", angle: 126, color: "#2980b9" },
-    { id: "growth", label: "Opportunity for Growth", angle: 198, color: "#8e44ad" },
+    { id: "protection", label: "Protection from Harm", angle: -90, color: "#FF6B6B" },
+    { id: "harmony", label: "Work-Life Harmony", angle: -18, color: "#00B8A0" },
+    { id: "connection", label: "Connection & Community", angle: 54, color: "#5DD67A" },
+    { id: "mattering", label: "Mattering at Work", angle: 126, color: "#FFB347" },
+    { id: "growth", label: "Opportunity for Growth", angle: 198, color: "#8BA8F0" },
   ];
 
   return (
@@ -153,7 +150,7 @@ const essentials = [
     id: "protection",
     icon: Shield,
     title: "Protection from Harm",
-    color: "#c0392b",
+    color: "#FF6B6B",
     surgeonGeneral: "Workers need physical and psychological safety, with normalized mental health support and adequate rest.",
     metrics: [
       { name: "Workload manageability", description: "Is the employee's task volume sustainable within standard hours?", mapping: "Enable Adequate Rest", signal: "My work is manageable" },
@@ -168,7 +165,7 @@ const essentials = [
     id: "harmony",
     icon: Heart,
     title: "Work-Life Harmony",
-    color: "#e67e22",
+    color: "#00B8A0",
     surgeonGeneral: "Workers need autonomy, schedule predictability, and respected boundaries between work and personal time.",
     metrics: [
       { name: "Boundary respect", description: "Can the employee disconnect from work during non-work hours without negative consequences?", mapping: null, signal: "I am able to disconnect from work during non-work hours without negative consequences" },
@@ -182,7 +179,7 @@ const essentials = [
     id: "connection",
     icon: Users,
     title: "Connection & Community",
-    color: "#27ae60",
+    color: "#5DD67A",
     surgeonGeneral: "Workers need cultures of inclusion, trusted relationships, and collaboration and teamwork.",
     metrics: [
       { name: "Inclusion & belonging", description: "Does the manager cultivate environments where culture and connection are encouraged?", mapping: "Cultures of inclusion", signal: null },
@@ -197,7 +194,7 @@ const essentials = [
     id: "mattering",
     icon: Star,
     title: "Mattering at Work",
-    color: "#2980b9",
+    color: "#FFB347",
     surgeonGeneral: "Workers need dignity, recognition, voice in decisions, and a sense of purpose. This is the core of recognition gap signals.",
     metrics: [
       { name: "Recognition frequency", description: "Has the employee received meaningful recognition for contributions in the past month?", mapping: null, signal: "In the past month, I received meaningful recognition for my contributions" },
@@ -212,7 +209,7 @@ const essentials = [
     id: "growth",
     icon: TrendingUp,
     title: "Opportunity for Growth",
-    color: "#8e44ad",
+    color: "#8BA8F0",
     surgeonGeneral: "Workers need quality training, education, mentoring, and clear, equitable pathways for career advancement.",
     metrics: [
       { name: "Learning opportunities", description: "Does the company provide opportunities to learn outside of work (higher education, certifications)?", mapping: null, signal: null },
@@ -245,7 +242,7 @@ function FiveEssentialsSection() {
 
   return (
     <section id="five-essentials" ref={sectionRef} className="relative py-24 lg:py-32 bg-muted/30">
-      <div className="max-w-[1200px] mx-auto px-6 lg:px-12">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className={`text-center mb-16 transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
           <span className="inline-flex items-center gap-3 text-sm font-mono text-muted-foreground mb-6">
@@ -354,12 +351,12 @@ function WWIFormulaSection() {
 
   return (
     <div ref={sectionRef} className="py-16 lg:py-24">
-      <div className="max-w-[1200px] mx-auto px-6 lg:px-12">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Formula */}
         <div className={`text-center mb-12 transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
           <h3 className="text-xl lg:text-2xl font-display mb-6">How the Dimensions Combine into the WWI</h3>
           <div className="bg-card border border-border rounded-xl p-6 lg:p-8 inline-block font-mono text-sm lg:text-base overflow-x-auto max-w-full">
-            <code className="text-foreground whitespace-nowrap">
+            <code className="block text-foreground">
               WWI = w<sub>1</sub>(Protection) + w<sub>2</sub>(Harmony) + w<sub>3</sub>(Connection) + w<sub>4</sub>(Mattering) + w<sub>5</sub>(Growth)
             </code>
           </div>
@@ -393,17 +390,17 @@ function WWIFormulaSection() {
               <tbody>
                 <tr className="border-t border-border">
                   <td className="px-6 py-4 font-mono">70–100</td>
-                  <td className="px-6 py-4"><span className="inline-flex items-center gap-2 text-green-600 font-medium"><span className="w-2 h-2 rounded-full bg-green-500" /> Healthy</span></td>
+                  <td className="px-6 py-4"><span className="inline-flex items-center gap-2 text-[var(--healthy)] font-medium"><span className="w-2 h-2 rounded-full bg-[var(--healthy)]" /> Healthy</span></td>
                   <td className="px-6 py-4 text-muted-foreground">Employee is balanced and thriving</td>
                 </tr>
                 <tr className="border-t border-border">
                   <td className="px-6 py-4 font-mono">50–69</td>
-                  <td className="px-6 py-4"><span className="inline-flex items-center gap-2 text-yellow-600 font-medium"><span className="w-2 h-2 rounded-full bg-yellow-500" /> Monitor</span></td>
+                  <td className="px-6 py-4"><span className="inline-flex items-center gap-2 text-[var(--warning)] font-medium"><span className="w-2 h-2 rounded-full bg-[var(--warning)]" /> Monitor</span></td>
                   <td className="px-6 py-4 text-muted-foreground">Some signals need attention</td>
                 </tr>
                 <tr className="border-t border-border">
                   <td className="px-6 py-4 font-mono">0–49</td>
-                  <td className="px-6 py-4"><span className="inline-flex items-center gap-2 text-red-600 font-medium"><span className="w-2 h-2 rounded-full bg-red-500" /> At Risk</span></td>
+                  <td className="px-6 py-4"><span className="inline-flex items-center gap-2 text-[var(--risk)] font-medium"><span className="w-2 h-2 rounded-full bg-[var(--risk)]" /> At Risk</span></td>
                   <td className="px-6 py-4 text-muted-foreground">Immediate manager action recommended</td>
                 </tr>
               </tbody>
@@ -459,11 +456,11 @@ function RiyaExampleSection() {
     return () => observer.disconnect();
   }, []);
 
-  const colors = ["#c0392b", "#e67e22", "#27ae60", "#2980b9", "#8e44ad"];
+  const colors = ["#FF6B6B", "#00B8A0", "#5DD67A", "#FFB347", "#8BA8F0"];
 
   return (
     <div id="riya-example" ref={sectionRef} className="py-16 lg:py-24 bg-muted/30">
-      <div className="max-w-[1200px] mx-auto px-6 lg:px-12">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className={`text-center mb-12 transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
           <h3 className="text-2xl lg:text-3xl font-display mb-4">Interactive Example: {riyaData.name}</h3>
           <p className="text-muted-foreground">See how each essential&apos;s sub-score feeds into her overall WWI</p>
@@ -566,9 +563,9 @@ function RiyaExampleSection() {
                 <div className="text-sm text-muted-foreground">{riyaData.role}</div>
               </div>
               <div className="text-right">
-                <div className="text-3xl font-bold text-red-600">{riyaData.wwi}</div>
-                <div className="text-xs text-red-600 flex items-center gap-1 justify-end">
-                  <span className="w-2 h-2 rounded-full bg-red-500" /> At Risk
+                <div className="text-3xl font-bold text-[var(--risk)]">{riyaData.wwi}</div>
+                <div className="text-xs text-[var(--risk)] flex items-center gap-1 justify-end">
+                  <span className="w-2 h-2 rounded-full bg-[var(--risk)]" /> At Risk
                 </div>
               </div>
             </div>
@@ -636,7 +633,7 @@ function ManagerFairnessSection() {
 
   return (
     <section id="fairness-score" ref={sectionRef} className="relative py-24 lg:py-32">
-      <div className="max-w-[1200px] mx-auto px-6 lg:px-12">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className={`text-center mb-16 transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
           <span className="inline-flex items-center gap-3 text-sm font-mono text-muted-foreground mb-6">
             <span className="w-8 h-px bg-foreground/30" />
@@ -672,7 +669,7 @@ function ManagerFairnessSection() {
             <div className="text-right">
               <div className="flex items-center gap-2">
                 <span className="text-3xl font-bold">74</span>
-                <span className="text-sm text-red-500">↓ -3</span>
+                <span className="text-sm text-[var(--risk)]">↓ -3</span>
               </div>
               <div className="text-xs text-muted-foreground">Confidence: Medium</div>
             </div>
@@ -734,7 +731,7 @@ function DualSignalSection() {
 
   return (
     <section id="dual-signal" ref={sectionRef} className="relative py-24 lg:py-32 bg-muted/30">
-      <div className="max-w-[1200px] mx-auto px-6 lg:px-12">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className={`text-center mb-16 transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
           <span className="inline-flex items-center gap-3 text-sm font-mono text-muted-foreground mb-6">
             <span className="w-8 h-px bg-foreground/30" />
@@ -842,7 +839,7 @@ function PrivacySection() {
 
   return (
     <section id="privacy" ref={sectionRef} className="relative py-24 lg:py-32">
-      <div className="max-w-[1200px] mx-auto px-6 lg:px-12">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className={`text-center mb-16 transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
           <span className="inline-flex items-center gap-3 text-sm font-mono text-muted-foreground mb-6">
             <span className="w-8 h-px bg-foreground/30" />
@@ -865,7 +862,7 @@ function PrivacySection() {
             <ul className="space-y-3">
               {weRead.map((item, i) => (
                 <li key={i} className="flex items-start gap-3 text-sm">
-                  <Check className="w-4 h-4 text-green-600 shrink-0 mt-0.5" />
+                  <Check className="w-4 h-4 text-[var(--healthy)] shrink-0 mt-0.5" />
                   <span>{item}</span>
                 </li>
               ))}
@@ -881,7 +878,7 @@ function PrivacySection() {
             <ul className="space-y-3">
               {weNeverRead.map((item, i) => (
                 <li key={i} className="flex items-start gap-3 text-sm">
-                  <X className="w-4 h-4 text-red-600 shrink-0 mt-0.5" />
+                  <X className="w-4 h-4 text-[var(--risk)] shrink-0 mt-0.5" />
                   <span>{item}</span>
                 </li>
               ))}
@@ -917,7 +914,7 @@ function ResearchSection() {
 
   return (
     <section id="research" ref={sectionRef} className="relative py-24 lg:py-32 bg-muted/30">
-      <div className="max-w-[1200px] mx-auto px-6 lg:px-12">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className={`text-center mb-16 transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
           <span className="inline-flex items-center gap-3 text-sm font-mono text-muted-foreground mb-6">
             <span className="w-8 h-px bg-foreground/30" />
@@ -989,16 +986,16 @@ function AICoachingSection() {
   }, []);
 
   const nudges = [
-    { category: "Protection from Harm", icon: Shield, color: "#c0392b", message: "Riya's workload is 1.8x the team average and she has 3 items blocked for 4+ days. Redistribute 2 blocked items to Diego & Mason who have capacity." },
-    { category: "Mattering at Work", icon: Star, color: "#2980b9", message: "Priya hasn't received recognition in 34 days. Consider acknowledging her Q1 client migration work in your next standup." },
-    { category: "Work-Life Harmony", icon: Heart, color: "#e67e22", message: "Sam is averaging 5.5 hours of meetings per day — more than double the team average. Consider protecting 2 hours of deep work time on his calendar this week." },
-    { category: "Manager Fairness", icon: Award, color: "#8e44ad", message: "Your fairness score dropped 3 points this week. Stretch assignments are concentrated on 2 of 8 team members. Consider rotating the next high-visibility task to Priya or Mason." },
-    { category: "Opportunity for Growth", icon: TrendingUp, color: "#27ae60", message: "Mason's stretch work percentage is 4% vs. team average of 24%. He hasn't had a new-skill assignment in 60 days. Consider assigning him to the API redesign project." },
+    { category: "Protection from Harm", icon: Shield, color: "#FF6B6B", message: "Riya's workload is 1.8x the team average and she has 3 items blocked for 4+ days. Redistribute 2 blocked items to Diego & Mason who have capacity." },
+    { category: "Mattering at Work", icon: Star, color: "#FFB347", message: "Priya M. hasn't received recognition in 34 days. Consider acknowledging her Q1 client migration work in your next standup." },
+    { category: "Work-Life Harmony", icon: Heart, color: "#00B8A0", message: "Sam is averaging 5.5 hours of meetings per day — more than double the team average. Consider protecting 2 hours of deep work time on his calendar this week." },
+    { category: "Manager Fairness", icon: Award, color: "#8BA8F0", message: "Your fairness score dropped 3 points this week. Stretch assignments are concentrated on 2 of 8 team members. Consider rotating the next high-visibility task to Priya or Mason." },
+    { category: "Opportunity for Growth", icon: TrendingUp, color: "#5DD67A", message: "Mason's stretch work percentage is 9% vs. team average of 24%. He hasn't had a new-skill assignment in 60 days. Consider assigning him to the API redesign project." },
   ];
 
   return (
     <section id="ai-coaching" ref={sectionRef} className="relative py-24 lg:py-32">
-      <div className="max-w-[1200px] mx-auto px-6 lg:px-12">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className={`text-center mb-16 transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
           <span className="inline-flex items-center gap-3 text-sm font-mono text-muted-foreground mb-6">
             <span className="w-8 h-px bg-foreground/30" />
@@ -1054,7 +1051,7 @@ function CTASection() {
 
   return (
     <section ref={sectionRef} className="relative py-24 lg:py-32 bg-primary text-primary-foreground">
-      <div className="max-w-[800px] mx-auto px-6 lg:px-12 text-center">
+      <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
         <div className={`transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
           <h2 className="text-3xl lg:text-4xl font-display tracking-tight mb-4">See It In Action</h2>
           <p className="text-lg opacity-90 mb-8">
@@ -1062,7 +1059,7 @@ function CTASection() {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button size="lg" variant="secondary" className="rounded-full px-8" asChild>
-              <Link href="/demo">Try Demo Mode</Link>
+              <Link href="/demo">Try Live Demo</Link>
             </Button>
             <Button size="lg" variant="outline" className="rounded-full px-8 border-primary-foreground/30 text-primary-foreground hover:bg-primary-foreground/10" asChild>
               <Link href="/contact">Contact Us</Link>

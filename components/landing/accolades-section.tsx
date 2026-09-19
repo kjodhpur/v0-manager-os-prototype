@@ -9,28 +9,28 @@ const accolades = [
     title: "1st Place",
     subtitle: "ASU Love AI Competition",
     description: "Selected as the top AI innovation addressing real-world workplace challenges from 100+ submissions",
-    color: "from-yellow-500 to-orange-500",
+    color: "from-[#FFC940] to-[#FFB347]",
   },
   {
     icon: Zap,
     title: "IBM SkillsBuild",
     subtitle: "Program Participant",
     description: "Recognized for advanced AI/ML expertise and commitment to responsible AI development",
-    color: "from-blue-500 to-cyan-500",
+    color: "from-[#8BA8F0] to-[#00B8A0]",
   },
   {
     icon: Target,
     title: "Ignite the Future",
     subtitle: "Competition Finalist",
     description: "Selected among top 5% of ventures advancing workplace innovation and employee wellbeing",
-    color: "from-purple-500 to-pink-500",
+    color: "from-[#8BA8F0] to-[#FF6B6B]",
   },
   {
     icon: Award,
     title: "ASU Change the World",
     subtitle: "Competition Pitcher",
     description: "Presented at Arizona State University's flagship innovation competition at Mountain America Stadium",
-    color: "from-emerald-500 to-green-500",
+    color: "from-[#5DD67A] to-[#00B8A0]",
   },
 ];
 
@@ -57,7 +57,7 @@ const itemVariants = {
 
 export function AccoladesSection() {
   return (
-    <section className="relative py-24 lg:py-32 px-6 lg:px-12 overflow-hidden bg-card/30">
+    <section className="relative py-24 lg:py-32 overflow-hidden bg-card/30">
       {/* Background gradient */}
       <motion.div
         className="absolute -top-40 -right-40 w-80 h-80 bg-primary/10 rounded-full blur-3xl"
@@ -68,7 +68,7 @@ export function AccoladesSection() {
         transition={{ duration: 10, repeat: Infinity }}
       />
 
-      <div className="max-w-6xl mx-auto relative z-10">
+      <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <motion.div
           className="mb-16 text-center"
@@ -83,7 +83,7 @@ export function AccoladesSection() {
             <span className="text-gradient">leading institutions</span>
           </h2>
           <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-            Industry validation and awards for our innovation in workplace wellbeing
+            Competition results and programs recognizing our work in workplace wellbeing
           </p>
         </motion.div>
 
@@ -110,7 +110,7 @@ export function AccoladesSection() {
                     className={`w-14 h-14 rounded-lg bg-gradient-to-br ${accolade.color} flex items-center justify-center mb-6 group-hover:scale-110 transition-transform`}
                     whileHover={{ scale: 1.1, rotate: 5 }}
                   >
-                    <Icon className="w-7 h-7 text-white" />
+                    <Icon className="h-7 w-7 text-black" aria-hidden="true" />
                   </motion.div>
 
                   {/* Content */}
@@ -123,8 +123,8 @@ export function AccoladesSection() {
                   {/* Hover indicator */}
                   <motion.div
                     className="absolute top-0 right-0 w-1 h-full bg-gradient-to-b from-primary to-accent rounded-tr-xl opacity-0 group-hover:opacity-100 transition-opacity"
-                    initial={{ height: "0%" }}
-                    whileHover={{ height: "100%" }}
+                    initial={{ scaleY: 0 }}
+                    whileHover={{ scaleY: 1 }}
                     transition={{ duration: 0.3 }}
                   />
                 </div>

@@ -2,8 +2,8 @@
 
 export function BuiltByBanner() {
   return (
-    <div className="relative py-12 px-6 lg:px-12 overflow-hidden">
-      <div className="max-w-[1400px] mx-auto">
+    <div className="relative overflow-hidden py-12">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* Banner Label */}
         <p className="font-mono text-xs tracking-widest text-muted-foreground uppercase mb-8 text-center">
           Built by people with experience at

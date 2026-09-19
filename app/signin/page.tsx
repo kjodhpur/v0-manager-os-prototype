@@ -86,7 +86,7 @@ export default function SignInPage() {
             </div>
 
             <Button variant="outline" className="w-full bg-transparent" onClick={handleDemoMode}>
-              Try Demo Mode
+              Try Live Demo
             </Button>
 
             <p className="mt-6 text-center text-sm text-muted-foreground">

@@ -1,5 +1,4 @@
 'use client';
-"use client";
 
 import { useEffect, useState, useRef } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -30,37 +29,43 @@ import { teamStats, topAttentionEmployees, employees } from "@/lib/data";
 function AnimatedCounter({ end, suffix = "", prefix = "" }: { end: number; suffix?: string; prefix?: string }) {
   const [count, setCount] = useState(0);
   const ref = useRef<HTMLDivElement>(null);
-  const [hasAnimated, setHasAnimated] = useState(false);
+  const hasAnimated = useRef(false);
+  const frameRef = useRef<number>();
 
   useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting && !hasAnimated) {
-          setHasAnimated(true);
-          let start = 0;
-          const duration = 2000;
-          const startTime = performance.now();
+        if (!entry.isIntersecting || hasAnimated.current) return;
+        hasAnimated.current = true;
 
-          const animate = (currentTime: number) => {
-            const elapsed = currentTime - startTime;
-            const progress = Math.min(elapsed / duration, 1);
-            const eased = 1 - Math.pow(1 - progress, 3);
-            setCount(Math.floor(eased * end));
-
-            if (progress < 1) {
-              requestAnimationFrame(animate);
-            }
-          };
-
-          requestAnimationFrame(animate);
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+          setCount(end);
+          return;
         }
+
+        const duration = 2000;
+        const startTime = performance.now();
+
+        const animate = (currentTime: number) => {
+          const progress = Math.min((currentTime - startTime) / duration, 1);
+          setCount(Math.floor((1 - Math.pow(1 - progress, 3)) * end));
+          if (progress < 1) frameRef.current = requestAnimationFrame(animate);
+        };
+
+        frameRef.current = requestAnimationFrame(animate);
       },
       { threshold: 0.5 }
     );
 
-    if (ref.current) observer.observe(ref.current);
-    return () => observer.disconnect();
-  }, [end, hasAnimated]);
+    observer.observe(el);
+    return () => {
+      observer.disconnect();
+      if (frameRef.current) cancelAnimationFrame(frameRef.current);
+    };
+  }, [end]);
 
   return (
     <div ref={ref} className="text-5xl lg:text-6xl font-display tracking-tight">
@@ -87,7 +92,7 @@ export function MetricsSection() {
 
   return (
     <section id="dashboard-preview" ref={sectionRef} className="relative py-24 lg:py-32 border-y border-border">
-      <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-8 mb-16">
           <div>
@@ -107,7 +112,7 @@ export function MetricsSection() {
           </div>
           <div className="flex items-center gap-4 font-mono text-sm text-muted-foreground">
             <span className="flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
+              <span className="w-2 h-2 rounded-full bg-[var(--healthy)] animate-pulse" />
               Demo Data
             </span>
           </div>
@@ -193,7 +198,7 @@ export function MetricsSection() {
                     <p className="text-[10px] font-medium text-muted-foreground">Team WWI Average</p>
                     <div className="mt-0.5 flex items-baseline gap-1.5">
                       <span className="text-2xl font-bold text-foreground">{teamStats.wwiAverage}</span>
-                      <span className="flex items-center gap-0.5 text-[10px] text-emerald-600">
+                      <span className="flex items-center gap-0.5 text-[10px] text-[var(--healthy)]">
                         <TrendingUp className="h-3 w-3" />+{teamStats.wwiChange}
                       </span>
                     </div>
@@ -205,7 +210,7 @@ export function MetricsSection() {
                     <div className="mt-0.5 flex items-baseline gap-1.5">
                       <span className="text-2xl font-bold text-foreground">{teamStats.highRiskCount}</span>
                     </div>
-                    <p className="text-[10px] text-amber-600 flex items-center gap-0.5">
+                    <p className="text-[10px] text-[var(--accent)] flex items-center gap-0.5">
                       Need attention <AlertTriangle className="h-2.5 w-2.5" />
                     </p>
                   </CardContent>
@@ -236,7 +241,8 @@ export function MetricsSection() {
                   <CardTitle className="text-xs font-semibold text-foreground">Attention Needed - Top 5 Employees</CardTitle>
                 </CardHeader>
                 <CardContent className="p-3 pt-0">
-                  <table className="w-full">
+                  <div className="-mx-1 overflow-x-auto px-1">
+                  <table className="w-full min-w-[420px]">
                     <thead>
                       <tr className="border-b border-border text-left text-[10px] text-muted-foreground">
                         <th className="pb-2 pr-3 font-medium">Name</th>
@@ -249,9 +255,13 @@ export function MetricsSection() {
                       {topAttentionEmployees.slice(0, 5).map((emp) => (
                         <tr key={emp.id} className="border-b border-border last:border-0">
                           <td className="py-1.5 pr-3 text-[11px] font-medium text-foreground">{emp.name}</td>
-                          <td className="py-1.5 pr-3 text-[11px] font-semibold text-foreground flex items-center gap-1">
-                            {emp.wwi}
-                            {emp.wwiTrend === "down" && <TrendingDown className="h-3 w-3 text-red-500" />}
+                          <td className="py-1.5 pr-3 text-[11px] font-semibold text-foreground">
+                            <span className="inline-flex items-center gap-1">
+                              {emp.wwi}
+                              {emp.wwiTrend === "down" && (
+                                <TrendingDown className="h-3 w-3 text-[var(--risk)]" aria-hidden="true" />
+                              )}
+                            </span>
                           </td>
                           <td className="py-1.5 pr-3">
                             <Badge className={`text-[9px] px-1.5 py-0 ${
@@ -269,6 +279,7 @@ export function MetricsSection() {
                       ))}
                     </tbody>
                   </table>
+                  </div>
                 </CardContent>
               </Card>
             </div>
@@ -276,7 +287,7 @@ export function MetricsSection() {
         </div>
 
         {/* Metrics Summary */}
-        <div className="grid grid-cols-2 gap-px bg-foreground/10 mt-16">
+        <div className="mt-16 grid grid-cols-1 gap-px bg-border sm:grid-cols-2">
           {[
             { value: 900, suffix: "B", label: "Annual US turnover cost in 2024", prefix: "$" },
             { value: 79, suffix: "%", label: "Cite lack of recognition as reason for quitting", prefix: "" },

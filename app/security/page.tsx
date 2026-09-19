@@ -1,3 +1,11 @@
+import type { Metadata } from "next"
+
+export const metadata: Metadata = {
+  title: "Security",
+  description:
+    "How HeartMetrics protects your data: work-system signals only, no private message access, and clear retention limits.",
+}
+
 import { SiteHeader } from "@/components/site/site-header"
 import { SiteFooter } from "@/components/site/site-footer"
 import { Badge } from "@/components/ui/badge"

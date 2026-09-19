@@ -11,32 +11,40 @@ export default function QRPage() {
   const [qrDataUrl, setQrDataUrl] = useState<string>("")
   const [copied, setCopied] = useState(false)
   const [demoUrl, setDemoUrl] = useState("")
+  const [error, setError] = useState<string | null>(null)
   const canvasRef = useRef<HTMLCanvasElement>(null)
 
   useEffect(() => {
     const url = `${window.location.origin}/demo`
     setDemoUrl(url)
-    generateQR(url)
+
+    let cancelled = false
+
+    const generate = async () => {
+      try {
+        const QRCode = (await import("qrcode")).default
+        const canvas = canvasRef.current
+        if (!canvas || cancelled) return
+
+        await QRCode.toCanvas(canvas, url, {
+          width: 400,
+          margin: 2,
+          // Plain black on white keeps the code scannable in both themes.
+          color: { dark: "#000000", light: "#ffffff" },
+          errorCorrectionLevel: "H",
+        })
+
+        if (!cancelled) setQrDataUrl(canvas.toDataURL("image/png"))
+      } catch {
+        if (!cancelled) setError("We couldn't generate the QR code. You can still copy the link below.")
+      }
+    }
+
+    generate()
+    return () => {
+      cancelled = true
+    }
   }, [])
-
-  async function generateQR(url: string) {
-    // Generate QR code using canvas
-    const QRCode = (await import("qrcode")).default
-    const canvas = canvasRef.current
-    if (!canvas) return
-
-    await QRCode.toCanvas(canvas, url, {
-      width: 400,
-      margin: 2,
-      color: {
-        dark: "#1a1a2e",
-        light: "#ffffff",
-      },
-      errorCorrectionLevel: "H",
-    })
-
-    setQrDataUrl(canvas.toDataURL("image/png"))
-  }
 
   const handleDownload = () => {
     if (!qrDataUrl) return
@@ -47,9 +55,13 @@ export default function QRPage() {
   }
 
   const handleCopyUrl = async () => {
-    await navigator.clipboard.writeText(demoUrl)
-    setCopied(true)
-    setTimeout(() => setCopied(false), 2000)
+    try {
+      await navigator.clipboard.writeText(demoUrl)
+      setCopied(true)
+      setTimeout(() => setCopied(false), 2000)
+    } catch {
+      setError("Copying isn't available here — select the link above manually.")
+    }
   }
 
   return (
@@ -70,13 +82,21 @@ export default function QRPage() {
 
         {/* QR Code Card */}
         <Card className="border-border shadow-lg">
-          <CardContent className="flex flex-col items-center gap-6 p-8">
-            <div className="overflow-hidden rounded-xl border-2 border-border bg-card p-4">
+          <CardContent className="flex flex-col items-center gap-6 p-5 sm:p-8">
+            <div className="w-full max-w-[18rem] overflow-hidden rounded-xl border-2 border-border bg-white p-3 sm:p-4">
               <canvas
                 ref={canvasRef}
-                className="h-64 w-64 sm:h-72 sm:w-72"
+                role="img"
+                aria-label={demoUrl ? `QR code linking to ${demoUrl}` : "QR code loading"}
+                className="block h-auto w-full"
               />
             </div>
+
+            {error && (
+              <p role="alert" className="text-center text-sm text-destructive">
+                {error}
+              </p>
+            )}
 
             {/* URL display */}
             <div className="flex w-full items-center gap-2 rounded-lg border border-border bg-secondary/50 px-4 py-3">
@@ -86,15 +106,18 @@ export default function QRPage() {
               </code>
               <button
                 onClick={handleCopyUrl}
-                className="shrink-0 rounded-md p-1.5 text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground"
-                aria-label="Copy URL"
+                className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+                aria-label="Copy demo URL"
               >
                 {copied ? (
-                  <Check className="h-4 w-4 text-green-600" />
+                  <Check className="h-4 w-4 text-[var(--healthy)]" aria-hidden="true" />
                 ) : (
-                  <Copy className="h-4 w-4" />
+                  <Copy className="h-4 w-4" aria-hidden="true" />
                 )}
               </button>
+              <span role="status" aria-live="polite" className="sr-only">
+                {copied ? "Demo URL copied to clipboard" : ""}
+              </span>
             </div>
 
             {/* Actions */}
