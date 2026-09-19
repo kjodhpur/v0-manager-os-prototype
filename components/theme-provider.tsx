@@ -1,60 +1,16 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { MotionConfig } from 'framer-motion';
 
+/**
+ * The theme class is applied by the inline script in app/layout.tsx before
+ * first paint, so there is nothing to do here for colours.
+ *
+ * What this does own is motion: the reduced-motion media query in globals.css
+ * only neutralises CSS animations, and Framer Motion drives inline styles that
+ * the query never sees. `reducedMotion="user"` makes every motion component on
+ * the site honour the OS setting.
+ */
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  const [isDark, setIsDark] = useState(true);
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-    // Get saved theme from localStorage
-    const savedTheme = localStorage.getItem('theme');
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-
-    const shouldBeDark = savedTheme === 'dark' || (savedTheme === null && prefersDark);
-    setIsDark(shouldBeDark);
-
-    if (shouldBeDark) {
-      document.documentElement.classList.remove('light');
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-      document.documentElement.classList.add('light');
-    }
-  }, []);
-
-  if (!mounted) return <>{children}</>;
-
-  return <>{children}</>;
-}
-
-export function useTheme() {
-  const [isDark, setIsDark] = useState(false);
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-    const savedTheme = localStorage.getItem('theme');
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    const shouldBeDark = savedTheme === 'dark' || (savedTheme === null && prefersDark);
-    setIsDark(shouldBeDark);
-  }, []);
-
-  const toggleTheme = () => {
-    const newIsDark = !isDark;
-    setIsDark(newIsDark);
-
-    if (newIsDark) {
-      document.documentElement.classList.remove('light');
-      document.documentElement.classList.add('dark');
-      localStorage.setItem('theme', 'dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-      document.documentElement.classList.add('light');
-      localStorage.setItem('theme', 'light');
-    }
-  };
-
-  return { isDark: mounted ? isDark : true, toggleTheme, mounted };
+  return <MotionConfig reducedMotion="user">{children}</MotionConfig>;
 }

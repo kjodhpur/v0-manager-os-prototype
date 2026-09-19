@@ -185,7 +185,7 @@ export const employees: Employee[] = [
     sentiment: 35,
   },
   {
-    id: "2", name: "Diego P.", role: "Specialist", wwi: 52, wwiTrend: "neutral", confidence: "Medium",
+    id: "2", name: "Diego P.", role: "Specialist", wwi: 58, wwiTrend: "neutral", confidence: "Medium",
     wip: 8, meetingHours: 9, blocked: 1, publicRecognition: 0, privateRecognition: 1, stretch: 15,
     visibility: 15, firefighting: 20, admin: 5, operational: 60, workloadStatus: "High",
     issue: "Medium risk", drivers: ["Workload", "Recognition", "Growth"], sentiment: 50,
@@ -203,7 +203,7 @@ export const employees: Employee[] = [
     issue: "Declining", drivers: ["Blockers", "Workload", "Growth"], sentiment: 55,
   },
   {
-    id: "5", name: "Priya R.", role: "Analyst", wwi: 55, wwiTrend: "neutral", confidence: "High",
+    id: "5", name: "Priya M.", role: "Product Manager", wwi: 61, wwiTrend: "neutral", confidence: "High",
     wip: 5, meetingHours: 7, blocked: 0, publicRecognition: 0, privateRecognition: 0, stretch: 8,
     visibility: 8, firefighting: 12, admin: 5, operational: 75, workloadStatus: "Balanced",
     issue: "Recognition gap", drivers: ["Recognition", "Growth", "Workload"], sentiment: 52,
@@ -215,7 +215,7 @@ export const employees: Employee[] = [
     issue: "None", drivers: ["Growth", "Recognition", "Inclusion"], sentiment: 85,
   },
   {
-    id: "7", name: "Sam J.", role: "Ops", wwi: 49, wwiTrend: "down", confidence: "Medium",
+    id: "7", name: "Sam J.", role: "Operations", wwi: 49, wwiTrend: "down", confidence: "Medium",
     wip: 10, meetingHours: 5.5, blocked: 1, publicRecognition: 0, privateRecognition: 1, stretch: 5,
     visibility: 5, firefighting: 45, admin: 5, operational: 45, workloadStatus: "Overloaded",
     issue: "High firefighting", drivers: ["Workload", "Growth", "Recognition"], sentiment: 40,
@@ -254,9 +254,15 @@ export const fairnessFlags: FairnessFlag[] = [
   { id: "3", title: "Uneven 1:1 support", description: "Support time varies 3x across team" },
 ]
 
+// Derived from the roster above so the headline can never drift from the rows
+// rendered beneath it.
+const wwiAverage = Math.round(employees.reduce((sum, e) => sum + e.wwi, 0) / employees.length)
+const highRiskCount = employees.filter((e) => e.wwi < 50).length
+const blockedWorkItems = employees.reduce((sum, e) => sum + (e.blocked ?? 0), 0)
+
 export const teamStats = {
-  wwiAverage: 67, wwiTrend: "up" as TrendDirection, wwiChange: 4,
-  highRiskCount: 2, blockedWorkItems: 11, managerFairnessScore: 74,
+  wwiAverage, wwiTrend: "up" as TrendDirection, wwiChange: 4,
+  highRiskCount, blockedWorkItems, managerFairnessScore: 74,
   mfsTrend: "down" as TrendDirection, mfsChange: 3, mfsConfidence: "Medium" as Confidence,
   wipAverage: 6.8, meetingHoursAverage: 8.1, blockedAverage: 0.9,
 }
