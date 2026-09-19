@@ -127,7 +127,7 @@ function FivePetalDiagram() {
                 y={petalCenterY}
                 textAnchor="middle"
                 dominantBaseline="middle"
-                className="text-[10px] fill-white font-medium pointer-events-none"
+                className="pointer-events-none fill-black text-[10px] font-medium"
                 style={{ textShadow: "0 1px 2px rgba(0,0,0,0.3)" }}
               >
                 {petal.label.split(" ").map((word, i, arr) => (
@@ -269,7 +269,7 @@ function FiveEssentialsSection() {
                   onClick={() => setActiveEssential(essential.id)}
                   className={`flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
                     activeEssential === essential.id
-                      ? "text-white shadow-lg"
+                      ? "text-black shadow-lg"
                       : "bg-background text-foreground hover:bg-accent"
                   }`}
                   style={{ backgroundColor: activeEssential === essential.id ? essential.color : undefined }}
@@ -287,7 +287,7 @@ function FiveEssentialsSection() {
         <div className={`bg-card rounded-2xl border border-border p-6 lg:p-8 transition-all duration-700 delay-200 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
           <div className="flex items-start gap-4 mb-6">
             <div 
-              className="w-12 h-12 rounded-xl flex items-center justify-center text-white shrink-0"
+              className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl text-black"
               style={{ backgroundColor: activeData.color }}
             >
               <IconComponent className="w-6 h-6" />
@@ -528,7 +528,7 @@ function RiyaExampleSection() {
                       cy={150 + r * Math.sin(angle)}
                       r="6"
                       fill={colors[i]}
-                      stroke="white"
+                      stroke="var(--background)"
                       strokeWidth="2"
                     />
                   );
@@ -1018,7 +1018,7 @@ function AICoachingSection() {
               >
                 <div className="flex items-center gap-2 mb-3">
                   <div 
-                    className="w-8 h-8 rounded-lg flex items-center justify-center text-white"
+                    className="flex h-8 w-8 items-center justify-center rounded-lg text-black"
                     style={{ backgroundColor: nudge.color }}
                   >
                     <Icon className="w-4 h-4" />

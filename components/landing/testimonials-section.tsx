@@ -104,7 +104,7 @@ export function TestimonialsSection() {
               {TEAM_BACKGROUNDS.map((company) => (
                 <span
                   key={`${setIdx}-${company}`}
-                  className="whitespace-nowrap font-display text-xl text-foreground/25 md:text-2xl"
+                  className="whitespace-nowrap font-display text-xl text-muted-foreground md:text-2xl"
                   aria-hidden={setIdx === 1 ? 'true' : undefined}
                 >
                   {company}

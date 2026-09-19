@@ -110,7 +110,7 @@ export function SocialProofBar() {
               <p className="text-xs leading-relaxed text-muted-foreground lg:text-sm">
                 {stat.label}
               </p>
-              <p className="mt-1.5 font-mono text-[11px] text-muted-foreground/70">{stat.source}</p>
+              <p className="mt-1.5 font-mono text-xs text-muted-foreground">{stat.source}</p>
             </div>
           ))}
         </div>

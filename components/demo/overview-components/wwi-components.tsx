@@ -70,7 +70,10 @@ export default function WWIComponents({ wwiComponents, keyActions }: Props) {
             )}
           </div>
 
-          <ul className="flex flex-col gap-3 lg:max-h-[380px] lg:overflow-y-auto">
+          <ul
+            tabIndex={0}
+            className="flex flex-col gap-3 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary lg:max-h-[380px] lg:overflow-y-auto"
+          >
             {filteredActions.length === 0 ? (
               <li className="py-8 text-center text-sm text-muted-foreground">
                 No actions for this component.

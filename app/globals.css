@@ -160,57 +160,62 @@
   --card-foreground: #1A1A1A;
   --popover: #FFFFFF;
   --popover-foreground: #1A1A1A;
-  --primary: #00B8A0;
+
+  /* The dark theme's brand colours are tuned for a black background and drop to
+     ~2:1 on cream. These are the same hues darkened until they clear WCAG AA
+     both as text on the light surfaces and as a button fill under white. */
+  --primary: #006557;
   --primary-foreground: #FFFFFF;
   --secondary: #E8F5F3;
-  --secondary-foreground: #00B8A0;
+  --secondary-foreground: #006557;
   --muted: #E5DFD5;
-  --muted-foreground: #777777;
-  --accent: #FFB347;
-  --accent-foreground: #000000;
-  --destructive: #EF4444;
-  --destructive-foreground: #ffffff;
+  --muted-foreground: #5C5C5C;
+  --accent: #704800;
+  --accent-foreground: #FFFFFF;
+  --destructive: #96171C;
+  --destructive-foreground: #FFFFFF;
   --border: #E5DFD5;
   --input: #F5EFE7;
-  --ring: #00B8A0;
-  --chart-1: #00B8A0;
-  --chart-2: #FFB347;
-  --chart-3: #5DD67A;
-  --chart-4: #FFC940;
-  --chart-5: #FF6B6B;
+  --ring: #006557;
+  --chart-1: #006557;
+  --chart-2: #704800;
+  --chart-3: #0F5A2F;
+  --chart-4: #6F5500;
+  --chart-5: #96171C;
   --sidebar: #F5EFE7;
   --sidebar-foreground: #1A1A1A;
-  --sidebar-primary: #00B8A0;
+  --sidebar-primary: #006557;
   --sidebar-primary-foreground: #FFFFFF;
   --sidebar-accent: #E8F5F3;
-  --sidebar-accent-foreground: #00B8A0;
+  --sidebar-accent-foreground: #006557;
   --sidebar-border: #E5DFD5;
-  --sidebar-ring: #00B8A0;
+  --sidebar-ring: #006557;
   --shadow-x: 0px;
   --shadow-y: 2px;
   --shadow-blur: 12px;
   --shadow-spread: 0px;
   --shadow-opacity: 0.15;
-  --shadow-color: #00B8A0;
-  --glow-primary: rgba(0, 184, 160, 0.2);
-  --glow-accent: rgba(255, 179, 71, 0.2);
-  --glow-green: rgba(93, 214, 122, 0.2);
-  --week-1: #5DD67A;
-  --week-2: #00B8A0;
-  --week-3: #FFC940;
-  --week-4: #FFB347;
-  --week-5: #FF9B47;
-  --week-6: #EF4444;
-  --week-7: #EF4444;
+  --shadow-color: #006557;
+  --glow-primary: rgba(0, 101, 87, 0.2);
+  --glow-accent: rgba(112, 72, 0, 0.2);
+  --glow-green: rgba(15, 90, 47, 0.2);
+  --week-1: #0F5A2F;
+  --week-2: #006557;
+  --week-3: #6F5500;
+  --week-4: #704800;
+  --week-5: #96501A;
+  --week-6: #96171C;
+  --week-7: #96171C;
 
   --bg: #FAF8F5;
   --fg: #1A1A1A;
-  --fg-muted: #777777;
+  --fg-muted: #5C5C5C;
   --neutral: #F5EFE7;
-  --healthy: #2FA85A;
-  --warning: #B8860B;
-  --risk: #D64545;
+  --healthy: #0F5A2F;
+  --warning: #6F5500;
+  --risk: #96171C;
 }
+
 
 @theme inline {
   --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;

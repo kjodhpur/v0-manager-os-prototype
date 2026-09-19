@@ -18,7 +18,7 @@ export function BuiltByBanner() {
                   (company) => (
                     <span
                       key={`${setIdx}-${company}`}
-                      className="font-display text-xl md:text-2xl text-foreground/25 whitespace-nowrap hover:text-foreground/50 transition-colors duration-300"
+                      className="font-display text-xl md:text-2xl whitespace-nowrap text-muted-foreground hover:text-foreground transition-colors duration-300"
                     >
                       {company}
                     </span>

@@ -183,8 +183,8 @@ export default function ProductPage() {
                   {[
                     { label: "Workload", value: "9 WIP items (team avg: 6.8)", color: "text-destructive" },
                     { label: "Blocked Items", value: "3 items blocked for 4.2 days avg", color: "text-destructive" },
-                    { label: "Meeting Load", value: "12.5 hours/week (team avg: 8.1)", color: "text-amber-600" },
-                    { label: "Recognition", value: "0 public, 1 private", color: "text-amber-600" },
+                    { label: "Meeting Load", value: "12.5 hours/week (team avg: 8.1)", color: "text-[var(--accent)]" },
+                    { label: "Recognition", value: "0 public, 1 private", color: "text-[var(--accent)]" },
                     { label: "Growth", value: "10% strategic work (team needs 20%+)", color: "text-muted-foreground" },
                   ].map((item) => (
                     <div key={item.label} className="flex items-center justify-between rounded bg-card p-3 border border-border">
@@ -221,7 +221,7 @@ export default function ProductPage() {
         <section className="bg-primary py-20">
           <div className="mx-auto max-w-3xl px-4 text-center lg:px-8">
             <h2 className="text-3xl font-bold tracking-tight text-primary-foreground">See it in action</h2>
-            <p className="mt-4 text-lg text-primary-foreground/80">
+            <p className="mt-4 text-lg text-primary-foreground">
               Try the demo or request a personalized walkthrough.
             </p>
             <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">

@@ -64,7 +64,7 @@ export default function Pentagon({
     <svg
       viewBox={`${minX} ${minY} ${vbW} ${vbH}`}
       width="100%"
-      role="img"
+      role="group"
       aria-label={`Five-component wellbeing signal: ${summary}`}
       style={{ maxWidth: 480, display: 'block', margin: '0 auto' }}
     >
