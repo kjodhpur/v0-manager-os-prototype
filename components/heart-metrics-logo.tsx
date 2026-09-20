@@ -1,9 +1,11 @@
+// The horizontal wordmark's viewBox carries padding so a wide serif can't be
+// clipped, so these run slightly larger than the ink alone would need.
 const SIZES = {
-  sm: 'h-5 md:h-6',
-  default: 'h-6 md:h-7',
-  lg: 'h-8 md:h-9',
-  xl: 'h-10 md:h-12',
-  xxl: 'h-12 md:h-16',
+  sm: 'h-6 md:h-7',
+  default: 'h-7 md:h-8',
+  lg: 'h-9 md:h-11',
+  xl: 'h-11 md:h-14',
+  xxl: 'h-14 md:h-20',
 } as const;
 
 const SOURCES = {
@@ -14,7 +16,7 @@ const SOURCES = {
 
 /** Intrinsic ratios, used to reserve space so the logo never shifts layout. */
 const RATIOS = {
-  horizontal: { width: 1000, height: 215 },
+  horizontal: { width: 1560, height: 250 },
   icon: { width: 512, height: 512 },
   dark: { width: 512, height: 512 },
 } as const;

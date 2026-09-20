@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- viewBox is cropped to the wordmark's measured bounds so the logo fills the
-     height it is given instead of sitting inside a mostly-empty 1600x900 canvas. -->
-<svg width="1000" height="215" viewBox="210 352 1000 215" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="heartmetrics logo">
+<!-- The wordmark is live text, so its width depends on whichever serif the
+     viewer actually has (Georgia and DejaVu Serif differ by ~33% for this
+     string). The viewBox therefore leaves room for the widest case and the
+     text is centred, so it can never be clipped and never sits off to one
+     side. Only the empty vertical space is cropped. -->
+<svg width="1560" height="250" viewBox="130 340 1560 250" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="heartmetrics logo">
   <defs>
     <linearGradient id="hmGradient" x1="0%" y1="0%" x2="100%" y2="0%">
       <stop offset="0%" stop-color="#00D1C1"/>
@@ -13,8 +16,9 @@
   </defs>
 
   <text
-    x="220"
+    x="910"
     y="520"
+    text-anchor="middle"
     fill="url(#hmGradient)"
     font-family="Georgia, 'Times New Roman', serif"
     font-size="180"
