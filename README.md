@@ -3,8 +3,8 @@
 AI workplace analytics for managers — visibility into load, fairness, and wellbeing from work-system signals, not private messages.
 
 **Live** · [heartmetrics.dev](https://heartmetrics.dev)  
-**Status** · Pre-launch; pilot discussions underway  
-**Repo** · Still named `v0-manager-os-prototype` (v0 origin); product is HeartMetrics
+**Status** · Project / pre-launch prototype  
+**Repo** · Still named `v0-manager-os-prototype` (v0 origin); product name is HeartMetrics
 
 1st place out of 500+ at the ASU Love AI Challenge / Ignite the Future. Featured in W. P. Carey News for the Work Happiness Index.
 
@@ -26,4 +26,4 @@ pnpm build
 
 ## Claims
 
-Pre-launch — no fabricated customers, logos, or outcome stats. Privacy: work-system signals only.
+No fabricated customers, logos, or outcome stats. Privacy: work-system signals only.
