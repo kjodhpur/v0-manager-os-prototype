@@ -1,30 +1,29 @@
-# ManagerOS prototype
+# HeartMetrics
 
-*Automatically synced with your [v0.app](https://v0.app) deployments*
+AI workplace analytics for managers — visibility into load, fairness, and wellbeing from work-system signals, not private messages.
 
-[![Deployed on Vercel](https://img.shields.io/badge/Deployed%20on-Vercel-black?style=for-the-badge&logo=vercel)](https://vercel.com/kjodhpurs-projects/v0-manager-os-prototype)
-[![Built with v0](https://img.shields.io/badge/Built%20with-v0.app-black?style=for-the-badge)](https://v0.app/chat/d4l2OKQv2ze)
+**Live** · [heartmetrics.dev](https://heartmetrics.dev)  
+**Status** · Pre-launch; pilot discussions underway  
+**Repo** · Still named `v0-manager-os-prototype` (v0 origin); product is HeartMetrics
 
-## Overview
+1st place out of 500+ at the ASU Love AI Challenge / Ignite the Future. Featured in W. P. Carey News for the Work Happiness Index.
 
-This repository will stay in sync with your deployed chats on [v0.app](https://v0.app).
-Any changes you make to your deployed app will be automatically pushed to this repository from [v0.app](https://v0.app).
+## Stack
 
-## Deployment
+Next.js · Supabase · Clerk · Vercel AI SDK · Anthropic (Claude) · multi-agent inference pipelines
 
-Your project is live at:
+## Develop
 
-**[https://vercel.com/kjodhpurs-projects/v0-manager-os-prototype](https://vercel.com/kjodhpurs-projects/v0-manager-os-prototype)**
+```bash
+pnpm install
+pnpm dev
+pnpm build
+```
 
-## Build your app
+## Deploy
 
-Continue building your app on:
+`main` builds on Vercel; `heartmetrics.dev` may need an explicit promote after each production build. See `CLAUDE.md`.
 
-**[https://v0.app/chat/d4l2OKQv2ze](https://v0.app/chat/d4l2OKQv2ze)**
+## Claims
 
-## How It Works
-
-1. Create and modify your project using [v0.app](https://v0.app)
-2. Deploy your chats from the v0 interface
-3. Changes are automatically pushed to this repository
-4. Vercel deploys the latest version from this repository
+Pre-launch — no fabricated customers, logos, or outcome stats. Privacy: work-system signals only.
