@@ -73,13 +73,18 @@ context reset. Newest first.
 - Reduced motion confirmed: the pinned track is replaced by the static
   seven-card grid, and the hero renders at full opacity immediately.
 
+### Shipped
+Pushed to `main`, promoted, and verified against the live domain: Instrument
+Serif resolving, the pinned track present, the score ring rendering, **zero**
+`blur-3xl` orbs remaining, 11 sections, no page errors.
+
 ## Next
-- Demo: shared-layout morph from at-risk card to employee detail; ScoreRing on
-  the overview and employee pages.
-- Remaining landing sections to the same bar.
-- Full verification sweep: 320/375/768/1440/1920, light + dark, reduced motion,
-  axe, link integrity, Lighthouse.
-- Ship: push `main`, promote the Vercel deployment, verify live.
+- Shared-layout (`layoutId`) morph from an at-risk card into the employee
+  detail. Needs the two views in one tree; they are separate routes today.
+- Lighthouse run — not yet measured, so the brief's 95+ target is unverified.
+- PWA offline fallback and manifest (install prompt deliberately skipped).
+- `/how-we-calculate` is still 1,095 lines in one file and has not had the
+  design pass the homepage got.
 
 ## Not doing
 See `docs/ADAPTATION.md` for the skipped requirements and the reasoning.
