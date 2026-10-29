@@ -2,6 +2,7 @@
 
 import { useEffect, useState, useRef } from "react";
 import { ShieldCheck, Eye, Zap, Lock, Users } from "lucide-react";
+import { ECGCanvas } from "./ecg-canvas";
 
 const securityFeatures = [
   {
@@ -72,6 +73,16 @@ export function SecuritySection() {
               Every design decision prioritizes your team&apos;s privacy and psychological safety.
               HeartMetrics is designed to help managers, not monitor employees.
             </p>
+
+            {/* The trace reads as a pulse — the point of this section is that we
+                watch the work, not the person, so it belongs here rather than
+                floating between unrelated blocks. */}
+            <div className="mb-12 -mx-1">
+              <ECGCanvas />
+              <p className="mt-3 text-xs text-muted-foreground">
+                Signals from tasks, meetings and assignments. Never message content.
+              </p>
+            </div>
 
             {/* Principles */}
             <div className="flex flex-wrap gap-3">

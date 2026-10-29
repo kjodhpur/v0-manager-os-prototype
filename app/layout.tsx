@@ -1,10 +1,32 @@
 import React from "react"
 import type { Metadata } from 'next'
 
+import { Inter, Instrument_Serif } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
 import { ThemeProvider } from '@/components/theme-provider'
 import { SITE } from '@/lib/site-config'
 import './globals.css'
+
+/**
+ * Two faces, each with a job. Inter carries every piece of UI and body copy;
+ * Instrument Serif carries display headlines only, picking up the serif of the
+ * wordmark so the brand voice runs through the page rather than sitting in the
+ * logo alone. Both are self-hosted by next/font, so there is no render-blocking
+ * request to Google and no layout shift when they land.
+ */
+const inter = Inter({
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-inter',
+})
+
+const instrumentSerif = Instrument_Serif({
+  subsets: ['latin'],
+  weight: '400',
+  style: ['normal', 'italic'],
+  display: 'swap',
+  variable: '--font-instrument-serif',
+})
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE.url),
@@ -62,7 +84,11 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html
+      lang="en"
+      suppressHydrationWarning
+      className={`${inter.variable} ${instrumentSerif.variable}`}
+    >
       <head>
         <script
           dangerouslySetInnerHTML={{

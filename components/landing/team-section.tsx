@@ -157,6 +157,29 @@ export function TeamSection() {
           transition={{ duration: 0.6, delay: 0.2 }}
           viewport={{ once: true }}
         >
+          <h3 className="mb-8 text-center text-xl font-semibold">Recognition</h3>
+          <div className="mb-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {[
+              { title: '1st Place', sub: 'ASU Love AI Competition', desc: 'Top AI innovation of 100+ submissions' },
+              { title: 'Finalist', sub: 'Ignite the Future', desc: 'Top 5% of ventures in workplace innovation' },
+              { title: 'Pitcher', sub: 'ASU Change the World', desc: 'Presented at Mountain America Stadium' },
+              { title: 'Participant', sub: 'IBM SkillsBuild', desc: 'Advanced AI/ML and responsible AI track' },
+            ].map((a, i) => (
+              <motion.div
+                key={a.sub}
+                className="rounded-xl border border-border bg-card p-5"
+                initial={{ opacity: 0, y: 8 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.4 }}
+                transition={{ type: 'spring', stiffness: 300, damping: 30, delay: i * 0.03 }}
+              >
+                <p className="font-display text-2xl text-gradient">{a.title}</p>
+                <p className="mt-1.5 text-sm font-medium text-foreground">{a.sub}</p>
+                <p className="mt-1.5 text-xs leading-relaxed text-muted-foreground">{a.desc}</p>
+              </motion.div>
+            ))}
+          </div>
+
           <h3 className="mb-8 text-center text-xl font-semibold">Background &amp; Affiliations</h3>
           <div className="grid gap-6 md:grid-cols-3">
             {[

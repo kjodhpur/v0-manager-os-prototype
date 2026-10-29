@@ -1,177 +1,166 @@
 'use client';
 
-import { useEffect, useState } from "react";
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { ArrowRight, ShieldCheck, Sparkles } from "lucide-react";
-import { motion } from "framer-motion";
-import { AnimatedHeart } from "./animated-heart";
-import { ROUTES, CTA } from "@/lib/site-config";
+import Link from 'next/link';
+import { motion } from 'framer-motion';
+import { ArrowRight, ShieldCheck } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { AnimatedHeart } from './animated-heart';
+import { ScoreRing } from '@/components/motion/score-ring';
+import { ROUTES, CTA } from '@/lib/site-config';
+import { spring, springSnappy, listContainer, listItem } from '@/lib/motion';
+import { EMPLOYEES } from '@/lib/team-data';
 
-const containerVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.12,
-      delayChildren: 0.2,
-    },
-  },
-};
+const PROOF = [
+  'Signals from the work systems you already run',
+  'A score you can take apart, line by line',
+  'No message reading, no keystroke logging',
+  'Fairness checks on who gets the good work',
+];
 
-const itemVariants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.8,
-      ease: [0.34, 1.56, 0.64, 1],
-    },
-  },
-};
+/** Same number the demo shows, derived from the same roster. */
+const TEAM_WWI = Math.round(
+  EMPLOYEES.reduce((sum, e) => sum + e.wwiScore, 0) / EMPLOYEES.length,
+);
 
 export function HeroSection() {
   return (
-    <section className="relative flex min-h-screen flex-col justify-center overflow-hidden pt-16">
-      {/* Animated gradient background */}
-      <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-accent/5" />
-
-      {/* Animated heart background. Hidden on small screens, where it would sit
-          directly behind the headline at 2x the viewport width. */}
-      <div className="pointer-events-none absolute right-0 top-1/2 hidden h-[min(80vw,600px)] w-[min(80vw,600px)] -translate-y-1/2 opacity-30 md:block lg:h-[800px] lg:w-[800px]">
-        <AnimatedHeart />
-      </div>
-
-      {/* Animated orbs */}
-      <motion.div
-        className="absolute top-20 right-1/4 w-72 h-72 bg-primary/10 rounded-full blur-3xl"
-        animate={{
-          y: [0, 30, 0],
-          x: [0, 20, 0],
-        }}
-        transition={{ duration: 6, repeat: Infinity }}
-      />
-      <motion.div
-        className="absolute bottom-20 left-1/4 w-96 h-96 bg-accent/5 rounded-full blur-3xl"
-        animate={{
-          y: [0, -40, 0],
-          x: [0, -30, 0],
-        }}
-        transition={{ duration: 8, repeat: Infinity }}
+    <section className="relative overflow-hidden pt-16">
+      {/* A single, very low-contrast wash. No floating blur orbs — they read as
+          decoration for its own sake and the brief rules them out. */}
+      <div
+        className="pointer-events-none absolute inset-0 bg-[radial-gradient(60%_50%_at_75%_30%,var(--glow-primary),transparent_70%)] opacity-40"
+        aria-hidden="true"
       />
 
-      <motion.div
-        className="relative z-10 mx-auto w-full max-w-7xl px-4 py-24 sm:px-6 lg:px-8 lg:py-32"
-        variants={containerVariants}
-        initial="hidden"
-        animate="visible"
-      >
-        {/* Eyebrow with award badges */}
-        <motion.div variants={itemVariants} className="mb-6">
-          <div className="flex flex-wrap gap-2">
-            <Badge variant="secondary" className="gap-2 px-4 py-2">
-              <ShieldCheck className="h-4 w-4" />
-              <span className="text-sm font-mono">Privacy-First Analytics</span>
-            </Badge>
-            <Badge variant="secondary" className="gap-2 px-4 py-2">
-              <Sparkles className="h-4 w-4" />
-              <span className="text-sm font-mono">AI-Powered Insights</span>
-            </Badge>
-          </div>
-        </motion.div>
-
-        {/* Main headline - stronger, more impactful */}
-        <motion.div className="mb-8 mt-4" variants={itemVariants}>
-          {/* The clamp floor has to fit "See your team's" inside a 320px
-              viewport minus the page gutters, or the line clips. */}
-          <h1 className="font-display text-[clamp(2rem,10vw,6.5rem)] font-bold leading-[1.02] tracking-tight">
-            <span className="block">See your team&apos;s</span>
-            <span className="block">
-              <span className="text-gradient">real story</span>
-            </span>
-            <span className="block text-[0.6em] leading-[1.15] text-muted-foreground">
-              before they leave
-            </span>
-          </h1>
-        </motion.div>
-
-        {/* Description - problem statement */}
-        <div className="grid lg:grid-cols-2 gap-12 lg:gap-24 items-start max-w-5xl">
-          <motion.div variants={itemVariants}>
-            <p className="text-lg lg:text-xl text-muted-foreground leading-relaxed mb-8">
-              By the time someone resigns, the signals were there for weeks. HeartMetrics surfaces the invisible patterns—workload spikes, recognition gaps, and disengagement—so managers can intervene before it's too late.
-            </p>
-
-            {/* Key differentiators */}
-            <div className="space-y-3">
-              {[
-                "Real signals from your work system",
-                "AI coaching for managers",
-                "Privacy-first (no surveillance)",
-                "Fairness analytics built-in"
-              ].map((item, i) => (
-                <motion.div
-                  key={i}
-                  className="flex items-center gap-3 text-sm"
-                  initial={{ opacity: 0, x: -10 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.5 + i * 0.1 }}
-                >
-                  <div className="w-1.5 h-1.5 rounded-full bg-gradient-to-r from-primary to-accent" />
-                  <span>{item}</span>
-                </motion.div>
-              ))}
-            </div>
-          </motion.div>
-
-          {/* CTAs */}
-          <motion.div
-            className="flex flex-col gap-4"
-            variants={itemVariants}
-          >
-            <Button
-              size="lg"
-              className="bg-primary hover:bg-primary/90 text-primary-foreground px-8 h-14 text-base rounded-full group btn-glow justify-center"
-              asChild
-            >
-              <Link href={ROUTES.demo}>
-                {CTA.demo}
-                <ArrowRight
-                  className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1"
-                  aria-hidden="true"
-                />
-              </Link>
-            </Button>
-            <Button
-              size="lg"
-              variant="outline"
-              className="h-14 justify-center rounded-full border-primary/30 px-8 text-base transition-colors hover:border-primary/60 hover:bg-primary/5"
-              asChild
-            >
-              <Link href={ROUTES.howWeCalculate}>See how it works</Link>
-            </Button>
-
-            {/* Social proof below CTAs */}
+      <div className="relative z-10 mx-auto w-full max-w-7xl px-4 pb-20 pt-16 sm:px-6 lg:px-8 lg:pb-28 lg:pt-24">
+        <div className="grid items-center gap-16 lg:grid-cols-12 lg:gap-12">
+          {/* ---- Copy ---------------------------------------------------- */}
+          <div className="lg:col-span-7">
             <motion.div
-              className="pt-6 border-t border-border"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.6 }}
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={spring}
+              className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-3.5 py-1.5"
             >
-              <p className="mb-3 text-xs text-muted-foreground">Built for:</p>
-              <div className="flex gap-4 text-xs text-muted-foreground">
-                <span>Fortune 500s</span>
-                <span>•</span>
-                <span>Fast-growth startups</span>
-                <span>•</span>
-                <span>Tech leaders</span>
-              </div>
+              <ShieldCheck className="h-3.5 w-3.5 text-primary" aria-hidden="true" />
+              <span className="text-xs font-medium text-foreground/80">
+                Work-system signals only. Never private messages.
+              </span>
             </motion.div>
-          </motion.div>
+
+            <motion.h1
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ ...spring, delay: 0.04 }}
+              className="mt-7 font-display text-[clamp(2.5rem,8.5vw,5.25rem)]"
+            >
+              See your team&apos;s{' '}
+              <span className="text-gradient">real story</span>
+              <span className="block text-muted-foreground">before they leave</span>
+            </motion.h1>
+
+            <motion.p
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ ...spring, delay: 0.08 }}
+              className="mt-7 max-w-xl text-lg leading-relaxed text-muted-foreground"
+            >
+              By the time someone resigns, the signal has been there for weeks — in
+              workload, in recognition, in who gets the work that leads somewhere.
+              HeartMetrics reads those patterns and tells you what to do about them.
+            </motion.p>
+
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ ...spring, delay: 0.12 }}
+              className="mt-9 flex flex-col gap-3 sm:flex-row"
+            >
+              <Button size="lg" className="rounded-full px-7" asChild>
+                <motion.a href={ROUTES.demo} whileTap={{ scale: 0.97 }} transition={springSnappy}>
+                  {CTA.demo}
+                  <ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
+                </motion.a>
+              </Button>
+              <Button
+                size="lg"
+                variant="outline"
+                className="rounded-full px-7"
+                asChild
+              >
+                <Link href={ROUTES.howWeCalculate}>See how the score works</Link>
+              </Button>
+            </motion.div>
+
+            {/* The only staggered group in the hero: four ordered claims. */}
+            <motion.ul
+              variants={listContainer}
+              initial="hidden"
+              animate="visible"
+              transition={{ delayChildren: 0.18 }}
+              className="mt-10 grid gap-2.5 sm:grid-cols-2"
+            >
+              {PROOF.map((item) => (
+                <motion.li
+                  key={item}
+                  variants={listItem}
+                  className="flex items-start gap-2.5 text-sm text-foreground/75"
+                >
+                  <span
+                    className="mt-[0.45rem] h-1 w-1 shrink-0 rounded-full bg-primary"
+                    aria-hidden="true"
+                  />
+                  {item}
+                </motion.li>
+              ))}
+            </motion.ul>
+          </div>
+
+          {/* ---- The number ---------------------------------------------- */}
+          <div className="lg:col-span-5">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.96 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ ...spring, delay: 0.1 }}
+              className="relative mx-auto w-full max-w-sm"
+            >
+              {/* The heart lives behind the card, clipped to it, so it reads as
+                  texture rather than a loose graphic floating on the page. */}
+              <div className="relative overflow-hidden rounded-2xl border border-border bg-card shadow-elev-3">
+                <div
+                  className="pointer-events-none absolute inset-0 opacity-[0.22]"
+                  aria-hidden="true"
+                >
+                  <AnimatedHeart />
+                </div>
+
+                <div className="relative flex flex-col items-center px-6 py-10">
+                  <ScoreRing value={TEAM_WWI} size={196} sublabel="Engineering · 6 people" />
+
+                  <dl className="mt-8 grid w-full grid-cols-3 gap-px overflow-hidden rounded-xl border border-border bg-border">
+                    {[
+                      { k: 'At risk', v: String(EMPLOYEES.filter((e) => e.wwiScore < 55).length) },
+                      { k: 'Healthy', v: String(EMPLOYEES.filter((e) => e.wwiScore >= 70).length) },
+                      { k: 'Signals', v: '5' },
+                    ].map((s) => (
+                      <div key={s.k} className="bg-card px-2 py-3 text-center">
+                        <dt className="text-[10px] uppercase tracking-wider text-muted-foreground">
+                          {s.k}
+                        </dt>
+                        <dd className="tabular mt-1 text-xl font-medium text-foreground">{s.v}</dd>
+                      </div>
+                    ))}
+                  </dl>
+                </div>
+              </div>
+
+              <p className="mt-3 text-center text-xs text-muted-foreground">
+                Live view from the demo · sample data
+              </p>
+            </motion.div>
+          </div>
         </div>
-      </motion.div>
+      </div>
     </section>
   );
 }
