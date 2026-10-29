@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { ArrowRight } from 'lucide-react';
 import { Employee, getColor, getColorClass, getBorderClass, getBgClass, getRiskLabel } from '@/lib/team-data';
 import Pentagon from '@/components/demo/overview-components/pentagon';
+import { CountUp } from '@/components/motion/count-up';
 
 const getPriorityColor = (priority: string) => {
   switch (priority) {
@@ -55,8 +56,8 @@ export default function EmployeeDetail({ employee }: Props) {
             {getRiskLabel(employee.wwiScore)}
           </span>
           <div className="text-right">
-            <p className={`text-3xl font-bold leading-none tabular-nums sm:text-4xl ${getColorClass(employee.wwiScore)}`}>
-              {employee.wwiScore}
+            <p className={`text-3xl font-bold leading-none tabular sm:text-4xl ${getColorClass(employee.wwiScore)}`}>
+              <CountUp value={employee.wwiScore} />
             </p>
             <p className="mt-1 text-xs uppercase tracking-wider text-muted-foreground">
               WWI Score

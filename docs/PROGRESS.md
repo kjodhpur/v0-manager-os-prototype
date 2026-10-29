@@ -48,6 +48,31 @@ context reset. Newest first.
 - The pinned panel overflowed a 360×740 phone, cutting off the chart. The
   heading moved out of the pinned area; it only needs reading once.
 
+### Demo
+- The overview's team score is now the **ScoreRing** — counts up while the ring
+  draws, same component as the hero so the two surfaces agree.
+- Employee detail score counts up on open.
+- The dashboard mockup on the landing page advertised **sixteen** sidebar
+  features; the demo has five. Trimmed to mirror the real nav exactly, and the
+  headcount badge corrected. A mockup promising surfaces that don't exist is the
+  same overclaim as a fabricated testimonial, just better disguised.
+- `metrics-section` headline repeated the hero's word for word; rewritten.
+
+### Verified
+- **0** horizontal overflow — 16 pages x 5 viewports (320/375/768/1440/1920) x
+  both themes = 160 combinations.
+- **0** WCAG 2.1 A/AA violations (axe), both themes. One real finding fixed: the
+  pentagon's clickable points were buttons containing their own label text, so
+  the computed name ("Protection62") contradicted the announced one — a genuine
+  problem for voice control. Labels moved outside the interactive groups.
+- **0** dead links or anchors across 18 crawled routes.
+- **0** page errors. Two hydration mismatches found and fixed: `useReducedMotion()`
+  returns `null` during SSR, so both `CountUp` and `SevenWeeks` branched on it
+  during render and emitted different trees on server and client. React was
+  bailing out of hydration on every load (error #418).
+- Reduced motion confirmed: the pinned track is replaced by the static
+  seven-card grid, and the hero renders at full opacity immediately.
+
 ## Next
 - Demo: shared-layout morph from at-risk card to employee detail; ScoreRing on
   the overview and employee pages.

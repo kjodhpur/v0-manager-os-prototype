@@ -1,7 +1,9 @@
 'use client';
 
 import { useEffect, useRef, useState } from "react";
+import { motion } from "framer-motion";
 import { HeartPulse, Scale, Eye, Users } from "lucide-react";
+import { listContainer, listItem, inView } from "@/lib/motion";
 
 const features = [
   {
@@ -241,42 +243,32 @@ function FeatureCard({ feature, index }: { feature: typeof features[0]; index: n
   const Icon = feature.icon;
 
   return (
-    <div
+    <motion.div
       ref={cardRef}
-      className={`group relative transition-all duration-700 ${
-        isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
-      }`}
-      style={{ transitionDelay: `${index * 100}ms` }}
+      variants={listItem}
+      className="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-border bg-card p-6 transition-colors hover:border-primary/40 sm:p-7"
     >
-      <div className="flex flex-col lg:flex-row gap-8 lg:gap-16 py-12 lg:py-20 border-b border-border">
-        {/* Number & Icon */}
-        <div className="shrink-0 flex items-center gap-4">
-          <span className="font-mono text-sm text-muted-foreground">{feature.number}</span>
-          <div className="w-10 h-10 flex items-center justify-center border border-primary/30 rounded-lg group-hover:bg-primary group-hover:text-primary-foreground transition-all duration-300 group-hover:shadow-[0_0_20px_var(--glow-primary)]">
-            <Icon className="w-5 h-5 text-primary group-hover:text-primary-foreground" />
-          </div>
-        </div>
-        
-        {/* Content */}
-        <div className="flex-1 grid lg:grid-cols-2 gap-8 items-center">
-          <div>
-            <h3 className="text-3xl lg:text-4xl font-display mb-4 group-hover:translate-x-2 transition-transform duration-500">
-              {feature.title}
-            </h3>
-            <p className="text-lg text-muted-foreground leading-relaxed">
-              {feature.description}
-            </p>
-          </div>
-          
-          {/* Visual */}
-          <div className="flex justify-center lg:justify-end">
-            <div className="w-48 h-40 text-primary">
-              <AnimatedVisual type={feature.visual} />
-            </div>
-          </div>
-        </div>
+      <div className="flex items-center gap-3">
+        <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-primary/30 bg-primary/5 text-primary transition-colors group-hover:bg-primary group-hover:text-primary-foreground">
+          <Icon className="h-5 w-5" aria-hidden="true" />
+        </span>
+        <span className="tabular font-mono text-xs text-muted-foreground">{feature.number}</span>
       </div>
-    </div>
+
+      <h3 className="mt-5 font-display text-2xl sm:text-[1.75rem]">{feature.title}</h3>
+      <p className="mt-3 text-[15px] leading-relaxed text-muted-foreground">
+        {feature.description}
+      </p>
+
+      {/* The line art anchors the card instead of floating in dead space to
+          the right of it, which is where the old row layout left it. */}
+      <div
+        className="pointer-events-none mt-7 h-28 w-full text-primary/70 transition-opacity duration-500 group-hover:text-primary"
+        aria-hidden="true"
+      >
+        <AnimatedVisual type={feature.visual} />
+      </div>
+    </motion.div>
   );
 }
 
@@ -304,7 +296,7 @@ export function FeaturesSection() {
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
-        <div className="mb-16 lg:mb-24">
+        <div className="mb-12 lg:mb-14">
           <span className="inline-flex items-center gap-3 text-sm font-mono text-muted-foreground mb-6">
             <span className="w-8 h-px bg-foreground/30" />
             Capabilities
@@ -320,12 +312,17 @@ export function FeaturesSection() {
           </h2>
         </div>
 
-        {/* Features List */}
-        <div>
+        <motion.div
+          className="grid gap-5 sm:grid-cols-2"
+          variants={listContainer}
+          initial="hidden"
+          whileInView="visible"
+          viewport={inView}
+        >
           {features.map((feature, index) => (
             <FeatureCard key={feature.number} feature={feature} index={index} />
           ))}
-        </div>
+        </motion.div>
       </div>
     </section>
   );

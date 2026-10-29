@@ -79,22 +79,55 @@ export default function Pentagon({
 
       <path d={dataPath} fill={fillColor} fillOpacity={0.15} stroke={fillColor} strokeWidth={2} />
 
+      {/* Labels are drawn first, outside the interactive groups. Keeping them
+          inside made each point a button whose own text ("Protection62")
+          disagreed with its accessible name — a real problem for anyone
+          driving the page by voice, who would say "click Protection". */}
       {points.map((comp, i) => {
-        const dataPt = pt((comp.value / 100) * r, i);
         const labelPt = pt(labelR, i);
         const isSelected = selected === comp.name;
         const textAnchor = labelPt.x < -10 ? 'end' : labelPt.x > 10 ? 'start' : 'middle';
+        return (
+          <g key={`label-${comp.name}`} aria-hidden="true" className="select-none">
+            <text
+              x={labelPt.x}
+              y={labelPt.y - VALUE_FONT_SIZE * 0.4}
+              textAnchor={textAnchor}
+              fill="currentColor"
+              fontSize={LABEL_FONT_SIZE}
+              fontWeight={isSelected ? 700 : 400}
+              className="transition-all duration-200"
+            >
+              {comp.shortName}
+            </text>
+            <text
+              x={labelPt.x}
+              y={labelPt.y + VALUE_FONT_SIZE * 1.1}
+              textAnchor={textAnchor}
+              fill={getColor(comp.value)}
+              fontSize={VALUE_FONT_SIZE}
+              fontWeight={700}
+            >
+              {comp.value}
+            </text>
+          </g>
+        );
+      })}
+
+      {points.map((comp, i) => {
+        const dataPt = pt((comp.value / 100) * r, i);
+        const isSelected = selected === comp.name;
         const color = getColor(comp.value);
 
         return (
           <g
             key={comp.name}
             onClick={() => onSelect(isSelected ? null : comp.name)}
-            className="cursor-pointer"
+            className="cursor-pointer focus-visible:outline-none"
             role="button"
             tabIndex={0}
             aria-pressed={isSelected}
-            aria-label={`${comp.name}: ${comp.value}`}
+            aria-label={`${comp.name}: ${comp.value} out of 100`}
             onKeyDown={(e) => {
               if (e.key === 'Enter' || e.key === ' ') {
                 e.preventDefault();
@@ -104,34 +137,14 @@ export default function Pentagon({
           >
             <circle cx={dataPt.x} cy={dataPt.y} r={18} fill="transparent" />
             <circle
-              cx={dataPt.x} cy={dataPt.y}
+              cx={dataPt.x}
+              cy={dataPt.y}
               r={isSelected ? 7 : 5}
               fill={isSelected ? fillColor : color}
               stroke="var(--card)"
               strokeWidth={2}
               className="transition-all duration-200"
             />
-            <text
-              x={labelPt.x}
-              y={labelPt.y - VALUE_FONT_SIZE * 0.4}
-              textAnchor={textAnchor}
-              fill="currentColor"
-              fontSize={LABEL_FONT_SIZE}
-              fontWeight={isSelected ? 700 : 400}
-              className="transition-all duration-200 select-none"
-            >
-              {comp.shortName}
-            </text>
-            <text
-              x={labelPt.x}
-              y={labelPt.y + VALUE_FONT_SIZE * 1.1}
-              textAnchor={textAnchor}
-              fill={color}
-              fontSize={VALUE_FONT_SIZE}
-              fontWeight={700}
-            >
-              {comp.value}
-            </text>
           </g>
         );
       })}

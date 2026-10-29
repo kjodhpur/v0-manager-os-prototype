@@ -105,9 +105,9 @@ export function MetricsSection() {
                 isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
               }`}
             >
-              See your team&apos;s
+              The whole team,
               <br />
-              real story.
+              on one screen.
             </h2>
           </div>
           <div className="flex items-center gap-4 font-mono text-sm text-muted-foreground">
@@ -131,7 +131,7 @@ export function MetricsSection() {
                 <HeartPulse className="h-4 w-4 text-primary" />
                 <span className="text-sm font-semibold text-foreground">HeartMetrics</span>
               </div>
-              <Badge variant="outline" className="text-[10px]">Engineering Team (8)</Badge>
+              <Badge variant="outline" className="text-[10px]">Engineering · 6</Badge>
             </div>
             <div className="flex items-center gap-2">
               <div className="flex items-center gap-1.5 rounded-full bg-primary px-2.5 py-0.5 text-[10px] font-medium text-primary-foreground">
@@ -145,21 +145,12 @@ export function MetricsSection() {
             <div className="hidden w-44 shrink-0 border-r border-border bg-card p-3 md:block">
               <nav className="flex flex-col gap-0.5">
                 {[
+                  // Mirrors the real demo sidebar exactly. If a row appears
+                  // here it has to exist at /demo.
                   { icon: LayoutDashboard, label: "Overview", active: true },
-                  { icon: Brain, label: "AI Coach" },
-                  { icon: HeartPulse, label: "Team Health" },
-                  { icon: Flame, label: "Burnout Risk" },
-                  { icon: BarChart3, label: "Work Distribution" },
-                  { icon: Calendar, label: "1:1 Meetings" },
-                  { icon: ClipboardList, label: "Pulse Surveys" },
-                  { icon: Target, label: "Goals & OKRs" },
-                  { icon: Award, label: "Recognition" },
-                  { icon: MessageSquare, label: "Feedback Wall" },
-                  { icon: Clock, label: "Timeline" },
-                  { icon: Scale, label: "Benchmarking" },
-                  { icon: FileText, label: "Reports" },
+                  { icon: HeartPulse, label: "Team" },
                   { icon: ListChecks, label: "Actions" },
-                  { icon: Link2, label: "Integrations" },
+                  { icon: Brain, label: "AI Coach" },
                   { icon: Settings, label: "Settings" },
                 ].map((item) => {
                   const Icon = item.icon

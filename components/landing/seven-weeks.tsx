@@ -52,6 +52,11 @@ export function SevenWeeks() {
   const scoreRef = useRef<HTMLSpanElement>(null);
   const prefersReduced = useReducedMotion();
   const [index, setIndex] = useState(0);
+  // useReducedMotion() is null on the server, so branching on it during render
+  // makes the server and the client emit different trees and React bails out
+  // of hydration. Decide only after mount.
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
 
   const { scrollYProgress } = useScroll({
     target: trackRef,
@@ -87,7 +92,7 @@ export function SevenWeeks() {
   const color = `var(${active.token})`;
 
   // Reduced motion: no pinning, no scrubbing — the whole arc at once.
-  if (prefersReduced) {
+  if (mounted && prefersReduced) {
     return (
       <section className="border-t border-border py-24" aria-labelledby="seven-weeks-heading">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
